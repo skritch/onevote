@@ -78,3 +78,11 @@ coverage.xml
 
 .idea
 *.iml
+
+# Notebook stuff
+analysis/.local
+analysis/.ipython
+analysis/.config
+
+# Downloaded datasets
+analysis/projects/data
