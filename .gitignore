@@ -83,6 +83,12 @@ coverage.xml
 analysis/.local
 analysis/.ipython
 analysis/.config
+analysis/.cache
+analysis/.ipynb_checkpoints
 
 # Downloaded datasets
 analysis/projects/data
+
+lib/data/
+
+.env

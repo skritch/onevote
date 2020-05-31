@@ -2,8 +2,17 @@
 
 # Election Analysis Repository
 
+The overall goal: to demonstrate the unfairness of US elections.
 
-Contents:
+Initial plan:
+- presidential elections due to electoral college VS popular
+- VS better than popular?
+  - might need some kind of ranked-choice polls?
+- Presidential including primaries
+
+
+### Contents:
+
 - [/analysis](/analysis): Notebooks, a library, and a Docker container to run them.
     To run locally in Docker:
 
