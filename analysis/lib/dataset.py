@@ -5,7 +5,7 @@ import shutil
 
 
 def get_csv(url, name, file_format='csv', **pd_kwargs):
-    cache_filename = f'data/{name}.{file_format}'
+    cache_filename = f'cache/{name}.{file_format}'
     if os.path.exists(cache_filename):
         print(f"Using cached file {cache_filename}")
     else:

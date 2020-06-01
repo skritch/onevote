@@ -16,3 +16,10 @@
 ### Theory
 
 * https://plato.stanford.edu/entries/voting-methods/
+* https://en.wikipedia.org/wiki/Wasted_vote + "efficiency gap" measures of fairness
+
+
+### Resoures
+
+* https://www.270towin.com/
+* https://guides.library.harvard.edu/hks/campaigns_elections

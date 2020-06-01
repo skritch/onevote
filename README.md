@@ -19,8 +19,10 @@ Initial plan:
     ```
     # First time only
     docker pull jupyter/scipy-notebook
+    cp .env.sample .env
 
     docker run -it \
+        --env-file .env \
         -v `pwd`/analysis:/home/jovyan/ \
         -p 8888:8888 \
         jupyter/scipy-notebook
