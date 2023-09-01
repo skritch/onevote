@@ -4,6 +4,4 @@ matplotlib
 notebook
 numpy
 pandas
-seaborn
-scipy
-sklearn
+ipykernel

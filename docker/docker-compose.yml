@@ -1,0 +1,43 @@
+version: "3.7"
+
+services:
+  postgres:
+    build:
+      context: ../
+      dockerfile: ./docker/postgres.Dockerfile
+    container_name: postgres
+    expose:
+      - "5432"
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: "onevote"
+      POSTGRES_PASSWORD: "onevote"
+      POSTGRES_DB: "onevote"
+    networks:
+      - ghc
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pipeline:
+    build:
+      context: ../
+      dockerfile: ./docker/pipeline.Dockerfile
+    container_name: pipeline
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_URL=postgresql://onevote:onevote@postgres:5432/onevote
+      - PGAPPNAME=onevote
+    networks:
+      - onevote
+    depends_on:
+      - postgres
+volumes:
+  postgres_data:
+networks:
+  onevote:
+    driver: bridge
+    name: onevote
