@@ -1,0 +1,36 @@
+@use 'variables.scss';
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  font-family: variables.$font-family-primary;
+  background-color: #fafbfc;
+  color: variables.$dark-gray;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: variables.$container-max-width;
+  margin: 0 auto;
+  padding: 0 variables.$spacing-md;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  border-radius: variables.$border-radius;
+  transition: all variables.$transition-duration ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
