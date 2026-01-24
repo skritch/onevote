@@ -87,7 +87,7 @@ analysis/.cache
 analysis/.ipynb_checkpoints
 
 # Downloaded datasets
-analysis/cache/
+analysis/.data/
 
 
 .env
