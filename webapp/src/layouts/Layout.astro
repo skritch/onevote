@@ -6,18 +6,137 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>OneVote</title>
 	</head>
 	<body>
-		<slot />
+		<div class="container">
+			<header class="header">
+				<h1 class="header__title">OneVote</h1>
+				<div class="header__divider"></div>
+				<nav class="navigation">
+					<a href="#" class="navigation__item">elections</a>
+					<a href="#" class="navigation__item">states</a>
+					<a href="#" class="navigation__item">algorithms</a>
+					<a href="#" class="navigation__item">essays</a>
+					<a href="#" class="navigation__item">about</a>
+				</nav>
+			</header>
+
+			<main class="main-content">
+				<slot />
+			</main>
+
+			<footer class="footer">
+				<div class="footer__divider"></div>
+			</footer>
+		</div>
 	</body>
 </html>
 
-<style>
+<style lang="scss">
+	@use "../styles/variables.scss";
+
 	html,
 	body {
 		margin: 0;
 		width: 100%;
 		height: 100%;
+	}
+
+	.header {
+		text-align: center;
+
+		&__title {
+			font-size: variables.$font-size-large;
+			font-variant: petite-caps;
+			font-weight: 600;
+			color: variables.$dark-gray;
+			margin: 0;
+		}
+
+		&__divider {
+			width: 100%;
+			height: 1px;
+			background-color: #e5e7eb;
+			margin: 0 0 variables.$spacing-xs 0;
+		}
+	}
+
+	.navigation {
+		display: flex;
+		justify-content: space-between;
+		max-width: 45%;
+		margin: 0 auto 0 auto;
+
+		&__item {
+			color: variables.$medium-gray;
+			text-decoration: none;
+			font-variant: small-caps;
+			padding: 0 variables.$spacing-sm;
+			border-radius: variables.$border-radius;
+			transition: all variables.$transition-duration ease;
+			position: relative;
+
+			&:hover {
+				color: variables.$dark-gray;
+				text-shadow: 0.5px 0 0 currentColor;
+
+				&::before {
+					opacity: 1;
+				}
+			}
+
+			&::before {
+				content: "";
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				right: 0px;
+				bottom: -2px;
+				border-radius: variables.$border-radius;
+				opacity: 0;
+				transition: opacity variables.$transition-duration ease;
+				pointer-events: none;
+				filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+			}
+
+			&:nth-child(odd) {
+				border-bottom: 2px solid variables.$brick-red;
+
+				&::before {
+					border: 2px solid variables.$brick-red;
+				}
+			}
+
+			&:nth-child(even) {
+				border-bottom: 2px solid variables.$royal-blue;
+
+				&::before {
+					border: 2px solid variables.$royal-blue;
+				}
+			}
+		}
+	}
+
+	.footer {
+		margin-top: variables.$spacing-xl;
+		padding: variables.$spacing-lg 0;
+
+		&__divider {
+			width: 100%;
+			height: 1px;
+			background-color: #e5e7eb;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.header__title {
+			font-size: 2rem;
+		}
+
+		.navigation {
+			flex-wrap: wrap;
+			gap: variables.$spacing-sm;
+		}
 	}
 </style>

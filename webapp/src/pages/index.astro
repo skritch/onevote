@@ -3,118 +3,251 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout>
-	<div class="container">
-		<header class="header">
-			<h1 class="header__title">OneVote</h1>
-			<div class="header__divider"></div>
-			<nav class="navigation">
-				<a href="#" class="navigation__item">elections</a>
-				<a href="#" class="navigation__item">states</a>
-				<a href="#" class="navigation__item">algorithms</a>
-				<a href="#" class="navigation__item">essays</a>
-				<a href="#" class="navigation__item">about</a>
-			</nav>
-		</header>
+	<div class="main-content__question">
+		how much will your vote be worth in the
+		<span class="select-wrapper">
+			<select>
+				<option value="2028">2028</option>
+				<option value="2024">2024</option>
+				<option value="2020">2020</option>
+			</select>
+		</span>
+		<span class="select-wrapper">
+			<select>
+				<option value="presidential">presidential</option>
+				<option value="senate">senate</option>
+				<option value="house">house</option>
+			</select>
+		</span>
+		election?
+	</div>
 
-		<main class="main-content">
-			<div class="main-content__question">
-				how much will your vote be worth in the
-				<span class="select-wrapper">
-					<select>
-						<option value="2028">2028</option>
-						<option value="2024">2024</option>
-						<option value="2020">2020</option>
-					</select>
-				</span>
-				<span class="select-wrapper">
-					<select>
-						<option value="presidential">presidential</option>
-						<option value="senate">senate</option>
-						<option value="house">house</option>
-					</select>
-				</span>
-				election?
+	<div class="comparison-container">
+		<div class="comparison-container__side comparison-container__side--left">
+			<h3>you are a...</h3>
+			<div class="form-group">
+				<label for="left-party">party</label>
+				<select id="left-party">
+					<option value="">select party</option>
+					<option value="democrat">Democrat</option>
+					<option value="republican">Republican</option>
+					<option value="independent">Independent</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="left-state">state</label>
+				<select id="left-state">
+					<option value="">select state</option>
+					<option value="AL">Alabama</option>
+					<option value="AK">Alaska</option>
+					<option value="AZ">Arizona</option>
+					<option value="CA">California</option>
+					<option value="NY">New York</option>
+					<option value="TX">Texas</option>
+					<option value="WY">Wyoming</option>
+				</select>
 			</div>
 
-			<div class="comparison-container">
-				<div
-					class="comparison-container__side comparison-container__side--left"
-				>
-					<h3>you are a...</h3>
-					<div class="form-group">
-						<label for="left-party">party</label>
-						<select id="left-party">
-							<option value="">select party</option>
-							<option value="democrat">Democrat</option>
-							<option value="republican">Republican</option>
-							<option value="independent">Independent</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="left-state">state</label>
-						<select id="left-state">
-							<option value="">select state</option>
-							<option value="AL">Alabama</option>
-							<option value="AK">Alaska</option>
-							<option value="AZ">Arizona</option>
-							<option value="CA">California</option>
-							<option value="NY">New York</option>
-							<option value="TX">Texas</option>
-							<option value="WY">Wyoming</option>
-						</select>
-					</div>
-
-					<div class="form-group">
-						<label for="left-city">city (optional)</label>
-						<input type="text" id="left-city" placeholder="Enter city" />
-					</div>
-				</div>
-
-				<div class="comparison-container__divider">
-					<button class="comparison-container__button">Go</button>
-				</div>
-
-				<div
-					class="comparison-container__side comparison-container__side--right"
-				>
-					<h3>(optional) compare to a...</h3>
-					<div class="form-group">
-						<label for="right-party">party</label>
-						<select id="right-party">
-							<option value="">select party</option>
-							<option value="democrat">Democrat</option>
-							<option value="republican">Republican</option>
-							<option value="independent">Independent</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="right-state">state</label>
-						<select id="right-state">
-							<option value="">select state</option>
-							<option value="AL">Alabama</option>
-							<option value="AK">Alaska</option>
-							<option value="AZ">Arizona</option>
-							<option value="CA">California</option>
-							<option value="NY">New York</option>
-							<option value="TX">Texas</option>
-							<option value="WY">Wyoming</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="right-city">city (optional)</label>
-						<input type="text" id="right-city" placeholder="Enter city" />
-					</div>
-				</div>
+			<div class="form-group">
+				<label for="left-city">city (optional)</label>
+				<input type="text" id="left-city" placeholder="Enter city" />
 			</div>
-		</main>
+		</div>
 
-		<footer class="footer">
-			<div class="footer__divider"></div>
-		</footer>
+		<div class="comparison-container__divider">
+			<button class="comparison-container__button">Go</button>
+		</div>
+
+		<div class="comparison-container__side comparison-container__side--right">
+			<h3>(optional) compare to a...</h3>
+			<div class="form-group">
+				<label for="right-party">party</label>
+				<select id="right-party">
+					<option value="">select party</option>
+					<option value="democrat">Democrat</option>
+					<option value="republican">Republican</option>
+					<option value="independent">Independent</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="right-state">state</label>
+				<select id="right-state">
+					<option value="">select state</option>
+					<option value="AL">Alabama</option>
+					<option value="AK">Alaska</option>
+					<option value="AZ">Arizona</option>
+					<option value="CA">California</option>
+					<option value="NY">New York</option>
+					<option value="TX">Texas</option>
+					<option value="WY">Wyoming</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="right-city">city (optional)</label>
+				<input type="text" id="right-city" placeholder="Enter city" />
+			</div>
+		</div>
 	</div>
 </Layout>
 
 <style lang="scss">
+	@use "../styles/variables.scss";
 	@use "../styles/global.scss";
-	@use "../styles/index.scss";
+
+	.main-content__question {
+		text-align: center;
+		font-size: variables.$font-size-medium;
+		font-weight: 600;
+		color: variables.$dark-gray;
+		margin: variables.$spacing-lg 0;
+		line-height: 1.4;
+
+		.select-wrapper {
+			display: inline-block;
+			margin: 0 variables.$spacing-xs;
+			position: relative;
+
+			select {
+				background-color: variables.$white;
+				border: 2px solid variables.$medium-gray;
+				border-radius: variables.$border-radius;
+				padding: variables.$spacing-xs variables.$spacing-sm;
+				font-size: inherit;
+				font-weight: inherit;
+				color: variables.$dark-gray;
+				cursor: pointer;
+			}
+		}
+	}
+
+	.comparison-container {
+		display: flex;
+		align-items: stretch;
+		justify-content: center;
+		gap: variables.$spacing-md;
+		max-width: 880px;
+		margin: 0 auto variables.$spacing-xl auto;
+		position: relative;
+
+		&__side {
+			flex: 1;
+			padding: variables.$spacing-lg;
+			background-color: variables.$white;
+			border-radius: variables.$border-radius;
+			text-align: center;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+			&--left {
+				border-left: 4px solid variables.$brick-red;
+			}
+
+			&--right {
+				border-right: 4px solid variables.$royal-blue;
+			}
+
+			h3 {
+				font-size: variables.$font-size-medium;
+				margin-bottom: variables.$spacing-md;
+				color: variables.$dark-gray;
+			}
+
+			.form-group {
+				margin-bottom: variables.$spacing-sm;
+				text-align: left;
+
+				label {
+					display: block;
+					font-weight: 500;
+					margin-bottom: variables.$spacing-xs;
+					color: variables.$dark-gray;
+				}
+
+				select,
+				input {
+					width: 100%;
+					padding: variables.$spacing-xs variables.$spacing-sm;
+					border: 1px solid variables.$medium-gray;
+					border-radius: variables.$border-radius;
+					font-size: variables.$font-size-base;
+					background-color: variables.$white;
+
+					&:focus {
+						outline: none;
+						border-color: variables.$royal-blue;
+					}
+				}
+			}
+		}
+
+		&__divider {
+			width: 0px;
+			position: relative;
+			align-self: stretch;
+		}
+
+		&__button {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			background: linear-gradient(
+				135deg,
+				variables.$brick-red 0%,
+				variables.$royal-blue 100%
+			);
+			color: variables.$white;
+			border: none;
+			border-radius: 50px;
+			padding: variables.$spacing-sm variables.$spacing-md;
+			font-size: variables.$font-size-base;
+			font-weight: 600;
+			cursor: pointer;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+			transition: all variables.$transition-duration ease;
+			display: flex;
+			align-items: center;
+			gap: variables.$spacing-xs;
+
+			&:hover {
+				transform: translate(-50%, -50%) scale(1.05);
+				box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+			}
+
+			&::after {
+				content: "→";
+				font-size: 1.2em;
+			}
+		}
+	}
+
+	@media (max-width: 768px) {
+		.main-content__question {
+			font-size: 1.25rem;
+			padding: 0 variables.$spacing-sm;
+		}
+
+		.comparison-container {
+			flex-direction: column;
+			gap: variables.$spacing-sm;
+
+			&__divider {
+				width: 200px;
+				height: 2px;
+			}
+
+			&__button {
+				position: relative;
+				transform: none;
+				margin: variables.$spacing-sm 0;
+
+				&:hover {
+					transform: scale(1.05);
+				}
+			}
+
+			&__side {
+				width: 100%;
+			}
+		}
+	}
 </style>
