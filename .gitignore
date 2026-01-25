@@ -79,15 +79,10 @@ coverage.xml
 .idea
 *.iml
 
-# Notebook stuff
-analysis/.local
-analysis/.ipython
-analysis/.config
-analysis/.cache
-analysis/.ipynb_checkpoints
 
 # Downloaded datasets
-analysis/.data/
+.data/
+__marimo__/
 
 
 .env

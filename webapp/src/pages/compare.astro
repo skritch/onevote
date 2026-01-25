@@ -1,0 +1,215 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+	<div class="comparison-graphics">
+		<div class="comparison-graphics__left">
+			<div class="graphic-placeholder graphic-placeholder--democrat">
+				<!-- Left district/state graphic placeholder -->
+			</div>
+		</div>
+		<div class="comparison-graphics__right">
+			<div class="graphic-placeholder graphic-placeholder--republican">
+				<!-- Right district/state graphic placeholder -->
+			</div>
+		</div>
+	</div>
+
+	<div class="comparison-statement">
+		<div class="comparison-statement__left">
+			a <span class="party party--democrat">Democrat</span> in
+			<span class="location">California</span>
+		</div>
+		<div class="comparison-center">
+			<div class="comparison-center__text">is worth</div>
+			<div class="comparison-number">2.4</div>
+		</div>
+		<div class="comparison-statement__right">
+			<span class="party party--republican">Republicans</span> in <span
+				class="location">Wyoming</span
+			>
+		</div>
+	</div>
+
+	<div class="election-details">
+		in the <span class="election-year">2024</span>
+		<span class="election-type">presidential</span> election
+	</div>
+</Layout>
+
+<style lang="scss">
+	@use "../styles/variables.scss";
+	@use "../styles/global.scss";
+
+	.comparison-graphics {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		max-width: 800px;
+		margin: variables.$spacing-lg auto;
+		gap: variables.$spacing-xl;
+
+		&__left,
+		&__right {
+			flex: 1;
+			display: flex;
+			justify-content: center;
+		}
+	}
+
+	.graphic-placeholder {
+		width: 200px;
+		height: 150px;
+		border-radius: variables.$border-radius;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: variables.$white;
+		font-weight: 600;
+		font-size: variables.$font-size-base;
+		position: relative;
+
+		&--democrat {
+			background-color: variables.$royal-blue;
+			border: 3px solid variables.$royal-blue;
+		}
+
+		&--republican {
+			background-color: variables.$brick-red;
+			border: 3px solid variables.$brick-red;
+		}
+
+		&::after {
+			content: "District/State Graphic";
+			text-align: center;
+		}
+	}
+
+	.comparison-statement {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: variables.$font-size-medium;
+		font-weight: 600;
+		color: variables.$dark-gray;
+		margin: variables.$spacing-md auto 0 auto;
+		line-height: 1.4;
+		max-width: 800px;
+		gap: variables.$spacing-md;
+
+		&__left,
+		&__right {
+			flex: 1;
+			white-space: nowrap;
+		}
+
+		&__left {
+			text-align: right;
+		}
+
+		&__right {
+			text-align: left;
+		}
+	}
+
+	.comparison-center {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		min-width: 120px;
+		position: relative;
+
+		&__text {
+			font-size: variables.$font-size-medium;
+			font-weight: 600;
+			color: variables.$dark-gray;
+			position: absolute;
+			top: -0.8em;
+			left: 50%;
+			transform: translateX(-50%);
+			white-space: nowrap;
+		}
+	}
+
+	.party {
+		font-weight: 700;
+
+		&--democrat {
+			color: variables.$royal-blue;
+		}
+
+		&--republican {
+			color: variables.$brick-red;
+		}
+	}
+
+	.location {
+		font-weight: 700;
+		color: variables.$dark-gray;
+	}
+
+	.comparison-number {
+		font-size: calc(variables.$font-size-medium * 2);
+		font-weight: 800;
+		color: variables.$dark-gray;
+	}
+
+	.election-details {
+		text-align: center;
+		font-size: variables.$font-size-medium;
+		font-weight: 600;
+		color: variables.$dark-gray;
+		margin: variables.$spacing-md auto variables.$spacing-xl auto;
+		max-width: 600px;
+	}
+
+	.election-type,
+	.election-year {
+		font-weight: 700;
+		color: variables.$dark-gray;
+	}
+
+	@media (max-width: 768px) {
+		.comparison-graphics {
+			flex-direction: column;
+			gap: variables.$spacing-md;
+		}
+
+		.graphic-placeholder {
+			width: 150px;
+			height: 120px;
+		}
+
+		.comparison-statement {
+			flex-direction: column;
+			font-size: 1.25rem;
+			padding: 0 variables.$spacing-sm;
+			gap: variables.$spacing-sm;
+
+			&__left,
+			&__right {
+				text-align: center;
+			}
+		}
+
+		.comparison-center {
+			order: -1;
+			margin-bottom: variables.$spacing-sm;
+
+			&__text {
+				font-size: 1.25rem;
+			}
+		}
+
+		.comparison-number {
+			font-size: calc(1.25rem * 2);
+		}
+
+		.election-details {
+			font-size: 1.25rem;
+			padding: 0 variables.$spacing-sm;
+		}
+	}
+</style>
