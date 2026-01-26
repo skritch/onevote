@@ -3,7 +3,7 @@
 Data sources:
 
 https://www.presidency.ucsb.edu/statistics/elections
-- historical data and 2024 but not a nice format
+- historical data and 2024 but not a nice format. Includes ECs.
 
 https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/42MVDX 
 - only contains 1976-2020
@@ -23,3 +23,10 @@ https://www.kaggle.com/datasets/adammkimm/u-s-presidential-elections-data-from-1
 - no states
 - include EC votes
 - maybe good to validate other methods
+
+
+https://github.com/tonmcg/US_County_Level_Election_Results_08-24
+- by county, 2008-2024
+
+https://www.fec.gov/documents/5645/2024presgeresults.xlsx
+- 2024 only, needs cleaning.
