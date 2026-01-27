@@ -1,0 +1,90 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { parseLocalDate } from '../../utils/date';
+
+const methodPages = Object.values(import.meta.glob('./*.mdx', { eager: true }));
+const methods = methodPages.map((page: any) => ({
+  url: page.url,
+  title: page.frontmatter.title,
+  date: page.frontmatter.date,
+})).sort((a, b) => parseLocalDate(b.date).getTime() - parseLocalDate(a.date).getTime());
+---
+
+<Layout>
+  <div class="methods-index">
+    <h1>Methods</h1>
+    <p class="methods-index__description">
+      Explore the mathematical and statistical methods used to analyze voting systems.
+    </p>
+
+    <div class="methods-index__list">
+      {methods.map((method) => (
+        <a href={method.url} class="method-card">
+          <h2 class="method-card__title">{method.title}</h2>
+          <time class="method-card__date">{parseLocalDate(method.date).toLocaleDateString()}</time>
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<style lang="scss">
+  @use "../../styles/variables.scss";
+  @use "../../styles/global.scss";
+
+  .methods-index {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: variables.$spacing-lg;
+
+    h1 {
+      font-size: variables.$font-size-large;
+      font-variant: small-caps;
+      color: variables.$dark-gray;
+      margin-bottom: variables.$spacing-sm;
+      text-align: center;
+    }
+
+    &__description {
+      text-align: center;
+      color: variables.$medium-gray;
+      margin-bottom: variables.$spacing-lg;
+      font-size: variables.$font-size-base;
+    }
+
+    &__list {
+      display: flex;
+      flex-direction: column;
+      gap: variables.$spacing-md;
+    }
+  }
+
+  .method-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: variables.$spacing-md;
+    background-color: variables.$white;
+    border-radius: variables.$border-radius;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    transition: all variables.$transition-duration ease;
+    border-left: 4px solid variables.$brick-red;
+
+    &:hover {
+      transform: translateX(4px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    &__title {
+      font-size: variables.$font-size-medium;
+      color: variables.$dark-gray;
+      margin: 0;
+    }
+
+    &__date {
+      font-size: variables.$font-size-small;
+      color: variables.$medium-gray;
+    }
+  }
+</style>
