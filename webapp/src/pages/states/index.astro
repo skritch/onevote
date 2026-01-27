@@ -13,7 +13,7 @@ const states = await getCollection('states');
       {states.map((state) => (
         <a href={`/states/${state.id}`} class="state-card">
           <h2 class="state-card__name">{state.data.name}</h2>
-          <span class="state-card__abbreviation">{state.data.abbreviation}</span>
+          <span class="state-card__abbreviation">{state.id.toUpperCase()}</span>
         </a>
       ))}
     </div>

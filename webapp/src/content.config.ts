@@ -6,8 +6,7 @@ const states = defineCollection({
   loader: file("src/data/states.json"),
   schema: z.object({
     id: z.string(),
-    name: z.string(),
-    abbreviation: z.string()
+    name: z.string()
   })
 });
 
