@@ -1,0 +1,148 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const states = await getCollection('states');
+  return states.map(state => ({
+    params: { id: state.id },
+    props: { state },
+  }));
+}
+
+const { state } = Astro.props;
+const elections = await getCollection('elections');
+const years = [...new Set(elections.map(e => e.data.year))].sort((a, b) => b - a);
+const types = ['president', 'senate', 'house'];
+---
+
+<Layout>
+  <div class="state-page">
+    <div class="state-page__header">
+      <h1>{state.data.name}</h1>
+      <div class="state-page__controls">
+        <span class="select-wrapper">
+          <select id="year-select">
+            {years.map((year) => (
+              <option value={year}>{year}</option>
+            ))}
+          </select>
+        </span>
+        <span class="select-wrapper">
+          <select id="type-select">
+            {types.map((type) => (
+              <option value={type}>{type === 'president' ? 'presidential' : type}</option>
+            ))}
+          </select>
+        </span>
+      </div>
+    </div>
+
+    <div class="state-page__content">
+      <p>State information and voting data will go here.</p>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  // Get election ID from URL query parameter or construct from dropdowns
+  const urlParams = new URLSearchParams(window.location.search);
+  const electionParam = urlParams.get('election');
+
+  const yearSelect = document.getElementById('year-select') as HTMLSelectElement;
+  const typeSelect = document.getElementById('type-select') as HTMLSelectElement;
+
+  // Set initial values from query parameter if present
+  if (electionParam) {
+    const [year, type] = electionParam.split('-');
+    if (year && yearSelect) yearSelect.value = year;
+    if (type && typeSelect) typeSelect.value = type;
+  }
+
+  // Update query parameter when selections change
+  const updateElection = () => {
+    const year = yearSelect?.value;
+    const type = typeSelect?.value;
+    const electionId = `${year}-${type}`;
+    const newUrl = new URL(window.location.href);
+    newUrl.searchParams.set('election', electionId);
+    window.history.replaceState({}, '', newUrl);
+    // TODO: Update page content based on selected election
+  };
+
+  yearSelect?.addEventListener('change', updateElection);
+  typeSelect?.addEventListener('change', updateElection);
+</script>
+
+<style lang="scss">
+  @use "../../styles/variables.scss";
+  @use "../../styles/global.scss";
+
+  .state-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: variables.$spacing-lg;
+
+    &__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: variables.$spacing-lg;
+      gap: variables.$spacing-md;
+
+      h1 {
+        font-size: variables.$font-size-large;
+        font-variant: small-caps;
+        color: variables.$dark-gray;
+        margin: 0;
+      }
+    }
+
+    &__controls {
+      display: flex;
+      gap: variables.$spacing-xs;
+      align-items: center;
+
+      .select-wrapper {
+        display: inline-block;
+
+        select {
+          background-color: variables.$white;
+          border: 2px solid variables.$medium-gray;
+          border-radius: variables.$border-radius;
+          padding: variables.$spacing-xs variables.$spacing-sm;
+          font-size: variables.$font-size-base;
+          font-weight: 600;
+          color: variables.$dark-gray;
+          cursor: pointer;
+
+          &:focus {
+            outline: none;
+            border-color: variables.$royal-blue;
+          }
+        }
+      }
+    }
+
+    &__content {
+      background-color: variables.$white;
+      padding: variables.$spacing-lg;
+      border-radius: variables.$border-radius;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .state-page {
+      &__header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      &__controls {
+        width: 100%;
+        flex-wrap: wrap;
+      }
+    }
+  }
+</style>

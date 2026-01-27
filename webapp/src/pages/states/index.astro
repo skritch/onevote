@@ -1,0 +1,85 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const states = await getCollection('states');
+---
+
+<Layout>
+  <div class="states-index">
+    <h1>States</h1>
+
+    <div class="states-index__grid">
+      {states.map((state) => (
+        <a href={`/states/${state.id}`} class="state-card">
+          <h2 class="state-card__name">{state.data.name}</h2>
+          <span class="state-card__abbreviation">{state.data.abbreviation}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<style lang="scss">
+  @use "../../styles/variables.scss";
+  @use "../../styles/global.scss";
+
+  .states-index {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: variables.$spacing-lg;
+
+    h1 {
+      font-size: variables.$font-size-large;
+      font-variant: small-caps;
+      color: variables.$dark-gray;
+      margin-bottom: variables.$spacing-lg;
+      text-align: center;
+    }
+
+    &__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: variables.$spacing-md;
+    }
+  }
+
+  .state-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: variables.$spacing-md;
+    background-color: variables.$white;
+    border-radius: variables.$border-radius;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    transition: all variables.$transition-duration ease;
+    border-left: 4px solid variables.$brick-red;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    &__name {
+      font-size: variables.$font-size-medium;
+      font-variant: small-caps;
+      color: variables.$dark-gray;
+      margin: 0 0 variables.$spacing-xs 0;
+      text-align: center;
+    }
+
+    &__abbreviation {
+      font-size: variables.$font-size-small;
+      color: variables.$medium-gray;
+      font-weight: 600;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .states-index__grid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+  }
+</style>

@@ -1,4 +1,5 @@
 
+# OneVote Spec
 
 What it is: a webapp which compares the "value" of the Americans' votes between different regions, across different elections. 
 
@@ -26,3 +27,56 @@ Technically we will organize the project into the following components:
 	1. Census data, which might be of use in estimating gerrymandering effects
 	2. Forecasts leading up to past elections, which might have some dynamical effect on outcomes themselves, or be used in estimating degrees of unfairness a priori.
 3. Algorithms corpus. This may be crowd-sourced, probably stored directly in Git or something. It can be hardcoded at first. Largely this is outside of my expertise, but I could become an expert; my first goal is just to build a platform to serve these algorithms.
+
+
+
+## 1. Webapp
+
+Pages:
+
+`/` (in `index.astro`). Splashy front page which, depending on what you enter, either:
+- takes you to a report on your state, state+party, or your exact district
+- or, compares to another state/state+party/state+district+party
+- across presidential, house, or senate race
+- across all years for which we have data
+- uses the default measure for everything.
+- MVP = president only at state level
+
+Design should have just the left panel + a button to "add a comparison" on the right, which expands into two panel view.
+
+Ideally pulls up your state outline + party color + district.
+
+`/compare` (in `compare.astro`). 
+- compares everything with a single component?
+- query parameters determine everything: states, parties, locations, etc.
+- should be able to toggle the methods and counterfactuals
+- for MVP, just compare states with the only method we have.
+- could split this up by race, or by state vs state+party
+
+
+`/state/<id>` (`report.astro).
+A general report on a given state for a given election.
+
+- query parameters determine election + year
+- MVP = president only
+- possibly this is just a Marimo notebook we run on demand and render as an astro page somehow?
+
+`/elections/<president|senate|house>/<year>`: 
+Report on an entire election
+
+`/elections/<president|senate|house>/<year>/<state_id>`:
+Same as `/state/<id>`, or an alternative static route for it?
+
+`/elections/`
+`/elections/<president|senate|house>`:
+Landing pages to navigate to individual reports, possibly including summary stats.
+
+`/methods/...`
+Various markdown pages (possibly incl graphics) which document the methods we use to value votes / measure fairness.
+
+
+`/essays/...` (or perhaps `/blog`?)
+- some kind of writeup of the principles behind the project, the argument.
+
+Components:
+- menu bar: links to election, state, and various writeups

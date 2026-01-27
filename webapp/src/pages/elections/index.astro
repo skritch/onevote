@@ -1,0 +1,110 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const elections = await getCollection('elections');
+const electionsByYear = elections.reduce((acc, election) => {
+  const year = election.data.year;
+  if (!acc[year]) acc[year] = [];
+  acc[year].push(election);
+  return acc;
+}, {} as Record<number, typeof elections>);
+
+const sortedYears = Object.keys(electionsByYear).map(Number).sort((a, b) => b - a);
+---
+
+<Layout>
+  <div class="elections-index">
+    <h1>Elections</h1>
+
+    <div class="elections-index__content">
+      {sortedYears.map((year) => (
+        <div class="year-group">
+          <h2 class="year-group__year">{year}</h2>
+          <div class="year-group__elections">
+            {electionsByYear[year].map((election) => (
+              <a href={`/elections/${election.id}`} class="election-card">
+                <span class="election-card__type">{election.data.type}</span>
+                {election.data.state && (
+                  <span class="election-card__state">({election.data.state})</span>
+                )}
+              </a>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<style lang="scss">
+  @use "../../styles/variables.scss";
+  @use "../../styles/global.scss";
+
+  .elections-index {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: variables.$spacing-lg;
+
+    h1 {
+      font-size: variables.$font-size-large;
+      font-variant: small-caps;
+      color: variables.$dark-gray;
+      margin-bottom: variables.$spacing-lg;
+      text-align: center;
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      gap: variables.$spacing-lg;
+    }
+  }
+
+  .year-group {
+    &__year {
+      font-size: variables.$font-size-medium;
+      font-variant: small-caps;
+      color: variables.$dark-gray;
+      margin-bottom: variables.$spacing-sm;
+      padding-bottom: variables.$spacing-xs;
+      border-bottom: 2px solid variables.$brick-red;
+    }
+
+    &__elections {
+      display: flex;
+      flex-wrap: wrap;
+      gap: variables.$spacing-sm;
+    }
+  }
+
+  .election-card {
+    display: inline-flex;
+    align-items: center;
+    gap: variables.$spacing-xs;
+    padding: variables.$spacing-xs variables.$spacing-md;
+    background-color: variables.$white;
+    border-radius: variables.$border-radius;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    transition: all variables.$transition-duration ease;
+    border-bottom: 2px solid variables.$royal-blue;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    &__type {
+      font-size: variables.$font-size-base;
+      font-weight: 600;
+      color: variables.$dark-gray;
+      text-transform: capitalize;
+    }
+
+    &__state {
+      font-size: variables.$font-size-small;
+      color: variables.$medium-gray;
+    }
+  }
+</style>

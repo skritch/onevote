@@ -1,0 +1,197 @@
+---
+import { getCollection } from 'astro:content';
+
+const states = await getCollection('states');
+---
+
+<div class="comparison-container">
+	<div class="comparison-container__side comparison-container__side--left">
+		<h3>you live in...</h3>
+		<div class="form-group">
+			<label for="left-state">state</label>
+			<select id="left-state">
+				<option value="">select state</option>
+				{states.map((state) => (
+					<option value={state.data.abbreviation}>{state.data.name}</option>
+				))}
+			</select>
+		</div>
+		<!-- <div class="form-group">
+			<label for="left-party">party</label>
+			<select id="left-party">
+				<option value="">select party</option>
+				<option value="democrat">Democrat</option>
+				<option value="republican">Republican</option>
+				<option value="independent">Independent</option>
+			</select>
+		</div>
+
+		<div class="form-group">
+			<label for="left-city">city (optional)</label>
+			<input type="text" id="left-city" placeholder="Enter city" />
+		</div> -->
+
+		<button class="comparison-container__button">Go</button>
+	</div>
+
+	<!-- Right side panel hidden for now - will be used for comparison functionality later -->
+	<!-- <div class="comparison-container__divider"></div>
+
+	<div class="comparison-container__side comparison-container__side--right">
+		<h3>(optional) compare to...</h3>
+		<div class="form-group">
+			<label for="right-state">state</label>
+			<select id="right-state">
+				<option value="">select state</option>
+				{states.map((state) => (
+					<option value={state.data.abbreviation}>{state.data.name}</option>
+				))}
+			</select>
+		</div>
+	</div> -->
+</div>
+
+<script>
+	const goButton = document.querySelector('.comparison-container__button');
+	const stateSelect = document.getElementById('left-state') as HTMLSelectElement;
+	const yearSelect = document.getElementById('year-select') as HTMLSelectElement;
+	const typeSelect = document.getElementById('type-select') as HTMLSelectElement;
+
+	goButton?.addEventListener('click', () => {
+		const selectedState = stateSelect?.value;
+		if (selectedState) {
+			const year = yearSelect?.value || '2024';
+			const type = typeSelect?.value || 'president';
+			const electionId = `${year}-${type}`;
+			window.location.href = `/states/${selectedState}?election=${electionId}`;
+		}
+	});
+</script>
+
+<style lang="scss">
+	@use "../styles/variables.scss";
+
+	.comparison-container {
+		display: flex;
+		align-items: stretch;
+		justify-content: center;
+		gap: variables.$spacing-md;
+		max-width: 440px;
+		margin: 0 auto variables.$spacing-xl auto;
+		position: relative;
+
+		&__side {
+			flex: 1;
+			padding: variables.$spacing-lg;
+			background-color: variables.$white;
+			border-radius: variables.$border-radius;
+			text-align: center;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+			&--left {
+				border-left: 4px solid variables.$brick-red;
+			}
+
+			&--right {
+				border-right: 4px solid variables.$royal-blue;
+			}
+
+			h3 {
+				font-size: variables.$font-size-medium;
+				margin-bottom: variables.$spacing-md;
+				color: variables.$dark-gray;
+			}
+
+			.form-group {
+				margin-bottom: variables.$spacing-md;
+				text-align: left;
+
+				label {
+					display: block;
+					font-weight: 500;
+					margin-bottom: variables.$spacing-xs;
+					color: variables.$dark-gray;
+				}
+
+				select,
+				input {
+					width: 100%;
+					padding: variables.$spacing-xs variables.$spacing-sm;
+					border: 1px solid variables.$medium-gray;
+					border-radius: variables.$border-radius;
+					font-size: variables.$font-size-base;
+					background-color: variables.$white;
+
+					&:focus {
+						outline: none;
+						border-color: variables.$royal-blue;
+					}
+				}
+			}
+		}
+
+		&__divider {
+			width: 0px;
+			position: relative;
+			align-self: stretch;
+		}
+
+		&__button {
+			width: 100%;
+			background: linear-gradient(
+				135deg,
+				variables.$brick-red 0%,
+				variables.$royal-blue 100%
+			);
+			color: variables.$white;
+			border: none;
+			border-radius: 50px;
+			padding: variables.$spacing-sm variables.$spacing-md;
+			font-size: variables.$font-size-base;
+			font-weight: 600;
+			cursor: pointer;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+			transition: all variables.$transition-duration ease;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: variables.$spacing-xs;
+
+			&:hover {
+				transform: scale(1.05);
+				box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+			}
+
+			&::after {
+				content: "→";
+				font-size: 1.2em;
+			}
+		}
+	}
+
+	@media (max-width: 768px) {
+		.comparison-container {
+			flex-direction: column;
+			gap: variables.$spacing-sm;
+
+			&__divider {
+				width: 200px;
+				height: 2px;
+			}
+
+			&__button {
+				position: relative;
+				transform: none;
+				margin: variables.$spacing-sm 0;
+
+				&:hover {
+					transform: scale(1.05);
+				}
+			}
+
+			&__side {
+				width: 100%;
+			}
+		}
+	}
+</style>

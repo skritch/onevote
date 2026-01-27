@@ -16,9 +16,9 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ## **Apportionment Inequality**
+    ## **Apportionment Weight**
 
-    We target C2.1, apportionment alone.
+    We target L:2.1, apportionment alone.
 
     Let $s$ range over $S$ states, with AP $n_s$ and electors $e_s$, with total AP called $N = \sum_s n_s$ and total electors $E = \sum_s e_s$.
 
