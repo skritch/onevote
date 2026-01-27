@@ -1,38 +1,10 @@
-#######
-## R ##
-#######
-
-.Rhistory
-*-Ex.R
-.Rdata
-*.pdf
-.Rapp.history
-*.csv
-*.tsv
-
-# Annoying mac_files
-*.DS_Store
-
-############
-## Python ##
-############
-
-# ipython notebook directories
-.ipynb_checkpoints/
-
-# env files
 .env
-
-# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-
-# C extensions
 *.so
-
-# Distribution / packaging
 .Python
 .virtualenv/
+.venv/
 env/
 build/
 develop-eggs/
@@ -45,45 +17,17 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
-
-# Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.coverage
-.cache
-nosetests.xml
-coverage.xml
-*.txt
-!requirements.txt
-.sql
-\#*
-\.#*
-# Translations
-*.mo
 
-#############
-## Vagrant ##
-#############
-
-.vagrant/
-\#Makefile#
-
-###########
-## Misc. ##
-###########
 
 .idea
 *.iml
-
-
-# Downloaded datasets
-.data/
+.vscode/
 __marimo__/
-
-
-.env
 .ai
+*.DS_Store
+.data/
+
+
