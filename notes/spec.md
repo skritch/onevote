@@ -64,10 +64,6 @@ A general report on a given state for a given election. Defaults to 2024.
 `/elections/<president|senate|house>/<year>`: 
 Report on an entire election
 
-MNaybe: `/elections/<president|senate|house>/<year>/<state_id>`:
-Same as `/state/<id>`, or an alternative static route for it?
-Might be too many routes to render statically, perhaps we use a query param for the state and/or year., 
-
 `/elections/`
 `/elections/<president|senate|house>`:
 Landing pages to navigate to individual reports, possibly including summary stats.

@@ -4,7 +4,7 @@ __generated_with = "0.19.6"
 app = marimo.App(width="medium")
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _():
     import marimo as mo
     import matplotlib.pyplot as plt
@@ -73,7 +73,7 @@ def _(mo):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _():
     # This dataset is prepared in https://github.com/skritch/election-datasets and uploaded to Kaggle for general use.
 
@@ -128,7 +128,7 @@ def _(data, plt):
     _ax.grid(axis='y', alpha=0.3)
     plt.xticks(rotation=90)
     plt.tight_layout()
-    plt.show()
+    _ax
     return (data_1yr_sorted,)
 
 
@@ -171,7 +171,7 @@ def _(data_1yr_sorted, np, plt):
     _ax.legend()
     _ax.grid(axis='y', alpha=0.3)
     plt.tight_layout()
-    plt.show()
+    _ax
     return
 
 

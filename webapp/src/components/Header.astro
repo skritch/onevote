@@ -106,9 +106,27 @@ const essays = essayPages.map((page: any) => ({
 	.navigation {
 		display: flex;
 		justify-content: center;
-		gap: variables.$spacing-md;
-		max-width: 45%;
-		margin: 0 auto 0 auto;
+		flex-wrap: wrap;
+		gap: variables.$spacing-md variables.$spacing-md;
+		max-width: 100%;
+		margin: 0 auto;
+		padding: 0 variables.$spacing-md;
+
+		// Desktop: all 5 items in one row
+		@media (min-width: 900px) {
+			max-width: 650px;
+		}
+
+		// Medium: force 3+2 wrap by constraining width
+		@media (min-width: 650px) and (max-width: 899px) {
+			max-width: 420px;
+		}
+
+		// Small: wrap to 2+2+1 or 3+2
+		@media (max-width: 649px) {
+			max-width: 350px;
+			gap: variables.$spacing-sm variables.$spacing-sm;
+		}
 
 		&__item {
 			color: variables.$medium-gray;
@@ -118,6 +136,8 @@ const essays = essayPages.map((page: any) => ({
 			border-radius: variables.$border-radius;
 			transition: all variables.$transition-duration ease;
 			position: relative;
+			white-space: nowrap;
+			flex: 0 0 auto;
 
 			&:hover {
 				color: variables.$dark-gray;
@@ -225,11 +245,6 @@ const essays = essayPages.map((page: any) => ({
 	@media (max-width: 768px) {
 		.header__title {
 			font-size: 2rem;
-		}
-
-		.navigation {
-			flex-wrap: wrap;
-			gap: variables.$spacing-sm;
 		}
 	}
 </style>

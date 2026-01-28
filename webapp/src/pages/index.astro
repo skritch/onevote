@@ -39,8 +39,19 @@ const types = ['president', 'senate', 'house'];
 		font-size: variables.$font-size-medium;
 		font-weight: 600;
 		color: variables.$dark-gray;
-		margin: variables.$spacing-lg 0;
 		line-height: 1.4;
+		padding: 0 variables.$spacing-sm;
+
+		// Break out of parent container width on desktop
+		@media (min-width: 769px) {
+			white-space: nowrap;
+			width: 100vw;
+			position: relative;
+			left: 50%;
+			right: 50%;
+			margin-left: -50vw;
+			margin-right: -50vw;
+		}
 
 		.select-wrapper {
 			display: inline-block;
@@ -63,7 +74,6 @@ const types = ['president', 'senate', 'house'];
 	@media (max-width: 768px) {
 		.main-content__question {
 			font-size: 1.25rem;
-			padding: 0 variables.$spacing-sm;
 		}
 	}
 </style>

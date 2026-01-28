@@ -8,9 +8,8 @@ const states = await getCollection('states');
 	<div class="comparison-container__side comparison-container__side--left">
 		<h3>you live in...</h3>
 		<div class="form-group">
-			<label for="left-state">state</label>
 			<select id="left-state">
-				<option value="">select state</option>
+				<option value="">--select state--</option>
 				{states.map((state) => (
 					<option value={state.id}>{state.data.name}</option>
 				))}
@@ -40,7 +39,6 @@ const states = await getCollection('states');
 	<div class="comparison-container__side comparison-container__side--right">
 		<h3>(optional) compare to...</h3>
 		<div class="form-group">
-			<label for="right-state">state</label>
 			<select id="right-state">
 				<option value="">select state</option>
 				{states.map((state) => (

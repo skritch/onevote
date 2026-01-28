@@ -411,40 +411,6 @@ def _(mo):
     return
 
 
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Directions from here:
-
-    Continue with Apportionment Weight
-    - compare by parties x election: which party benefits the most from unevenly-valued votes? What is the net effect of the votes actually cast being worth what they are?
-    - what happen if you just held each general election with every vote worth what we've just calculated, as opposed to the EC-winner-takes all approach?
-    - obviously the low-population states have the most-value votes. What fraction of the nation possesses each vote value? How to visualize? Maybe: a histogram over "values of the votes" with "number of voters" as bar height. Can also do this by party for the votes actually cast.
-    - compare vote values by demographics
-    - compute the above for each of the P1-P5.
-      - need district-level data
-    - determine which population (AP VAP VEP) makes the most sense.
-
-
-    SWE projects:
-    - acquire districts dataset for some of the other P scenarios
-    - implement a basic form of AW in the UI
-
-
-
-    Try to turn V1 into a measure:
-    - devise a measure of overall fairness
-    - devise a way to compare the relative fairness of two separate electoral systems
-      - versions of this can answer most of the C2 questions
-
-
-    Try other Values:
-    - V2, apportionment waste
-    - V3, wasted votes
-    - pursue the derivative idea?
-    """)
-    return
-
 
 @app.cell
 def _():
