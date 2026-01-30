@@ -1,0 +1,85 @@
+<!doctype html>
+                <html lang="en">
+                    <head>
+                      <meta charset="UTF-8" />
+                      <title> main </title>
+                        <script type="module" src="https://cdn.jsdelivr.net/npm/@marimo-team/islands@0.19.6/dist/main.js"></script>
+<link
+    href="https://cdn.jsdelivr.net/npm/@marimo-team/islands@0.19.6/dist/style.css"
+    rel="stylesheet"
+    crossorigin="anonymous"
+/>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+/>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&amp;family=Lora&amp;family=PT+Sans:wght@400;700&amp;display=swap" rel="stylesheet" />
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css"
+    integrity="sha384-wcIxkf4k558AjM3Yz3BBFQUbk/zgIYC2R0QpeeYb+TwlBVMrlgLqwRjRtGZiK7ww"
+    crossorigin="anonymous"
+/>
+<marimo-filename hidden></marimo-filename>
+                    </head>
+                    <body>
+                      <div style="margin: auto; max-width: 1110px;">
+                  <marimo-island
+    data-app-id="main"
+    data-cell-id="Hbol"
+    data-reactive="true"
+>
+    <marimo-cell-output>
+    </marimo-cell-output>
+    <marimo-cell-code hidden>import%20marimo%20as%20mo%0Aimport%20matplotlib.pyplot%20as%20plt%0Aimport%20numpy%20as%20np%0Aimport%20pandas%20as%20pd</marimo-cell-code>
+</marimo-island>
+<marimo-island
+    data-app-id="main"
+    data-cell-id="MJUe"
+    data-reactive="true"
+>
+    <marimo-cell-output>
+    </marimo-cell-output>
+    <marimo-cell-code hidden>mo.md(r%22%22%22%0A%23%23%20**Apportionment%20Weight**%0A%0AWe%20target%20L%3A2.1%2C%20apportionment%20alone.%0A%0ALet%20%24s%24%20range%20over%20%24S%24%20states%2C%20with%20AP%20%24n_s%24%20and%20electors%20%24e_s%24%2C%20with%20total%20AP%20called%20%24N%20%3D%20%5Csum_s%20n_s%24%20and%20total%20electors%20%24E%20%3D%20%5Csum_s%20e_s%24.%0A%0ALet%20%24x_s%24%20be%20the%20value%20of%20the%20vote%20of%20each%20voter%20in%20state%20%24s%24%2C%20with%20%24p_s%20%3D%20%5Cfrac%7Bx_s%7D%7BN%7D%24%20as%20above.%0A%0A%0AWe%20will%20attempt%20to%20devise%20a%20measure%20which%20is%20a%20function%20of%20the%20population%20and%20elector%20accounts%20*alone*%2C%20i.e.%20ignoring%20all%20dynamical%20effects%20of%20the%20election%20system%20on%20turnout%2C%20candidates%2C%20etc.%0A%0ARecall%20again%20we%20have%20two%20separate%20questions%20to%20answer%3A%20Q1%20(value%20of%20any%20given%20vote)%20and%20Q2%20(overall%20fairness).%0A%0ASuppose%20we%20consider%20just%20the%20subproblem%20of%20the%20election%20being%20held%20%22by%20the%20states%22%2C%20with%20each%20getting%20votes%20%3D%20%24e_s%24.%20Call%20the%20variables%20in%20this%20case%20%24y_s%2C%20q_s%24.%20Obviously%20in%20this%20election%20we%20ought%20to%20have%20%24e_s%24%20be%20the%20value%20of%20each%20state's%20vote%2C%0A%0A%24%24%0A%5Cbegin%7Balign%7D%0Ay_s%20%3D%20e_s%20%26%26%20%26%26%20%26%26%20q_s%20%3D%20%5Cfrac%7Be_s%7D%7B%5Csum_s%20e_s%7D%20%5Cequiv%20%5Cfrac%7Be_s%7D%7BE%7D%0A%5Cend%7Balign%7D%0A%24%24%0A%0ANow%2C%20for%20an%20individual%20of%20state%20%24s%24%2C%20we%20can%20either%20the%20define%20the%20value%20of%20their%20vote%20%24x_s%24%20such%20that%20the%20%22total%20number%20of%20votes%22%20is%20either%20%24E%24%20or%20that%20it's%20%24N%24.%20That%20is%2C%0A%0A%24%24%0A%5Cbegin%7Balign%7D%0A%5Csum_s%20n_s%20x_s%20%5Cstackrel%7B%3F%7D%7B%3D%7D%20E%20%26%26%20%26%26%20%26%26%20%5Csum_s%20n_s%20x_s%20%5Cstackrel%7B%3F%7D%7B%3D%7D%20N%0A%5Cend%7Balign%7D%0A%24%24%0A%0AThese%20give%3A%0A%0A%24%24%0A%5Cbegin%7Balign%7D%0Ax_s%20%5Cstackrel%7B%3F%7D%7B%3D%7D%20%5Cfrac%7Be_s%7D%7Bn_s%7D%20%20%26%26%20%26%26%20%26%26%20x_s%20%5Cstackrel%7B%3F%7D%7B%3D%7D%20%5Cfrac%7Be_s%20%2F%20E%7D%7Bn_s%20%2F%20N%7D%20%3D%20%5Cfrac%7Be_s%7D%7Bn_s%7D%5Ccdot%20%5Cfrac%7BN%7D%7BE%7D%20%3D%20%5Cfrac%7BN%2FE%7D%7Bn_s%20%2F%20e_s%7D%0A%5Cend%7Balign%7D%0A%24%24%0A%0AThe%20two%20differ%20by%20a%20constant%20factor%2C%20and%20won't%20affect%20*relative*%20values%20of%20votes.%20Which%20to%20choose%3F%0A%0A-%20Suppose%20every%20state%20is%20awarded%20electors%20%24e_s%24%20%3D%20%24n_s%24.%20Then%20%24E%20%3D%20N%24%20and%20both%20definitions%20give%20%24x_s%20%3D%201%24.%0A-%20Suppose%20every%20state%20has%20population%20%24n_s%20%3D%201%24.%20Then%20the%20left%20definition%20gives%20%24x_s%20%3D%20e_s%24%2C%20while%20the%20right%20definition%20becomes%20%24%5Cfrac%7Be_s%7D%7BE%7D%7BS%7D%24%2C%20with%20%24S%24%20the%20number%20of%20states%2C%20because%20the%20total%20number%20of%20%22votes%22%20in%20this%20case%20is%20%24N%20%3D%20S%24%20and%20we%20fixed%20%24%5Csum_s%20n_s%20x_s%20%3D%20N%24.%0A-%20What%20are%20the%20average%20values%20%24x_s%24%20across%20voters%20in%20either%20case%3F%20Obviously%20%24%5Cfrac%7BE%7D%7BN%7D%24%20and%20%241%24.%0A%0AWell%2C%20I%20can%20see%20arguments%20for%20both%2C%20but%20I%20prefer%20the%20RHS%20definition%20because%20%24%5Csum_s%20n_s%20x_s%20%3D%20N%24%20makes%20sense%20to%20me.%20So%20we'll%20go%20with%20that%3A%0A%0A%24%24%0Ax_s%20%5Cstackrel%7B%3F%7D%7B%3D%7D%20%5Cfrac%7Be_s%20%2F%20E%7D%7Bn_s%20%2F%20N%7D%20%3D%20%5Cfrac%7Be_s%7D%7Bn_s%7D%5Ccdot%20%5Cfrac%7BN%7D%7BE%7D%20%3D%20%5Cfrac%7BN%2FE%7D%7Bn_s%20%2F%20e_s%7D%0A%24%24%0A%0AThe%20third%20epxression%20is%20perhaps%20the%20clearest%3A%20this%20measures%20the%20ratio%20between%20%22national%20population%20per%20elector%22%20%24N%2FE%24%20and%20%22state%20population%20per%20elector%22%20%24n_s%20%2F%20e_s%24.%0A%0A%0ALet's%20now%20compare%20the%20values%20of%20votes%20of%20different%20states%20according%20to%20this%20criteria%20using%20the%20idealized%20scenario%20A1.%0A%22%22%22)</marimo-cell-code>
+</marimo-island>
+<marimo-island
+    data-app-id="main"
+    data-cell-id="vblA"
+    data-reactive="true"
+>
+    <marimo-cell-output>
+    </marimo-cell-output>
+    <marimo-cell-code hidden>%23%20This%20dataset%20is%20prepared%20in%20https%3A%2F%2Fgithub.com%2Fskritch%2Felection-datasets%20and%20uploaded%20to%20Kaggle%20for%20general%20use.%0A%0Aimport%20kagglehub%0Afrom%20kagglehub%20import%20KaggleDatasetAdapter%0A%0A%23%20Load%20the%20latest%20version%0Adata%20%3D%20kagglehub.dataset_load(%0A%20%20KaggleDatasetAdapter.PANDAS%2C%0A%20%20%22samkritch%2Fu-s-presidential-elections-by-state-1976-2024%22%2C%0A%20%20'presidential_elections_1976_2024.csv'%2C%0A)%0A%0Adata.head()</marimo-cell-code>
+</marimo-island>
+<marimo-island
+    data-app-id="main"
+    data-cell-id="bkHC"
+    data-reactive="true"
+>
+    <marimo-cell-output>
+    </marimo-cell-output>
+    <marimo-cell-code hidden>%23%20Filter%20for%202024%20election%0A%0Ayear%20%3D%202020%0Apop_var%20%3D%20'ap'%0A%0Apop_col%20%3D%20%7B%0A%20%20%20%20'ap'%3A%20'state_population'%2C%0A%20%20%20%20'vap'%3A%20'state_vap_estimate'%2C%0A%20%20%20%20'vep'%3A%20'state_vep_estimate'%2C%0A%20%20%20%20'vp'%3A%20'votes_total'%0A%7D%5Bpop_var%5D%0A%0Adata_1yr%20%3D%20data%5Bdata%5B'year'%5D%20%3D%3D%20year%5D.copy()%0A%0A%23%20Calculate%20value%20of%20a%20voter's%20vote%3A%20(electors%20%2F%20votes)%20normalized%20by%20(total_electors%20%2F%20total_votes)%0A%23%20This%20is%20x_s%20%3D%20(e_s%20%2F%20n_s)%20*%20(N%20%2F%20E)%20from%20the%20formula%20above%0Atotal_electors%20%3D%20data_1yr%5B'state_electors'%5D.sum()%0Atotal_votes%20%3D%20data_1yr%5Bpop_col%5D.sum()%0A%0Adata_1yr%5B'voter_value'%5D%20%3D%20(data_1yr%5B'state_electors'%5D%20%2F%20data_1yr%5Bpop_col%5D)%20*%20(total_votes%20%2F%20total_electors)%0A%0A%23%20Sort%20alphabetically%20by%20state%20name%0Adata_1yr_sorted%20%3D%20data_1yr.sort_values('state')%0A%0A%23%20Create%20bar%20plot%0A_fig%2C%20_ax%20%3D%20plt.subplots(figsize%3D(20%2C%206))%0A_ax.bar(data_1yr_sorted%5B'state_po'%5D%2C%20data_1yr_sorted%5B'voter_value'%5D)%0A_ax.axhline(y%3D1.0%2C%20color%3D'red'%2C%20linestyle%3D'--'%2C%20linewidth%3D1%2C%20label%3D'Average%20voter%20value')%0A_ax.set_ylabel('Value%20of%20each%20Vote%20(relative%20to%20national%20average)')%0A_ax.set_xlabel('State')%0A_ax.set_title('Value%20of%20each%20Vote%20by%20State%20-%202024%20Presidential%20Election%5Cn(Scenario%20A1%3A%20Winner-Take-All)')%0A_ax.legend()%0A_ax.grid(axis%3D'y'%2C%20alpha%3D0.3)%0Aplt.xticks(rotation%3D90)%0Aplt.tight_layout()%0A_ax</marimo-cell-code>
+</marimo-island>
+<marimo-island
+    data-app-id="main"
+    data-cell-id="lEQa"
+    data-reactive="true"
+>
+    <marimo-cell-output>
+    </marimo-cell-output>
+    <marimo-cell-code hidden>%23%20visualization%3A%20a%20histogram%20of%20%22population%20vs%20value%20of%20vote%22%0A%23%20x-axis%20%3D%20%22value%20of%20vote%22%20from%20min%20to%20max%2C%200.8%20to%203.2ish%20(but%20axis%20should%20go%20down%20to%200)%0A%23%20y%20%3D%20bar%2C%20height%20%3D%20population%20with%20that%20(binned%20value)%0A%23%202%20bars%20for%20each%20bin%2C%20darkred%3Drepublican%2C%20blue%3Ddemocrat%2C%20drop%20%22other%22%0A%0A%23%20Filter%20out%20states%20won%20by%20%22other%22%20parties%20(if%20any)%0Adata_party%20%3D%20data_1yr_sorted%5Bdata_1yr_sorted%5B'winning_party'%5D.isin(%5B'democrat'%2C%20'republican'%5D)%5D.copy()%0A%0A%23%20Separate%20by%20winning%20party%0Adata_dem%20%3D%20data_party%5Bdata_party%5B'winning_party'%5D%20%3D%3D%20'democrat'%5D%0Adata_rep%20%3D%20data_party%5Bdata_party%5B'winning_party'%5D%20%3D%3D%20'republican'%5D%0A%0A%23%20Create%20bins%20for%20voter%20value%0Abins%20%3D%20np.arange(0%2C%204%2C%200.1)%0Abin_width%20%3D%20bins%5B1%5D%20-%20bins%5B0%5D%0A%0A%23%20Calculate%20histogram%20values%20manually%20for%20side-by-side%20bars%0Adem_hist%2C%20_%20%3D%20np.histogram(data_dem%5B'voter_value'%5D%2C%20bins%3Dbins%2C%20weights%3Ddata_dem%5B'state_population'%5D)%0Arep_hist%2C%20_%20%3D%20np.histogram(data_rep%5B'voter_value'%5D%2C%20bins%3Dbins%2C%20weights%3Ddata_rep%5B'state_population'%5D)%0A%0A%23%20Create%20histogram%0A_fig%2C%20_ax%20%3D%20plt.subplots(figsize%3D(12%2C%206))%0A%0A%23%20Plot%20bars%20side-by-side%0Abin_centers%20%3D%20(bins%5B%3A-1%5D%20%2B%20bins%5B1%3A%5D)%20%2F%202%0A_ax.bar(bin_centers%20-%20bin_width%2F4%2C%20dem_hist%2C%20width%3Dbin_width%2F2.2%2C%0A%20%20%20%20%20%20%20%20label%3D'Democrat'%2C%20color%3D'blue'%2C%20edgecolor%3D'black'%2C%20alpha%3D0.7)%0A_ax.bar(bin_centers%20%2B%20bin_width%2F4%2C%20rep_hist%2C%20width%3Dbin_width%2F2.2%2C%0A%20%20%20%20%20%20%20%20label%3D'Republican'%2C%20color%3D'darkred'%2C%20edgecolor%3D'black'%2C%20alpha%3D0.7)%0A%0A_ax.axvline(x%3D1.0%2C%20color%3D'black'%2C%20linestyle%3D'--'%2C%20linewidth%3D1%2C%20label%3D'Average%20voter%20value')%0A_ax.set_xlabel('Value%20of%20a%20Voter%5C's%20Vote%20(relative%20to%20national%20average)')%0A_ax.set_ylabel('Population')%0A_ax.set_title('Population%20Distribution%20by%20Voter%20Value%20and%20Winning%20Party%20-%202024%20Presidential%20Election%5Cn(Scenario%20A1%3A%20Winner-Take-All)')%0A_ax.legend()%0A_ax.grid(axis%3D'y'%2C%20alpha%3D0.3)%0Aplt.tight_layout()%0A_ax</marimo-cell-code>
+</marimo-island>
+<marimo-island
+    data-app-id="main"
+    data-cell-id="PKri"
+    data-reactive="true"
+>
+    <marimo-cell-output>
+    </marimo-cell-output>
+    <marimo-cell-code hidden></marimo-cell-code>
+</marimo-island>
+                </div>
+                    </body>
+                </html>

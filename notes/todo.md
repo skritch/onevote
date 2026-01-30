@@ -12,6 +12,14 @@ Figure out a straightforward way to duplicate graphics between:
 - markdown on website
 - html pages on website
 
+More requirements:
+- ideally we can dynamically create a graphic per-state, highlighting that state in particular
+- a D3 pipeline like my personal blog would work for that, or similar, where we explicitly design graphics as react components
+- I'm not sure any form of Marimo-conversion would work, short of full Python-in-the-browser reactivity.
+- but ideally we'd have the same visuals on the state pages vs the method writeup, just with different emphasis...
+- ideally these are also directly servable as "widgets" of some kind
+
+
 requirements:
 - supports mouseover
 - can easily populate from either json in JS or straight from pandas
@@ -32,8 +40,6 @@ deploy:
 
 
 Continue with Apportionment Weight, V1
-- compare by parties x election: which party benefits the most from unevenly-valued votes? What is the net effect of the votes actually cast being worth what they are?
-
 - what happen if you just held each general election with every vote worth what we've just calculated, as opposed to the EC-winner-takes all approach?
   - to what extent does sum(V1 weights) correlate with election outcomes?
 

@@ -137,12 +137,12 @@ def _(mo):
 
     ## Presidential Electoral Scenarios
 
-    **P1**. The present day: winner-takes-all electors in all states but Maine and Nebraska.
+    **P1**. A national general election.
+
+    **P2**. Simplified present day (winner-take-all in all states)
+
+    **P3**. The present day: winner-takes-all electors in all states but Maine and Nebraska.
     - Will require a dataset of results and populations by district in those two states.
-
-    **P2**. A national general election.
-
-    **P3**. Simplified present day (winner-take-all in all states)
 
     **P4**. Assigning electors by districts, and the two senate electors to the winners of the states as whole. (I.e. what Maine/Nebraska do but nationwide)
     - Will require a dataset of results and populations by district.
@@ -166,12 +166,12 @@ def _(mo):
     ---
 
     It may be interesting to also consider these in a cartoon scenario with just 50 voters:
-    1. Equal votes $(10,10,10,10,10)$. (This is P2, a general election.)
-    2. "States" of size $(20,10,10,10)$ with electors apportioned exactly by population $(20,10,10,10)$, who assign electors proportionally. (This is equivalent to case 1, so also P2)
+    1. Equal votes $(10,10,10,10,10)$. (This is P1, a general election.)
+    2. "States" of size $(20,10,10,10)$ with electors apportioned exactly by population $(20,10,10,10)$, who assign electors proportionally. (This is equivalent to case 1, so also P1)
     3. States of size $(20,10,10,10)$ with electors apportioned in exact proportion to population  $(2,1,1,1)$ assigned by Winner-Takes-All (WTA) within the states. (P7, kind of)
     4. States of size $(20,10,10,10)$, with electors apportionated proportionately $(2,1,1,1)$, but assigned in proportion to the vote within the states. (P9, kind of)
-    5. States of size $(20,10,10,10)$, with non-proportional apportionment, such as $(4,3,3,3,3)$, with electors in proportion to the vote within the states. (P5)
-    6. States of size $(20,10,10,10)$, with non-proportional apportionment, such as $(4,3,3,3,3)$, with electors assigned by WTA within the states. (P3)
+    5. States of size $(20,10,10,10)$, with some non-proportional apportionment, such as $(4,3,3,3,3)$, with electors in proportion to the vote within the states. (P5)
+    6. States of size $(20,10,10,10)$, with some non-proportional apportionment, such as $(4,3,3,3,3)$, with electors assigned by WTA within the states. (P2)
     """)
     return
 
@@ -409,7 +409,6 @@ def _(mo):
     - [see here](https://www.brennancenter.org/sites/default/files/legal-work/How_the_Efficiency_Gap_Standard_Works.pdf)
     """)
     return
-
 
 
 @app.cell
