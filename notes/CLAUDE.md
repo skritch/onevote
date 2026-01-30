@@ -14,7 +14,7 @@ OneVote is a webapp that compares the "value" of Americans' votes between differ
 
 ### Current State
 The project is in early development with:
-- **Python Backend**: Minimal setup (`main.py`, `pyproject.toml`)
+- **Offline Python**: Minimal setup (`main.py`, `pyproject.toml`)
   - Python 3.13+ required
   - No dependencies currently listed
 - **Astro Frontend**: Basic webapp setup
@@ -25,21 +25,21 @@ The project is in early development with:
 ### Project Structure
 ```
 onevote/
-├── .ai/                    # AI context files
-├── analysis/               # Data analysis (Jupyter notebooks)
-│   ├── geographic_data.ipynb
-│   └── requirements.in     # jupyter, matplotlib, numpy, pandas, etc.
-├── docker/                 # Docker configuration
-├── notes/                  # Project documentation
+├── notebooks/             # Data analysis (marimo notebooks)
+│   ├── overview.py
+│   └── apportionment_weight.py     
+├── notes/                 # Project documentation
 │   ├── notes.md           # Research links and datasets
-│   └── spec.md            # Full project specification
-├── webapp/                 # Astro frontend
+│   ├── todo.md            # Running list of tasks
+│   └── spec.md            # Project specification
+├── webapp/                # Astro frontend
+│   ├── public/
 │   ├── src/
 │   │   ├── components/    # Astro components
+│   │   ├── data/          # Static data
 │   │   ├── layouts/       # Page layouts
 │   │   └── pages/         # Route pages
 │   └── package.json       # Astro dependencies
-├── main.py                # Python entry point (minimal)
 └── pyproject.toml         # Python project config
 ```
 
@@ -53,18 +53,16 @@ onevote/
 ### Development Commands
 - **Frontend**: `cd webapp && npm run dev` (Astro dev server)
 - **Frontend Build**: `cd webapp && npm run build`
-- **Python**: `python main.py` (currently just prints hello message)
 
 ## Key Technical Components (Planned)
 1. **Election Data Pipeline** - Process voting outcomes, census data, forecasts
-2. **Algorithms Corpus** - Mathematical methods for measuring electoral unfairness
+2. **Methods** - Mathematical methods for measuring electoral unfairness
 3. **Interactive Mapping** - Visualize districts and vote values
 4. **Widget System** - Exportable graphics for embedding
 
 ## Development Status
 - ✅ Basic project structure established
 - ✅ Astro webapp scaffolded
-- ✅ Analysis environment with Jupyter setup
 - 🚧 Core features not yet implemented
 - 🚧 No election data integration yet
 - 🚧 No algorithms implemented yet

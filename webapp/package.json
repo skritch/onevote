@@ -10,16 +10,13 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",
-    "@astrojs/react": "^4.4.2",
-    "@types/react": "^19.2.10",
-    "@types/react-dom": "^19.2.3",
+    "@astrojs/svelte": "^7.2.5",
     "astro": "^5.16.15",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
     "rehype-mathjax": "^7.1.0",
     "remark-math": "^6.0.0",
     "remark-rehype": "^11.1.2",
     "sass": "^1.97.3",
+    "svelte": "^5.48.5",
     "typescript": "^5.9.3"
   }
 }

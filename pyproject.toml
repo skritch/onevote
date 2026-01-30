@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "altair>=6.0.0",
     "kagglehub>=0.4.1",
     "marimo>=0.19.6",
     "matplotlib>=3.10.8",
