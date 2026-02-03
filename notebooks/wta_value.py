@@ -61,7 +61,7 @@ def _(data):
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    # **V2**: Electoral Winner-Takes-All
+    # **V2?**: Electoral Winner-Takes-All
     """)
     return
 
@@ -120,7 +120,7 @@ def _():
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    # **M2:** Wasted Votes (w/o parties)
+    # **M2?:** Wasted Votes (w/o parties)
 
     We'll call the inequality measure derived from $\text{WTAV}$ by the name "Wasted Votes" or WV. This is specifically the waste due to "districting" (a general term for the grouping of an electorate into any kind of hierarchical structure.). Later we will look at WV *with* party affiliation, at the L3 level, perhaps giving this another name.
 
