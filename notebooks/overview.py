@@ -422,6 +422,14 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    value functions V(x)....
+    """)
+    return
+
+
+@app.cell(hide_code=True)
 def _():
     import marimo as mo
     return (mo,)

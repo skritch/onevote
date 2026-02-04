@@ -105,8 +105,8 @@ def _():
     Later, when we bring party affiliation into the mix, we'll be able to determine *which* votes had no effect; for now we only know it was some half.
 
     So we'll consider a WTA state election to assign values to votes by a function **Winner-Takes-All Value** or $\text{WTAV}(x)$:
-    - value $\text{WTAV}(x) = 2 \cdot \text{AV}(x) = 2\cdot \frac{e_{s(x)}/E}{n_{s(x)}/N}$ to $\approx \frac{n_{s(x)}}{2}$ members of the state
-    - value $\text{WTAV}(x) = 0$ to the remaining $\approx \frac{n_{s(x)}}{2}$ voters.
+    - $\text{WTAV}(x) = 2 \cdot \text{AV}(x) = 2\cdot \frac{e_{s(x)}/E}{n_{s(x)}/N}$ for approximately $\frac{n_{s(x)}}{2}$ members of the state
+    - $\text{WTAV}(x) = 0$ to the remaining $\frac{n_{s(x)}}{2}$ voters.
 
     We won't bother with the exact rounding of $\frac{n_{s(x)}}{2}$, and will ignore ties. For now, we won't think about which population $n_s$ is taken to measure; later we might want to use AP, VEP, or VP.
 
@@ -138,7 +138,7 @@ def _():
     \end{align}
     $$
 
-    If $\text{AV}(s) \ge \frac{1}{2}$ everywhere, the absolute value signs can be removed, and this expression comes reduces to $\frac{\sum n_s \text{AV}(s)}{N} = 1$.
+    If $\text{AV}(s) \ge \frac{1}{2}$ everywhere, the absolute value signs can be removed, and this expression comes reduces to $\frac{\sum n_s \text{AV}(s)}{N} = 1$. That's not very interesting.
 
     **M2.2** RMS Deviation:
 
@@ -154,6 +154,8 @@ def _():
 
     If $\text{AV}(s) = 1$ this expression is exactly 1.
 
+    It can also be written as $2 \text{E}[(\text{AV}(x))^2] - 2$.
+
 
 
     **M2.3** Relative Entropy:
@@ -161,12 +163,12 @@ def _():
 
     $$
     \begin{align}
-    \text{WV}_{\text{Ent}} = H\left[\frac{\text{WTAV}(X)}{N} ~\Vert~ \frac{1}{N}\right] &= \sum_x \frac{\text{WTAV}(x)}{N} \log \frac{\text{WTAV}(x)/N}{1 / N} \\
+    \text{WV}_{\text{Ent}} = H\left[\frac{\text{WTAV}(x)}{N} ~\big\Vert~ \frac{1}{N}\right] &= \sum_x \frac{\text{WTAV}(x)}{N} \log \frac{\text{WTAV}(x)/N}{1 / N} \\
       &= \frac{1}{N}\sum_x  \text{AV}(x) \cdot \log \text{AV}(x) \\
       &= \frac{1}{N}\sum_s \left( \frac{n_s}{2} \cdot 2 \cdot  \text{AV}(s) \cdot( \log 2 \cdot \text{AV}(s)) + \frac{n_s}{2} \cdot 0
       \right)\\
       &=\sum_s   \frac{n_s}{N} \cdot \text{AV}(s) \cdot \left(\log \text{AV}(s) + \log 2\right) \\
-      &=  H\left[\frac{\text{AV}(X)}{N} ~\Vert~ \frac{1}{N}\right] + \log 2
+      &=  H\left[\frac{\text{AV}(x)}{N} ~\big\Vert~ \frac{1}{N}\right] + \log 2
     \end{align}
     $$
 

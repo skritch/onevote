@@ -10,6 +10,8 @@ with app.setup:
     import pandas as pd
     import altair
 
+    import viz
+
 
 @app.cell(hide_code=True)
 def _():
@@ -164,11 +166,10 @@ def _(data):
     # Merge national totals back to dataframe
     data_with_av = data_with_av.merge(national_totals, left_on='year', right_index=True)
 
-    # Calculate apportionment value
-    data_with_av['apportionment_value'] = (
-        (data_with_av['state_electors'] / data_with_av['state_population']) *
-        (data_with_av['national_population'] / data_with_av['national_electors'])
-    )
+    data_with_av['state_population_pct'] = 100 * data_with_av['state_population'] / data_with_av['national_population']
+    data_with_av['state_elector_pct'] = 100 * data_with_av['state_electors'] / data_with_av['national_electors']
+    data_with_av['apportionment_value'] = data_with_av['state_elector_pct'] / data_with_av['state_population_pct']
+
 
     data_with_av.head(2)
     return (data_with_av,)
@@ -184,45 +185,49 @@ def _(data_with_av):
 
 @app.cell(hide_code=True)
 def _(data_with_av, year_dropdown):
-    # Filter for selected year and sort alphabetically by state name
-    data_1yr_sorted = data_with_av[data_with_av['year'] == year_dropdown.value].sort_values('state').copy()
 
-    # Create bar plot with Altair
-    bars = altair.Chart(data_1yr_sorted).mark_bar().encode(
-        x=altair.X('state_po:N', title='State', sort=None),
-        y=altair.Y('apportionment_value:Q', title='Apportionment Value'),
-        color=altair.Color('winning_party:N',
-                          scale=altair.Scale(domain=['democrat', 'republican'],
-                                           range=['blue', 'darkred']),
-                          legend=altair.Legend(title='Winner')),
-        tooltip=[
-            altair.Tooltip('state:N', title='State'),
-            altair.Tooltip('winning_party:N', title='Winner'),
-            altair.Tooltip('state_population:Q', title='Population', format=','),
-            altair.Tooltip('state_electors:Q', title='Electors'),
-            altair.Tooltip('votes_total:Q', title='Total Votes', format=','),
-            altair.Tooltip('apportionment_value:Q', title='Apportionment Value', format='.3f')
-        ]
+    viz.viz_value_by_state(data_with_av, "apportionment_value", "Apportionment Value", year_dropdown.value)
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    We should have in mind the relationship between state populations and elector counts:
+    """)
+    return
+
+
+@app.cell
+def _(data_with_av, year_dropdown):
+    viz.viz_scatter_compare(
+        data_with_av,
+        "state_population_pct", "% of National Populaton",
+        "state_elector_pct", "% of National Electors",
+        year_dropdown.value
     )
+    return
 
-    rule = altair.Chart(altair.Data(values=[{'y': 1.0}])).mark_rule(
-        color='black',
-        strokeDash=[5, 5]
-    ).encode(
-        y='y:Q'
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    That's actually surprisingly linear—the main inequality is the non-zero intercept with the elector axis, due to the floor of 3 electors.
+
+    Now we can view AV vs state populations in another way. Note that in a general population election, AV would *not vary* with population.
+    """)
+    return
+
+
+@app.cell
+def _(data_with_av, year_dropdown):
+    viz.viz_scatter_compare(
+        data_with_av,
+        "state_population_pct", "% of National Populaton",
+        "apportionment_value", "Apportionment Value",
+        year_dropdown.value
     )
-
-    chart = (bars + rule).properties(
-        width=900,
-        height=400,
-        title='Value of each Vote by State - 2024 Presidential Election\n(Scenario A1: Winner-Take-All)'
-    ).configure_axis(
-        grid=True,
-        gridOpacity=0.3
-    )
-
-    chart
-    return (data_1yr_sorted,)
+    return
 
 
 @app.cell(hide_code=True)
@@ -234,59 +239,9 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _(data_1yr_sorted):
+def _(data_with_av, year_dropdown):
 
-    # Create bins for apportionment value (0.1 unit bins from 0 to 4)
-    bins = [i * 0.1 for i in range(41)]  # 0.0, 0.1, 0.2, ..., 4.0
-    data_binned = data_1yr_sorted.copy()
-    data_binned['av_bin'] = pd.cut(data_binned['apportionment_value'], bins=bins, include_lowest=True)
-
-    # Get bin centers for plotting
-    data_binned['av_bin_center'] = data_binned['av_bin'].apply(lambda x: (x.left + x.right) / 2)
-
-    # Create long-form data with separate rows for democrat and republican votes
-    histogram_data_list = []
-    for _, row in data_binned.iterrows():
-        histogram_data_list.append({
-            'av_bin_center': row['av_bin_center'],
-            'party': 'democrat',
-            'votes': row['votes_democrat']
-        })
-        histogram_data_list.append({
-            'av_bin_center': row['av_bin_center'],
-            'party': 'republican',
-            'votes': row['votes_republican']
-        })
-
-    histogram_data_long = pd.DataFrame(histogram_data_list)
-
-    # Group by bin and party, sum votes
-    histogram_data = histogram_data_long.groupby(['av_bin_center', 'party'], as_index=False)['votes'].sum()
-
-    # Create stacked bar chart
-    histogram = altair.Chart(histogram_data).mark_bar(width=20).encode(
-        x=altair.X('av_bin_center:Q',
-                   title='Apportionment Value',
-                   scale=altair.Scale(domain=[0, 4])),
-        y=altair.Y('votes:Q',
-                   title='Total Votes',
-                   stack=True),
-        color=altair.Color('party:N',
-                          scale=altair.Scale(domain=['democrat', 'republican'],
-                                           range=['blue', 'darkred']),
-                          legend=altair.Legend(title='Party')),
-        tooltip=[
-            altair.Tooltip('av_bin_center:Q', title='Apportionment Value', format='.2f'),
-            altair.Tooltip('party:N', title='Party'),
-            altair.Tooltip('votes:Q', title='Votes', format=',')
-        ]
-    ).properties(
-        width=900,
-        height=400,
-        title='Vote Distribution by Apportionment Value and Party - 2024 Presidential Election'
-    )
-
-    histogram
+    viz.viz_value_hist(data_with_av, "apportionment_value", "Apportionment Value", year_dropdown.value)
     return
 
 
@@ -311,139 +266,15 @@ def _(data_with_av):
 
 @app.cell(hide_code=True)
 def _(data_with_av, party_dropdown):
-    # Calculate party statistics by year
-    selected_party = party_dropdown.value
 
-    # For each year, calculate:
-    # - Total EC for selected party / Total EC
-    # - Total AV-weighted votes for selected party / Total AV-weighted votes
-    # - Total popular votes for selected party / Total popular votes
-    # - Number of states won
-
-    party_stats_list = []
-
-    for year in data_with_av['year'].unique():
-        year_data = data_with_av[data_with_av['year'] == year].copy()
-
-        # Total metrics
-        total_ec = year_data['state_electors'].sum()
-        total_votes = year_data['votes_total'].sum()
-
-        # Party metrics - use actual vote columns
-        votes_col = f'votes_{selected_party}'
-        electors_col = f'electors_{selected_party}'
-
-        party_votes = year_data[votes_col].sum()
-        party_ec = year_data[electors_col].sum()
-
-        # States won by party
-        party_data = year_data[year_data['winning_party'] == selected_party]
-        states_won = len(party_data)
-
-        # AV-weighted votes for party (across all states, not just won states)
-        party_av_weighted_votes = (year_data['apportionment_value'] * year_data[votes_col]).sum()
-
-        # Total AV-weighted votes
-        total_av_weighted_votes = (year_data['apportionment_value'] * year_data['votes_total']).sum()
-
-        # Determine national winner (party with most EC)
-        national_winner = year_data.groupby('winning_party')['state_electors'].sum().idxmax()
-
-        party_stats_list.append({
-            'year': year,
-            'ec_pct': party_ec / total_ec * 100,
-            'av_pct': party_av_weighted_votes / total_av_weighted_votes * 100,
-            'popular_vote_pct': party_votes / total_votes * 100,
-            'states_won': states_won,
-            'party_ec': party_ec,
-            'total_ec': total_ec,
-            'national_winner': national_winner
-        })
-
-    party_stats = pd.DataFrame(party_stats_list)
-
-    # Create scatter plot
-    _scatter = altair.Chart(party_stats).mark_circle(size=100).encode(
-        x=altair.X('av_pct:Q',
-                   title='AV-Weighted Vote % for Party',
-                   scale=altair.Scale(domain=[0, 100])),
-        y=altair.Y('ec_pct:Q',
-                   title='Electoral College % for Party',
-                   scale=altair.Scale(domain=[0, 100])),
-        color=altair.Color('national_winner:N',
-                          scale=altair.Scale(domain=['democrat', 'republican'],
-                                           range=['blue', 'darkred']),
-                          legend=altair.Legend(title='National Winner')),
-        tooltip=[
-            altair.Tooltip('year:O', title='Year'),
-            altair.Tooltip('national_winner:N', title='Winner'),
-            altair.Tooltip('ec_pct:Q', title='EC %', format='.1f'),
-            altair.Tooltip('av_pct:Q', title='AV %', format='.1f'),
-            altair.Tooltip('popular_vote_pct:Q', title='Popular Vote %', format='.1f'),
-            altair.Tooltip('states_won:Q', title='States Won'),
-            altair.Tooltip('party_ec:Q', title='Party EC'),
-            altair.Tooltip('total_ec:Q', title='Total EC')
-        ]
-    )
-
-    # Add diagonal reference line (y = x)
-    _diagonal = altair.Chart(pd.DataFrame({'x': [0, 100], 'y': [0, 100]})).mark_line(
-        color='gray',
-        strokeDash=[5, 5]
-    ).encode(
-        x='x:Q',
-        y='y:Q'
-    )
-
-    _chart_av = (_scatter + _diagonal).properties(
-        width=300,
-        height=300,
-        title=f'EC % vs AV-Weighted Vote %'
-    )
-
-    # Create second scatter plot for Popular Vote vs AV
-    _scatter_pv = altair.Chart(party_stats).mark_circle(size=100).encode(
-        x=altair.X('av_pct:Q',
-                   title='AV-Weighted Vote % for Party',
-                   scale=altair.Scale(domain=[0, 100])),
-        y=altair.Y('popular_vote_pct:Q',
-                   title='Popular Vote % for Party',
-                   scale=altair.Scale(domain=[0, 100])),
-        color=altair.Color('national_winner:N',
-                          scale=altair.Scale(domain=['democrat', 'republican'],
-                                           range=['blue', 'darkred']),
-                          legend=altair.Legend(title='National Winner')),
-        tooltip=[
-            altair.Tooltip('year:O', title='Year'),
-            altair.Tooltip('national_winner:N', title='Winner'),
-            altair.Tooltip('ec_pct:Q', title='EC %', format='.1f'),
-            altair.Tooltip('popular_vote_pct:Q', title='Popular Vote %', format='.1f'),
-            altair.Tooltip('av_pct:Q', title='AV %', format='.1f'),
-            altair.Tooltip('states_won:Q', title='States Won'),
-            altair.Tooltip('party_ec:Q', title='Party EC'),
-            altair.Tooltip('total_ec:Q', title='Total EC')
-        ]
-    )
-
-    _chart_pv = (_scatter_pv + _diagonal).properties(
-        width=300,
-        height=300,
-        title=f'Popular Vote % vs AV-Weighted Vote %'
-    )
-
-    # Combine charts side by side
-    _combined_chart = (_chart_av | _chart_pv).properties(
-        title=f'{selected_party.title()}s (1976-2024)'
-    )
-
-    _combined_chart
+    viz.viz_value_vs_ec_popular_by_year(data_with_av, "apportionment_value", "Apportionment Value", party_dropdown.value)
     return
 
 
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    Well: it turns out that no, AVs are not much good as predictors of the actual EC outcome. What correlation we do see in the left plot is surely just due to the AV % tracking the popular % closely, as shown in the right plot.
+    Well: it turns out that no, AVs are not much good as predictors of the actual EC outcome. What correlation we do see in the left plot is surely just due to the AV % tracking the popular % closely; the right plot looks the same.
 
     Apparently AVs are close enough to 1 on average that they don't tell us much about the results of elections. This isn't too surprising.
     """)
