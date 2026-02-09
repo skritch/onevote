@@ -271,6 +271,9 @@ def _(mo):
     ---
 
 
+    TODO: probably treat $R$ as a sum of 0s or 1s...
+    TODO: probably remove all of this...
+
     In a national popular election with a binary outcome, one way to determine the median is by the sign of (votes for) minus (votes against):
 
     $$

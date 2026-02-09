@@ -61,7 +61,7 @@ def _(data):
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    # **V2?**: Electoral Winner-Takes-All
+    # Winner-Takes-All at L2
     """)
     return
 
@@ -93,11 +93,14 @@ def _():
     return
 
 
+@app.cell
+def _():
+    return
+
+
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    Where to begin?
-
     What stands out about WTA districting is this: *for each state, only half of the votes + 1 ever affect the outcome of the national election*. Once the state has been won, the remaining votes (on both sides) count for nothing.
 
     Furthermore, the half which *does* affect the election will have double the effect they would otherwise halve in terms of electors; each individual effectively moves the elector count by 2 units of $\text{AV}(s)$ rather than 1.
@@ -120,14 +123,20 @@ def _():
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    # **M2?:** Wasted Votes (w/o parties)
+    # Wasted Votes at L2
+    """)
+    return
 
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
     We'll call the inequality measure derived from $\text{WTAV}$ by the name "Wasted Votes" or WV. This is specifically the waste due to "districting" (a general term for the grouping of an electorate into any kind of hierarchical structure.). Later we will look at WV *with* party affiliation, at the L3 level, perhaps giving this another name.
 
 
     What do these measures give for SW?
 
-    **M2.1** Mean absolute deviation (MAD):
+    **Mean absolute deviation (MAD)**:
 
     $$
     \begin{align}
@@ -140,7 +149,7 @@ def _():
 
     If $\text{AV}(s) \ge \frac{1}{2}$ everywhere, the absolute value signs can be removed, and this expression comes reduces to $\frac{\sum n_s \text{AV}(s)}{N} = 1$. That's not very interesting.
 
-    **M2.2** RMS Deviation:
+    **RMS Deviation**:
 
     $$
     \begin{align}
@@ -157,8 +166,7 @@ def _():
     It can also be written as $2 \text{E}[(\text{AV}(x))^2] - 2$.
 
 
-
-    **M2.3** Relative Entropy:
+    **Relative Entropy**:
 
 
     $$
@@ -191,8 +199,11 @@ def _():
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _():
+    mo.md(r"""
+ 
+    """)
     return
 
 

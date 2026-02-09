@@ -16,7 +16,7 @@ with app.setup:
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    # V1: Apportionment Value
+    # **V1**: Apportionment Value
     """)
     return
 
@@ -214,7 +214,7 @@ def _():
     mo.md(r"""
     That's actually surprisingly linear—the main inequality is the non-zero intercept with the elector axis, due to the floor of 3 electors.
 
-    Now we can view AV vs state populations in another way. Note that in a general population election, AV would *not vary* with population.
+    Now we can view AV vs state populations in another way. Note that in a general popular election, AV would *not vary* with population.
     """)
     return
 
@@ -233,7 +233,11 @@ def _(data_with_av, year_dropdown):
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    Obviously, voters in the smallest states (AK, ME, MT, ND, RI, VT, and WY, as well as DC) have much larger apportionment values than the larger states. These should make up a comparatively small portion of the total, though. To see how much less, we'll look at a histogram of voters-by-AV.
+    Obviously, voters in the smallest states (AK, ME, MT, ND, RI, VT, and WY, as well as DC) have much larger apportionment values than the larger states.
+
+    (This is the AV *per voter* in these states. If we multiplied by the state populations to get the total "AV per state", we would wind up with something proportional to electoral college votes, and it would look like the previous graph.)
+
+    These should make up a comparatively small portion of the total, though. To see how much less, we'll look at a histogram of voters-by-AV.
     """)
     return
 
@@ -338,80 +342,7 @@ def _():
 
 @app.cell(hide_code=True)
 def _(data_with_av):
-    # Compute the three inequality measures for each year
-    inequality_stats = []
-
-    for _year in sorted(data_with_av['year'].unique()):
-        _year_data = data_with_av[data_with_av['year'] == _year].copy()
-
-        # For each voter (approximated by vote), calculate the AV
-        # We'll weight by state_population to get the voter-level statistics
-        _av_values = _year_data['apportionment_value'].values
-        _pop = _year_data['state_population'].values
-        _N = _pop.sum()
-
-        # 1. Mean Absolute Deviation: (1/N) * sum(|AV(x) - 1|)
-        # For each state, we have votes[i] voters with AV = av_values[i]
-        _mad = sum(abs(_av_values[i] - 1) * _pop[i] for i in range(len(_av_values))) / _N
-
-        # 2. RMS Deviation: sqrt((1/N) * sum((AV(x) - 1)^2))
-        _var = (sum((_av_values[i] - 1)**2 * _pop[i] for i in range(len(_av_values))) / _N)
-
-        # 3. Relative Entropy: (1/N) sum_s n_s AV(s) log (AV(s))
-        _r = 0
-        for s in range(len(_av_values)):
-            _r += _pop[s] * _av_values[s] * np.log(_av_values[s])
-        _relative_entropy = _r / _N
-
-
-
-        # Determine national winner
-        _national_winner = _year_data.groupby('winning_party')['state_electors'].sum().idxmax()
-
-        inequality_stats.append({
-            'year': _year,
-            'MAD': _mad,
-            'Var': _var,
-            'Relative_Entropy': _relative_entropy,
-            'winning_party': _national_winner
-        })
-
-    inequality_df = pd.DataFrame(inequality_stats)
-
-    # Create four side-by-side bar charts
-    _metrics = [
-        ('MAD', 'Mean Absolute Deviation'),
-        ('Var', 'Variance'),
-        ('Relative_Entropy', 'Relative Entropy')
-    ]
-
-    _charts = []
-    for _col, _title in _metrics:
-        _chart = altair.Chart(inequality_df).mark_bar().encode(
-            x=altair.X('year:O', title='Year'),
-            y=altair.Y(f'{_col}:Q', title=_title),
-            color=altair.Color('winning_party:N',
-                              scale=altair.Scale(domain=['democrat', 'republican'],
-                                               range=['blue', 'darkred']),
-                              legend=altair.Legend(title='Winner')),
-            tooltip=[
-                altair.Tooltip('year:O', title='Year'),
-                altair.Tooltip('winning_party:N', title='Winner'),
-                altair.Tooltip(f'{_col}:Q', title=_title, format='.4f')
-            ]
-        ).properties(
-            width=200,
-            height=300,
-            title=_title
-        )
-        _charts.append(_chart)
-
-    # Combine charts side by side
-    _combined = _charts[0]
-    for _chart in _charts[1:]:
-        _combined = _combined | _chart
-
-    _combined
+    viz.viz_measure_over_time(data_with_av, "apportionment_value")
     return
 
 

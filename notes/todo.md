@@ -39,15 +39,6 @@ deploy:
 ## Analysis
 
 
-Continue with Apportionment Weight, V1
-- what happen if you just held each general election with every vote worth what we've just calculated, as opposed to the EC-winner-takes all approach?
-  - to what extent does sum(V1 weights) correlate with election outcomes?
-
-- obviously the low-population states have the highest-value votes. What fraction of the nation possesses each vote value? How to visualize? 
-  - Maybe: a histogram over "values of the votes" with "number of voters" as bar height. Can also do this by party for the votes actually cast.
-  - "average value of a vote by party"
-  - by demographics
-
 
 - compute the above for each of the P1-P5.
   - need district-level data
@@ -57,21 +48,12 @@ Continue with Apportionment Weight, V1
   
 
 
-Experiment with ways of turning V1 into a measure:
-- devise a measure of overall fairness
-  - rms
-  - mad
-  - entropy
-- devise a way to compare the relative fairness of two separate electoral systems
-  - versions of this can answer most of the L2 questions
-
-
-
 
 Try other Values:
-- V2, apportionment waste
-- V3, wasted votes
+- swinginess?
 - pursue the derivative idea?
+- read Gelman -> Ising model.
+- "information loss".
 
 
 
