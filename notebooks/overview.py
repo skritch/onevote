@@ -428,6 +428,8 @@ def _(mo):
 def _(mo):
     mo.md(r"""
     value functions V(x)....
+
+    a measure which depends only on the electors which go to each party, not on the votes themselves?
     """)
     return
 

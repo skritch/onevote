@@ -140,7 +140,7 @@ def _():
     data = kagglehub.dataset_load(
       KaggleDatasetAdapter.PANDAS,
       "samkritch/u-s-presidential-elections-by-state-1976-2024",
-      'presidential_elections_1976_2024.csv',
+      'pres_by_state_1976_2024.csv',
     )
 
     # data.head()

@@ -22,7 +22,7 @@ def _():
     data = kagglehub.dataset_load(
       KaggleDatasetAdapter.PANDAS,
       "samkritch/u-s-presidential-elections-by-state-1976-2024",
-      'presidential_elections_1976_2024.csv',
+      'pres_by_state_1976_2024.csv',
     )
 
     # Calculate national totals by year
@@ -102,7 +102,7 @@ def _():
       R_{v, s} - \frac{n_s}{2} & (R_{v, s} > \frac{n_s}{2})\\
       R_{v, s}  & (R_{v, s} < \frac{n_s}{2})\\
     \end{cases}\\
-    \text{EffGap}_1[P3] &= \frac{\text{Wasted}_{1} - \text{Wasted}_{0}}{N} \\
+    \text{EffGap}_1[P2] &= \frac{\text{Wasted}_{1} - \text{Wasted}_{0}}{N} \\
       &= \frac{\sum_s (\text{Wasted}_{1, s} - \text{Wasted}_{0, s})}{N}
     \end{align}
     $$
@@ -112,7 +112,7 @@ def _():
     This is clearly restricted to $[-1, 1]$, but as no particular state election can have more than $\frac{n_s}{2}$ of its votes wasted, it really only ranges from $[-\frac{1}{2}, \frac{1}{2}]$. One of these bounds would be realized in a fully general election—so the quantity of interest to me should divide by $N/2$ instead, and should subtract the winners from the losers, as all but the most pathological cases, this will produce a positive number.
 
     $$
-    \text{EffGap}[P3] = \frac{\sum_s (\text{Wasted}_{L, s} - \text{Wasted}_{W, s})}{N/2}
+    \text{EffGap}[P2] = \frac{\sum_s (\text{Wasted}_{L, s} - \text{Wasted}_{W, s})}{N/2}
     $$
 
     For now we won't consider "abstentions", so we should use the total number of votes cast for $N$, rather than the number of eligible voters.
@@ -245,12 +245,16 @@ def _():
 
     But without some notion of the "ordering" of the votes, we can't say *which* are wasted. So we might as well say every one of the $R_{v,s}$ votes is worth a fraction $\frac{n_s/2}{R_{v, s}}$ of what it would otherwise be worth. If 70% of the state votes for the winning candidate, $\frac{5}{7}$ of each of those votes "counts" and the remainder is wasted, as are all votes for the other candidates.
 
-    That is: all of the $R_{v,s}$ votes for the winning party are worth $\frac{n_s/2}{R_{v, s}} \cdot 2 \cdot \frac{e_s / E}{n_s / N} = \frac{e_s / E}{R_{v, s / N}}$ each. This gives us our value-of-a-vote function **Wasted Vote Value** (WVV):
+    That is: all of the $R_{v,s}$ votes for the winning party are worth $\frac{n_s/2}{R_{v, s}} \cdot 2 \cdot \frac{e_s / E}{n_s / N} = \frac{e_s / E}{R_{v, s} / N}$ each.
+
+    The weights are already normalized: in each state the sum over the winning party comes to $\frac{e_s}{E}N$, which sums to $N$ over all states.
+
+    This gives us our value-of-a-vote function **Wasted Vote Value** (WVV):
 
     $$
     \begin{align}
     \text{WVV}(x) = \begin{cases}
-    \frac{e_{s(x)} / E}{R_{v(x), s(x) / N}} && v(x) = v(s(x)) \\
+    \frac{e_{s(x)} / E}{R_{v(x), s(x)} /N} && v(x) = v(s(x)) \\
     0 && v(x) \ne v(s(x))
     \end{cases}
     \end{align}
@@ -260,7 +264,7 @@ def _():
 
     And, as before, we should use the total votes cast for $N$ rather than our usual state population.
 
-    We can then plot the value of a vote by state. Here we'll only plot the value of the winning party's votes, as the losing party is uniformly zero.
+    We can then plot the value of a vote by state. Here we'll only plot the value of the winning party's votes, as the losing party is uniformly zero. (Thus the value will appear to be uniformly larger than 1, when in fact they are offset by a large numbers of zeros such that the mean is exactly 1.)
 
     ---
     """)
@@ -289,11 +293,11 @@ def _(data_with_wv, year_dropdown):
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    The above resembles apportionment value, but varies in some cases depending on the margin of victory within a state.
+    The above resembles apportionment value, but of course only applies to the winners, and varies depending on the margin of victory within a state.
 
     (But note that margins of victory are, again, *ex post*, and depend on turnout which in turn is causally downstream of forecasts of the margin of victory—votes likely to be wasted tend not to be cast at all!)
 
-    In any case we can compare WVV to AV just to see where they differ.
+    We can compare WVV to AV just to how well they track against each other, expecting margins of victory to be approximately proportional to populations. We get:
     """)
     return
 
@@ -309,6 +313,21 @@ def _(data_with_wv, year_dropdown):
         "apportionment_value", "Apportionment Value",
         year_dropdown.value
     )
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    TODO: compute MAD/Var/H?
+
+    How do we determine this for a general election? Do we still count half the votes as wasted? Do we count half the *electoral* votes as wasted, then? Huh?
+    """)
+    return
+
+
+@app.cell
+def _():
     return
 
 

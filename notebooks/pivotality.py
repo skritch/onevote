@@ -32,7 +32,7 @@ def _():
     data = kagglehub.dataset_load(
       KaggleDatasetAdapter.PANDAS,
       "samkritch/u-s-presidential-elections-by-state-1976-2024",
-      'presidential_elections_1976_2024.csv',
+      'pres_by_state_1976_2024.csv',
     )
 
     # data.head()
@@ -623,6 +623,16 @@ def _():
 @app.cell
 def _(data_with_pv):
     viz.viz_measure_over_time(data_with_pv, "pivotality_value")
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    TODO: which population should we be using? Is it AP or could it plausibly be VEP or VP?
+
+    TODO: think about abstentions and third parties.
+    """)
     return
 
 
