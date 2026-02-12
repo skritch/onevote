@@ -35,9 +35,19 @@ def _():
     return (population_cols,)
 
 
+@app.cell
+def _():
+    data_national = kagglehub.dataset_load(
+      KaggleDatasetAdapter.PANDAS,
+      "samkritch/u-s-presidential-elections-by-state-1976-2024",
+      'pres_1976_2024.csv',
+    )
+    data_national.head(1)
+    return (data_national,)
+
+
 @app.cell(hide_code=True)
 def _():
-    # Load the latest version
     data_state = kagglehub.dataset_load(
       KaggleDatasetAdapter.PANDAS,
       "samkritch/u-s-presidential-elections-by-state-1976-2024",
@@ -66,18 +76,7 @@ def _():
     return data_state, national_totals
 
 
-@app.cell
-def _():
-    data_national = kagglehub.dataset_load(
-      KaggleDatasetAdapter.PANDAS,
-      "samkritch/u-s-presidential-elections-by-state-1976-2024",
-      'pres_1976_2024.csv',
-    )
-    data_national.head(1)
-    return (data_national,)
-
-
-@app.cell
+@app.cell(hide_code=True)
 def _(data_state, national_totals):
     data_district: pd.DataFrame = kagglehub.dataset_load(
       KaggleDatasetAdapter.PANDAS,
@@ -86,6 +85,8 @@ def _(data_state, national_totals):
     )
     # temp until I update upstream
     data_district['state'] = data_district['state'].str.upper()
+    # todo: support third parties
+    data_district['winning_party'] = data_district.apply(lambda row: "democrat" if row["votes_democrat"] > row["votes_republican"] else "republican", axis=1)
 
     data_district = data_district.merge(national_totals, left_on='year', right_index=True)
 
@@ -344,7 +345,7 @@ def _():
 
     First, we need a new schema for our table, which will also be applicable to P4. We will have one row per congressional district rather than per state. At the P3 level, the P2 measures can be copied to every district for all states but ME and NE.
 
-    For AV: each district receives its share of the Senate electors, plus its house elector. Here $e_s$ represents only the Senate electors:
+    For AV: each district receives its share of the Senate electors, plus its house elector. Here $e_s$ represents only the 2 Senate electors for states which split:
 
     $$
     \text{AV}(x) = \frac{e_{s(x)}/E}{n_{s(x)} / N} + \frac{e_{d(x)}/E}{n_{d(x)} / N}
@@ -384,12 +385,8 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _(data_district: pd.DataFrame, data_state, population_cols):
-    data_p3 = data_district.copy()
-
-
-    _is_split_state = (data_state['state'] == 'MAINE') | ((data_state['state'] == 'NEBRASKA') & (data_state['year'] >= 1992))
-    data_p3['_is_split'] = (data_p3['state'] == 'MAINE') | ((data_p3['state'] == 'NEBRASKA') & (data_p3['year'] >= 1992))
+def _(population_cols):
+    # Functions for P3/P4
 
     def av_for_district(row, p: str):
         state_part = (
@@ -403,7 +400,7 @@ def _(data_district: pd.DataFrame, data_state, population_cols):
         )
         return state_part + district_part
 
-    
+
     def pv_for_district(row, p: str):
         state_part = (
             ((row['state_electors'] if not row['_is_split'] else 2) * row[population_cols[p][0]])
@@ -433,7 +430,25 @@ def _(data_district: pd.DataFrame, data_state, population_cols):
         else:
             return (state_part[0], state_part[1] + district_const / row['votes_republican'])
 
-    for _p in ['ap', 'vap', 'vep', 'vp']:
+    return av_for_district, pv_for_district, wvv_for_district
+
+
+@app.cell(hide_code=True)
+def _(
+    av_for_district,
+    data_district: pd.DataFrame,
+    data_state,
+    population_cols,
+    pv_for_district,
+    wvv_for_district,
+):
+    data_p3 = data_district.copy()
+
+    _is_split_state_district = (data_p3['state'] == 'MAINE') | ((data_p3['state'] == 'NEBRASKA') & (data_p3['year'] >= 1992))
+    data_p3['_is_split'] = _is_split_state_district
+
+    # No VEP because we can't use it at the district level (though VAP would probably be fine)
+    for _p in ['ap', 'vap', 'vp']:
         (_n_pop, _s_pop, _d_pop) = population_cols[_p]
 
         # AV
@@ -443,33 +458,48 @@ def _(data_district: pd.DataFrame, data_state, population_cols):
 
         # PV
         _pv_col = f'pv_{_p}'
-    
-        # Denominator for PV calculations
-        _z_by_year = (
-            (data_state.loc[~_is_split_state, 'state_electors'] * np.sqrt(data_state.loc[~_is_split_state, _s_pop])).groupby(data_state.loc[~_is_split_state, "year"]).sum()
-            + 
-            (2 * np.sqrt(data_state.loc[_is_split_state, _s_pop])).groupby(data_state.loc[_is_split_state, "year"]).sum()
-            + (np.sqrt(data_p3[_d_pop])).groupby(data_p3["year"]).sum()
+
+        # Build the denominator of PV
+        _state_electors = pd.concat([
+            (data_district[~_is_split_state_district]
+                .groupby(["state", "year"])
+                .size() + 2
+            )
+            , (data_district[_is_split_state_district]
+                .groupby(["state", "year"])
+                .size().map(lambda _: 2)
+            )
+        ])
+        _sqrt_state_pops = np.sqrt(data_district.groupby(["state", "year"])[_d_pop].sum())
+        _z_state = ((_state_electors * _sqrt_state_pops)
+            .reset_index(level=0, drop=True) # Drop state
+            .groupby("year")
+            .sum()
+       )
+        _z_district = (np.sqrt(data_p3.loc[_is_split_state_district, _d_pop])
+            .groupby(data_p3.loc[_is_split_state_district, "year"])
+            .sum()
         )
-        data_p3['pv_denominator'] = data_p3['year'].map(_z_by_year)
+        _z = _z_state + _z_district
+    
+        data_p3['pv_denominator'] = data_p3['year'].map(_z)
         data_p3[_pv_col] = 0.0
         data_p3[_pv_col] = data_p3.apply(pv_for_district, p=_p, axis=1)
 
 
     # WVV
-    data_p3[['wvv_democrat', 'wvv_republican']] = data_p3.apply(wvv_for_district, axis=1, result_type='expand')
+    data_p3[['wvv_democrat', 'wvv_republican']] = data_p3.apply(wvv_for_district, p=_p, axis=1, result_type='expand')
     data_p3["wvv_other"] = 0.0
 
 
     data_p3
-    return av_for_district, pv_for_district, wvv_for_district
+    return
 
 
 @app.cell(hide_code=True)
 def _(
     av_for_district,
     data_district: pd.DataFrame,
-    data_p2,
     population_cols,
     pv_for_district,
     wvv_for_district,
@@ -478,25 +508,37 @@ def _(
     data_p4['_is_split'] = True
 
     for _p in ['ap', 'vap', 'vp']:
+        (_n_pop, _s_pop, _d_pop) = population_cols[_p]
+    
         # AV
         _av_col = f'av_{_p}'
-        data_p4[_av_col] = 0.0
         data_p4[_av_col] = data_p4.apply(av_for_district, axis=1, p=_p)
 
         # PV
         _pv_col = f'pv_{_p}'
         # Denominator for PV calculations
-        _z_by_year = (
-            (2 * np.sqrt(data_p2[population_cols[_p][1]])).groupby(data_p2["year"]).sum()
-            + (np.sqrt(data_p4[population_cols[_p][2]])).groupby(data_p4["year"]).sum()
+        _state_electors = (data_district
+            .groupby(["state", "year"])
+            .size().map(lambda _: 2)
         )
-        data_p4['pv_denominator'] = data_p4['year'].map(_z_by_year)
-        data_p4[_pv_col] = 0.0
+        _sqrt_state_pops = np.sqrt(data_district.groupby(["state", "year"])[_d_pop].sum())
+        _z_state = ((_state_electors * _sqrt_state_pops)
+            .reset_index(level=0, drop=True) # Drop state
+            .groupby("year")
+            .sum()
+        )
+        _z_district = (np.sqrt(data_district[_d_pop])
+            .groupby(data_district["year"])
+            .sum()
+        )
+        _z = _z_state + _z_district
+    
+        data_p4['pv_denominator'] = data_p4['year'].map(_z)
         data_p4[_pv_col] = data_p4.apply(pv_for_district, p=_p, axis=1)
 
 
     # WVV
-    data_p4[['wvv_democrat', 'wvv_republican']] = data_p4.apply(wvv_for_district, axis=1, result_type='expand')
+    data_p4[['wvv_democrat', 'wvv_republican']] = data_p4.apply(wvv_for_district, p=_p, axis=1, result_type='expand')
     data_p4["wvv_other"] = 0.0
 
     data_p4
@@ -534,15 +576,91 @@ def _():
     e_{s, v} = \left\lfloor \frac{R_{v, s}}{n_s} e_s \right\rfloor + 1_{R_{v, s} > n_s}
     $$
 
-    (This expression does not count for the case where $\frac{R_{v, s}}{n_s} e_s$ is an integer exactly, in which case nothing should be added.)
+    (This expression does not count for the case where $\frac{R_{s, v}}{n_s} e_s$ is an integer exactly, in which case nothing should be added.)
 
     Now, how do we calculate metrics?
 
-    AV should be unchanged, but we could compute another version of it using exact elector count $\frac{e_{s, v} / E}{R_{v, s} / N_{VP}}$.
+    AV should be unchanged, but we could compute another version of it using exact elector count $\frac{e_{s, v} / E}{R_{s, v} / N_{VP}}$. (This would basically be WVV... but which N do we use?)
 
-    (Is there another verison where we assign one elector to each $\frac{n_s}{e_s}$? Well, this gives the same expression...)
+    (Is there another version where we assign one elector to each $\frac{n_s}{e_s}$? Well, this gives the same expression...)
 
     PV: My immediate idea is to assign one elector to each $\frac{n_s}{e_s}$ of population, but these are not WTA, they "fill up all the way" before spilling over to the next elector.
+
+    Instead, in keeping with the original formulation, we need to consider the full $2^{n_s}$ space of state outcomes, then count the number in which voter $x \in s$ is pivotal. Well, the popular outcome is going to be the same $\approx \sqrt{n_s}$-wide normal-ish distribution as before, which is extremely peaked compared to the spacing of the elector seats $\frac{n_s}{e_s} \approx 800\text{k}$. Only the final elector (with odd $e_s$) or the final two electors (with even $e_s$) flip at all—and these flip with the same $\frac{1}{\sqrt{n_s}}$ scaling as before.
+
+    The different is that both parties automatically split up the remaining electors with near-certainty. Only one/two electors per state has any chance to change hands.
+
+    By a strict pivotality calculation where therefore have (for odd $e_s$):
+
+    $$
+    \begin{align}
+    P[x \text{ is pivotal}] &= (P[x \text{ flips elector 1}] + P[x \text{ flips elector 2}] + \ldots + P[x \text{ flips elector } e_s]) \cdot \frac{1}{\Vert \mathbf{e} \Vert} \\
+      &\approx (0 + \ldots + P[x \text{ flips elector } \frac{e_s}{2}] + \ldots + 0) \cdot \frac{1}{\Vert \mathbf{e} \Vert} \\
+      &\propto \frac{1 + 1_{e_s \text{ even}}}{\sqrt{n_s}}
+    \end{align}
+    $$
+
+    It's not clear how to think about the denominator $\Vert \mathbf{e} \Vert$ here, nor how to account for the "value" of a voter just for existing and filling out the population, earning some fraction of the remaining electors.
+
+    But, at least in a simplified view, we can work with the above: we get a PV which does not depend on state elector counts at all (except whether they're odd or even).
+
+    The odd/even thing is weird: most reasonable rounding schemes would just split the electors down the middle for approximately-even states, as again, the highly-unrealistic uniform-distribution setup for this measure assigns basically 0 probability to margins larger than a few thousand votes for even the largest states.
+
+
+    What about WVV?
+
+    We just do $\frac{e_{s, v} / E}{R_{s, v} / N}$ for both sides. Easy. (But which N do we use?)
+    """)
+    return
+
+
+@app.cell
+def _():
+    return
+
+
+@app.cell
+def _():
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    Once P5 is finished... we will have calculated:
+    - 3 values (AV, PV, WVV)
+    - times 3 measures (MAD, Var, H)
+    - times 5 or so electoral scenarios
+    - times 3 or 4 definitions of "population"
+
+    (Obvious next thing to add is Shapley, before striking off on our own)
+
+    which should be enough to architect a prototype of the OneVote app itself.
+
+    What's the right abstraction? Can build an abstraction that allows us to plug together "values" and "scenarios", at least?
+    - starting point = an object representing a scenario?
+      - this sounds... hard.
+    - probably easier to do something alone the lines of this notebook, outputting CSVs, and storing metadata on the calculations somewhere.
+
+    Outputs can be at various "resolutions": (national | state | district | ?) x (entire population | party)
+    Can also be defined in terms of different population measures, which could affect how it assigns values. (If you are not included in VEP or VP, the value of your vote = 0?)
+
+    Then the consumer will be able to disable certain measures/scenarios based on the data available:
+    - VAP/VEP cannot be calculated before 1980
+    - VEP cannot be calculated for districts at all
+    - districts cannot be used before 2012
+
+    What about options like:
+    - including territories, puerto rico?
+
+    Easiest thing is to just write out a different version of the output files for each option combination, but if there turn out to be a lot this could get hard. Another is to output a copy of the columns w/ and w/o.
+
+
+    Where do measures go?
+    - Separate output files I think.
+
+    What if this gets long/complicated?
+    - split up this notebook.
     """)
     return
 
