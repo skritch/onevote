@@ -218,6 +218,8 @@ def _():
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
+    ### An Example
+
     This result $P \propto \frac{1}{\sqrt{N}}$ is new to us. Let us briefly get a sense for it.
 
 
@@ -248,6 +250,8 @@ def _():
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
+    ### Reservations
+
     Now, I have some qualms with the idea of pivotality.
 
     For any reasonably large $N$, only a small fraction of elections will be decided by one vote. Why should we care about this at all?

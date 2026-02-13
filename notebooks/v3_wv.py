@@ -24,26 +24,38 @@ def _():
       "samkritch/u-s-presidential-elections-by-state-1976-2024",
       'pres_by_state_1976_2024.csv',
     )
-
+  
     # Calculate national totals by year
     national_totals = data.groupby('year').agg({
         'electors': 'sum',
         'apportionment_population': 'sum',
-        'votes_total': 'sum'
+        'vap_estimate': 'sum', 
+        'vep_estimate': 'sum',
+        'votes_total': 'sum',
+        'votes_democrat': 'sum',
+        'votes_republican': 'sum',
+        'electors_democrat': 'sum',
+        'electors_republican': 'sum'
     }).rename(columns={
         'electors': 'national_electors',
+        'vap_estimate': 'national_vap_estimate',
+        'vep_estimate': 'national_vep_estimate',
         'apportionment_population': 'national_apportionment_population',
-        'votes_total': 'national_votes_total'
+        'votes_total': 'national_votes_total',
+        'votes_democrat': 'national_votes_democrat',
+        'votes_republican': 'national_votes_republican',
+        'electors_democrat': 'national_electors_democrat',
+        'electors_republican': 'national_electors_republican'
     })
 
 
 
     # Merge national totals back to dataframe
     data = data.merge(national_totals, left_on='year', right_index=True)
+    data['national_winning_party'] = data.apply(lambda row: 'democrat' if row['national_votes_democrat'] > row['national_votes_republican'] else 'republican', axis=1)
+
     data['apportionment_population_pct'] = 100 * data['apportionment_population'] / data['national_apportionment_population']
     data['elector_pct'] = 100 * data['electors'] / data['national_electors']
-
-
     data.head()
     return (data,)
 
@@ -72,7 +84,7 @@ def _():
     R_p(s) = \sum_{\substack{x \in s \\ v(x) = p}} 1
     $$
 
-    be the number of votes equal to some party $p$ in state $s$.
+    be the number of votes cast for some party $p$ in state $s$.
 
     ---
     """)
@@ -90,7 +102,7 @@ def _():
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    We can introduce one standard measure of "waste" here: the *efficiency gap**, which compares the waste of the two parties across the entire election.
+    We can introduce one standard measure of "waste" here: the **efficiency gap**, which compares the waste of the two parties across the entire election.
 
     $$
     \begin{align}
@@ -290,6 +302,9 @@ def _(data_with_wv, year_dropdown):
 
     data_with_wv['wvv_winner'] = (data_with_wv['electors'] * data_with_wv['national_votes_total']) / (data_with_wv['national_electors'] * data_with_wv['winning_party_votes'])
 
+    data_with_wv['wvv_democrat'] = data_with_wv.apply(lambda row: row['wvv_winner'] if row['winning_party'] == 'democrat' else 0, axis=1)
+    data_with_wv['wvv_republican'] = data_with_wv.apply(lambda row: row['wvv_winner'] if row['winning_party'] == 'republican' else 0, axis=1)
+
     viz.viz_value_by_state(data_with_wv, "wvv_winner", "Winning Party's Wasted Votes Value", year_dropdown.value)
     return
 
@@ -301,7 +316,7 @@ def _():
 
     (But note that margins of victory are, again, *ex post*, and depend on turnout which in turn is causally downstream of forecasts of the margin of victory—votes likely to be wasted tend not to be cast at all!)
 
-    We can compare WVV to AV just to how well they track against each other, expecting margins of victory to be approximately proportional to populations. We get:
+    We can compare WVV to AV just to see how well they track against each other, expecting margins of victory to be approximately proportional to populations. We get:
     """)
     return
 
@@ -323,10 +338,74 @@ def _(data_with_wv, year_dropdown):
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
+    ## **M3**: WVV Inequality
+
     TODO: compute MAD/Var/H?
 
     How do we determine this for a general election? Do we still count half the votes as wasted? Do we count half the *electoral* votes as wasted, then? Huh?
     """)
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## **V3b**: Wasted Vote Value, Nationally
+
+    The electoral college wastes half the *electoral* votes, and these likely aren't uniformly distributed.
+
+    So we can calculate a measure of the overall election by tallying up:
+    - for each state in the losing party, all votes are wasted
+    - for the winning party, the full "value" of the election $N$ is divided up among the $E_W$ votes for the winning party. Each electoral vote has value $\frac{N}{E_W}$, so state $s$ is worth $\frac{e_s}{E_W}N$ and the votes in that state are worth
+
+    $$
+    \text{WVV2}(x) = \begin{cases}
+      \frac{N}{E_W} \frac{e_{s(x)}}{R_W(s(x))} && v(x) = v(s(x)) = W\\
+      0 && \text{otherwise}
+    \end{cases}
+    $$
+
+    where the populations $N, n_s$ are both VP.
+
+    ## **M3b** Relative Waste
+
+    A fully general election would waste $\frac{N}{2}$ of the nation's votes.
+
+    A WTA electoral college wastes half the votes in each state.
+
+    The electoral college vote wasted $\frac{N}{E_W}$ of each of the winning party's electors.
+
+    How many votes are wasted nationally? Is it exactly 3/4?
+
+    How many votes are wasted by each party?
+    - compute an efficiency gap
+    - or an entropy
+    - or something
+    """)
+    return
+
+
+@app.cell
+def _(data_with_wv):
+    def calc_wvvb(row):
+        # Returns [wvvb_winner, wvvb_democrat, wvvb_republican]
+        d, r, w = 'democrat', 'republican', None
+        if row['national_winning_party'] == d and row['winning_party'] == d:
+            w = d
+        elif row['national_winning_party'] == r and row['winning_party'] == r:
+            w = r
+        else:
+            return (0, 0, 0)
+        
+        wvvb = (
+            (row['national_votes_total'] / row[f'national_electors_{w}']) 
+            * (row['electors'] / row[f'votes_{w}'])
+        )
+        return (wvvb, wvvb if w == d else 0, wvvb if w == r else 0)
+        
+
+    data_with_wv[['wvvb_winner', 'wvvb_democrat', 'wvvb_republican']] = data_with_wv.apply(calc_wvvb, axis=1, result_type='expand')
+    data_with_wv
     return
 
 
