@@ -27,7 +27,8 @@ The project is in early development with:
 onevote/
 ├── notebooks/             # Data analysis (marimo notebooks)
 │   ├── overview.py
-│   └── apportionment_weight.py     
+│   ├── v1_apprtionment.py     
+│   └── ...
 ├── notes/                 # Project documentation
 │   ├── notes.md           # Research links and datasets
 │   ├── todo.md            # Running list of tasks

@@ -38,37 +38,24 @@ def _(mo):
     2. Potential for spoilers. Ranked-choice and similar systems help here.
     3. Theoretical incentives on candidates and platforms due to FPIP/plurality systems.
 
-    I won't try to measure unfairness based on the voting system in the abstract. It will be easier to consider L2 or L3 below, which take more of reality into account.
+    I won't attempt to take on this level.
 
-    **L2**. **Voting systems + state populations**.
-    1. Here the main issues are is the inequality of apportionment, such as Wyoming receiving 3 electors for only 600K people (200K/elector) while California has 54 electors for 40M (740K / elector). We can subdivide this further:
-      - Apportionment of electors to states (in the U.S. each state has 3 minimum)
-      - Discrepancies due to winner-take-all assignments instead of electors voting with their associated district
-      - Rounding discrepancies
-    2. Any philosophical issues with the calculation of apportionment, e.g. illegal aliens being counted, exclusion of overseas territories.
+    It will be easier to work at L2 or L3, which take somewhat more of reality into account.
 
-    The following tables lists the different populations variables we might use:
-
-
-
-    | Variable      | Full Name | Description | Nationally in 2020 | In dataset? |
-    | ----------- | ----------- | ----------- | ---- | ---- |
-    | P      | population       | the census residential population of a state  |  331.4M | |
-    | AP   | apportionment population        | P + overseas federal employees and their dependents - indigenous populations "not taxed" | 331.8M[^ap] | `state_population` |
-    | VAP   | voting-age population | all residents 18 and older.  | 258M | `state_vap_estimate` |
-    | CVAP   | civizen voting-age population   | VAP - non-citizens  | 233M |  |
-    | VEP   | voting-eligible population  | VAP - felons, etc. barred from voting. | 231M | `state_vep_estimate`
-    | VP   | voting population  | Actual number of voters | 158M | `votes_total`
-
-    [^ap]: The census definition of AP excludes the ~700k residents of D.C., who have no representation in the House (except for 1 non-voting delegate), and are then granted their 3 electors by the 23rd Amendment. Under that definition the total would be 331.1M. My `state_population` variable does include D.C., as we would like to assign it an AP : elector ratio.
+    **L2**. **Voting systems + state populations + apportionment**.
+    1. Here the main issues are is the inequality of apportionment, such as:
+      - Unequal apportionment of electors to states. In the U.S. each state has 3 minimum. Wyoming receives 3 electors for only 600K people (200K/elector) while California has 54 electors for 40M (740K / elector).
+      - Discrepancies due to winner-take-all assignments instead of electors voting with their associated district or party-proportionally.
+      - Rounding issues
+    2. Any philosophical issues with the calculation of apportionment, e.g. illegal aliens being counted, exclusion of overseas territories, ages under consideration, etc.
 
     **L3**. **Voting system + population + party affiliations**.
     1. Wasted votes, in some sense. Here we should be able to characterize "swing states"--states where every vote is inherently much more likely to affect the overall outcome, just because the election is likely to be close and to have a marginal effect on the national election. How wasted a vote is will depend on the party affiliation (ex post or ex ante, see below).
     2. Gerrymandering (which is really a way of engineering wasted-votes)
-    3. Spoilers
+    3. Spoilers, i.e. 3rd party candidates stealing votes from major parties and the like
 
     Here "party affiliation" might be defined in various ways:
-    - *ex post* actual election outcomes (note this is not necessarily a better definition than *a priori* estimates, as it include dynamical effects, see L4.)
+    - *ex post* actual election outcomes (note this is not necessarily a better definition than *a priori* estimates, as it is causally downstream of the election system itself, see L4.)
     - *ex ante estimates of election outcomes
       - the simplest is "whatever happened last time"
       - polling
@@ -109,6 +96,8 @@ def _(mo):
 
     We could further try to quantify the effect of wrong votes on the voters who *did* vote--to what extent were they disenfranchised by the loss of their potential allies?
 
+    It will likely be useful to try to characterize wrong/lost/fraudlent votes as affecting the value of *everybody*'s political expression, regardless of their effect on the outcome themselves—an L2 effect rather than L3. A kind of "information loss" comes to mind.
+
 
     **L6**. **Issues with the expression of electorate's preferences**.
     1. Effects of primarying/caucuses and party conventions.
@@ -131,47 +120,67 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ## Population Variables
+
+    We'll be making a lot of use of "populations", and it will helpful to be clear about what we mean.
+
+    The following tables lists the different populations variables we might use:
+
+    | Variable      | Full Name | Description | Nationally in 2020 | In dataset? |
+    | ----------- | ----------- | ----------- | ---- | ---- |
+    | P      | population       | the census residential population of a state  |  331.4M | |
+    | AP   | apportionment population        | P + overseas federal employees and their dependents - indigenous populations "not taxed" | 331.8M[^ap] | `apportionment_population` |
+    | VAP   | voting-age population | all residents 18 and older.  | 258M | `vap_estimate` |
+    | CVAP   | civizen voting-age population   | VAP - non-citizens  | 233M |  |
+    | VEP   | voting-eligible population  | CVAP - citizens from voting, e.g. felons. | 231M | `vep_estimate`
+    | VP   | voting population  | Actual number of voters | 158M | `votes_total`
+
+    We will typically refer to these variables by their acronyms AP, VAP.
+
+    TODO: work out exactly how and where P/AP differ in the census data itself.
+
+    TODO: work out relationship of citizenship to VEP
+
+    [^ap]: The census definition of AP excludes the ~700k residents of D.C., who have no representation in the House (except for 1 non-voting delegate), and are then granted their 3 electors by the 23rd Amendment. Under that definition the total would be 331.1M. My `apportionment_population` variable differs from this in that it sdoes include D.C., as we do want to assign it an AP : elector ratio.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ----
 
     It will help to give identifiers to the scenarios we would like to compare.
 
     ## Presidential Electoral Scenarios
 
+    We'll start with these:
+
     **P1**. A national general election.
 
-    **P2**. Simplified present day (winner-take-all in all states)
+    **P2**. Simplified electoral college: electors assigned by winner-take-all in all states.
 
-    **P3**. The present day: winner-takes-all electors in all states but Maine and Nebraska.
-    - Will require a dataset of results and populations by district in those two states.
+    **P3**. Actual electoral college: electors assigned by winner-take-all in all states but Maine and Nebraska, which assign their House electors to winners of districts.
 
-    **P4**. Assigning electors by districts, and the two senate electors to the winners of the states as whole. (I.e. what Maine/Nebraska do but nationwide)
-    - Will require a dataset of results and populations by district.
+    **P4**. Districtized Electoral College: assign senate electors to state winners, district electors to district winners, i.e. what Maine and Nebraska do today, in all states.
 
-    **P5**. Assigning state electors, including senate electors, to candidates in proportion to vote share in each state.
-    - Requires a method of handling remainders.
+    **P5**. Party-proportional Electoral College: assign state electors, including senate electors, in proportion to vote share in each state.
+
+    This requires choosing method of handling remainders. The obvious method is to assign the remaining elector(s) to parties in descending order of their remaining votes.
 
     -----
-    Lower priority:
+    Some lower priority ideas
 
     **P6**. National ranked-choice/instant-runoff.
-    - May not have the data, but perhaps someone has estimated this.
 
-    **P7-P9**. As P3-P5, but without the 2 Senate electors per state.
+    This is very interesting, but will be hard to come up with realistic data for this, but I imagine someone has estimated it.
 
-    **P10**. Various ranked-choice/instant-runoff-type schemes to determine electors at the district level.
-    - Maine does some version of this as of 2020.
+    **P7, P8, and P9**. As P2, P4, and P5, but without the 2 Senate electors per state.
 
-    Realistically, we will probably only take on P1-P5 and maybe P6.
+    **P10**. Ranked-choice/instant-runoff-type schemes to determine electors at the state level.
 
-    ---
-
-    It may be interesting to also consider these in a cartoon scenario with just 50 voters:
-    1. Equal votes $(10,10,10,10,10)$. (This is P1, a general election.)
-    2. "States" of size $(20,10,10,10)$ with electors apportioned exactly by population $(20,10,10,10)$, who assign electors proportionally. (This is equivalent to case 1, so also P1)
-    3. States of size $(20,10,10,10)$ with electors apportioned in exact proportion to population  $(2,1,1,1)$ assigned by Winner-Takes-All (WTA) within the states. (P7, kind of)
-    4. States of size $(20,10,10,10)$, with electors apportionated proportionately $(2,1,1,1)$, but assigned in proportion to the vote within the states. (P9, kind of)
-    5. States of size $(20,10,10,10)$, with some non-proportional apportionment, such as $(4,3,3,3,3)$, with electors in proportion to the vote within the states. (P5)
-    6. States of size $(20,10,10,10)$, with some non-proportional apportionment, such as $(4,3,3,3,3)$, with electors assigned by WTA within the states. (P2)
+    **P11**. As P10 but at the district level.
     """)
     return
 
@@ -186,9 +195,9 @@ def _(mo):
     Trying to read about these topics online, I am led to the conclusion that the field (or the part of it which rises to the surface on Wikipedia and the like) is quite muddled. The point of all the structure I am establishing here is to un-muddle things.
 
     As above, our measures may turn out to target any of the levels L1... L6 above. My ambition, for the presidential election, is to target:
-    - L2
-    - L3
-    - L5
+    - L2. Apportionment
+    - L3. Waste
+    - L5. Lost Votes
 
     That is, "purely theoretical" (L1), "dynamical" (L4), and the "underlying preferences" (L6) are out of scope, though we may still take them into consideration. A reasonable voting system should be *simple*; it is as important that it "feel" fair as it is that it "be" fair.
 
@@ -196,7 +205,7 @@ def _(mo):
 
     *A fully general election for a single office is perfectly fair*.[^general]
 
-    [^general]: It may be said that I am sweepign the problem under the rug  by taking a "national general election" as fair from the outset. Well--too bad. I think this is so obvious as to not be worth talking about. I really cannot think of a way any other system could be fairer than this, for a single office.
+    [^general]: It may be said that this is a biased place to start from. Well--too bad. I think this is so obvious as to not be worth talking about. I really cannot think of a way any other system could be "fairer" than this, for a single office—it treats all votrers equally; that is a low bar to clear. And yet.
 
     This immediately rules out a lot of "wasted vote" measures which treat _all the losing candidate's votes_ as wasted. This is a pointless view. This also steers us far away from measures which attempt to quantify "the probability of a vote being decisive", which to me seems rather nonsensical: such a probability is a function of a lot of things beyond the _fairness of the election system itself_.
 
@@ -231,36 +240,37 @@ def _(mo):
 
     ## Basic Notation
 
-    For Q1, our answer will be some multiple of $\frac{1}{N}$, with $N$ the total population (see below); this is obviously the most "fair" value for a vote to be worth.
+    We will use $n_s, n_d$ similar to represent the "population of state $s$ or district $d$", with variables like $S, D$ for the number of states or districts. These will sum to $N = \sum_s n_s$ across all voters. Here $n_s$ and $N$ may represent any of the population variables described above—we'll sometimes calculate the same quantity with different population variables. When we want to be specific we'll use a subscript $N_{AP}, N_{VAP}, \ldots$ or perhaps a text-function like $\text{AP}(s)$.
 
-    We will use $n_s, n_d$ similar to represent the "population of state $s$ or district $d$", with variables like $S, D$ for the number of states or districts.
+    We'll use the symbol $e_s$ for the electors assigned to state $s$, with $E = \sum_s e_s$ the total number of electors.
 
-    We'll use variables like $x, y, z$ to designate these "values" of different votes in units of $1/N$. That is, for a general popular election, every vote is worth $1$ unit:
+    Subscripts like $n_s$ and $e_s$ just given will generally represent parameters of the voting system or of reality, as opposed to results of the election or our analysis, which will be represented as functions.
 
-    $$
-    \begin{align}
-    x_i = 1 && \text{(popular vote)}
-    \end{align}
-    $$
+    We'll use variables like $x, y, z$ to name particular voters. We'll write $x \in s$ to indicate that voter $x$ belongs to state $s$, and will also use $s(x)$ to represent the state to which voter $x$ belongs.
 
-
-    where $i$ some index referring to a particular voter.
-
-    In a "weighted" election where voter $i$ is assigned $e_i$ votes, their weight should obviously be $e_i$:
-
+    Our general approach will be to attempt to define various "value of a vote functions" or "valuations", which will be some function of a voter like:
 
     $$
-    \begin{align}
-    x_i = e_i && \text{(weighted vote)}
-    \end{align}
+    V(x) = ~~ ???
     $$
 
+    We will always define a "value of a vote" such that the values across an entire population sum to $N$ (for some population variable), such that the "baseline" value of a vote is $1$, as opposed to $\frac{1}{N}$. The project is called "OneVote", after all. A valuation will usually assign the same value to a lot of voters, such as all the voters in a state, meaning that its sum is:
 
-    If we want to assign variables for the votes of specific people or states we'll use variables $u, v, w$.
+    $$
+    N = \sum_x V(x) = \sum_s n_s V(s)
+    $$
 
-    If assigning "weights" to votes as in the electoral college, we will use symbols like $e, f$ for "elector". So we might say that state $s$ has electors $e_s$. We'll use the corresponding capital $E, F$ for the total number of electors: $\sum_s e_s = E$.
+    where $V(s)$ is the value the valuation assigns to *each* voter in state $s$.
 
-    When we consider party affiliations we'll use $p, p_s$ to represent one party's share nationally or in a state, or $p_j, p_{j, s}$ with j ranging over parties.
+    Specific valuations will be written as Roman text and will always end in "V", like
+
+    $$
+    \text{AV}(x) = \frac{e_{s(x)}}{E} \cdot \frac{N}{n_{s(x)}}
+    $$
+
+    When we want to refer to the actual *vote* cast by a voter $x$ we'll use $v(x)$, which will take values in some $P$ of parties, often just $\{0, 1\}$. The vote of a state (in an electoral college, say) will be $v(s)$.
+
+    The result of an election will generally be a lower-case $r \in P$ or $r(s) \in P$. An upper-case $R$ will be used for the actual count of votes (with a sense like a random variable). $R$ alone will stand for "votes for party 1" in a two-party election $\{0, 1\}$, while $R(p)$ will stand for the count of votes for a particular party. Likewise for $R(s), R_p(s)$. The number of electors won by party $p$ in state $s$ will be written $e_p(s)$.
     """)
     return
 
@@ -268,168 +278,11 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ---
+    ## TODO to think about
 
+    Third parties.
 
-    TODO: probably treat $R$ as a sum of 0s or 1s...
-    TODO: probably remove all of this...
-
-    In a national popular election with a binary outcome, one way to determine the median is by the sign of (votes for) minus (votes against):
-
-    $$
-    \text{result} = \text{sign}\left( |\text{for}| -  |\text{against}|\right)
-    $$
-
-    If $v_i = \pm 1$ is the vote of voter $i$, and the overall result is $R = \pm 1$, then this expression is
-
-    $$
-    R_{\text{popular}} = \text{sign}\left(\sum v_i\right)
-    $$
-
-    If voters' votes have unequal weights $e_i$, then the outcome is:
-
-    $$
-    R_{\text{weighted}} = \text{sign}\left(\sum e_i v_i\right)
-    $$
-
-    In the first case the obvious "value of a vote" is $x_i = 1$ for all $i$. In the second, it is obviously $x_i = e_i$ or perhaps a normalized $x_i = \frac{e_i}{E}$.
-
-    Evidently we can quantify a voter's "influence" by considering their contribution to the "decision criteria", the sum of votes, which we'll call $r$, with the outcome being determine by $R = \text{sign}(r)$. Then in the
-
-    $$
-    \begin{align}
-    r_{\text{popular}} = \sum v_i && && && r_{\text{weighted}} = \sum e_i v_i \\
-    x_{i, \text{popular}} = 1 && && && x_{i, \text{weighted}} = e_i
-    \end{align}
-    $$
-
-    Evidently the coefficient of $v_i$ in $r$ is something like the "weight of a vote":
-
-    $$
-    x_i \stackrel{?}{=} \frac{\partial r}{\partial v_i}
-    $$
-
-    For single-tiered elections (no districts / states), this is a completely reasonable result! The trick will be generalizing it to multi-tiered elections.
-
-    For a two-tiered election (problem P3, the simplified electoral college), an exact expression for the overall decision criteria $r$ in terms of the state "votes" $R_s$ or the individual votes $v_{s, i}$ is:
-
-    $$
-    r = \sum_s e_s R_s = \sum_s e_s \cdot \text{sign}\left( \sum_i^{n_s} v_{s, i} \right)
-    $$
-
-    We can't take a derivative of $\text{sign}\left( \sum_i^{n_s} v_{s, i} \right)$, though. What *do* we do?
-    """)
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Values
-
-    Here is a first pass at designing some measures.
-
-    The first two involve L2 (apportionment) only.
-
-    **V1**: **Apportionment Weight**. We simply divide the electors for each state by the population, giving $x_s \propto \frac{e_s}{n_s}$ for state $s$, then scale so they sum to $N$:
-
-    $$
-    \begin{align}
-    x_s &= \frac{e_s / E}{n_s / N} \\
-    \sum_s n_s x_s &= N \sum_s \frac{e_s}{E} = N
-    \end{align}
-    $$
-
-    This is "L2" measure--it depends on apportionment only, and knows nothing of "swing states" or the like. It might also be called "relative representation". It could be easily adapted into meaures on the House and Senate as well.
-
-    - can this be written as an appropriate generalization of the derivative above?
-    - this measure would treat perfectly proportional apportionments $e_i \propto \frac{n_i}{N}$ as perfectly fair, even if they are WTA.
-
-    **V2**, wasted votes at L2.
-
-    - Without using party affiliation at all, how "susceptible" is an apportionment scheme to wasting votes, just due to the fact that $e_s$ votes swing together?
-    - The idea here is to use to only L2 apportionment data, but to penalize WTA at the state/district level.
-    - It will simplest to try to distinguish just the effects of grouping $n_s$ voters into "states" with vote $n_s$. We can handle the uneven apportionment separately (e.g. by V1). Ideally this will make V1 and V2 "orthogonal" to each other.
-    - V2 is basically a measure of "coarse graining", then. The value of a vote in state should go down as the size of the state grows.
-      - But when the state size reaches $N$, we just have a general election again, but now at a lower level: the entire election is decided "within the state".
-      - Does this mean the valuation has a minimum? Or should it go to zero, but the valuation "within the state" then dominates?
-      - Could it just be a sum like $\propto \frac{1}{n_s} + \frac{n_s}{N}$?
-      - Of course, within a WTA state, a vote is perfectly fair. Where it's unfair is the level above this.
-    - Everyone in the same state should have the same value. Once a state reaches 50% of the population the value of all other states becomes exactly zero, and its members reach 1.
-    - We probably cannot require that coarse-graining affects only the voters within the affected states.
-    - We may not be able to meet all those demands with the same measure, especially if it's normalized.
-
-    **V3**: wasted votes at L3.
-
-    - Here we can use the outcomes/party affiliations, either ex ante or ex post.
-    - This should capture the size of the "flat" region in which a change in $r_s$ does not affect $r$.
-    - That is, it should capture "waste from districts".
-    - Ideally it would also depend on the national margin.
-
-
-    - One idea: $x_i = 0$ for losing party, $x_i = \frac{1/2}{p_s}$ for winning party. Harsh for losers but basically captures the winner-take-all nature of state electors.
-    - Another idea: $1 - \frac{L_s + (W_s - \frac{1}{2})}{n_s} = \frac{1}{2} - |p_s - \frac{1}{2}|$
-      - $p_s = 0, 1 \to 0$, $p_s = \frac12 \to \frac{1}{2}$.
-
-    - Might be better to think about "influence on candidates"
-      - Some function of the margin of victory with $f(0) = 1$, decreasing?
-        - Could compare to national margin: $\frac{f(m_s)}{f(m)}$.
-        - What function? tanh? or just $1 - 2m$.
-
-
-
-    **V4**: probability of a decisive vote?
-    - there's established theory here.
-
-
-    **V5**: some kind of smoothed $\tanh$ derivative things?
-
-    $$
-    \text{sign}(r_s) \longrightarrow \sigma(r_s / \tau_s)
-    $$
-
-    - Can get V1 in the vicinity of $r_s = 0$ if we take $\sigma'(0) = \frac{1}{n_s}$, maybe?
-
-    **V6**: some other interpretation of the derivative $\frac{\partial r}{\partial  v_{s,i}}$, like an expectation over permutations of voters or something.
-    """)
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    # Measures
-
-    Based on values?
-    - mean absolute deviation (MAD)
-    - mean square deviation (MSD), or root
-    - Shannon entropy of the set $\{x_i\}$, or perhaps relative entropy to the uniform
-
-    **M1**. Apportionment only, L2
-
-    **M2**. Wasted-vote efficiency gap?
-    - wasted votes assigning zero value to losers feels weird, but maybe that's right for winner-take-all.
-    - [see here](https://www.brennancenter.org/sites/default/files/legal-work/How_the_Efficiency_Gap_Standard_Works.pdf)
-    """)
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    ## Third Parties?
-
-    TBD
-    """)
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    value functions V(x)....
-
-    a measure which depends only on the electors which go to each party, not on the votes themselves?
+    Abstentions.
     """)
     return
 
