@@ -116,7 +116,7 @@ def viz_value_vs_ec_popular_by_year(df, column_name: str, value_name: str, selec
         year_data = df[df['year'] == year].copy()
 
         # Total metrics
-        total_ec = year_data['state_electors'].sum()
+        total_ec = year_data['electors'].sum()
         total_votes = year_data['votes_total'].sum()
 
         # Party metrics - use actual vote columns
@@ -137,7 +137,7 @@ def viz_value_vs_ec_popular_by_year(df, column_name: str, value_name: str, selec
         total_v_weighted_votes = (year_data[column_name] * year_data['votes_total']).sum()
 
         # Determine national winner (party with most EC)
-        national_winner = year_data.groupby('winning_party')['state_electors'].sum().idxmax()
+        national_winner = year_data.groupby('winning_party')['electors'].sum().idxmax()
 
         party_stats_list.append({
             'year': year,
@@ -267,6 +267,8 @@ def viz_scatter_compare(df, x: str, x_name: str, y: str, y_name: str, year: int,
 
 
 def viz_measure_over_time(df, column_name):
+    # TODO: make this less sensitive to column names
+
     # Compute the three inequality measures for each year
     inequality_stats = []
 
@@ -276,7 +278,7 @@ def viz_measure_over_time(df, column_name):
         # For each voter (approximated by vote), calculate the AV
         # We'll weight by state_population to get the voter-level statistics
         _v_values = _year_data[column_name].values
-        _pop = _year_data['state_population'].values
+        _pop = _year_data['apportionment_population'].values
         _N = _pop.sum()
 
         # 1. Mean Absolute Deviation: (1/N) * sum(|AV(x) - 1|)
@@ -293,7 +295,7 @@ def viz_measure_over_time(df, column_name):
         _relative_entropy = _r / _N
 
         # Determine national winner
-        _national_winner = _year_data.groupby('winning_party')['state_electors'].sum().idxmax()
+        _national_winner = _year_data.groupby('winning_party')['electors'].sum().idxmax()
 
         inequality_stats.append({
             'year': _year,

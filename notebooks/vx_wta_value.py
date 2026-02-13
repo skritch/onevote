@@ -38,21 +38,20 @@ def _(data):
 
     # Calculate national totals by year
     national_totals = data_with_av.groupby('year').agg({
-        'state_electors': 'sum',
-        'state_population': 'sum'
+        'electors': 'sum',
+        'apportionment_population': 'sum'
     }).rename(columns={
-        'state_electors': 'national_electors',
-        'state_population': 'national_population'
+        'electors': 'national_electors',
+        'apportionment_population': 'national_apportionment_population'
     })
 
     # Merge national totals back to dataframe
     data_with_av = data_with_av.merge(national_totals, left_on='year', right_index=True)
 
-    # Calculate apportionment value
-    data_with_av['apportionment_value'] = (
-        (data_with_av['state_electors'] / data_with_av['state_population']) *
-        (data_with_av['national_population'] / data_with_av['national_electors'])
-    )
+    data_with_av['apportionment_population_pct'] = 100 * data_with_av['apportionment_population'] / data_with_av['national_apportionment_population']
+    data_with_av['elector_pct'] = 100 * data_with_av['electors'] / data_with_av['national_electors']
+    data_with_av['apportionment_value'] = data_with_av['elector_pct'] / data_with_av['apportionment_population_pct']
+
 
     data_with_av.head(2)
     return

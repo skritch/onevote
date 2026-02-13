@@ -27,12 +27,12 @@ def _():
 
     # Calculate national totals by year
     national_totals = data.groupby('year').agg({
-        'state_electors': 'sum',
-        'state_population': 'sum',
+        'electors': 'sum',
+        'apportionment_population': 'sum',
         'votes_total': 'sum'
     }).rename(columns={
-        'state_electors': 'national_electors',
-        'state_population': 'national_population',
+        'electors': 'national_electors',
+        'apportionment_population': 'national_apportionment_population',
         'votes_total': 'national_votes_total'
     })
 
@@ -40,8 +40,8 @@ def _():
 
     # Merge national totals back to dataframe
     data = data.merge(national_totals, left_on='year', right_index=True)
-    data['state_population_pct'] = 100 * data['state_population'] / data['national_population']
-    data['state_elector_pct'] = 100 * data['state_electors'] / data['national_electors']
+    data['apportionment_population_pct'] = 100 * data['apportionment_population'] / data['national_apportionment_population']
+    data['elector_pct'] = 100 * data['electors'] / data['national_electors']
 
 
     data.head()
@@ -66,17 +66,13 @@ def _():
     - or it contributes to a winning candidate but in excess of the threshold required to win (= half the total votes, under our simplified model with no abstentions, but in a model with abstentions could be argued to be the losing party's vote total instead.)
 
 
-    TODO: efficiency gap here
-
-
-
     Let's devise some notation. We'll use $v(x)$ to represent a candidate's vote, and v(s) to represent the vote of an entire state. Let
 
     $$
-    R_{v, s} = \sum_{\substack{x \in s \\ v(x) = v}} 1
+    R_p(s) = \sum_{\substack{x \in s \\ v(x) = p}} 1
     $$
 
-    be the number of votes equal to some $v$ in state $s$.
+    be the number of votes equal to some party $p$ in state $s$.
 
     ---
     """)
@@ -98,12 +94,12 @@ def _():
 
     $$
     \begin{align}
-    \text{Wasted}_{v, s} &= \begin{cases}
-      R_{v, s} - \frac{n_s}{2} & (R_{v, s} > \frac{n_s}{2})\\
-      R_{v, s}  & (R_{v, s} < \frac{n_s}{2})\\
+    \text{Wasted}_p(s) &= \begin{cases}
+      R_p(s) - \frac{n_s}{2} & (R_p(s) > \frac{n_s}{2})\\
+      R_p(s)  & (R_p(s) < \frac{n_s}{2})\\
     \end{cases}\\
     \text{EffGap}_1[P2] &= \frac{\text{Wasted}_{1} - \text{Wasted}_{0}}{N} \\
-      &= \frac{\sum_s (\text{Wasted}_{1, s} - \text{Wasted}_{0, s})}{N}
+      &= \frac{\sum_s (\text{Wasted}_1(s) - \text{Wasted}_0(s))}{N}
     \end{align}
     $$
 
@@ -112,7 +108,7 @@ def _():
     This is clearly restricted to $[-1, 1]$, but as no particular state election can have more than $\frac{n_s}{2}$ of its votes wasted, it really only ranges from $[-\frac{1}{2}, \frac{1}{2}]$. One of these bounds would be realized in a fully general election—so the quantity of interest to me should divide by $N/2$ instead, and should subtract the winners from the losers, as all but the most pathological cases, this will produce a positive number.
 
     $$
-    \text{EffGap}[P2] = \frac{\sum_s (\text{Wasted}_{L, s} - \text{Wasted}_{W, s})}{N/2}
+    \text{EffGap}[P2] = \frac{\sum_s (\text{Wasted}_L(s) - \text{Wasted}_W(s))}{N/2}
     $$
 
     For now we won't consider "abstentions", so we should use the total number of votes cast for $N$, rather than the number of eligible voters.
@@ -229,6 +225,14 @@ def _(efficiency_gap_df):
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
+    Interesting that it actually goes negative a couple of times.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
     ## **V3**: Wasted Vote Value
     """)
     return
@@ -241,11 +245,11 @@ def _():
 
     My first problem with it is that it does not feel useful or interesting treat *some* of the winning votes as wasted while others are not.
 
-    By the standard definition of waste, $R_{v, s} - \frac{n_s}{2}$ of the winning party's votes in a state $s$ are "wasted", while $\frac{n_s}{2}$ are "counted". All the votes for the losing party are "wasted" was well, for a total of half of the state's votes; Efficiency Gap just measures how these fall out along party lines. Then, along the lines of our earlier WTAV, each of the non-wasted votes has a value of $2 AV(s)$ in the national election, such that the state as a whole is worth its usual $\frac{e_s}{E}N$.
+    By the standard definition of waste, $R_p(s) - \frac{n_s}{2}$ of the winning party's votes in a state $s$ are "wasted", while $\frac{n_s}{2}$ are "counted". All the votes for the losing party are "wasted" was well, for a total of half of the state's votes; Efficiency Gap just measures how these fall out along party lines. Then, along the lines of our earlier WTAV, each of the non-wasted votes has a value of $2 AV(s)$ in the national election, such that the state as a whole is worth its usual $\frac{e_s}{E}N$.
 
-    But without some notion of the "ordering" of the votes, we can't say *which* are wasted. So we might as well say every one of the $R_{v,s}$ votes is worth a fraction $\frac{n_s/2}{R_{v, s}}$ of what it would otherwise be worth. If 70% of the state votes for the winning candidate, $\frac{5}{7}$ of each of those votes "counts" and the remainder is wasted, as are all votes for the other candidates.
+    But without some notion of the "ordering" of the votes, we can't say *which* are wasted. So we might as well say every one of the $R_p(s)$ votes is worth a fraction $\frac{n_s/2}{R_p(s)}$ of what it would otherwise be worth. If 70% of the state votes for the winning candidate, $\frac{5}{7}$ of each of those votes "counts" and the remainder is wasted, as are all votes for the other candidates.
 
-    That is: all of the $R_{v,s}$ votes for the winning party are worth $\frac{n_s/2}{R_{v, s}} \cdot 2 \cdot \frac{e_s / E}{n_s / N} = \frac{e_s / E}{R_{v, s} / N}$ each.
+    That is: all of the $R_p(s)$ votes for the winning party are worth $\frac{n_s/2}{R_p(s)} \cdot 2 \cdot \frac{e_s / E}{n_s / N} = \frac{e_s / E}{R_p(s) / N}$ each.
 
     The weights are already normalized: in each state the sum over the winning party comes to $\frac{e_s}{E}N$, which sums to $N$ over all states.
 
@@ -254,7 +258,7 @@ def _():
     $$
     \begin{align}
     \text{WVV}(x) = \begin{cases}
-    \frac{e_{s(x)} / E}{R_{v(x), s(x)} /N} && v(x) = v(s(x)) \\
+    \frac{e_{s(x)} / E}{R_{v(x)}(s(x)) /N} && v(x) = v(s(x)) \\
     0 && v(x) \ne v(s(x))
     \end{cases}
     \end{align}
@@ -284,7 +288,7 @@ def _(data_with_wv, year_dropdown):
         lambda row: max(row['votes_democrat'], row['votes_republican']), axis=1
     )
 
-    data_with_wv['wvv_winner'] = (data_with_wv['state_electors'] * data_with_wv['national_votes_total']) / (data_with_wv['national_electors'] * data_with_wv['winning_party_votes'])
+    data_with_wv['wvv_winner'] = (data_with_wv['electors'] * data_with_wv['national_votes_total']) / (data_with_wv['national_electors'] * data_with_wv['winning_party_votes'])
 
     viz.viz_value_by_state(data_with_wv, "wvv_winner", "Winning Party's Wasted Votes Value", year_dropdown.value)
     return
@@ -305,7 +309,7 @@ def _():
 @app.cell(hide_code=True)
 def _(data_with_wv, year_dropdown):
 
-    data_with_wv['apportionment_value'] = data_with_wv['state_elector_pct'] / data_with_wv['state_population_pct']
+    data_with_wv['apportionment_value'] = data_with_wv['elector_pct'] / data_with_wv['apportionment_population_pct']
 
     viz.viz_scatter_compare(
         data_with_wv,

@@ -208,7 +208,7 @@ def _():
 
     $$
     \begin{align}
-    \text{WVV}(x) = \frac{e_{s(x)} / E}{r_{s(x), v(x)} / N} && && \text{(winners only)}
+    \text{WVV}(x) = \frac{e_{s(x)} / E}{R_{v(x)}(s(x)) / N} && && \text{(winners only)}
     \end{align}
     $$
 
@@ -438,7 +438,7 @@ def _():
     For WVV, we again separate the Senate and House electors into separate terms, for the winners only:
 
     $$
-    \text{WVV}(x) = \frac{e_{s(x)} / E}{r_{s(x), v(x)} / N} + \frac{e_{d(x)} / E}{r_{d(x), v(x)} / N}
+    \text{WVV}(x) = \frac{e_{s(x)} / E}{r_{v(x)}(s(x)) / N} + \frac{e_{d(x)} / E}{r_{v(x)}(d(x)) / N}
     $$
 
     and use VP.
@@ -645,7 +645,7 @@ def _():
 
     This should be unchanged.
 
-    (Could we compute another version of with the exact elector count $\frac{e_{s, v} / E}{r_{s, v} / N_{VP}}$. (This would basically be WVV... feels a little odd.)
+    (Could we compute another version of with the exact elector count $\frac{e_p(s) / E}{R_p(s) / N_{VP}}$. (This would basically be WVV... feels a little odd.)
 
     **PV**
 
@@ -676,7 +676,7 @@ def _():
 
     **WVV**
 
-    We just do $\frac{e_{s, v} / E}{r_{s, v} / N}$ for both sides. Easy.
+    We just do $\frac{e_p(s) / E}{R_p(s) / N}$ for each party. Easy.
 
     Note that, for a given party, this will drop as votes increase, and then spike each time a new elector is acquired. Somewhat pathological (but not really moreso than WVV ever is, I suppose.)
     """)

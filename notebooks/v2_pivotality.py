@@ -282,7 +282,7 @@ def _():
 
     So the probability of the election being close at all scales as $\frac{1}{\sqrt{N}}$ as well. (Only under our completely-random model—real elections do not fit this model at all!)
 
-    It feels likely at this point that many "reasonable" definitions of the weight of votes will reproduce the $\frac{1}{\sqrt{N}}$ scaling. Here I wonder if there might be others which are more palatable than either "probability of being pivotal" or "probability of the election being close".
+    It feels likely at this point that many "reasonable" definitions of the power of a votes will reproduce the $\frac{1}{\sqrt{N}}$ scaling. Here I wonder if there might be others which are more palatable than either "probability of being pivotal" or "probability of the election being close".
 
 
     I still have a reservation along the lines of: what if you have additional information that the election *isn't* close? Logically, does this measure of pivotality just cease to mean anything? How do we handle this? One answer might be that all information you could have is probabilistic, and the probability of a close election never goes to *zero* (considering unforeseeable rare events that might come up before the moment your vote is cast, unreliability of information, etc); there should still be some pivot probability which can be compared, even if it's low. We'll punt on taking this further for now. Here I think of calculating the pivot probability over a different distribution based on historical party shares or something. This would be viable as a metric!
@@ -305,7 +305,7 @@ def _():
 
     Obviously in a single-tiered system every voter had an *equal* probability of being pivotal.
 
-    If we imagine a two-tiered system where every state gets just one vote, the probability of a voter being pivotal *nationally* looks like:
+    If we imagine a two-tiered system where every state gets just one vote, the probability of a voter being pivotal *nationally* would obviously be:
 
     $$
     \begin{align}
@@ -440,11 +440,14 @@ def _(data):
 
     # Calculate national totals by year
     national_totals = data_with_av.groupby('year').agg({
-        'state_electors': 'sum',
-        'state_population': 'sum'
+        'electors': 'sum',
+        'apportionment_population': 'sum',
+        'vap_estimate': 'sum',
+        'vep_estimate': 'sum'
     }).rename(columns={
-        'state_electors': 'national_electors',
-        'state_population': 'national_population'
+        'electors': 'national_electors',
+        'apportionment_population': 'national_apportionment_population',
+        'vep_estimate': 'national_vep_estimate'
     })
 
 
@@ -452,9 +455,9 @@ def _(data):
     # Merge national totals back to dataframe
     data_with_av = data_with_av.merge(national_totals, left_on='year', right_index=True)
 
-    data_with_av['state_population_pct'] = 100 * data_with_av['state_population'] / data_with_av['national_population']
-    data_with_av['state_elector_pct'] = 100 * data_with_av['state_electors'] / data_with_av['national_electors']
-    data_with_av['apportionment_value'] = data_with_av['state_elector_pct'] / data_with_av['state_population_pct']
+    data_with_av['apportionment_population_pct'] = 100 * data_with_av['apportionment_population'] / data_with_av['national_apportionment_population']
+    data_with_av['elector_pct'] = 100 * data_with_av['electors'] / data_with_av['national_electors']
+    data_with_av['apportionment_value'] = data_with_av['elector_pct'] / data_with_av['apportionment_population_pct']
 
 
     # Calculate Pivotality Value (PV) as defined in line 372-374
@@ -463,11 +466,11 @@ def _(data):
     # Group by year to calculate PV for each year separately
     def calculate_pv(group):
         # Calculate the denominator: sum of e_s * sqrt(n_s) for all states
-        denominator = (group['state_electors'] * np.sqrt(group['state_population'])).sum()
+        denominator = (group['electors'] * np.sqrt(group['vep_estimate'])).sum()
 
         # Calculate PV for each state
         group['pivotality_value'] = (
-            (group['national_population'] * group['state_electors'] / np.sqrt(group['state_population'])) /
+            (group['national_vep_estimate'] * group['electors'] / np.sqrt(group['vep_estimate'])) /
             denominator
         )
         return group
@@ -492,7 +495,7 @@ def _(data_with_pv, year_dropdown):
 
 @app.cell(hide_code=True)
 def _(data_with_pv, year_dropdown):
-
+    # TODO: probably uses wrong P variable
     viz.viz_value_hist(data_with_pv, "pivotality_value", "Pivotality Value", year_dropdown.value)
     return
 

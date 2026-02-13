@@ -55,14 +55,11 @@ def _():
     $$
     \begin{align}
     \sum_x V(x) &= \sum_x \frac{e_{s(x)}}{n_{s(x)}}\\
-      &= \sum_{s \in S} \sum_{x\in s} \frac{e_{s}}{n_{s}} \\
-      &= \sum_{s \in S} \frac{e_{s}}{n_{s}} \cdot n_s\\
+      &= \sum_{s \in S} n_s \frac{e_{s}}{n_{s}} \\
       &= \sum_{s \in S} e_s \\
       &= E
     \end{align}
     $$
-
-    (For brevity we use the state $s \in S$ both as a set of voters $x \in s$ and as a function giving the state to which a given voter belongs $s(x)$.)
 
     Therefore we should scale the above by $\frac{N}{E}$ such that $\sum_{x} V(x) = N$:
 
@@ -156,19 +153,19 @@ def _(data):
 
     # Calculate national totals by year
     national_totals = data_with_av.groupby('year').agg({
-        'state_electors': 'sum',
-        'state_population': 'sum'
+        'electors': 'sum',
+        'apportionment_population': 'sum'
     }).rename(columns={
-        'state_electors': 'national_electors',
-        'state_population': 'national_population'
+        'electors': 'national_electors',
+        'apportionment_population': 'national_apportionment_population'
     })
 
     # Merge national totals back to dataframe
     data_with_av = data_with_av.merge(national_totals, left_on='year', right_index=True)
 
-    data_with_av['state_population_pct'] = 100 * data_with_av['state_population'] / data_with_av['national_population']
-    data_with_av['state_elector_pct'] = 100 * data_with_av['state_electors'] / data_with_av['national_electors']
-    data_with_av['apportionment_value'] = data_with_av['state_elector_pct'] / data_with_av['state_population_pct']
+    data_with_av['apportionment_population_pct'] = 100 * data_with_av['apportionment_population'] / data_with_av['national_apportionment_population']
+    data_with_av['elector_pct'] = 100 * data_with_av['electors'] / data_with_av['national_electors']
+    data_with_av['apportionment_value'] = data_with_av['elector_pct'] / data_with_av['apportionment_population_pct']
 
 
     data_with_av.head(2)
@@ -202,8 +199,8 @@ def _():
 def _(data_with_av, year_dropdown):
     viz.viz_scatter_compare(
         data_with_av,
-        "state_population_pct", "% of National Populaton",
-        "state_elector_pct", "% of National Electors",
+        "apportionment_population_pct", "% of National Populaton",
+        "elector_pct", "% of National Electors",
         year_dropdown.value
     )
     return
@@ -212,7 +209,7 @@ def _(data_with_av, year_dropdown):
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    That's actually surprisingly linear—the main inequality is the non-zero intercept with the elector axis, due to the floor of 3 electors.
+    The main inequality is the non-zero intercept with the elector axis, due to the floor of 3 electors.
 
     Now we can view AV vs state populations in another way. Note that in a general popular election, AV would *not vary* with population.
     """)
@@ -223,7 +220,7 @@ def _():
 def _(data_with_av, year_dropdown):
     viz.viz_scatter_compare(
         data_with_av,
-        "state_population_pct", "% of National Populaton",
+        "apportionment_population_pct", "% of National Populaton",
         "apportionment_value", "Apportionment Value",
         year_dropdown.value
     )
