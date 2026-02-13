@@ -21,7 +21,6 @@ with app.setup(hide_code=True):
     import viz
 
 
-
 @app.cell
 def _():
     # Parse command line arguments
@@ -48,11 +47,10 @@ def _():
 def _():
     mo.md(r"""
     This notebook calculates various "value functions" for various presidential election scenarios.
-    - 3 values (AV, PV, WVV)
-    - with AV, PV implemented for 4 definitions of "population" (AP, VAP, VEP, VP)
+    - 3 values: AV, PV, WVV.
+      - with AV for 4 definitions of "population": AP, VAP, VEP, VP
+      - PV for VAP, VEP, VP
     - times 4 (currently) scenarios (P1=general election, P2=simplified electoral college, etc.)
-
-    The resulting dataframes are inputs to the OneVote webapp.
 
     Each scenario outputs its value along a dimension which is a product of:
     - a spatial granularity: nationally, by state, or by district
@@ -68,13 +66,12 @@ def _():
     - district granularity is only supported after 2012
       - TODO: we can probably support populations going back much further, but electoral results are harder.
 
-
-    I anticipate the frontend will want to do both of:
+    The resulting dataframes are intended as inputs to the OneVote webapp. I anticipate the frontend will want to do all of the following:
     - compare values for the same scenario
     - compare scenarios for the same values
     - compare across years for the same scenarios and values
 
-    so no grouping by "values", "scenarios", or "years" is particularly preferable over the others.  Currently, for simplicity, I'm going to group by scenario, as the scenarios each produce values along different dimensions, and we don't have a correct district dimension pre-2012.
+    Therefore no grouping by "values", "scenarios", or "years" will be particularly preferable over the others.  Currently, for simplicity, I'm going to group by scenario, as the scenarios each produce values along different dimensions, and we don't have a correct district dimension pre-2012.
     - Later we may prefer dict-of-JSONs
     - Later we may be want to split this by scenario or by value.
 
@@ -195,9 +192,7 @@ def _():
 
     As a measure of apportionment, $n_s$ should be the apportionment population (AP). As a measure of the value of a vote it would use voting-eligible population (VEP) (which would make it a "potential" value of a vote, ex ante) or voting population (VP) (which would make it an ex post "actual" value of a vote).
 
-    We'll calculate all *four* as `av_ap`, `av_vap`, `av_vep`, and `av_vp`.
-    - currently have no VAP/VEP for 1976
-    - no VEP at district-level
+    We'll calculate all four as columns `av_ap`, `av_vap`, `av_vep`, and `av_vp`.
 
     **V2**. Pivotality Value
 
@@ -205,7 +200,9 @@ def _():
     \text{PV}(x) = \frac{ e_{s(x)} \sqrt{n_{s(x)}} / \sum_s e_s \sqrt{n_s}}{n_s / N}
     $$
 
-    In this measure $n_s$ and $N$ should probably be VEP, as only potential voters have a chance of being "pivotal" at all. VP might be fine too, but has the usual downside of being causally downstream of the voting system itself; the (already suspect) hypothesis of a "uniform distribution" over outcomes is even less plausible as a distribution over the results of the votes actually cast.
+    In this measure $n_s$ and $N$ should probably be VEP, as only potential voters have a chance of being "pivotal" at all. VAP is quite similar and more available, so we'll also use this.
+
+    VP might be fine too, but has the usual downside of being causally downstream of the voting system itself; the (already suspect) hypothesis of a "uniform distribution" over outcomes is even less plausible as a distribution over the results of the votes actually cast.
 
     **V3**. Wasted Vote Value
 
@@ -398,7 +395,7 @@ def _(data_p2, state1_dropdown, state2_dropdown, year_dropdown):
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    ## P3
+    ## P3: Actual Electoral College
 
     Today, both Maine and Nebraska assign their 2 "Senate" electors to the winner of the state election, but assign their "House" electors to the popular-vote winner in each congressional district.
 
@@ -565,7 +562,7 @@ def _(
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    ## P4
+    ## P4: Electors by Districts
 
     Like P3, but we apply the same logic to every state, so it's simpler.
     """)
@@ -634,7 +631,7 @@ def _():
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    ## P5
+    ## P5: Party-Proportional Electors
 
     Here we assign the current number of electors, at the state level, in proportion to the popular vote. We'll include third parties, why not, but will pretend all "other" votes comprise a single party for now.
 
@@ -708,7 +705,7 @@ def calc_electors_party_proportional(row):
     d_rem = row['votes_democrat'] - d * quota
     r_rem = row['votes_republican'] - r * quota
     o_rem = row['votes_other'] - o * quota
-    
+
     if e_rem == 0:
         return (d, r, o)
     if e_rem == 1:
@@ -733,7 +730,7 @@ def _(data_state, population_cols):
     for _p, _pcols in population_cols.items():
         # Assign AV
         data_p5[f"av_{_p}"] = (data_p5['state_electors'] / data_p5['national_electors']) / (data_p5[_pcols.s] / data_p5[_pcols.n])
-    
+
         # Assign PV
         # data_p5[f"pv_{_p}"] = data_p2.groupby("year").apply(calculate_pv, pcols=_pcols).reset_index(drop=True)
 

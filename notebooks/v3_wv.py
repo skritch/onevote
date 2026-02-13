@@ -229,7 +229,7 @@ def _(efficiency_gap_df):
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    ## Wasted Vote Value
+    ## **V3**: Wasted Vote Value
     """)
     return
 

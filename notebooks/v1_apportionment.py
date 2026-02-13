@@ -371,12 +371,9 @@ def _():
 
     What "population" variable should we use?
     - The obvious guess is "apportionment population", but not everyone counted in AP can vote
-      - This suggests we might use VEP or VP
-    - If we want to gauge the effect of AV in an actual election, it would seem we should use VP, but VP is downstream of actual turnout, which we expect to be affected by incentivize to vote under apportionment.
-      - Therefore VEP is probably best
-    - But then do we use VEP in the definition of AV, or only in the definition of App. Inequality?, i.e. in the means?
-      - Probably the latter, but still use AP in AV itself
-      - It might be interesting, separately, to compute AV in terms of VEP or VP
+    - Using VAP/VEP makes it a measure of "average impact on the election over potential voters"
+    - Using VP makes it an average over actual voters
+      - but VP is downstream of actual turnout, which we expect to be affected by incentivize to vote under apportionment.
 
 
 
@@ -399,9 +396,6 @@ def _():
     Other questions:
     - Is it worth considering relative entropy going the other way, $H[1/N ~\Vert~ \text{AV}/N]$? AI tells me this is called a "Theil index" of inequality, but I can't see the sense in it.
     - Worth considering RMS w.r.t. 0 instead of 1?
-
-    TODO:
-    - compare these measures between P1-P5
     """)
     return
 

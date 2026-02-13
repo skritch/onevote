@@ -16,7 +16,9 @@ with app.setup:
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    # **V3**: Pivot Probability
+    # **V2**: Pivotolity Value
+
+    a.k.a. Banzhaf Power.
     """)
     return
 
@@ -563,7 +565,7 @@ def _():
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    # **M3**: Pivotality Value Inequality
+    # **M2**: Pivotality Value Inequality
     """)
     return
 
@@ -576,7 +578,7 @@ def _():
 
     To simplify the expressions we'll write the denominator as $Z = \sum_{s} e_{s} \sqrt{n_{s}}$. Our PV function is then written $\text{PV}(x) = \frac{ e_{s(x)} \sqrt{n_{s(x)}} / Z}{n_s / N}$
 
-    **M3.1** Mean absolute deviation (MAD):
+    **M2.1** Mean absolute deviation (MAD):
 
 
     $$
@@ -589,7 +591,7 @@ def _():
 
     We get the average difference between the state's share of the national $e_{s}\sqrt{n_{s}}$ and its share of $n_s$ alone.
 
-    **M3.2** Variance:
+    **M2.2** Variance:
 
     $$
     \begin{align}
@@ -600,7 +602,7 @@ def _():
     $$
 
 
-    **M3.3** Relative Entropy with respect to a popular election:
+    **M2.3** Relative Entropy with respect to a popular election:
 
 
     $$
