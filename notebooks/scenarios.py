@@ -27,8 +27,8 @@ def _():
 @app.cell
 def _():
     population_cols = {
-        'ap': ("national_population", "state_population", "district_census_population"),
-        'vap': ("national_vap_estimate", "state_vap_estimate", "district_census_vap"),
+        'ap': ("national_apportionment_population", "state_apportionment_population", "apportionment_population"),
+        'vap': ("national_vap_estimate", "state_vap_estimate", "apportionment_voting_age_population"),
         'vep': ("national_vep_estimate", "state_vep_estimate", None),
         'vp': ("national_votes_total", "state_votes_total", "votes_total"),
     }
@@ -55,22 +55,29 @@ def _():
     )
 
     national_totals = data_state.groupby('year').agg({
-        'state_electors': 'sum',
-        'state_population': 'sum',
-        'state_vap_estimate': 'sum',
-        'state_vep_estimate': 'sum',
+        'electors': 'sum',
+        'apportionment_population': 'sum',
+        'vap_estimate': 'sum',
+        'vep_estimate': 'sum',
         'votes_total': 'sum'
     }).rename(columns={
-        'state_electors': 'national_electors',
-        'state_population': 'national_population',
-        'state_vap_estimate': 'national_vap_estimate',
-        'state_vep_estimate': 'national_vep_estimate',
+        'electors': 'national_electors',
+        'apportionment_population': 'national_apportionment_population',
+        'vap_estimate': 'national_vap_estimate',
+        'vep_estimate': 'national_vep_estimate',
         'votes_total': 'national_votes_total'
     })
 
 
     # Merge national totals back to dataframe
     data_state = data_state.merge(national_totals, left_on='year', right_index=True)
+    data_state = data_state.rename(columns={
+        'electors': 'state_electors',
+        'apportionment_population': 'state_apportionment_population',
+        'vap_estimate': 'state_vap_estimate',
+        'vep_estimate': 'state_vep_estimate',
+        'votes_total': 'state_votes_total'
+    })
 
     data_state.head(2)
     return data_state, national_totals
@@ -91,9 +98,9 @@ def _(data_state, national_totals):
     data_district = data_district.merge(national_totals, left_on='year', right_index=True)
 
 
-    state_totals: pd.DataFrame = data_state[['year', 'state', 'state_electors', 'state_population', 
+    state_totals: pd.DataFrame = data_state[['year', 'state', 'state_electors', 'state_apportionment_population', 
                                              'state_vep_estimate', 'state_vap_estimate', 'votes_democrat', 
-                                             'votes_republican', 'winning_party', 'votes_total']].copy()
+                                             'votes_republican', 'winning_party', 'state_votes_total']].copy()
 
     state_totals = state_totals.rename(columns={
         'votes_total': 'state_votes_total',
@@ -217,42 +224,31 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _(data_state):
+def _(data_state, population_cols):
     data_p2 = data_state.copy()
-    data_p2["av_ap"] = (data_p2['state_electors'] / data_p2['national_electors']) / (data_p2['state_population'] / data_p2['national_population'])
-    data_p2["av_vap"] = (data_p2['state_electors'] / data_p2['national_electors']) / (data_p2['state_vap_estimate'] / data_p2['national_vap_estimate'])
-    data_p2["av_vep"] = (data_p2['state_electors'] / data_p2['national_electors']) / (data_p2['state_vep_estimate'] / data_p2['national_vep_estimate'])
-    data_p2["av_vp"] = (data_p2['state_electors'] / data_p2['national_electors']) / (data_p2['votes_total'] / data_p2['national_votes_total'])
 
     # Calcualtes PV(x) = (N * e_s / sqrt(n_s)) / (sum of e_s * sqrt(n_s) for all s)
     # Using 
     def calculate_pv(group, p='vep'):
-
-        p_cols = {
-            'ap': ("state_population", "national_population"),
-            'vap': ("state_vap_estimate", "national_vap_estimate"),
-            'vep': ("state_vep_estimate", "national_vep_estimate"),
-            'vp': ("votes_total", "national_votes_total"),
-        }
-
         # Calculate the denominator: sum of e_s * sqrt(n_s) for all states
         denominator = (
-            group["state_electors"] * np.sqrt(group[p_cols[p][0]])
+            group["state_electors"] * np.sqrt(group[population_cols[p][1]])
         ).sum()
 
         # Calculate PV for each state
         pv_values = (
-            group[p_cols[p][1]]
+            group[population_cols[p][0]]
             * group["state_electors"]
-            / np.sqrt(group[p_cols[p][0]])
+            / np.sqrt(group[population_cols[p][1]])
         ) / denominator
         return pv_values
 
-    # Assign PV
-    data_p2["pv_ap"] = data_p2.groupby("year").apply(calculate_pv, p='ap').reset_index(drop=True)
-    data_p2["pv_vap"] = data_p2.groupby("year").apply(calculate_pv, p='vap').reset_index(drop=True)
-    data_p2["pv_vep"] = data_p2.groupby("year").apply(calculate_pv, p='vep').reset_index(drop=True)
-    data_p2["pv_vp"] = data_p2.groupby("year").apply(calculate_pv, p='vp').reset_index(drop=True)
+    for _p, (_n, _s, _d) in population_cols.items():
+        # Assign AV
+        data_p2[f"av_{_p}"] = (data_p2['state_electors'] / data_p2['national_electors']) / (data_p2[_s] / data_p2[_n])
+        # Assign PV
+        data_p2[f"pv_{_p}"] = data_p2.groupby("year").apply(calculate_pv, p=_p).reset_index(drop=True)
+    
 
     data_p2["wvv_democrat"] = data_p2.apply(
         lambda row: (row["state_electors"] * row["national_votes_total"])
@@ -429,7 +425,6 @@ def _(population_cols):
             return (state_part[0] + district_const / row['votes_democrat'], state_part[1])
         else:
             return (state_part[0], state_part[1] + district_const / row['votes_republican'])
-
     return av_for_district, pv_for_district, wvv_for_district
 
 
@@ -437,7 +432,6 @@ def _(population_cols):
 def _(
     av_for_district,
     data_district: pd.DataFrame,
-    data_state,
     population_cols,
     pv_for_district,
     wvv_for_district,
@@ -481,7 +475,7 @@ def _(
             .sum()
         )
         _z = _z_state + _z_district
-    
+
         data_p3['pv_denominator'] = data_p3['year'].map(_z)
         data_p3[_pv_col] = 0.0
         data_p3[_pv_col] = data_p3.apply(pv_for_district, p=_p, axis=1)
@@ -509,7 +503,7 @@ def _(
 
     for _p in ['ap', 'vap', 'vp']:
         (_n_pop, _s_pop, _d_pop) = population_cols[_p]
-    
+
         # AV
         _av_col = f'av_{_p}'
         data_p4[_av_col] = data_p4.apply(av_for_district, axis=1, p=_p)
@@ -532,7 +526,7 @@ def _(
             .sum()
         )
         _z = _z_state + _z_district
-    
+
         data_p4['pv_denominator'] = data_p4['year'].map(_z)
         data_p4[_pv_col] = data_p4.apply(pv_for_district, p=_p, axis=1)
 
