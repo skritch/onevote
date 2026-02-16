@@ -159,9 +159,9 @@ def _(mo):
 
     **P1**. A national general election.
 
-    **P2**. Simplified electoral college: electors assigned by winner-take-all in all states.
+    **P2**. Simplified electoral college: electors assigned by winner-take-all in all states. Two parties only.
 
-    **P3**. Actual electoral college: electors assigned by winner-take-all in all states but Maine and Nebraska, which assign their House electors to winners of districts.
+    **P3**. Actual electoral college: electors assigned by winner-take-all in all states but Maine and Nebraska, which assign their House electors to winners of districts. Arbitrarily many third parties.
 
     **P4**. Districtized Electoral College: assign senate electors to state winners, district electors to district winners, i.e. what Maine and Nebraska do today, in all states.
 

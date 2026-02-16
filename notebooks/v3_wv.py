@@ -24,7 +24,7 @@ def _():
       "samkritch/u-s-presidential-elections-by-state-1976-2024",
       'pres_by_state_1976_2024.csv',
     )
-  
+
     # Calculate national totals by year
     national_totals = data.groupby('year').agg({
         'electors': 'sum',
@@ -75,8 +75,9 @@ def _():
 
     The standard definition of a **wasted vote** is this. A state-level vote is "wasted" if:
     - it contributes to a losing candidate
-    - or it contributes to a winning candidate but in excess of the threshold required to win (= half the total votes, under our simplified model with no abstentions, but in a model with abstentions could be argued to be the losing party's vote total instead.)
+    - or it contributes to a winning candidate but in excess of the threshold required to win
 
+    For a two-party election with no abstentions, the threshold to win would be half the total number of votes. But if we allow abstentions, or add a third party, there's no way exact threshold, and we should use the second-place vote count as an effective threshold instead. The version with just two parties is uninteresting, so we'll only consider the general case from here on.
 
     Let's devise some notation. We'll use $v(x)$ to represent a candidate's vote, and v(s) to represent the vote of an entire state. Let
 
@@ -85,6 +86,20 @@ def _():
     $$
 
     be the number of votes cast for some party $p$ in state $s$.
+
+    Then our two definitions of wasted votes are:
+
+    $$
+    \begin{align}
+    \text{Wasted}_p(s) &= \begin{cases}
+      R_{{p}_1}(s) - R_{p_2}(s) & \\
+      R_p(s)  & (p \ne p_1)\\
+    \end{cases}
+    \quad\quad\quad\quad& \text{(in general)}
+    \end{align}
+    $$
+
+    where $p_1$ is the first place party, $p_2$ is second place, etc.
 
     ---
     """)
@@ -102,28 +117,24 @@ def _():
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    We can introduce one standard measure of "waste" here: the **efficiency gap**, which compares the waste of the two parties across the entire election.
+    We can introduce one standard measure of "waste" here: the **efficiency gap**, which compares the waste of two parties across the entire election.
 
     $$
     \begin{align}
-    \text{Wasted}_p(s) &= \begin{cases}
-      R_p(s) - \frac{n_s}{2} & (R_p(s) > \frac{n_s}{2})\\
-      R_p(s)  & (R_p(s) < \frac{n_s}{2})\\
-    \end{cases}\\
     \text{EffGap}_1[P2] &= \frac{\text{Wasted}_{1} - \text{Wasted}_{0}}{N} \\
       &= \frac{\sum_s (\text{Wasted}_1(s) - \text{Wasted}_0(s))}{N}
     \end{align}
     $$
 
-    with $\text{EffGap}_0 = - \text{EffGap}_1$.
+    Here $N$ should be VEP or VP, though the interpretation differs in each case.
 
-    This is clearly restricted to $[-1, 1]$, but as no particular state election can have more than $\frac{n_s}{2}$ of its votes wasted, it really only ranges from $[-\frac{1}{2}, \frac{1}{2}]$. One of these bounds would be realized in a fully general election—so the quantity of interest to me should divide by $N/2$ instead, and should subtract the winners from the losers, as all but the most pathological cases, this will produce a positive number.
+    In general we expect the winning party to waste fewer votes, so we will compute efficiency gap as the losing party minus the winning, that is,
 
     $$
-    \text{EffGap}[P2] = \frac{\sum_s (\text{Wasted}_L(s) - \text{Wasted}_W(s))}{N/2}
+    \begin{align}
+    \text{EffGap}_L[P2] &= \frac{\text{Wasted}_{L} - \text{Wasted}_{W}}{N} \\
+    \end{align}
     $$
-
-    For now we won't consider "abstentions", so we should use the total number of votes cast for $N$, rather than the number of eligible voters.
     """)
     return
 
@@ -140,7 +151,7 @@ def _(data):
     # If they won: votes above threshold are wasted
     # If they lost: all votes are wasted
     data_with_wv['wasted_democrat'] = data_with_wv.apply(
-        lambda row: row['votes_democrat'] - row['votes_total'] / 2
+        lambda row: row['votes_democrat'] - row['votes_republican']
         if row['winning_party'] == 'democrat'
         else row['votes_democrat'],
         axis=1
@@ -150,7 +161,7 @@ def _(data):
     # If they won: votes above threshold are wasted
     # If they lost: all votes are wasted
     data_with_wv['wasted_republican'] = data_with_wv.apply(
-        lambda row: row['votes_republican'] - row['votes_total'] / 2
+        lambda row: row['votes_republican'] - row['votes_democrat']
         if row['winning_party'] == 'republican'
         else row['votes_republican'],
         axis=1
@@ -172,13 +183,15 @@ def _(data_with_wv):
         # Calculate total wasted votes by party
         total_wasted_democrat = year_data['wasted_democrat'].sum()
         total_wasted_republican = year_data['wasted_republican'].sum()
+        p_wasted_democrat = total_wasted_democrat / year_data['votes_democrat'].sum()
+        p_wasted_republican = total_wasted_republican / year_data['votes_republican'].sum()
 
         # Determine national winner (party with most electors)
         dem_electors = year_data['electors_democrat'].sum()
         rep_electors = year_data['electors_republican'].sum()
         national_winner = 'democrat' if dem_electors > rep_electors else 'republican'
 
-        # Calculate efficiency gap: (wasted by losers - wasted by winners) / (N/2)
+        # Calculate efficiency gap: (wasted by losers - wasted by winners) / N
         if national_winner == 'democrat':
             # Democrats won nationally, so Republicans are losers
             wasted_by_losers = total_wasted_republican
@@ -188,11 +201,16 @@ def _(data_with_wv):
             wasted_by_losers = total_wasted_democrat
             wasted_by_winners = total_wasted_republican
 
-        efficiency_gap = (wasted_by_losers - wasted_by_winners) / (total_votes / 2)
+        efficiency_gap = (wasted_by_losers - wasted_by_winners) / (total_votes)
+        efficiency_gap_democrat = (total_wasted_democrat - total_wasted_republican) / (total_votes)
 
+        efficiency_gap_b_democrat = p_wasted_democrat - p_wasted_republican
+    
         efficiency_gaps.append({
             'year': year,
             'efficiency_gap': efficiency_gap,
+            'efficiency_gap_democrat': efficiency_gap_democrat,
+            'efficiency_gap_b_democrat': efficiency_gap_b_democrat,
             'national_winner': national_winner,
             'total_votes': total_votes,
             'total_wasted_democrat': total_wasted_democrat,
@@ -237,7 +255,56 @@ def _(efficiency_gap_df):
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    Interesting that it actually goes negative a couple of times.
+    Interesting that it actually goes negative a couple of times: in 2000 and 2004, the Republicans saw more wasted votes than the Democrats despite winning election.
+
+    We can also ask: which party saw more of the votes they *cast* be wasted? For lack of a better name I'll call this **Efficiency Gap B**.
+
+
+    $$
+    \begin{align}
+    \text{EffGapB}_2[P2] &= \frac{\text{Wasted}_{L}}{N_L} - \frac{\text{Wasted}_{W}}{N_W} \\
+    \end{align}
+    $$
+
+    (It might also be interesting to compare this to the net waste $\frac{\text{Wasted}_{L} + \text{Wasted}_{W}}{N}$.)
+    """)
+    return
+
+
+@app.cell
+def _(efficiency_gap_df):
+    # plot a bar graph with altair. Color each bar by the winner of the election. Include mouseover with winner, total votes cast, total wasted votes, and value of efficiency gap.
+    _chart = alt.Chart(efficiency_gap_df).mark_bar().encode(
+        x=alt.X('year:O', title='Year'),
+        y=alt.Y('efficiency_gap_b_democrat:Q', title='Efficiency Gap B (D - R)'),
+        color=alt.Color('national_winner:N',
+                       scale=alt.Scale(domain=['democrat', 'republican'],
+                                     range=['blue', 'darkred']),
+                       legend=alt.Legend(title='National Winner')),
+        tooltip=[
+            alt.Tooltip('year:O', title='Year'),
+            alt.Tooltip('national_winner:N', title='Winner'),
+            alt.Tooltip('total_votes:Q', title='Total Votes Cast', format=','),
+            alt.Tooltip('total_wasted:Q', title='Total Wasted Votes', format=','),
+            alt.Tooltip('efficiency_gap_b_democrat:Q', title='Efficiency Gap B (D - R)', format='.3f')
+        ]
+    ).properties(
+        width=600,
+        height=400,
+        title='Efficiency Gap B by Year (1976-2024)'
+    ).configure_axis(
+        grid=True,
+        gridOpacity=0.3
+    )
+
+    _chart
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    We see that the winning party usually wastes a small fraction of their votes, again with the exception of 2000 and 2004.
     """)
     return
 
@@ -257,11 +324,11 @@ def _():
 
     My first problem with it is that it does not feel useful or interesting treat *some* of the winning votes as wasted while others are not.
 
-    By the standard definition of waste, $R_p(s) - \frac{n_s}{2}$ of the winning party's votes in a state $s$ are "wasted", while $\frac{n_s}{2}$ are "counted". All the votes for the losing party are "wasted" was well, for a total of half of the state's votes; Efficiency Gap just measures how these fall out along party lines. Then, along the lines of our earlier WTAV, each of the non-wasted votes has a value of $2 AV(s)$ in the national election, such that the state as a whole is worth its usual $\frac{e_s}{E}N$.
+    By the standard definition of waste, $R_W(s) - R_L(s)$ of the winning party's votes in a state $s$ are "wasted", while $R_L(s)$ are "counted". The $R_L(s)$ votes for the losing party are "wasted" was well, for a total waste of $R_W(s)$. Efficiency Gap just measures how these fall out along party lines. T
 
-    But without some notion of the "ordering" of the votes, we can't say *which* are wasted. So we might as well say every one of the $R_p(s)$ votes is worth a fraction $\frac{n_s/2}{R_p(s)}$ of what it would otherwise be worth. If 70% of the state votes for the winning candidate, $\frac{5}{7}$ of each of those votes "counts" and the remainder is wasted, as are all votes for the other candidates.
+    Then, along the lines of our earlier WTAV value, the "total" value of the non-wasted votes in the national election is $\frac{e_s}{E}N$.
 
-    That is: all of the $R_p(s)$ votes for the winning party are worth $\frac{n_s/2}{R_p(s)} \cdot 2 \cdot \frac{e_s / E}{n_s / N} = \frac{e_s / E}{R_p(s) / N}$ each.
+    Without some notion of the "ordering" of the votes, we can't say *which* are wasted. So we might as well say every one of the $R_W(s)$ votes for the winning party is worth a fraction $\frac{1}{R_W(s)}$ of thetotal value. That is: all of the $R_W(s)$ votes for the winning party are worth $\frac{n_s/2}{R_W(s)} \cdot 2 \cdot \frac{e_s / E}{n_s / N} = \frac{e_s / E}{R_W(s) / N}$ each.
 
     The weights are already normalized: in each state the sum over the winning party comes to $\frac{e_s}{E}N$, which sums to $N$ over all states.
 
@@ -323,7 +390,6 @@ def _():
 
 @app.cell(hide_code=True)
 def _(data_with_wv, year_dropdown):
-
     data_with_wv['apportionment_value'] = data_with_wv['elector_pct'] / data_with_wv['apportionment_population_pct']
 
     viz.viz_scatter_compare(
@@ -359,7 +425,7 @@ def _():
     - for the winning party, the full "value" of the election $N$ is divided up among the $E_W$ votes for the winning party. Each electoral vote has value $\frac{N}{E_W}$, so state $s$ is worth $\frac{e_s}{E_W}N$ and the votes in that state are worth
 
     $$
-    \text{WVV2}(x) = \begin{cases}
+    \text{WVV}_b(x) = \begin{cases}
       \frac{N}{E_W} \frac{e_{s(x)}}{R_W(s(x))} && v(x) = v(s(x)) = W\\
       0 && \text{otherwise}
     \end{cases}
@@ -375,18 +441,24 @@ def _():
 
     The electoral college vote wasted $\frac{N}{E_W}$ of each of the winning party's electors.
 
-    How many votes are wasted nationally? Is it exactly 3/4?
+    How many votes are wasted nationally?
 
-    How many votes are wasted by each party?
-    - compute an efficiency gap
-    - or an entropy
-    - or something
+    No point in calculating how many are wasted by-party, since all of one party's votes are wasted.
     """)
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(data_with_wv):
+    data_with_wv['wasted_democrat_b'] = data_with_wv['votes_democrat'].where(
+        ~((data_with_wv['national_winning_party'] == 'democrat') & (data_with_wv['winning_party'] == 'democrat')),
+        other=0
+    )
+    data_with_wv['wasted_republican_b'] = data_with_wv['votes_republican'].where(
+        ~((data_with_wv['national_winning_party'] == 'republican') & (data_with_wv['winning_party'] == 'republican')),
+        other=0
+    )
+
     def calc_wvvb(row):
         # Returns [wvvb_winner, wvvb_democrat, wvvb_republican]
         d, r, w = 'democrat', 'republican', None
@@ -396,16 +468,97 @@ def _(data_with_wv):
             w = r
         else:
             return (0, 0, 0)
-        
+
         wvvb = (
             (row['national_votes_total'] / row[f'national_electors_{w}']) 
             * (row['electors'] / row[f'votes_{w}'])
         )
         return (wvvb, wvvb if w == d else 0, wvvb if w == r else 0)
-        
+
 
     data_with_wv[['wvvb_winner', 'wvvb_democrat', 'wvvb_republican']] = data_with_wv.apply(calc_wvvb, axis=1, result_type='expand')
     data_with_wv
+    return
+
+
+@app.cell(hide_code=True)
+def _(data_with_wv):
+    pct_wasted_by_year = 100 * (
+        (data_with_wv['wasted_democrat'] + data_with_wv['wasted_republican']).groupby(data_with_wv['year']).sum()
+        / data_with_wv['votes_total'].groupby(data_with_wv['year']).sum()
+    )
+    pct_wasted_b_by_year = 100 * (
+        (data_with_wv['wasted_democrat_b'] + data_with_wv['wasted_republican_b']).groupby(data_with_wv['year']).sum()
+        / data_with_wv['votes_total'].groupby(data_with_wv['year']).sum()
+    )
+
+
+    # Get national winning party by year
+    national_winners = data_with_wv.groupby('year')['national_winning_party'].first()
+
+    plot_data = pd.DataFrame({
+        'year': pct_wasted_by_year.index,
+        'pct_wasted': pct_wasted_by_year.values,
+        'pct_wasted_b': pct_wasted_b_by_year.values,
+        'national_winning_party': national_winners.values
+    })
+
+    # First bar plot: pct_wasted vs year
+    _chart1 = alt.Chart(plot_data).mark_bar().encode(
+        x=alt.X('year:O', title='Year'),
+        y=alt.Y('pct_wasted:Q', title='Percentage of Votes Wasted (%)', scale=alt.Scale(domain=[0, 100])),
+        color=alt.Color('national_winning_party:N',
+                       scale=alt.Scale(domain=['democrat', 'republican'],
+                                     range=['blue', 'darkred']),
+                       legend=alt.Legend(title='National Winner')),
+        tooltip=[
+            alt.Tooltip('year:O', title='Year'),
+            alt.Tooltip('national_winning_party:N', title='National Winner'),
+            alt.Tooltip('pct_wasted:Q', title='% Wasted', format='.1f')
+        ]
+    ).properties(
+        width=300,
+        height=300,
+        title='Percentage of Votes Wasted by Year (w/o EC waste)'
+    )
+
+    # Second bar plot: pct_wasted_b vs year
+    _chart2 = alt.Chart(plot_data).mark_bar().encode(
+        x=alt.X('year:O', title='Year'),
+        y=alt.Y('pct_wasted_b:Q', title='Percentage of Votes Wasted B (%)', scale=alt.Scale(domain=[0, 100])),
+        color=alt.Color('national_winning_party:N',
+                       scale=alt.Scale(domain=['democrat', 'republican'],
+                                     range=['blue', 'darkred']),
+                       legend=alt.Legend(title='National Winner')),
+        tooltip=[
+            alt.Tooltip('year:O', title='Year'),
+            alt.Tooltip('national_winning_party:N', title='National Winner'),
+            alt.Tooltip('pct_wasted_b:Q', title='% Wasted B', format='.1f')
+        ]
+    ).properties(
+        width=300,
+        height=300,
+        title='Percentage of Votes Wasted by Year (Incl. EC Waste)'
+    )
+
+    # Display both charts vertically
+    alt.hconcat(_chart1, _chart2).resolve_scale(y='independent')
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    Really, I'm surprised the new definition doesn't waste *more* votes.
+
+    ... this can't be right, can it? The EC definition should strictly waste *more* votes. The original definition counted losing votes in all states, + winning votes in excess of margin. The new definition also counts as wasted the losing *states* and the national EC votes in excess of margin...
+    - or does it? This might be messed up.
+    """)
+    return
+
+
+@app.cell
+def _():
     return
 
 
