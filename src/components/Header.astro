@@ -1,20 +1,16 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection } from "astro:content";
 
-const states = await getCollection('states');
-const elections = await getCollection('elections');
+const states = await getCollection("states");
+const elections = await getCollection("elections");
 
-// Get MDX pages for methods and essays
-const methodPages = Object.values(import.meta.glob('../pages/methods/*.mdx', { eager: true }));
-const methods = methodPages.map((page: any) => ({
-  url: page.url,
-  title: page.frontmatter.title,
-}));
-
-const essayPages = Object.values(import.meta.glob('../pages/essays/*.mdx', { eager: true }));
+const essayPages = Object.values(
+	import.meta.glob("../pages/essays/*.mdx", { eager: true }),
+);
 const essays = essayPages.map((page: any) => ({
-  url: page.url,
-  title: page.frontmatter.title,
+	url: page.url,
+	title: page.frontmatter.title,
+	description: page.frontmatter.description,
 }));
 ---
 
@@ -29,11 +25,13 @@ const essays = essayPages.map((page: any) => ({
 			<a href="/elections" class="navigation__link">elections</a>
 			<div class="dropdown">
 				<div class="dropdown__list">
-					{elections.map((election) => (
-						<a href={`/elections/${election.id}`} class="dropdown__item">
-							{election.data.name}
-						</a>
-					))}
+					{
+						elections.map((election) => (
+							<a href={`/elections/${election.id}`} class="dropdown__item">
+								{election.data.name}
+							</a>
+						))
+					}
 				</div>
 			</div>
 		</div>
@@ -41,35 +39,27 @@ const essays = essayPages.map((page: any) => ({
 			<a href="/states" class="navigation__link">states</a>
 			<div class="dropdown">
 				<div class="dropdown__grid">
-					{states.map((state) => (
-						<a href={`/states/${state.id}`} class="dropdown__item">
-							{state.data.name}
-						</a>
-					))}
+					{
+						states.map((state) => (
+							<a href={`/states/${state.id}`} class="dropdown__item">
+								{state.data.name}
+							</a>
+						))
+					}
 				</div>
 			</div>
 		</div>
 		<div class="navigation__item navigation__item--dropdown">
-			<a href="/methods" class="navigation__link">methods</a>
+			<a href="/essays" class="navigation__link">about</a>
 			<div class="dropdown">
 				<div class="dropdown__list">
-					{methods.map((method) => (
-						<a href={method.url} class="dropdown__item">
-							{method.title}
-						</a>
-					))}
-				</div>
-			</div>
-		</div>
-		<div class="navigation__item navigation__item--dropdown">
-			<a href="/essays" class="navigation__link">essays</a>
-			<div class="dropdown">
-				<div class="dropdown__list">
-					{essays.map((essay) => (
-						<a href={essay.url} class="dropdown__item">
-							{essay.title}
-						</a>
-					))}
+					{
+						essays.map((essay) => (
+							<a href={essay.url} class="dropdown__item">
+								{essay.title}
+							</a>
+						))
+					}
 				</div>
 			</div>
 		</div>

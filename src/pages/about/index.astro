@@ -1,29 +1,42 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { parseLocalDate } from '../../utils/date';
+import Layout from "../../layouts/Layout.astro";
+import { parseLocalDate } from "../../utils/date";
 
-const methodPages = Object.values(import.meta.glob('./*.mdx', { eager: true }));
-const methods = methodPages.map((page: any) => ({
-  url: page.url,
-  title: page.frontmatter.title,
-  date: page.frontmatter.date,
-})).sort((a, b) => parseLocalDate(b.date).getTime() - parseLocalDate(a.date).getTime());
+// TODO: do this for notebooks
+// const essayPages = Object.values(import.meta.glob("./*.mdx", { eager: true }));
+// const essays = essayPages
+//   .map((page: any) => ({
+//     url: page.url,
+//     title: page.frontmatter.title,
+//     date: page.frontmatter.date,
+//   }))
+//   .sort(
+//     (a, b) =>
+//       parseLocalDate(b.date).getTime() - parseLocalDate(a.date).getTime(),
+//   );
+
+const essays = [{}, {}, {}];
 ---
 
 <Layout>
-  <div class="methods-index">
-    <h1>Methods</h1>
-    <p class="methods-index__description">
-      Explore the mathematical and statistical methods used to analyze voting systems.
+  <div class="essays-index">
+    <h1>Essays</h1>
+    <p class="essays-index__description">
+      Essays and commentary on voting systems, electoral fairness, and
+      democracy.
     </p>
 
-    <div class="methods-index__list">
-      {methods.map((method) => (
-        <a href={method.url} class="method-card">
-          <h2 class="method-card__title">{method.title}</h2>
-          <time class="method-card__date">{parseLocalDate(method.date).toLocaleDateString()}</time>
-        </a>
-      ))}
+    <div class="essays-index__list">
+      {
+        essays.map((essay) => (
+          <a href={essay.url} class="essay-card">
+            <h2 class="essay-card__title">{essay.title}</h2>
+            <time class="essay-card__date">
+              {parseLocalDate(essay.date).toLocaleDateString()}
+            </time>
+          </a>
+        ))
+      }
     </div>
   </div>
 </Layout>
@@ -32,7 +45,7 @@ const methods = methodPages.map((page: any) => ({
   @use "../../styles/variables.scss";
   @use "../../styles/global.scss";
 
-  .methods-index {
+  .essays-index {
     max-width: 800px;
     margin: 0 auto;
     padding: variables.$spacing-lg;
@@ -59,7 +72,7 @@ const methods = methodPages.map((page: any) => ({
     }
   }
 
-  .method-card {
+  .essay-card {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -69,7 +82,7 @@ const methods = methodPages.map((page: any) => ({
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     text-decoration: none;
     transition: all variables.$transition-duration ease;
-    border-left: 4px solid variables.$brick-red;
+    border-left: 4px solid variables.$royal-blue;
 
     &:hover {
       transform: translateX(4px);

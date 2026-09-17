@@ -1,3 +1,8 @@
+# /// astro
+# title: Introduction
+# description: How do we define the "value" of a vote?
+# ///
+
 import marimo
 
 __generated_with = "0.19.6"

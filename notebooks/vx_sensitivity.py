@@ -8,7 +8,7 @@ with app.setup:
     import altair as alt
     import pandas as pd
 
-    import viz
+    import lib.viz as viz
 
 
 @app.cell(hide_code=True)

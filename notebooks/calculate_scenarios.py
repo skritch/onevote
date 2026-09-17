@@ -18,7 +18,7 @@ with app.setup(hide_code=True):
     import kagglehub
     from kagglehub import KaggleDatasetAdapter
 
-    import viz
+    import lib.viz as viz
 
 
 @app.cell

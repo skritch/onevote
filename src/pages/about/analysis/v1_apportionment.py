@@ -1,3 +1,8 @@
+# /// astro
+# title: Apportionment Value
+# description: Defining the value of a vote as the ratio of representatives to voters.
+# ///
+
 import marimo
 
 __generated_with = "0.19.6"
@@ -10,7 +15,7 @@ with app.setup:
     import pandas as pd
     import altair
 
-    import viz
+    from lib import viz
 
 
 @app.cell(hide_code=True)

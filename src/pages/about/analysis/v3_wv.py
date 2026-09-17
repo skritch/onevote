@@ -1,3 +1,10 @@
+# /// astro
+# title: Wasted Votes
+# description:
+# ///
+
+
+
 import marimo
 
 __generated_with = "0.19.6"
@@ -8,7 +15,7 @@ with app.setup:
     import altair as alt
     import pandas as pd
 
-    import viz
+    from lib import viz
 
 
 @app.cell(hide_code=True)
