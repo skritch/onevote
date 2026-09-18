@@ -1,77 +1,18 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
-import ComparisonContainer from "../components/ComparisonContainer.astro";
+import HomeForm from "../components/HomeForm.svelte";
 import { officesByName } from "../utils/elections";
 
 const elections = await getCollection("elections");
+const states = await getCollection("states");
 const years = [...new Set(elections.map((e) => e.data.year))].sort(
 	(a, b) => b - a,
 );
 const offices = Object.keys(officesByName);
+const stateList = states.map((s) => ({ id: s.id, name: s.data.name }));
 ---
 
 <Layout>
-	<div class="main-content__question">
-		How much will your vote be worth in the
-		<span class="select-wrapper">
-			<select id="year-select">
-				{years.map((year) => <option value={year}>{year}</option>)}
-			</select>
-		</span>
-		<span class="select-wrapper">
-			<select id="office-select">
-				{offices.map((office) => <option value={office}>{office}</option>)}
-			</select>
-		</span>
-		election?
-	</div>
-
-	<ComparisonContainer />
+	<HomeForm client:load {years} {offices} states={stateList} />
 </Layout>
-
-<style lang="scss">
-	@use "../styles/variables.scss";
-
-	.main-content__question {
-		text-align: center;
-		font-size: variables.$font-size-medium;
-		font-weight: 600;
-		color: variables.$dark-gray;
-		line-height: 1.4;
-		padding: variables.$spacing-lg 0 variables.$spacing-xl 0;
-
-		// Break out of parent container width on desktop
-		@media (min-width: 769px) {
-			white-space: nowrap;
-			width: 100vw;
-			position: relative;
-			left: 50%;
-			right: 50%;
-			margin-left: -50vw;
-			margin-right: -50vw;
-		}
-
-		.select-wrapper {
-			display: inline-block;
-			position: relative;
-
-			select {
-				background-color: variables.$white;
-				border: 2px solid variables.$medium-gray;
-				border-radius: variables.$border-radius;
-				padding: 2px variables.$spacing-xs;
-				font-size: variables.$font-size-medsmall;
-				font-weight: 600;
-				color: variables.$dark-gray;
-				cursor: pointer;
-			}
-		}
-	}
-
-	@media (max-width: 768px) {
-		.main-content__question {
-			font-size: 1.25rem;
-		}
-	}
-</style>
