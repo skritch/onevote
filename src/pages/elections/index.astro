@@ -1,16 +1,21 @@
 ---
-import { getCollection } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
 
-const elections = await getCollection('elections');
-const electionsByYear = elections.reduce((acc, election) => {
-  const year = election.data.year;
-  if (!acc[year]) acc[year] = [];
-  acc[year].push(election);
-  return acc;
-}, {} as Record<number, typeof elections>);
+const elections = await getCollection("elections");
+const electionsByYear = elections.reduce(
+  (acc, election) => {
+    const year = election.data.year;
+    if (!acc[year]) acc[year] = [];
+    acc[year].push(election);
+    return acc;
+  },
+  {} as Record<number, typeof elections>,
+);
 
-const sortedYears = Object.keys(electionsByYear).map(Number).sort((a, b) => b - a);
+const sortedYears = Object.keys(electionsByYear)
+  .map(Number)
+  .sort((a, b) => b - a);
 ---
 
 <Layout>
@@ -18,21 +23,29 @@ const sortedYears = Object.keys(electionsByYear).map(Number).sort((a, b) => b - 
     <h1>Elections</h1>
 
     <div class="elections-index__content">
-      {sortedYears.map((year) => (
-        <div class="year-group">
-          <h2 class="year-group__year">{year}</h2>
-          <div class="year-group__elections">
-            {electionsByYear[year].map((election) => (
-              <a href={`/elections/${election.id}`} class="election-card">
-                <span class="election-card__type">{election.data.type === 'president' ? 'presidential' : election.data.type}</span>
-                {election.data.state && (
-                  <span class="election-card__state">({election.data.state})</span>
-                )}
-              </a>
-            ))}
+      {
+        sortedYears.map((year) => (
+          <div class="year-group">
+            <h2 class="year-group__year">{year}</h2>
+            <div class="year-group__elections">
+              {electionsByYear[year].map((election) => (
+                <a href={`/elections/${election.id}`} class="election-card">
+                  <span class="election-card__type">
+                    {election.data.office === "president"
+                      ? "Presidential"
+                      : election.data.office}
+                  </span>
+                  {election.data.state && (
+                    <span class="election-card__state">
+                      ({election.data.state})
+                    </span>
+                  )}
+                </a>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      }
     </div>
   </div>
 </Layout>
@@ -88,7 +101,6 @@ const sortedYears = Object.keys(electionsByYear).map(Number).sort((a, b) => b - 
     @include variables.card;
     text-decoration: none;
     transition: all variables.$transition-duration ease;
-
 
     &:hover {
       transform: translateY(-2px);

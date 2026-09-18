@@ -30,7 +30,7 @@ const offices = Object.keys(officesByName);
           </select>
         </span>
         <span class="select-wrapper">
-          <select id="type-select">
+          <select id="office-select">
             {
               offices.map((officeName) => (
                 <option value={officeName}>{officeName}</option>
@@ -69,8 +69,8 @@ const offices = Object.keys(officesByName);
   // Update query parameter when selections change
   const updateElection = () => {
     const year = yearSelect?.value;
-    const type = officeSelect?.value;
-    const electionId = `${year}-${type}`;
+    const office = officeSelect?.value;
+    const electionId = `${year}-${office}`;
     const newUrl = new URL(window.location.href);
     newUrl.searchParams.set("election", electionId);
     window.history.replaceState({}, "", newUrl);
@@ -117,7 +117,7 @@ const offices = Object.keys(officesByName);
           border: 2px solid variables.$medium-gray;
           border-radius: variables.$border-radius;
           padding: variables.$spacing-xs variables.$spacing-sm;
-          font-size: variables.$font-size-base;
+          font-size: variables.$font-size-medsmall;
           font-weight: 600;
           color: variables.$dark-gray;
           cursor: pointer;

@@ -52,7 +52,7 @@ const states = await getCollection("states");
 </div>
 
 <script>
-	import { electionNameToType } from "../utils/elections";
+	import { officesByName } from "../utils/elections";
 
 	const goButton = document.querySelector(".comparison-container__button");
 	const stateSelect = document.getElementById(
@@ -61,8 +61,8 @@ const states = await getCollection("states");
 	const yearSelect = document.getElementById(
 		"year-select",
 	) as HTMLSelectElement;
-	const typeSelect = document.getElementById(
-		"type-select",
+	const officeSelect = document.getElementById(
+		"office-select",
 	) as HTMLSelectElement;
 
 	goButton?.addEventListener("click", () => {
@@ -70,9 +70,9 @@ const states = await getCollection("states");
 		if (selectedState) {
 			const year = yearSelect?.value || "2024";
 
-			const type = electionNameToType[typeSelect?.value] || "president";
+			const office = officesByName[officeSelect?.value] || "president";
 
-			const electionId = `${year}-${type}`;
+			const electionId = `${year}-${office}`;
 			window.location.href = `/states/${selectedState}?election=${electionId}`;
 		}
 	});
