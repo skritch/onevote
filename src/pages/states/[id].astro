@@ -1,19 +1,22 @@
 ---
-import { getCollection } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import { officesByName } from "../../utils/elections";
 
 export async function getStaticPaths() {
-  const states = await getCollection('states');
-  return states.map(state => ({
+  const states = await getCollection("states");
+  return states.map((state) => ({
     params: { id: state.id },
     props: { state },
   }));
 }
 
 const { state } = Astro.props;
-const elections = await getCollection('elections');
-const years = [...new Set(elections.map(e => e.data.year))].sort((a, b) => b - a);
-const types = ['president', 'senate', 'house'];
+const elections = await getCollection("elections");
+const years = [...new Set(elections.map((e) => e.data.year))].sort(
+  (a, b) => b - a,
+);
+const offices = Object.keys(officesByName);
 ---
 
 <Layout>
@@ -23,16 +26,16 @@ const types = ['president', 'senate', 'house'];
       <div class="state-page__controls">
         <span class="select-wrapper">
           <select id="year-select">
-            {years.map((year) => (
-              <option value={year}>{year}</option>
-            ))}
+            {years.map((year) => <option value={year}>{year}</option>)}
           </select>
         </span>
         <span class="select-wrapper">
           <select id="type-select">
-            {types.map((type) => (
-              <option value={type}>{type === 'president' ? 'presidential' : type}</option>
-            ))}
+            {
+              offices.map((officeName) => (
+                <option value={officeName}>{officeName}</option>
+              ))
+            }
           </select>
         </span>
       </div>
@@ -47,31 +50,35 @@ const types = ['president', 'senate', 'house'];
 <script>
   // Get election ID from URL query parameter or construct from dropdowns
   const urlParams = new URLSearchParams(window.location.search);
-  const electionParam = urlParams.get('election');
+  const electionParam = urlParams.get("election");
 
-  const yearSelect = document.getElementById('year-select') as HTMLSelectElement;
-  const typeSelect = document.getElementById('type-select') as HTMLSelectElement;
+  const yearSelect = document.getElementById(
+    "year-select",
+  ) as HTMLSelectElement;
+  const officeSelect = document.getElementById(
+    "office-select",
+  ) as HTMLSelectElement;
 
   // Set initial values from query parameter if present
   if (electionParam) {
-    const [year, type] = electionParam.split('-');
+    const [year, office] = electionParam.split("-");
     if (year && yearSelect) yearSelect.value = year;
-    if (type && typeSelect) typeSelect.value = type;
+    if (office && officeSelect) officeSelect.value = office;
   }
 
   // Update query parameter when selections change
   const updateElection = () => {
     const year = yearSelect?.value;
-    const type = typeSelect?.value;
+    const type = officeSelect?.value;
     const electionId = `${year}-${type}`;
     const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set('election', electionId);
-    window.history.replaceState({}, '', newUrl);
+    newUrl.searchParams.set("election", electionId);
+    window.history.replaceState({}, "", newUrl);
     // TODO: Update page content based on selected election
   };
 
-  yearSelect?.addEventListener('change', updateElection);
-  typeSelect?.addEventListener('change', updateElection);
+  yearSelect?.addEventListener("change", updateElection);
+  officeSelect?.addEventListener("change", updateElection);
 </script>
 
 <style lang="scss">
@@ -92,7 +99,6 @@ const types = ['president', 'senate', 'house'];
 
       h1 {
         font-size: variables.$font-size-large;
-        font-variant: small-caps;
         color: variables.$dark-gray;
         margin: 0;
       }

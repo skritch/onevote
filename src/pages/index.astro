@@ -2,12 +2,13 @@
 import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import ComparisonContainer from "../components/ComparisonContainer.astro";
+import { officesByName } from "../utils/elections";
 
 const elections = await getCollection("elections");
 const years = [...new Set(elections.map((e) => e.data.year))].sort(
 	(a, b) => b - a,
 );
-const types = ["president", "senate", "house"];
+const offices = Object.keys(officesByName);
 ---
 
 <Layout>
@@ -20,13 +21,7 @@ const types = ["president", "senate", "house"];
 		</span>
 		<span class="select-wrapper">
 			<select id="type-select">
-				{
-					types.map((type) => (
-						<option value={type}>
-							{type === "president" ? "presidential" : type}
-						</option>
-					))
-				}
+				{offices.map((office) => <option value={office}>{office}</option>)}
 			</select>
 		</span>
 		election?
@@ -44,7 +39,7 @@ const types = ["president", "senate", "house"];
 		font-weight: 600;
 		color: variables.$dark-gray;
 		line-height: 1.4;
-		padding: 0 0 variables.$spacing-lg 0;
+		padding: variables.$spacing-lg 0 variables.$spacing-xl 0;
 
 		// Break out of parent container width on desktop
 		@media (min-width: 769px) {
@@ -59,16 +54,15 @@ const types = ["president", "senate", "house"];
 
 		.select-wrapper {
 			display: inline-block;
-			margin: 0 variables.$spacing-xs;
 			position: relative;
 
 			select {
 				background-color: variables.$white;
 				border: 2px solid variables.$medium-gray;
 				border-radius: variables.$border-radius;
-				padding: variables.$spacing-xs variables.$spacing-sm;
-				font-size: inherit;
-				font-weight: inherit;
+				padding: 2px variables.$spacing-xs;
+				font-size: variables.$font-size-medsmall;
+				font-weight: 600;
 				color: variables.$dark-gray;
 				cursor: pointer;
 			}

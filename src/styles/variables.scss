@@ -11,6 +11,7 @@ $dark-gray: #343a40;
 $font-family-primary: 'Inter', 'Roboto', 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
 $font-size-large: 2.2rem;
 $font-size-medium: 1.5rem;
+$font-size-medsmall: 1.3rem;
 $font-size-base: 1rem;
 $font-size-small: 0.875rem;
 
@@ -25,3 +26,11 @@ $spacing-xl: 4rem;
 $container-max-width: 1200px;
 $border-radius: 8px;
 $transition-duration: 0.15s;
+
+// Mixins
+@mixin card {
+  background-color: $white;
+  border-radius: $border-radius;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+}

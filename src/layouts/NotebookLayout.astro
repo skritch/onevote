@@ -14,8 +14,20 @@ const title = props.frontmatter.title;
 ---
 
 <Layout title={title}>
-  <hr />
-
-  <slot />
-  <!-- your content is injected here -->
+  <div class="notebook-wrapper">
+    <slot />
+  </div>
 </Layout>
+
+<style is:global>
+  body:has(.notebook-wrapper) .main-content {
+    max-width: 968px;
+    padding: 0;
+    height: calc(100dvh - 50px);
+    overflow: hidden;
+  }
+
+  .notebook-wrapper {
+    height: 100%;
+  }
+</style>

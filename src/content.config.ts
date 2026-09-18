@@ -15,7 +15,7 @@ const elections = defineCollection({
   schema: z.object({
     id: z.string(),
     year: z.number(),
-    type: z.enum(['president', 'senate', 'house']),
+    office: z.enum(['president', 'senate', 'house']),
     name: z.string(),
     state: z.string().optional() // For senate/house elections
   })

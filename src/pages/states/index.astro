@@ -13,7 +13,6 @@ const states = await getCollection('states');
       {states.map((state) => (
         <a href={`/states/${state.id}`} class="state-card">
           <h2 class="state-card__name">{state.data.name}</h2>
-          <span class="state-card__abbreviation">{state.id.toUpperCase()}</span>
         </a>
       ))}
     </div>
@@ -27,7 +26,6 @@ const states = await getCollection('states');
   .states-index {
     h1 {
       font-size: variables.$font-size-large;
-      font-variant: small-caps;
       color: variables.$dark-gray;
       margin-bottom: variables.$spacing-lg;
       text-align: center;
@@ -35,23 +33,19 @@ const states = await getCollection('states');
 
     &__grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: variables.$spacing-md;
+      grid-template-columns: repeat(3, 1fr);
+      gap: variables.$spacing-xs;
     }
   }
 
   .state-card {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: variables.$spacing-md;
-    background-color: variables.$white;
-    border-radius: variables.$border-radius;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: variables.$spacing-xs variables.$spacing-sm;
+    @include variables.card;
     text-decoration: none;
     transition: all variables.$transition-duration ease;
-    border-left: 4px solid variables.$brick-red;
 
     &:hover {
       transform: translateY(-2px);
@@ -59,23 +53,13 @@ const states = await getCollection('states');
     }
 
     &__name {
-      font-size: variables.$font-size-medium;
-      font-variant: small-caps;
+      font-size: clamp(0.7rem, 1.9vw, 1.05rem);
       color: variables.$dark-gray;
-      margin: 0 0 variables.$spacing-xs 0;
+      margin: 0;
       text-align: center;
-    }
-
-    &__abbreviation {
-      font-size: variables.$font-size-small;
-      color: variables.$medium-gray;
-      font-weight: 600;
+      font-weight: 500;
+      white-space: nowrap;
     }
   }
 
-  @media (max-width: 768px) {
-    .states-index__grid {
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    }
-  }
 </style>

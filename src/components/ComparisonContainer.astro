@@ -1,18 +1,20 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection } from "astro:content";
 
-const states = await getCollection('states');
+const states = await getCollection("states");
 ---
 
 <div class="comparison-container">
 	<div class="comparison-container__side comparison-container__side--left">
-		<h3>you live in...</h3>
+		<h3>You live in...</h3>
 		<div class="form-group">
 			<select id="left-state">
 				<option value="">--select state--</option>
-				{states.map((state) => (
-					<option value={state.id}>{state.data.name}</option>
-				))}
+				{
+					states.map((state) => (
+						<option value={state.id}>{state.data.name}</option>
+					))
+				}
 			</select>
 		</div>
 		<!-- <div class="form-group">
@@ -50,16 +52,26 @@ const states = await getCollection('states');
 </div>
 
 <script>
-	const goButton = document.querySelector('.comparison-container__button');
-	const stateSelect = document.getElementById('left-state') as HTMLSelectElement;
-	const yearSelect = document.getElementById('year-select') as HTMLSelectElement;
-	const typeSelect = document.getElementById('type-select') as HTMLSelectElement;
+	import { electionNameToType } from "../utils/elections";
 
-	goButton?.addEventListener('click', () => {
+	const goButton = document.querySelector(".comparison-container__button");
+	const stateSelect = document.getElementById(
+		"left-state",
+	) as HTMLSelectElement;
+	const yearSelect = document.getElementById(
+		"year-select",
+	) as HTMLSelectElement;
+	const typeSelect = document.getElementById(
+		"type-select",
+	) as HTMLSelectElement;
+
+	goButton?.addEventListener("click", () => {
 		const selectedState = stateSelect?.value;
 		if (selectedState) {
-			const year = yearSelect?.value || '2024';
-			const type = typeSelect?.value || 'president';
+			const year = yearSelect?.value || "2024";
+
+			const type = electionNameToType[typeSelect?.value] || "president";
+
 			const electionId = `${year}-${type}`;
 			window.location.href = `/states/${selectedState}?election=${electionId}`;
 		}
@@ -81,18 +93,8 @@ const states = await getCollection('states');
 		&__side {
 			flex: 1;
 			padding: variables.$spacing-lg;
-			background-color: variables.$white;
-			border-radius: variables.$border-radius;
+			@include variables.card;
 			text-align: center;
-			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-
-			&--left {
-				border-left: 4px solid variables.$brick-red;
-			}
-
-			&--right {
-				border-right: 4px solid variables.$royal-blue;
-			}
 
 			h3 {
 				font-size: variables.$font-size-medium;
@@ -136,19 +138,14 @@ const states = await getCollection('states');
 
 		&__button {
 			width: 100%;
-			background: linear-gradient(
-				135deg,
-				variables.$brick-red 0%,
-				variables.$royal-blue 100%
-			);
+			background-color: variables.$dark-gray;
 			color: variables.$white;
 			border: none;
-			border-radius: 50px;
-			padding: variables.$spacing-sm variables.$spacing-md;
+			border-radius: variables.$border-radius;
+			padding: variables.$spacing-xs variables.$spacing-md;
 			font-size: variables.$font-size-base;
 			font-weight: 600;
 			cursor: pointer;
-			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 			transition: all variables.$transition-duration ease;
 			display: flex;
 			align-items: center;
@@ -156,13 +153,11 @@ const states = await getCollection('states');
 			gap: variables.$spacing-xs;
 
 			&:hover {
-				transform: scale(1.05);
-				box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+				background-color: variables.$black;
 			}
 
 			&::after {
 				content: "→";
-				font-size: 1.2em;
 			}
 		}
 	}
