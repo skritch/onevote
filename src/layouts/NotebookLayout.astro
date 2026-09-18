@@ -2,23 +2,20 @@
 import Layout from "./Layout.astro";
 
 interface Props {
-  title?: string;
-  description?: string;
-  [key: string]: unknown;
+  frontmatter: {
+    title: string;
+    description?: string;
+  };
+  url: string;
+  slug: string;
 }
-const { title = "Notebook", description } = Astro.props;
+const props = Astro.props;
+const title = props.frontmatter.title;
 ---
 
 <Layout title={title}>
-  <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">{title}</h1>
-  </header>
   <hr />
 
-  <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-    <div class="post-content" itemprop="articleBody">
-      <slot />
-      <!-- your content is injected here -->
-    </div>
-  </article>
+  <slot />
+  <!-- your content is injected here -->
 </Layout>

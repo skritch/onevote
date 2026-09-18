@@ -4,14 +4,12 @@ import { getCollection } from "astro:content";
 const states = await getCollection("states");
 const elections = await getCollection("elections");
 
-const essayPages = Object.values(
-	import.meta.glob("../pages/essays/*.mdx", { eager: true }),
+const essays: { url: string; frontmatter: { title: string } }[] = Object.values(
+	import.meta.glob("../pages/about/analysis/*.py", {
+		eager: true,
+		query: { pythonMetaOnly: true },
+	}),
 );
-const essays = essayPages.map((page: any) => ({
-	url: page.url,
-	title: page.frontmatter.title,
-	description: page.frontmatter.description,
-}));
 ---
 
 <header class="header">
@@ -50,13 +48,13 @@ const essays = essayPages.map((page: any) => ({
 			</div>
 		</div>
 		<div class="navigation__item navigation__item--dropdown">
-			<a href="/essays" class="navigation__link">about</a>
+			<a href="/about" class="navigation__link">about</a>
 			<div class="dropdown">
 				<div class="dropdown__list">
 					{
 						essays.map((essay) => (
 							<a href={essay.url} class="dropdown__item">
-								{essay.title}
+								{essay.frontmatter.title}
 							</a>
 						))
 					}

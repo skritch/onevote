@@ -2,20 +2,15 @@
 import Layout from "../../layouts/Layout.astro";
 import { parseLocalDate } from "../../utils/date";
 
-// TODO: do this for notebooks
-// const essayPages = Object.values(import.meta.glob("./*.mdx", { eager: true }));
-// const essays = essayPages
-//   .map((page: any) => ({
-//     url: page.url,
-//     title: page.frontmatter.title,
-//     date: page.frontmatter.date,
-//   }))
-//   .sort(
-//     (a, b) =>
-//       parseLocalDate(b.date).getTime() - parseLocalDate(a.date).getTime(),
-//   );
-
-const essays = [{}, {}, {}];
+const essays: {
+  url: string;
+  frontmatter: { title: string; description: string };
+}[] = Object.values(
+  import.meta.glob("./analysis/*.py", {
+    eager: true,
+    query: { pythonMetaOnly: true },
+  }),
+);
 ---
 
 <Layout>
@@ -30,10 +25,10 @@ const essays = [{}, {}, {}];
       {
         essays.map((essay) => (
           <a href={essay.url} class="essay-card">
-            <h2 class="essay-card__title">{essay.title}</h2>
-            <time class="essay-card__date">
+            <h2 class="essay-card__title">{essay.frontmatter.title}</h2>
+            {/* <time class="essay-card__date">
               {parseLocalDate(essay.date).toLocaleDateString()}
-            </time>
+            </time> */}
           </a>
         ))
       }

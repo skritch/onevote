@@ -8,6 +8,21 @@ import svelte from '@astrojs/svelte';
 
 // https://astro.build/config
 export default defineConfig({
+  // vite: {
+  //   plugins: [{
+  //     name: 'suppress-marimo-health',
+  //     configureServer(server) {
+  //       server.middlewares.use((req, res, next) => {
+  //         if (req.url?.endsWith('/health')) {
+  //           res.writeHead(200, { 'Content-Type': 'application/json' });
+  //           res.end('{"status":"ok"}');
+  //         } else {
+  //           next();
+  //         }
+  //       });
+  //     }
+  //   }]
+  // },
   integrations: [
     mdx({
       remarkPlugins: [remarkMath],
