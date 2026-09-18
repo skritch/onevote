@@ -54,6 +54,10 @@ Try other valuations:
 
 
 
+Obviously state-proportional representation is nonviable, because rural areas are going to be
+excluded entirely; both party's concentrated centers would wind up nominating all the candidates.
+
+
 ## Data
 
 - acquire house/senate datasets
