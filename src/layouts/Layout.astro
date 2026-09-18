@@ -13,16 +13,12 @@ import Header from "../components/Header.astro";
 		<title>OneVote</title>
 	</head>
 	<body>
+		<Header />
 		<div class="container">
-			<Header />
-
 			<main class="main-content">
 				<slot />
 			</main>
 
-			<footer class="footer">
-				<div class="footer__divider"></div>
-			</footer>
 		</div>
 	</body>
 </html>
@@ -38,18 +34,7 @@ import Header from "../components/Header.astro";
 		height: 100%;
 	}
 
-	.footer {
-		margin-top: variables.$spacing-xl;
-		padding: variables.$spacing-lg 0;
-
-		&__divider {
-			width: 100%;
-			height: 1px;
-			background-color: #e5e7eb;
-		}
-	}
-
-	.main-content {
+.main-content {
 
     max-width: 880px;
     margin: 0 auto;

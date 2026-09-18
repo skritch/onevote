@@ -1,28 +1,32 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import ComparisonContainer from "../components/ComparisonContainer.astro";
 
-const elections = await getCollection('elections');
-const years = [...new Set(elections.map(e => e.data.year))].sort((a, b) => b - a);
-const types = ['president', 'senate', 'house'];
+const elections = await getCollection("elections");
+const years = [...new Set(elections.map((e) => e.data.year))].sort(
+	(a, b) => b - a,
+);
+const types = ["president", "senate", "house"];
 ---
 
 <Layout>
 	<div class="main-content__question">
-		how much will your vote be worth in the
+		How much will your vote be worth in the
 		<span class="select-wrapper">
 			<select id="year-select">
-				{years.map((year) => (
-					<option value={year}>{year}</option>
-				))}
+				{years.map((year) => <option value={year}>{year}</option>)}
 			</select>
 		</span>
 		<span class="select-wrapper">
 			<select id="type-select">
-				{types.map((type) => (
-					<option value={type}>{type === 'president' ? 'presidential' : type}</option>
-				))}
+				{
+					types.map((type) => (
+						<option value={type}>
+							{type === "president" ? "presidential" : type}
+						</option>
+					))
+				}
 			</select>
 		</span>
 		election?
