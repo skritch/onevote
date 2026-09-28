@@ -65,7 +65,7 @@
         background-color: variables.$white;
         border: 2px solid variables.$medium-gray;
         border-radius: variables.$border-radius;
-        padding: variables.$spacing-xs variables.$spacing-sm;
+        padding: 2px variables.$spacing-xs;
         font-size: variables.$font-size-medsmall;
         font-weight: 600;
         color: variables.$dark-gray;

@@ -5,7 +5,7 @@ import Layout from '../../layouts/Layout.astro';
 export async function getStaticPaths() {
   const elections = await getCollection('elections');
   return elections.map(election => ({
-    params: { id: election.id },
+    params: { electionId: election.id },
     props: { election },
   }));
 }

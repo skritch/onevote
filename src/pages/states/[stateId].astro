@@ -7,7 +7,7 @@ import { officesByName } from "../../utils/elections";
 export async function getStaticPaths() {
   const states = await getCollection("states");
   return states.map((state) => ({
-    params: { id: state.id },
+    params: { stateId: state.id },
     props: { state },
   }));
 }
@@ -39,7 +39,7 @@ const offices = Object.keys(officesByName);
   .state-page {
     max-width: 800px;
     margin: 0 auto;
-    padding: variables.$spacing-lg;
+    padding: variables.$spacing-sm variables.$spacing-lg;
 
     &__header {
       display: flex;
