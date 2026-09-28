@@ -1,26 +1,65 @@
 <script lang="ts">
   import { untrack } from 'svelte';
+  import { fly, fade } from 'svelte/transition';
   import { officesByName } from '../utils/elections';
+  import StatePicker from './StatePicker.svelte';
 
   let {
     years,
     offices,
     states,
+    initialCompareMode = false,
+    initialShowParty = false,
   }: {
     years: number[];
     offices: string[];
     states: { id: string; name: string }[];
+    initialCompareMode?: boolean;
+    initialShowParty?: boolean;
   } = $props();
 
   let selectedYear = $state(untrack(() => String(years[0] ?? 2024)));
   let selectedOffice = $state(untrack(() => offices[0] ?? ''));
-  let selectedState = $state('');
+  let myState = $state('');
+  let myParty = $state('');
+  let compareState = $state('');
+  let compareParty = $state('');
+  let compareMode = $state(initialCompareMode);
+  let showParty = $state(initialShowParty);
+
+  $effect(() => {
+    if (myState !== '' || compareState !== '') showParty = true;
+  });
+
+  // When user picks a party, default the other side to the opposite
+  $effect(() => {
+    if (myParty === 'democrat') compareParty = 'republican';
+    else if (myParty === 'republican') compareParty = 'democrat';
+  });
 
   function navigate() {
-    if (!selectedState) return;
+    if (!myState) return;
     const officeKey = officesByName[selectedOffice] ?? 'president';
-    window.location.href = `/states/${selectedState}?election=${selectedYear}-${officeKey}`;
+    let url = `/states/${myState}?election=${selectedYear}-${officeKey}`;
+    if (myParty) url += `&party=${myParty}`;
+    window.location.href = url;
   }
+
+  function navigateCompare() {
+    if (!myState || !compareState) return;
+    const officeKey = officesByName[selectedOffice] ?? 'president';
+    let url = `/compare-result?state1=${myState}&state2=${compareState}&election=${selectedYear}-${officeKey}`;
+    if (myParty) url += `&party1=${myParty}`;
+    if (compareParty) url += `&party2=${compareParty}`;
+    window.location.href = url;
+  }
+
+  const partiesOk = $derived(
+    (myParty === '' && compareParty === '') || (myParty !== '' && compareParty !== '')
+  );
+  const canGo = $derived(compareMode
+    ? myState !== '' && compareState !== '' && partiesOk
+    : myState !== '');
 </script>
 
 <div class="main-content__question">
@@ -42,19 +81,39 @@
   election?
 </div>
 
-<div class="comparison-container">
-  <div class="comparison-container__side">
-    <h3>You live in...</h3>
-    <div class="form-group">
-      <select bind:value={selectedState}>
-        <option value="">--select state--</option>
-        {#each states as state}
-          <option value={state.id}>{state.name}</option>
-        {/each}
-      </select>
+<div class="pickers-wrapper" class:compare-mode={compareMode}>
+  <div class="pickers-row" class:compare-mode={compareMode}>
+    <div class="picker-card">
+      <StatePicker heading="You live in..." {states} bind:selectedState={myState} bind:selectedParty={myParty} forceShowParty={showParty} />
     </div>
-    <button class="comparison-container__button" onclick={navigate}>Go</button>
+    {#if compareMode}
+      <div class="picker-card" in:fly={{ x: 60, duration: 250 }} out:fade={{ duration: 150 }}>
+        <button class="close-compare" onclick={() => compareMode = false} aria-label="Close comparison">×</button>
+        <StatePicker
+          heading="Comparing with..."
+          {states}
+          bind:selectedState={compareState}
+          bind:selectedParty={compareParty}
+          partyLabel="Their party... (optional)"
+          forceShowParty={showParty}
+        />
+      </div>
+    {/if}
   </div>
+
+  <button
+    class="go-button"
+    onclick={compareMode ? navigateCompare : navigate}
+    disabled={!canGo}
+  >
+    Go
+  </button>
+
+  {#if !compareMode}
+    <button class="compare-link" onclick={() => compareMode = true}>
+      or, compare with another state →
+    </button>
+  {/if}
 </div>
 
 <style lang="scss">
@@ -101,92 +160,107 @@
     }
   }
 
-  .comparison-container {
+  .pickers-wrapper {
     display: flex;
-    align-items: stretch;
+    flex-direction: column;
+    align-items: center;
+    gap: variables.$spacing-sm;
+    margin-bottom: variables.$spacing-xl;
+  }
+
+  .pickers-row {
+    display: flex;
     justify-content: center;
     gap: variables.$spacing-md;
-    max-width: 440px;
-    margin: 0 auto variables.$spacing-xl auto;
+    max-width: 360px;
+    width: 100%;
+    transition: max-width 0.25s ease;
+
+    &.compare-mode {
+      max-width: 752px;
+    }
+  }
+
+  .picker-card {
+    flex: 0 0 360px;
+    width: 360px;
+    min-width: 0;
+    padding: variables.$spacing-md;
+    background-color: variables.$white;
+    border-radius: variables.$border-radius;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
     position: relative;
+  }
 
-    &__side {
-      flex: 1;
-      padding: variables.$spacing-lg;
-      background-color: variables.$white;
-      border-radius: variables.$border-radius;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      border: 1px solid #e5e7eb;
-      text-align: center;
+  .close-compare {
+    position: absolute;
+    top: variables.$spacing-xs;
+    right: variables.$spacing-xs;
+    background: none;
+    border: none;
+    color: variables.$medium-gray;
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: variables.$border-radius;
 
-      h3 {
-        font-size: variables.$font-size-medium;
-        margin-bottom: variables.$spacing-md;
-        color: variables.$dark-gray;
-      }
+    &:hover {
+      color: variables.$dark-gray;
+      background-color: variables.$light-gray;
+    }
+  }
 
-      .form-group {
-        margin-bottom: variables.$spacing-md;
-        text-align: left;
+  .go-button {
+    width: 100%;
+    max-width: 360px;
+    background-color: variables.$dark-gray;
+    color: variables.$white;
+    border: none;
+    border-radius: variables.$border-radius;
+    padding: variables.$spacing-xs variables.$spacing-md;
+    font-size: variables.$font-size-base;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color variables.$transition-duration ease;
 
-        select {
-          width: 100%;
-          padding: variables.$spacing-xs variables.$spacing-sm;
-          border: 1px solid variables.$medium-gray;
-          border-radius: variables.$border-radius;
-          font-size: variables.$font-size-base;
-          background-color: variables.$white;
-
-          &:focus {
-            outline: none;
-            border-color: variables.$royal-blue;
-          }
-        }
-      }
+    &:hover:not(:disabled) {
+      background-color: variables.$black;
     }
 
-    &__button {
-      width: 100%;
-      background-color: variables.$dark-gray;
-      color: variables.$white;
-      border: none;
-      border-radius: variables.$border-radius;
-      padding: variables.$spacing-xs variables.$spacing-md;
-      font-size: variables.$font-size-base;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all variables.$transition-duration ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: variables.$spacing-xs;
-
-      &:hover {
-        background-color: variables.$black;
-      }
-
-      &::after {
-        content: "→";
-      }
+    &:disabled {
+      opacity: 0.45;
+      cursor: default;
     }
+  }
 
-    @media (max-width: 768px) {
+  .compare-link {
+    background: none;
+    border: none;
+    font-size: variables.$font-size-base;
+    color: variables.$medium-gray;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: none;
+
+    &:hover {
+      color: variables.$dark-gray;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .pickers-row {
       flex-direction: column;
-      gap: variables.$spacing-sm;
+      max-width: 360px;
 
-      &__button {
-        position: relative;
-        transform: none;
-        margin: variables.$spacing-sm 0;
-
-        &:hover {
-          transform: scale(1.05);
-        }
+      &.compare-mode {
+        max-width: 360px;
       }
+    }
 
-      &__side {
-        width: 100%;
-      }
+    .go-button {
+      max-width: 360px;
     }
   }
 </style>
