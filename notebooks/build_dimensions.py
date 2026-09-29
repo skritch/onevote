@@ -3,16 +3,29 @@ import marimo
 __generated_with = "0.24.2"
 app = marimo.App(width="medium")
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
     import matplotlib.pyplot as plt
     import numpy as np
     import pandas as pd
     import json
+    import argparse
+    from pathlib import Path
 
-    return json, np, pd
+
+@app.cell
+def _():
+    # Parse command line arguments
+    _parser = argparse.ArgumentParser(description='Presidential Election Scenarios Analysis')
+    _parser.add_argument(
+        '-o', '--output',
+        default="./.data/dimensions/",
+        type=str,
+        help='Output directory for results')
+    _args = _parser.parse_args()
+    output_dir = Path(_args.output)
+
+    return (output_dir,)
 
 
 @app.cell
@@ -34,7 +47,7 @@ def _():
 
 
 @app.cell
-def _(data, np):
+def _(data):
     # Create 2028 projection using 2024 data
     data_2024 = data[data['year'] == 2024].copy()
     data_2028 = data_2024.copy()
@@ -59,7 +72,7 @@ def _(data, np):
 
 
 @app.cell
-def _(data, data_2028, json, pd):
+def _(data, data_2028, output_dir):
     data_complete = pd.concat([data, data_2028], ignore_index=True)
 
     output = []
@@ -110,11 +123,14 @@ def _(data, data_2028, json, pd):
 
         output.append(year_summary)
 
+    output_dir.mkdir(exist_ok=True)
+    output_file = (output_dir / 'presidential_elections.json')
+
     # Write to JSON file
-    with open('src/data/presidential_elections.json', 'w') as f:
+    with open(output_file, 'w') as f:
         json.dump(output, f, indent=2)
 
-    print(f"Wrote {len(output)} years to presidential_elections.json")
+    print(f"Wrote {len(output)} years to {output_file}")
     return
 
 

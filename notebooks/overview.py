@@ -12,6 +12,8 @@ app = marimo.App(width="medium")
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    # Introduction
+
     Our goal is to be able to answer the following two questions:
 
     **Q1**. What is the relative value of a certain person's vote in an election?
@@ -63,11 +65,11 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ### Populations
+    ## Populations
 
     A "population" consists of all of the people living in a place, who may or may not be voters. There are a lot of ways of defining "populations", and it will helpful to distinguish them clearly as follows:
 
-    | Label      | Full Name | Description | Approx Nationally in 2020 | Variable in dataset |
+    | Label      | Full Name | Description | Approx Nationally in 2020 | Variable in Dataset |
     | ----------- | ----------- | ----------- | ---- | ---- |
     | **P**      | population       | the census residential population of a state  |  331.4M | |
     | **AP**   | apportionment population        | P + overseas federal employees and their dependents| 331.8M[^ap] | `apportionment_population` |
@@ -88,9 +90,15 @@ def _(mo):
 
     Clearly there is a major difference between **VEP** and **VP** in the United States. The difference is "voter turnout".
 
-    We may also need to estimate turnout to determine how close an election is likely to be. We have options:
-    - *ex post* actual turnout
+    At times it may be useful to estimate turnout to determine how close an election is likely to be. We may want to distinguish:
+    - *ex post* actual turnout (in the table above)
     - *ex ante estimates* of turnout: polling, voter registrations, statistical models, or simply "what happened last time"
+
+    When we use the latter, we will assign it some kind of variable label of its own, suffixed with **-E** for "estimate".
+
+
+
+    Note that "actual" turnouts are not necessarily a better measure of electoral fairness than are *ex ante* estimates, as voter turnout is causally downstream of the electoral system. For example, voters whose votes are rendered worthless by the electoral college may as well not vote.
     """)
     return
 
@@ -104,18 +112,18 @@ def _(mo):
 
     The term **third-party** is used for all parties other than the two most popular parties.
 
-    When we want to describe the population of voters affiliated with a party we will use the same labels as for populations, but prefixed with *P*, such as **PVEP** and **PVP**.
+    When we want to describe the population of voters affiliated with a party we will use the same labels as for populations, but prefixed with **P**, such as **PVEP** and **PVP**.
 
-    An individual voter does not always have a "true" party affiliation, so it is not necessarily possible to define the number of voters per party. At times we will distinguish between:
+    An individual voter does not always have a "true" party affiliation, so it is not necessarily possible to define the number of voters per party. We may wish to distinguish between:
 
     - "Actual" or *ex post* election outcomes—how many votes are actually case for each party's candidate (or in some system, for the parties themselves).
-    - *ex ante* estimates of election outcomes—any kind of forecast of actual election outcomes. Examples include polls, statistical models, or simply "whatever happened in the previous election"
-    - "Actual" party affiliations—if we asked them to vote right now, which party would a given voter prefer?
-    - Estimates of party affiliations, such as registered members of parties, polls, and statistical models.
-    - Platform preference—the similarity of between an individual's political views and party's platform.
+    - *ex ante* estimates of election outcomes—any kind of forecast of actual election outcomes. Examples include polls, statistical models, or simply "whatever happened in the previous election".
+    - "Stated" party affiliations—if we were to ask them at some point in time.
+    - Estimates of party affiliations, even for people who don't vote. Here we might use parties registrations, polls, or statistical models.
+    - Platform similarity—the "closest" party in some sense to a person's actual political beliefs.. This is mostly interesting theoretically, when considering the ability of an electoral system to express the "views" of the electorate.
 
 
-    Note that "actual" party turnouts are not necessarily a better measure of party affiliation than are *ex ante* estimates, as voter turnout is causally downstream of the election system itself; for example a party with no chance of winning may see extremely low turnout.
+    Note that "actual" party turnouts are not necessarily a better measure of party affiliation than are *ex ante* estimates, as voter turnout is causally downstream of the election system itself. For example, a party with no chance of winning may see extremely low turnout.
     """)
     return
 
@@ -129,6 +137,8 @@ def _(mo):
     - Spoilers
     - Strategic Voting
     - Gerrymandering
+
+    TODO: brief explanation.
     """)
     return
 
@@ -136,7 +146,7 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ---
+    # Organizing the Problem
 
     ## Levels of Analysis
 
@@ -209,15 +219,17 @@ def _(mo):
 
     We'll start with these:
 
-    **P1**. Actual electoral college: electors assigned by winner-take-all in all states but Maine and Nebraska, which assign their House electors to winners of districts. Arbitrarily many third parties.
+    **P1**. A national general election.
 
     **P2**. Simplified electoral college: electors assigned by winner-take-all in all states. Two parties only.
 
-    **P3**. Districtized Electoral College: assign senate electors to state winners, assign district electors to district winners in all states.
+    **P3**. Actual electoral college: electors assigned by winner-take-all in all states but Maine and Nebraska, which assign their House electors to winners of districts. Arbitrarily many third parties.
 
-    **P4**. Party-proportional Electoral College: assign state electors, including senate electors, in proportion to vote share in each state. This requires choosing method of handling remainders. The simplest method is to assign the remaining elector(s) to parties in descending order of their leftover votes.
 
-    **P5**. A national general election.
+    **P4**. Districtized Electoral College: assign senate electors to state winners, assign district electors to district winners in all states.
+
+    **P5**. Party-proportional Electoral College: assign state electors, including senate electors, in proportion to vote share in each state. This requires choosing method of handling remainders. The simplest method is to assign the remaining elector(s) to parties in descending order of their leftover votes.
+
 
     ---
 
@@ -227,7 +239,7 @@ def _(mo):
 
     This is very interesting. It would be hard to come up with realistic data for this, but I imagine someone has estimated it.
 
-    **P7, P8, and P9**. As P2, P3, and P4, but without the 2 Senate electors per state.
+    **P7, P8, and P9**. As P2, P4, and P5, but without the 2 Senate electors per state.
 
     **P10**. Ranked-choice/instant-runoff-type schemes to determine electors at the state level.
 

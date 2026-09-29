@@ -6,6 +6,19 @@
 SWE projects:
 - implement a basic form of V1 in the UI
 
+
+implement:
+- state vs state comparison
+
+
+deploy:
+- github pages
+- or, domain name + cloudflare or something
+- or a subdomain of my current site?
+
+
+
+
 Figure out a straightforward way to duplicate graphics between:
 - notebooks
 - markdown on website
@@ -18,20 +31,12 @@ More requirements:
 - I'm not sure any form of Marimo-conversion would work, short of full Python-in-the-browser reactivity.
 - but ideally we'd have the same visuals on the state pages vs the method writeup, just with different emphasis...
 
-
 requirements:
 - supports mouseover
 - can easily populate from either json in JS or CSVs
 
 
-implement:
-- state vs state comparison
 
-
-deploy:
-- github pages
-- or, domain name + cloudflare or something
-- or a subdomain of my current site?
 
 
 ## Analysis
@@ -39,7 +44,7 @@ deploy:
 
 - [x] compute the above for each of the P1-P5.
   - [x] need district-level data
-- compute for various changes to apportionment itself
+- compute for various changes to apportionment itself?
   - removing immigrants
   - citizen age -> 21
   - etc.
@@ -48,6 +53,7 @@ deploy:
 
 Try other valuations:
 - swinginess?
+- alternate wasted vote that doesn't treat a general election as wasted?3333
 - pursue the derivative idea?
 - read Gelman -> Ising model.
 - "information loss".

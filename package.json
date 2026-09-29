@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "build:data": "PYTHONPATH=. uv run notebooks/build_dimensions.py && PYTHONPATH=. uv run notebooks/build_values.py"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",
