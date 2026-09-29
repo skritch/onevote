@@ -2,6 +2,8 @@
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import StateControls from "../../components/StateControls.svelte";
+import StateSection from "../../components/StateSection.svelte";
+import SettingsPanel from "../../components/SettingsPanel.svelte";
 import { officesByName } from "../../utils/elections";
 
 export async function getStaticPaths() {
@@ -24,11 +26,14 @@ const offices = Object.keys(officesByName);
   <div class="state-page">
     <div class="state-page__header">
       <h1>{state.data.name}</h1>
-      <StateControls client:load {years} {offices} />
+      <div class="state-page__header-controls">
+        <StateControls client:load {years} {offices} />
+        <SettingsPanel client:load />
+      </div>
     </div>
 
     <div class="state-page__content">
-      <p>State information and voting data will go here.</p>
+      <StateSection client:load focusState={state.id} />
     </div>
   </div>
 </Layout>
@@ -53,6 +58,13 @@ const offices = Object.keys(officesByName);
         color: variables.$dark-gray;
         margin: 0;
       }
+    }
+
+    &__header-controls {
+      display: flex;
+      align-items: center;
+      gap: variables.$spacing-xs;
+      flex-shrink: 0;
     }
 
     &__content {

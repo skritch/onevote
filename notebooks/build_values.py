@@ -769,8 +769,11 @@ def _(data_p1, data_p2, data_p3, data_p4, data_p5, output_dir):
 
     def _clean(v):
         if isinstance(v, np.integer): return int(v)
-        if isinstance(v, np.floating): return None if np.isnan(v) else float(v)
-        if isinstance(v, float) and math.isnan(v): return None
+        if isinstance(v, (np.floating, float)):
+            if isinstance(v, np.floating) and np.isnan(v): return None
+            if isinstance(v, float) and math.isnan(v): return None
+            rounded = round(float(v), 3)
+            return int(rounded) if rounded == int(rounded) else rounded
         return v
 
     def _key(v):
