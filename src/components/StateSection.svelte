@@ -11,7 +11,7 @@
 <StateValuePlot
   {focusState}
   scenario={chartState.scenario}
-  year={chartState.year}
+  year={chartState.office === 'president' ? chartState.year : -1}
   value={chartState.value}
   popVar={showPopVar ? chartState.popVar : undefined}
 />

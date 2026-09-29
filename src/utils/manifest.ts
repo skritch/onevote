@@ -38,6 +38,13 @@ export const validPopVars: Partial<Record<ValueType, PopVar[]>> = {
   pv: ['vap', 'vep', 'vp'],
 }
 
+// Default selections (used for URL param omission — only non-defaults are added to URL)
+export const defaultValue: ValueType = 'av'
+export const defaultPopVar: Partial<Record<ValueType, PopVar>> = {
+  av: 'ap',
+  pv: 'vap',
+}
+
 // Value types available per scenario
 export const validValues: Record<Scenario, ValueType[]> = {
   p1: ['av', 'pv', 'wvv'],

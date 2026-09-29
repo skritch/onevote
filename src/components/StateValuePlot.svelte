@@ -2,7 +2,8 @@
   import * as Plot from '@observablehq/plot'
   import { getPlotRows, partyColors } from '../utils/values.js'
   import type { Scenario, ValueType, PopVar } from '../utils/values.js'
-  import { valueNames } from '../utils/manifest.js'
+  import { valueNames, validValues } from '../utils/manifest.js'
+  import { chartState } from '../utils/chartState.svelte.js'
   import statesRaw from '../data/states.json'
 
   const stateNames: Record<string, string> = Object.fromEntries(
@@ -23,9 +24,6 @@
     popVar?: PopVar
   } = $props()
 
-  type SortMode = 'value' | 'alpha'
-  let sortMode = $state<SortMode>('value')
-
   let plotEl: HTMLDivElement | undefined
   let optionsEl: HTMLDivElement | undefined
   let width = $state(600)
@@ -45,12 +43,7 @@
 
     const stateCode = focusState.toUpperCase()
     const rows = getPlotRows(scenario, year, stateCode, value, popVar)
-    const validRows = rows.filter(r => r.value !== null)
-
-    if (validRows.length === 0) {
-      plotEl.innerHTML = '<p class="no-data">No data available for this combination.</p>'
-      return
-    }
+    const hasData = rows.some(r => r.value !== null)
 
     const horizontal = width < 520
     const fill = (d: (typeof rows)[0]) => partyColors[d.winningParty ?? 'unknown']
@@ -68,8 +61,9 @@
     const axisLabel = valueNames[value]
     const fontStyle = "font-family: Inter, Roboto, 'Helvetica Neue', Arial, sans-serif;"
 
-    const xSort = sortMode === 'value' ? { x: '-y' } : { x: 'x' }
-    const ySort = sortMode === 'value' ? { y: '-x' } : { y: 'y' }
+    const effectiveSort = hasData ? chartState.sort : 'alpha'
+    const xSort = effectiveSort === 'value' ? { x: '-y' } : { x: 'x' }
+    const ySort = effectiveSort === 'value' ? { y: '-x' } : { y: 'y' }
 
     const chart = horizontal
       ? Plot.plot({
@@ -77,11 +71,11 @@
           height: 600,
           marginLeft: 36,
           style: fontStyle,
-          x: { label: axisLabel, grid: true },
-          y: { label: null },
+          x: { label: axisLabel, grid: true, domain: hasData ? undefined : [0, 1] },
+          y: { label: null, domain: hasData ? undefined : rows.map(r => r.state) },
           marks: [
             Plot.axisY({ fontSize: 8, tickSize: 0 }),
-            Plot.barX(validRows, {
+            Plot.barX(rows, {
               y: 'state',
               x: 'value',
               sort: ySort,
@@ -96,11 +90,11 @@
           height: 300,
           marginBottom: 52,
           style: fontStyle,
-          x: { label: null, padding: 0.15 },
-          y: { label: axisLabel, labelAnchor: 'center', labelArrow: 'none', grid: true },
+          x: { label: null, padding: 0.15, domain: hasData ? undefined : rows.map(r => r.state) },
+          y: { label: axisLabel, labelAnchor: 'center', labelArrow: 'none', grid: true, domain: hasData ? undefined : [0, 1] },
           marks: [
             Plot.axisX({ tickRotate: -55, fontSize: 9 }),
-            Plot.barY(validRows, {
+            Plot.barY(rows, {
               x: 'state',
               y: 'value',
               sort: xSort,
@@ -112,6 +106,19 @@
 
     plotEl.innerHTML = ''
     plotEl.appendChild(chart)
+
+    // // Make the axis label clickable to cycle through value types
+    // const labelEl = [...chart.querySelectorAll('text')].find(
+    //   t => t.textContent?.trim() === axisLabel
+    // ) as SVGTextElement | undefined
+    // if (labelEl) {
+    //   labelEl.style.cursor = 'pointer'
+    //   labelEl.style.textDecoration = 'underline'
+    //   labelEl.addEventListener('click', () => {
+    //     const values = validValues[scenario]
+    //     chartState.value = values[(values.indexOf(value) + 1) % values.length]
+    //   })
+    // }
   })
 </script>
 
@@ -132,13 +139,13 @@
         <div class="toolbar-item__panel" role="dialog" aria-label="Sort options">
           <button
             class="toolbar-item__choice"
-            class:selected={sortMode === 'value'}
-            onmousedown={() => { sortMode = 'value'; optionsOpen = false }}
+            class:selected={chartState.sort === 'value'}
+            onmousedown={() => { chartState.sort = 'value'; optionsOpen = false }}
           >by value</button>
           <button
             class="toolbar-item__choice"
-            class:selected={sortMode === 'alpha'}
-            onmousedown={() => { sortMode = 'alpha'; optionsOpen = false }}
+            class:selected={chartState.sort === 'alpha'}
+            onmousedown={() => { chartState.sort = 'alpha'; optionsOpen = false }}
           >A–Z</button>
         </div>
       {/if}

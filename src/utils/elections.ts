@@ -1,7 +1,7 @@
 
 
 
-type Office = "president" | "house" | "senate"
+export type Office = "president" | "house" | "senate"
 
 export const officesByName: Record<string, Office> = {
   Presidential: "president",

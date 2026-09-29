@@ -2,6 +2,8 @@
   import { untrack } from "svelte";
   import { officesByName } from "../utils/elections";
   import { chartState } from "../utils/chartState.svelte.js";
+  import { valueNames, popVarNames, defaultValue, defaultPopVar } from '../utils/manifest.js';
+  import type { ValueType, PopVar } from '../utils/values.js';
 
   let {
     years,
@@ -11,62 +13,122 @@
     offices: string[];
   } = $props();
 
+  let yearDropdownOpen = $state(false);
+  let yearDropdownEl: HTMLElement | null = $state(null);
+
+  function handleWindowClick(event: MouseEvent) {
+    if (yearDropdownEl && !yearDropdownEl.contains(event.target as Node)) {
+      yearDropdownOpen = false;
+    }
+  }
+
   const parties = ["Democrat", "Republican", "Other"];
 
-  let selectedYear = $state(untrack(() => String(years[0] ?? 2024)));
+  let selectedYear = $state(untrack(() => {
+    const now = new Date().getFullYear()
+    return String(years.find(y => y <= now) ?? years[0] ?? 2024)
+  }));
   let selectedOffice = $state(untrack(() => offices[0] ?? ""));
   let selectedParty = $state("");
 
+  // Sync local selectors → chartState
+  $effect(() => { chartState.year = Number(selectedYear) });
+  $effect(() => { chartState.office = officesByName[selectedOffice] ?? 'president' });
+
+  // Read URL params on mount (runs once — no reactive deps)
   $effect(() => {
     const params = new URLSearchParams(window.location.search);
     const election = params.get("election");
     if (election) {
       const [year, officeKey] = election.split("-");
       if (year) selectedYear = year;
-      const displayName = Object.entries(officesByName).find(
-        ([, v]) => v === officeKey,
-      )?.[0];
+      const displayName = Object.entries(officesByName).find(([, v]) => v === officeKey)?.[0];
       if (displayName) selectedOffice = displayName;
     }
     const party = params.get("party");
     if (party) selectedParty = party;
+    const valueParam = params.get("value");
+    if (valueParam && valueParam in valueNames) chartState.value = valueParam as ValueType;
+    const popParam = params.get("pop");
+    if (popParam && popParam in popVarNames) chartState.popVar = popParam as PopVar;
+    const sortParam = params.get("sort");
+    if (sortParam === 'alpha') chartState.sort = 'alpha';
   });
 
+  // Write URL whenever any relevant state changes (skip first run to let URL read happen first)
+  let urlSyncReady = false;
+  // Once any non-default setting has appeared, always write all settings (even if reverted to default)
+  let settingsWritten = false;
   $effect(() => {
-    chartState.year = Number(selectedYear)
-  })
+    void [selectedYear, selectedOffice, selectedParty, chartState.value, chartState.popVar, chartState.sort];
+    if (!urlSyncReady) { urlSyncReady = true; return; }
+    syncURL();
+  });
 
-  function updateURL() {
+  function syncURL() {
     const officeKey = officesByName[selectedOffice] ?? "president";
-    const electionId = `${selectedYear}-${officeKey}`;
     const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set("election", electionId);
-    if (selectedParty) {
-      newUrl.searchParams.set("party", selectedParty);
+    newUrl.searchParams.set("election", `${selectedYear}-${officeKey}`);
+
+    if (selectedParty) newUrl.searchParams.set("party", selectedParty);
+    else newUrl.searchParams.delete("party");
+
+    const defPop = defaultPopVar[chartState.value];
+    const hasNonDefault = chartState.value !== defaultValue ||
+      (defPop != null && chartState.popVar !== defPop) ||
+      chartState.sort !== 'value';
+    if (hasNonDefault) settingsWritten = true;
+
+    if (settingsWritten) {
+      newUrl.searchParams.set("value", chartState.value);
+      if (defPop != null) newUrl.searchParams.set("pop", chartState.popVar);
+      else newUrl.searchParams.delete("pop");
+      if (chartState.sort !== 'value') newUrl.searchParams.set("sort", chartState.sort);
+      else newUrl.searchParams.delete("sort");
     } else {
-      newUrl.searchParams.delete("party");
+      newUrl.searchParams.delete("value");
+      newUrl.searchParams.delete("pop");
+      newUrl.searchParams.delete("sort");
     }
+
     window.history.replaceState({}, "", newUrl);
   }
 </script>
 
+<svelte:window onclick={handleWindowClick} />
+
 <div class="state-page__controls">
-  <span class="select-wrapper">
-    <select bind:value={selectedYear} onchange={updateURL}>
-      {#each years as year}
-        <option value={String(year)}>{year}</option>
-      {/each}
-    </select>
+  <span class="select-wrapper select-wrapper--year" bind:this={yearDropdownEl}>
+    <button
+      class="year-trigger"
+      onclick={(e) => { e.stopPropagation(); yearDropdownOpen = !yearDropdownOpen; }}
+    >
+      {selectedYear}
+    </button>
+    {#if yearDropdownOpen}
+      <ul class="year-options">
+        {#each years as year}
+          <li>
+            <button
+              class:selected={String(year) === selectedYear}
+              onclick={() => { selectedYear = String(year); yearDropdownOpen = false; }}
+            >
+              {year}
+            </button>
+          </li>
+        {/each}
+      </ul>
+    {/if}
   </span>
   <span class="select-wrapper">
-    <select bind:value={selectedOffice} onchange={updateURL}>
+    <select bind:value={selectedOffice}>
       {#each offices as office}
         <option value={office}>{office}</option>
       {/each}
     </select>
   </span>
   <span class="select-wrapper">
-    <select bind:value={selectedParty} onchange={updateURL}>
+    <select bind:value={selectedParty}>
       <option value="">--</option>
       {#each parties as party}
         <option value={party}>{party}</option>
@@ -99,6 +161,59 @@
         &:focus {
           outline: none;
           border-color: variables.$royal-blue;
+        }
+      }
+
+      &--year {
+        position: relative;
+
+        .year-trigger {
+          background-color: variables.$white;
+          border: 2px solid variables.$medium-gray;
+          border-radius: variables.$border-radius;
+          padding: 1px 0.4rem;
+          font-size: 1.05rem;
+          font-weight: 600;
+          color: variables.$dark-gray;
+          cursor: pointer;
+
+          &:focus {
+            outline: none;
+            border-color: variables.$royal-blue;
+          }
+        }
+
+        .year-options {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          z-index: 100;
+          margin: 2px 0 0;
+          padding: 0;
+          list-style: none;
+          background-color: variables.$white;
+          border: 2px solid variables.$medium-gray;
+          border-radius: variables.$border-radius;
+          max-height: 16rem;
+          overflow-y: auto;
+
+          li button {
+            display: block;
+            width: 100%;
+            padding: 2px 0.6rem;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: variables.$dark-gray;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            white-space: nowrap;
+
+            &:hover, &.selected {
+              background-color: variables.$light-gray;
+            }
+          }
         }
       }
     }
