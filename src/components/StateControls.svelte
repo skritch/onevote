@@ -1,6 +1,7 @@
 <script lang="ts">
   import { untrack } from "svelte";
   import { officesByName } from "../utils/elections";
+  import { chartState } from "../utils/chartState.svelte.js";
 
   let {
     years,
@@ -30,6 +31,10 @@
     const party = params.get("party");
     if (party) selectedParty = party;
   });
+
+  $effect(() => {
+    chartState.year = Number(selectedYear)
+  })
 
   function updateURL() {
     const officeKey = officesByName[selectedOffice] ?? "president";
