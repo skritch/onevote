@@ -76,8 +76,10 @@ Implementation options:
 
 
 
-TODO: implement 2028 for AV at least.
-
+TODO: wvv should always use "vp". Should we suffix it?
+TODO: add tooltip to disabled V / Ps saying what is disabling them
+- in manifest probably
+- need to do this for other disablements too. later.
 
 
 

@@ -2,7 +2,7 @@
   import { untrack } from "svelte";
   import { officesByName } from "../utils/elections";
   import { chartState } from "../utils/chartState.svelte.js";
-  import { valueNames, popVarNames, defaultValue, defaultPopVar } from '../utils/manifest.js';
+  import { valueNames, popVarNames, defaultValue, defaultPopVar, getValidForYear } from '../utils/manifest.js';
   import type { ValueType, PopVar } from '../utils/values.js';
 
   let {
@@ -34,6 +34,19 @@
   // Sync local selectors → chartState
   $effect(() => { chartState.year = Number(selectedYear) });
   $effect(() => { chartState.office = officesByName[selectedOffice] ?? 'president' });
+
+  // Snap value/popVar to a valid combo when year changes
+  $effect(() => {
+    const year = Number(selectedYear)
+    const { values, popVarsFor } = getValidForYear(year, untrack(() => chartState.scenario))
+    const curVal = untrack(() => chartState.value)
+    const curPop = untrack(() => chartState.popVar)
+    const nextVal = values.includes(curVal) ? curVal : (values[0] ?? 'av')
+    const pops = popVarsFor(nextVal)
+    const nextPop = pops.length === 0 || pops.includes(curPop) ? curPop : pops[0]
+    if (nextVal !== curVal) chartState.value = nextVal
+    if (nextPop !== curPop) chartState.popVar = nextPop
+  });
 
   // Read URL params on mount (runs once — no reactive deps)
   $effect(() => {

@@ -54,13 +54,8 @@ function extractValue(
   record: StateValues,
   value: ValueType,
   popVar: PopVar | undefined,
-  winner: Party | null,
+  _winner: Party | null,
 ): number | null {
-  if (value === 'wvv') {
-    if (!winner) return null
-    const v = record[`wvv_${winner}`]
-    return v == null ? null : (v as number)
-  }
   const pop = popVar ?? (value === 'av' ? 'ap' : 'vap')
   const v = record[`${value}_${pop}`]
   return v == null ? null : (v as number)

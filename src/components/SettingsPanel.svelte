@@ -2,7 +2,8 @@
   import {
     valueNames, valueShortNames,
     popVarNames, popVarShortNames,
-    validPopVars, validValues,
+    validValues, validPopVars,
+    getValidForYear,
   } from '../utils/manifest.js'
   import { chartState } from '../utils/chartState.svelte.js'
   import type { ValueType, PopVar } from '../utils/values.js'
@@ -11,15 +12,28 @@
   let valueOpen = $state(false)
   let popVarOpen = $state(false)
   let panelEl: HTMLDivElement | undefined
+  let valueSelectEl: HTMLDivElement | undefined
+  let popVarSelectEl: HTMLDivElement | undefined
 
-  const availableValues = $derived(validValues[chartState.scenario])
-  const availablePopVars = $derived((validPopVars[chartState.value] ?? []) as PopVar[])
-  const showPopVar = $derived(availablePopVars.length > 0)
+  function handlePanelPointerDown(e: PointerEvent) {
+    if (valueOpen && !valueSelectEl?.contains(e.target as Node)) valueOpen = false
+    if (popVarOpen && !popVarSelectEl?.contains(e.target as Node)) popVarOpen = false
+  }
 
-  // Reset popVar if it becomes invalid when value changes
+  // Full option lists (for display — always show all)
+  const allValues = $derived(validValues[chartState.scenario])
+  const allPopVars = $derived((validPopVars[chartState.value] ?? []) as PopVar[])
+  const showPopVar = $derived(allPopVars.length > 0)
+
+  // Year-filtered subsets (used only to mark options disabled)
+  const yearValid = $derived(getValidForYear(chartState.year, chartState.scenario))
+  const enabledValues = $derived(yearValid.values)
+  const enabledPopVars = $derived(yearValid.popVarsFor(chartState.value) as PopVar[])
+
+  // Snap popVar if it becomes disabled when value or year changes
   $effect(() => {
-    if (availablePopVars.length > 0 && !availablePopVars.includes(chartState.popVar)) {
-      chartState.popVar = availablePopVars[0]
+    if (enabledPopVars.length > 0 && !enabledPopVars.includes(chartState.popVar)) {
+      chartState.popVar = enabledPopVars[0]
     }
   })
 
@@ -47,7 +61,9 @@
   >⚙</button>
 
   {#if panelOpen}
-    <div class="settings__panel" role="dialog" aria-label="Chart settings">
+    <div class="settings__panel" role="dialog" aria-label="Chart settings"
+      onpointerdown={handlePanelPointerDown}
+    >
 
       <!-- Value row -->
       <div class="row">
@@ -58,17 +74,18 @@
             See <a href="/about/definitions">here</a> for details.
           </div>
         </span>
-        <div class="custom-select" class:open={valueOpen}>
+        <div class="custom-select" class:open={valueOpen} bind:this={valueSelectEl}>
           <button
             class="custom-select__trigger"
             onclick={() => { valueOpen = !valueOpen; popVarOpen = false }}
           >{valueShortNames[chartState.value]} <span class="arrow">▾</span></button>
           {#if valueOpen}
             <div class="custom-select__list">
-              {#each availableValues as v}
+              {#each allValues as v}
                 <button
                   class="custom-select__option"
                   class:selected={v === chartState.value}
+                  disabled={!enabledValues.includes(v)}
                   onmousedown={() => selectValue(v)}
                 >{valueNames[v]}</button>
               {/each}
@@ -87,17 +104,18 @@
               See <a href="/about/population">here</a> for details.
             </div>
           </span>
-          <div class="custom-select" class:open={popVarOpen}>
+          <div class="custom-select" class:open={popVarOpen} bind:this={popVarSelectEl}>
             <button
               class="custom-select__trigger"
               onclick={() => { popVarOpen = !popVarOpen; valueOpen = false }}
             >{popVarShortNames[chartState.popVar]} <span class="arrow">▾</span></button>
             {#if popVarOpen}
               <div class="custom-select__list">
-                {#each availablePopVars as p}
+                {#each allPopVars as p}
                   <button
                     class="custom-select__option"
                     class:selected={p === chartState.popVar}
+                    disabled={!enabledPopVars.includes(p)}
                     onmousedown={() => selectPopVar(p)}
                   >{popVarNames[p]}</button>
                 {/each}
@@ -263,8 +281,13 @@
       cursor: pointer;
       white-space: nowrap;
 
-      &:hover {
+      &:hover:not(:disabled) {
         background: variables.$light-gray;
+      }
+
+      &:disabled {
+        color: #bfc2c6;
+        cursor: not-allowed;
       }
 
       &.selected {

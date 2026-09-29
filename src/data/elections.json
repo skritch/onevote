@@ -1,5 +1,11 @@
 [
   {
+    "id": "1976-president",
+    "year": 1976,
+    "office": "president",
+    "name": "1976 Presidential"
+  },
+  {
     "id": "1980-president",
     "year": 1980,
     "office": "president",

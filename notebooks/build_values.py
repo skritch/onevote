@@ -32,7 +32,6 @@ def _():
         help='Output directory for results')
     _args = _parser.parse_args()
     output_dir = Path(_args.output)
-
     return (output_dir,)
 
 
@@ -118,7 +117,7 @@ def _():
       - TODO: support third parties and "other"
 
     There are some limitations to the data set.
-    - VAP/VEP are not currently supported 1980
+    - VAP/VEP are not currently supported pre-1980
       - TODO: we can probably get census data for VAP for all years. Not sure it would be consistent with UF though.
     - VEP is not supported at the district level at all.
     - district granularity is only supported after 2012
@@ -134,6 +133,28 @@ def _():
       "samkritch/u-s-presidential-elections-by-state-1976-2024",
       'pres_1976_2024.csv',
     )
+
+    _data_2028 = data_national[data_national['year'] == 2024].copy()
+    _data_2028['year'] = 2028
+
+    # for forward-compat maybe should keep-by-name rather than remove-by-name
+
+    # Set vote-related and VAP/VEP columns to NaN
+    _vote_columns = [
+        'vap_estimate', 'vep_estimate',
+        'votes_total', 'votes_democrat', 'votes_other', 'votes_republican',
+        'electors_democrat', 'electors_republican', 'electors_other'
+    ]
+    for _col in _vote_columns:
+        _data_2028[_col] = np.nan
+
+    _election_columns = ['winning_party', 'winning_party_popular', 'candidate_democrat', 'candidate_republican']
+
+    for _col in _election_columns:
+        _data_2028[_col] = None
+
+    data_national = pd.concat([data_national, _data_2028], ignore_index=True)
+
     mo.output.append(mo.md("## National Dataset"))
     mo.output.append(data_national )
     return (data_national,)
@@ -147,12 +168,13 @@ def _():
       'pres_by_state_1976_2024.csv',
     )
 
+    _nansum = lambda x: x.sum(min_count=1)
     national_totals = data_state.groupby('year').agg({
-        'electors': 'sum',
-        'apportionment_population': 'sum',
-        'vap_estimate': 'sum',
-        'vep_estimate': 'sum',
-        'votes_total': 'sum'
+        'electors': _nansum,
+        'apportionment_population': _nansum,
+        'vap_estimate': _nansum,
+        'vep_estimate': _nansum,
+        'votes_total': _nansum,
     }).rename(columns={
         'electors': 'national_electors',
         'apportionment_population': 'national_apportionment_population',
@@ -171,6 +193,29 @@ def _():
         'vep_estimate': 'state_vep_estimate',
         'votes_total': 'state_votes_total'
     })
+
+
+
+    _data_2028 = data_state[data_state['year'] == 2024].copy()
+    _data_2028['year'] = 2028
+
+    # for forward-compat maybe should keep-by-name rather than remove-by-name
+
+    # Set vote-related and VAP/VEP columns to NaN
+    _vote_columns = [
+        'state_vap_estimate', 'state_vep_estimate', 'national_vap_estimate', 'national_vep_estimate',
+        'state_votes_total', 'votes_democrat', 'votes_other', 'votes_republican', 'national_votes_total',
+        'electors_democrat', 'electors_republican', 'electors_other'
+    ]
+    for _col in _vote_columns:
+        _data_2028[_col] = np.nan
+
+    _election_columns = ['winning_party']
+
+    for _col in _election_columns:
+        _data_2028[_col] = None
+
+    data_state = pd.concat([data_state, _data_2028], ignore_index=True)
 
     mo.output.append(mo.md("## State Dataset"))
     mo.output.append(data_state )
@@ -203,6 +248,32 @@ def _(data_state, national_totals):
     data_district = data_district.merge(state_totals, on=['year', 'state'])
     # Until upstream is fixed
     data_district = data_district.rename(columns={'apportionment_voting_age_population': 'apportionment_vap'})
+
+
+
+
+
+    _data_2028 = data_district[data_district['year'] == 2024].copy()
+    _data_2028['year'] = 2028
+
+    # for forward-compat maybe should keep-by-name rather than remove-by-name
+
+    # Set vote-related and VAP/VEP columns to NaN
+    _vote_columns = [
+        'state_vap_estimate', 'state_vep_estimate', 'national_vap_estimate', 'national_vep_estimate',
+        'votes_total', 'votes_democrat', 'votes_other', 'votes_republican', 'state_votes_total', 'national_votes_total',
+        'state_votes_democrat', 'state_votes_republican', # 'state_votes_other'? 
+        'electors_democrat', 'electors_republican', 'electors_other'
+    ]
+    for _col in _vote_columns:
+        _data_2028[_col] = np.nan
+
+    _election_columns = ['winning_party', 'state_winning_party']
+
+    for _col in _election_columns:
+        _data_2028[_col] = None
+
+    data_district = pd.concat([data_district, _data_2028], ignore_index=True)
 
 
     mo.output.append(mo.md("## District Dataset"))
@@ -252,21 +323,15 @@ def _(data_national):
     # Do we treat this as "1" because there's no states to "waste" votes?
     # data_p1['wvv'] = 1
 
-    # Or do we assign value=0 to the losers nationally?
-    data_p1['wvv_democrat'] = data_p1.apply(
-        lambda row: (row['votes_total'] / row['votes_democrat'])
-        if row['winning_party'] == 'democrat'
-        else 0,
+    data_p1['wvv_vp'] = data_p1.apply(
+        lambda row: np.nan if pd.isna(row['winning_party'])
+        else row['votes_total'] / row[f"votes_{row['winning_party']}"],
         axis=1
     )
-    data_p1['wvv_republican'] = data_p1.apply(
-        lambda row: (row['votes_total'] / row['votes_republican'])
-        if row['winning_party'] == 'republican'
-        else 0,
-        axis=1
-    )
-    data_p1["wvv_other"] = 0
-    data_p1.tail(3)
+
+
+
+    data_p1.head(3)
     return (data_p1,)
 
 
@@ -311,22 +376,13 @@ def _(PopCols, data_state, population_cols):
         data_p2[f"pv_{_p}"] = data_p2.groupby("year").apply(calculate_pv, pcols=_pcols).reset_index(drop=True)
 
 
-    data_p2["wvv_democrat"] = data_p2.apply(
-        lambda row: (row["state_electors"] * row["national_votes_total"])
-        / (row["national_electors"] * row["votes_democrat"])
-        if row["winning_party"] == "democrat"
-        else 0,
+    data_p2["wvv_vp"] = data_p2.apply(
+        lambda row: np.nan if pd.isna(row["winning_party"])
+        else (row["state_electors"] * row["national_votes_total"])
+        / (row["national_electors"] * row[f"votes_{row['winning_party']}"]),
         axis=1,
     )
-    data_p2["wvv_republican"] = data_p2.apply(
-        lambda row: (row["state_electors"] * row["national_votes_total"])
-        / (row["national_electors"] * row["votes_republican"])
-        if row["winning_party"] == "republican"
-        else 0,
-        axis=1,
-    )
-    data_p2["wvv_other"] = 0
-    data_p2.tail(3)
+    data_p2.head(3)
     return (data_p2,)
 
 
@@ -348,7 +404,7 @@ def _(data_p2, state1_dropdown, state2_dropdown, year_dropdown):
     state2_data = year_data[year_data.state == state2_dropdown.value].iloc[0]
 
     # Prepare data for visualization
-    _values = ['av_ap', 'av_vap', 'av_vep', 'av_vp',  'pv_vap', 'pv_vep', 'pv_vp', 'wvv_democrat', 'wvv_republican']
+    _values = ['av_ap', 'av_vap', 'av_vep', 'av_vp',  'pv_vap', 'pv_vep', 'pv_vp', 'wvv_vp']
     state1_values = [state1_data[_v] for _v in _values]
     state2_values = [state2_data[_v] for _v in _values]
 
@@ -475,20 +531,20 @@ def _(PopCols):
 
     def wvv_for_district(row, p: PopCols):
         sd, sr, sw = row['state_votes_democrat'], row['state_votes_republican'], row['state_winning_party']
+        if pd.isna(sw):
+            return np.nan
         state_const = (
             ((row['state_electors'] if not row['_is_split'] else 2) * row[p.n])
              / (row['national_electors'])
         )
-        state_part = (state_const / sd, 0) if sw == 'democrat' else (0, state_const / sr)
+        state_val = state_const / sd if sw == 'democrat' else state_const / sr
         if not row['_is_split']:
-            return state_part
-        district_const = (
-            (row[p.n]) / (row['national_electors'])
-        )
-        if row['winning_party'] == 'democrat':
-            return (state_part[0] + district_const / row['votes_democrat'], state_part[1])
-        else:
-            return (state_part[0], state_part[1] + district_const / row['votes_republican'])
+            return state_val
+        dw = row['winning_party']
+        district_const = row[p.n] / row['national_electors']
+        dv = row['votes_democrat'] if dw == 'democrat' else row['votes_republican']
+        # state senate electors go to sw; district elector goes to dw
+        return (state_val if dw == sw else 0) + district_const / dv
 
     return av_for_district, pv_for_district, wvv_for_district
 
@@ -550,11 +606,10 @@ def _(
 
 
     # WVV
-    data_p3[['wvv_democrat', 'wvv_republican']] = data_p3.apply(wvv_for_district, p=population_cols['vp'], axis=1, result_type='expand')
-    data_p3["wvv_other"] = 0.0
+    data_p3['wvv_vp'] = data_p3.apply(wvv_for_district, p=population_cols['vp'], axis=1)
 
 
-    data_p3.tail(1)
+    data_p3.head(3)
     return (data_p3,)
 
 
@@ -610,10 +665,9 @@ def _(
 
 
     # WVV
-    data_p4[['wvv_democrat', 'wvv_republican']] = data_p4.apply(wvv_for_district, p=population_cols['vep'], axis=1, result_type='expand')
-    data_p4["wvv_other"] = 0.0
+    data_p4['wvv_vp'] = data_p4.apply(wvv_for_district, p=population_cols['vep'], axis=1)
 
-    data_p4.tail(3)
+    data_p4.head(3)
     return (data_p4,)
 
 
@@ -699,6 +753,8 @@ def calc_electors_party_proportional(row):
 
     Currently treats all third parties as a single one, which is obviously wrong.
     """
+    if pd.isna(row['state_votes_total']):
+        return (np.nan, np.nan, np.nan)
     quota = row['state_votes_total'] / row['state_electors']
     d = np.floor(row['votes_democrat'] / quota)
     r = np.floor(row['votes_republican'] / quota)
@@ -742,14 +798,13 @@ def _(data_state, population_cols):
         # data_p5[f"pv_{_p}"] = data_p2.groupby("year").apply(calculate_pv, pcols=_pcols).reset_index(drop=True)
 
 
-    # WVV. Quite simple. 
-    for party in ['democrat', 'republican', 'other']:
-        data_p5[f"wvv_{party}"] = data_p5.apply(
-            lambda row: (row[f"electors_{party}"] * row["national_votes_total"])
-                / (row["national_electors"] * row[f"votes_{party}"])
-            if row[f"electors_{party}"] > 0 else 0,
-            axis=1,
-        )
+    # WVV: value for the state's popular vote winner.
+    data_p5['wvv_vp'] = data_p5.apply(
+        lambda row: np.nan if pd.isna(row['winning_party'])
+        else (row[f"electors_{row['winning_party']}"] * row['national_votes_total'])
+            / (row['national_electors'] * row[f"votes_{row['winning_party']}"]),
+        axis=1,
+    )
 
     data_p5
     return (data_p5,)
@@ -793,7 +848,7 @@ def _(data_p1, data_p2, data_p3, data_p4, data_p5, output_dir):
             result[_key(k)] = _to_nested(g, keys[1:], cols)
         return result
 
-    _value_cols = ['av_ap', 'av_vap', 'av_vep', 'av_vp', 'pv_ap', 'pv_vap', 'pv_vep', 'pv_vp', 'wvv_democrat', 'wvv_republican', 'wvv_other']
+    _value_cols = ['av_ap', 'av_vap', 'av_vep', 'av_vp', 'pv_ap', 'pv_vap', 'pv_vep', 'pv_vp', 'wvv_vp']
 
     output_dir.mkdir(exist_ok=True)
 
@@ -827,11 +882,6 @@ def _():
 
     TODO: calculate measures, output those two.
     """)
-    return
-
-
-@app.cell
-def _():
     return
 
 
