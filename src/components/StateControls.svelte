@@ -3,7 +3,7 @@
   import { officesByName } from "../utils/elections";
   import { chartState } from "../utils/chartState.svelte.js";
   import { valueNames, popVarNames, defaultValue, defaultPopVar, getValidForYear } from '../utils/manifest.js';
-  import type { ValueType, PopVar } from '../utils/values.js';
+  import type { ValueType, PopVar, Scenario } from '../utils/values.js';
 
   let {
     years,
@@ -35,10 +35,10 @@
   $effect(() => { chartState.year = Number(selectedYear) });
   $effect(() => { chartState.office = officesByName[selectedOffice] ?? 'president' });
 
-  // Snap value/popVar to a valid combo when year changes
+  // Snap value/popVar to a valid combo when year or scenario changes
   $effect(() => {
     const year = Number(selectedYear)
-    const { values, popVarsFor } = getValidForYear(year, untrack(() => chartState.scenario))
+    const { values, popVarsFor } = getValidForYear(year, chartState.scenario)
     const curVal = untrack(() => chartState.value)
     const curPop = untrack(() => chartState.popVar)
     const nextVal = values.includes(curVal) ? curVal : (values[0] ?? 'av')
@@ -66,6 +66,9 @@
     if (popParam && popParam in popVarNames) chartState.popVar = popParam as PopVar;
     const sortParam = params.get("sort");
     if (sortParam === 'alpha') chartState.sort = 'alpha';
+    const scenarioParam = params.get("scenario");
+    if (scenarioParam === 'p1' || scenarioParam === 'p2' || scenarioParam === 'p5')
+      chartState.scenario = scenarioParam as Scenario;
   });
 
   // Write URL whenever any relevant state changes (skip first run to let URL read happen first)
@@ -73,7 +76,7 @@
   // Once any non-default setting has appeared, always write all settings (even if reverted to default)
   let settingsWritten = false;
   $effect(() => {
-    void [selectedYear, selectedOffice, selectedParty, chartState.value, chartState.popVar, chartState.sort];
+    void [selectedYear, selectedOffice, selectedParty, chartState.scenario, chartState.value, chartState.popVar, chartState.sort];
     if (!urlSyncReady) { urlSyncReady = true; return; }
     syncURL();
   });
@@ -85,6 +88,9 @@
 
     if (selectedParty) newUrl.searchParams.set("party", selectedParty);
     else newUrl.searchParams.delete("party");
+
+    if (chartState.scenario !== 'p2') newUrl.searchParams.set("scenario", chartState.scenario);
+    else newUrl.searchParams.delete("scenario");
 
     const defPop = defaultPopVar[chartState.value];
     const hasNonDefault = chartState.value !== defaultValue ||

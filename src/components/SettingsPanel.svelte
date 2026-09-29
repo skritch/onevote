@@ -2,23 +2,29 @@
   import {
     valueNames, valueShortNames,
     popVarNames, popVarShortNames,
+    scenarioNames, scenarioShortNames,
     validValues, validPopVars,
     getValidForYear,
   } from '../utils/manifest.js'
   import { chartState } from '../utils/chartState.svelte.js'
-  import type { ValueType, PopVar } from '../utils/values.js'
+  import type { ValueType, PopVar, Scenario } from '../utils/values.js'
 
   let panelOpen = $state(false)
   let valueOpen = $state(false)
   let popVarOpen = $state(false)
+  let scenarioOpen = $state(false)
   let panelEl: HTMLDivElement | undefined
   let valueSelectEl: HTMLDivElement | undefined
   let popVarSelectEl: HTMLDivElement | undefined
+  let scenarioSelectEl: HTMLDivElement | undefined
 
   function handlePanelPointerDown(e: PointerEvent) {
     if (valueOpen && !valueSelectEl?.contains(e.target as Node)) valueOpen = false
     if (popVarOpen && !popVarSelectEl?.contains(e.target as Node)) popVarOpen = false
+    if (scenarioOpen && !scenarioSelectEl?.contains(e.target as Node)) scenarioOpen = false
   }
+
+  const scenarios = Object.keys(scenarioShortNames) as Scenario[]
 
   // Full option lists (for display — always show all)
   const allValues = $derived(validValues[chartState.scenario])
@@ -125,6 +131,34 @@
         </div>
       {/if}
 
+      <!-- Scenario row -->
+      <div class="row">
+        <span class="row-label help">
+          Election Scenario:
+          <div class="help__tooltip" role="tooltip">
+            Choose an electoral system scenario.
+            See <a href="/about/scenarios">here</a> for details.
+          </div>
+        </span>
+        <div class="custom-select" class:open={scenarioOpen} bind:this={scenarioSelectEl}>
+          <button
+            class="custom-select__trigger"
+            onclick={() => { scenarioOpen = !scenarioOpen; valueOpen = false; popVarOpen = false }}
+          >{scenarioShortNames[chartState.scenario]} <span class="arrow">▾</span></button>
+          {#if scenarioOpen}
+            <div class="custom-select__list">
+              {#each scenarios as s}
+                <button
+                  class="custom-select__option"
+                  class:selected={s === chartState.scenario}
+                  onmousedown={() => { chartState.scenario = s; scenarioOpen = false }}
+                >{scenarioNames[s]}</button>
+              {/each}
+            </div>
+          {/if}
+        </div>
+      </div>
+
     </div>
   {/if}
 </div>
@@ -171,9 +205,9 @@
 
   .row {
     display: grid;
-    grid-template-columns: 1fr 7rem;
+    grid-template-columns: 1fr 8.4rem;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.15rem;
   }
 
   .row-label {
@@ -227,7 +261,7 @@
   /* custom select */
   .custom-select {
     position: relative;
-    width: 7rem;
+    width: 8.4rem;
 
     &__trigger {
       width: 100%;

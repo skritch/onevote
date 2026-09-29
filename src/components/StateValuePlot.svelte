@@ -1,111 +1,158 @@
 <script lang="ts">
-  import * as Plot from '@observablehq/plot'
-  import { getPlotRows, partyColors } from '../utils/values.js'
-  import type { Scenario, ValueType, PopVar } from '../utils/values.js'
-  import { valueNames, validValues } from '../utils/manifest.js'
-  import { chartState } from '../utils/chartState.svelte.js'
-  import statesRaw from '../data/states.json'
-
-  const stateNames: Record<string, string> = Object.fromEntries(
-    (statesRaw as Array<{ id: string; name: string }>).map(s => [s.id.toUpperCase(), s.name])
-  )
+  import * as Plot from "@observablehq/plot";
+  import { getPlotRows, partyColors } from "../utils/values.js";
+  import type { Scenario, ValueType, PopVar } from "../utils/values.js";
+  import { valueNames, validValues } from "../utils/manifest.js";
+  import { chartState } from "../utils/chartState.svelte.js";
 
   let {
-    scenario = 'p2' as Scenario,
+    scenario = "p2" as Scenario,
     year = 2024,
     focusState,
-    value = 'av' as ValueType,
+    value = "av" as ValueType,
     popVar = undefined as PopVar | undefined,
   }: {
-    scenario?: Scenario
-    year?: number
-    focusState: string  // lowercase stateId from page params
-    value?: ValueType
-    popVar?: PopVar
-  } = $props()
+    scenario?: Scenario;
+    year?: number;
+    focusState: string; // lowercase stateId from page params
+    value?: ValueType;
+    popVar?: PopVar;
+  } = $props();
 
-  let plotEl: HTMLDivElement | undefined
-  let optionsEl: HTMLDivElement | undefined
-  let width = $state(600)
-  let optionsOpen = $state(false)
+  let plotEl: HTMLDivElement | undefined;
+  let optionsEl: HTMLDivElement | undefined;
+  let width = $state(600);
+  let optionsOpen = $state(false);
 
   $effect(() => {
-    if (!optionsOpen) return
+    if (!optionsOpen) return;
     const handler = (e: MouseEvent) => {
-      if (!optionsEl?.contains(e.target as Node)) optionsOpen = false
-    }
-    document.addEventListener('pointerdown', handler)
-    return () => document.removeEventListener('pointerdown', handler)
-  })
+      if (!optionsEl?.contains(e.target as Node)) optionsOpen = false;
+    };
+    document.addEventListener("pointerdown", handler);
+    return () => document.removeEventListener("pointerdown", handler);
+  });
 
   $effect(() => {
-    if (!plotEl) return
+    if (!plotEl) return;
 
-    const stateCode = focusState.toUpperCase()
-    const rows = getPlotRows(scenario, year, stateCode, value, popVar)
-    const hasData = rows.some(r => r.value !== null)
+    const plotRows = getPlotRows(
+      scenario,
+      year,
+      focusState.toUpperCase(),
+      value,
+      popVar,
+    );
+    const hasData = plotRows.some((r) => r.value !== null);
 
-    const horizontal = width < 520
-    const fill = (d: (typeof rows)[0]) => partyColors[d.winningParty ?? 'unknown']
-    const fillOpacity = (d: (typeof rows)[0]) => (d.isFocus ? 1 : 0.38)
-    const stateName = (d: (typeof rows)[0]) => stateNames[d.state] ?? d.state
-    const formatVal = (v: number) => v.toFixed(3)
+    const horizontal = width < 520;
+    const fill = (d: (typeof plotRows)[0]) =>
+      partyColors[d.winningParty ?? "unknown"];
+    const fillOpacity = (d: (typeof plotRows)[0]) => (d.isFocus ? 1 : 0.38);
+    const formatVal = (v: number | null) => (v !== null ? v.toFixed(3) : "");
+    const initCap = (s: string | null) =>
+      s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
+
+    type AugRow = (typeof plotRows)[0];
 
     const barOpts = {
       fill,
       fillOpacity,
-      channels: { State: { value: stateName, label: 'State' } },
-      tip: { format: { State: true, x: false, y: (v: number) => formatVal(v), fill: false, fillOpacity: false } },
-    }
+    };
 
-    const axisLabel = valueNames[value]
-    const fontStyle = "font-family: Inter, Roboto, 'Helvetica Neue', Arial, sans-serif;"
+    const isWvv = value === "wvv";
+    const tooltipValue = (d: AugRow) =>
+      !isWvv
+        ? formatVal(d.value)
+        : `
+• ${initCap(d.winningParty)}: ${formatVal(d.value)}
+• ${d.winningParty == "democrat" ? "Republican" : "Democrat"}: 0
+• Other: 0`;
+    const tooltip = (d: AugRow) =>
+      `State: ${d.state}\n\n${valueNames[value]}: ${tooltipValue(d)}`;
 
-    const effectiveSort = hasData ? chartState.sort : 'alpha'
-    const xSort = effectiveSort === 'value' ? { x: '-y' } : { x: 'x' }
-    const ySort = effectiveSort === 'value' ? { y: '-x' } : { y: 'y' }
+    const axisLabel = valueNames[value] + (isWvv ? " (winning party)" : "");
+    const fontStyle =
+      "font-family: Inter, Roboto, 'Helvetica Neue', Arial, sans-serif;";
 
-    const chart = horizontal
+    const maxVal = hasData ? Math.max(...plotRows.map((r) => r.value ?? 0)) : 0;
+    const valueDomain: [number, number] = [0, Math.max(3, maxVal)];
+
+    const effectiveSort = hasData ? chartState.sort : "alpha";
+    const xSort = effectiveSort === "value" ? { x: "-y" } : { x: "x" };
+    const ySort = effectiveSort === "value" ? { y: "-x" } : { y: "y" };
+
+    const chart = !horizontal
       ? Plot.plot({
-          width,
-          height: 600,
-          marginLeft: 36,
-          style: fontStyle,
-          x: { label: axisLabel, grid: true, domain: hasData ? undefined : [0, 1] },
-          y: { label: null, domain: hasData ? undefined : rows.map(r => r.state) },
-          marks: [
-            Plot.axisY({ fontSize: 8, tickSize: 0 }),
-            Plot.barX(rows, {
-              y: 'state',
-              x: 'value',
-              sort: ySort,
-              ...barOpts,
-              tip: { ...barOpts.tip, format: { ...barOpts.tip.format, y: false, x: (v: number) => formatVal(v) } },
-            }),
-            Plot.ruleX([1], { stroke: '#999', strokeDasharray: '4 2' }),
-          ],
-        })
-      : Plot.plot({
           width,
           height: 300,
           marginBottom: 52,
           style: fontStyle,
-          x: { label: null, padding: 0.15, domain: hasData ? undefined : rows.map(r => r.state) },
-          y: { label: axisLabel, labelAnchor: 'center', labelArrow: 'none', grid: true, domain: hasData ? undefined : [0, 1] },
+          x: {
+            label: null,
+            padding: 0.15,
+            domain: hasData ? undefined : plotRows.map((r) => r.state_po),
+          },
+          y: {
+            label: axisLabel,
+            labelAnchor: "center",
+            labelArrow: "none",
+            grid: true,
+            domain: valueDomain,
+          },
           marks: [
             Plot.axisX({ tickRotate: -55, fontSize: 9 }),
-            Plot.barY(rows, {
-              x: 'state',
-              y: 'value',
+            Plot.barY(plotRows, {
+              x: "state_po",
+              y: "value",
               sort: xSort,
               ...barOpts,
             }),
-            Plot.ruleY([1], { stroke: '#999', strokeDasharray: '4 2' }),
+            Plot.ruleY([1], { stroke: "#999", strokeDasharray: "4 2" }),
+            Plot.tip(
+              plotRows,
+              Plot.pointerX({
+                x: "state_po",
+                y: "value",
+                sort: xSort,
+                title: tooltip,
+              }),
+            ),
           ],
         })
+      : Plot.plot({
+          width,
+          height: 600,
+          marginLeft: 36,
+          style: fontStyle,
+          x: { label: axisLabel, grid: true, domain: valueDomain },
+          y: {
+            label: null,
+            domain: hasData ? undefined : plotRows.map((r) => r.state_po),
+          },
+          marks: [
+            Plot.axisY({ fontSize: 8, tickSize: 0 }),
+            Plot.barX(plotRows, {
+              y: "state_po",
+              x: "value",
+              sort: ySort,
+              ...barOpts,
+            }),
+            Plot.tip(
+              plotRows,
+              Plot.pointerY({
+                y: "state_po",
+                x: "value",
+                sort: ySort,
+                title: tooltip,
+              }),
+            ),
+            Plot.ruleX([1], { stroke: "#999", strokeDasharray: "4 2" }),
+          ],
+        });
 
-    plotEl.innerHTML = ''
-    plotEl.appendChild(chart)
+    plotEl.innerHTML = "";
+    plotEl.appendChild(chart);
 
     // // Make the axis label clickable to cycle through value types
     // const labelEl = [...chart.querySelectorAll('text')].find(
@@ -119,7 +166,7 @@
     //     chartState.value = values[(values.indexOf(value) + 1) % values.length]
     //   })
     // }
-  })
+  });
 </script>
 
 <div class="plot-outer">
@@ -131,22 +178,32 @@
       <button
         class="toolbar-item__btn"
         class:active={optionsOpen}
-        onclick={() => optionsOpen = !optionsOpen}
+        onclick={() => (optionsOpen = !optionsOpen)}
         aria-label="Sort options"
-        aria-expanded={optionsOpen}
-      >⇅</button>
+        aria-expanded={optionsOpen}>⇅</button
+      >
       {#if optionsOpen}
-        <div class="toolbar-item__panel" role="dialog" aria-label="Sort options">
+        <div
+          class="toolbar-item__panel"
+          role="dialog"
+          aria-label="Sort options"
+        >
           <button
             class="toolbar-item__choice"
-            class:selected={chartState.sort === 'value'}
-            onmousedown={() => { chartState.sort = 'value'; optionsOpen = false }}
-          >by value</button>
+            class:selected={chartState.sort === "value"}
+            onmousedown={() => {
+              chartState.sort = "value";
+              optionsOpen = false;
+            }}>by value</button
+          >
           <button
             class="toolbar-item__choice"
-            class:selected={chartState.sort === 'alpha'}
-            onmousedown={() => { chartState.sort = 'alpha'; optionsOpen = false }}
-          >A–Z</button>
+            class:selected={chartState.sort === "alpha"}
+            onmousedown={() => {
+              chartState.sort = "alpha";
+              optionsOpen = false;
+            }}>A–Z</button
+          >
         </div>
       {/if}
     </div>
@@ -209,7 +266,8 @@
       cursor: pointer;
       padding: 0;
 
-      &:hover, &.active {
+      &:hover,
+      &.active {
         background: variables.$light-gray;
         color: variables.$dark-gray;
       }

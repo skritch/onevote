@@ -41,6 +41,12 @@ export const scenarioNames: Record<Scenario, string> = {
   p5: 'Proportional Electors',
 }
 
+export const scenarioShortNames: Record<Scenario, string> = {
+  p1: 'General',
+  p2: 'Simplified EC',
+  p5: 'Proportional EC',
+}
+
 // Pop vars applicable per value type.
 export const validPopVars: Partial<Record<ValueType, PopVar[]>> = {
   av: ['ap', 'vap', 'vep', 'vp'],
