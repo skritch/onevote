@@ -3,12 +3,43 @@
 ## Tech
 
 
-SWE projects:
-- implement a basic form of V1 in the UI
+Views:
+1. [ ] value of a vote by election x state (/states/[stateId].astro)
+  - p1, p2, p5 as is
+  - p3, p4 require district
+2. [ ] value by election x state by party (/states/[stateId].astro?)
+  - p1, p5 as is
+  - p3, p4 require district
+3. [ ] compare state v state by election (/compare/compare-result.astro)
+  - compare states/districts
+4. [ ] compare state v state by election x party (/compare/compare-result.astro)
+5. [ ] over time by state/district? (no route yet, stateId page is for something else)
+6. [ ] over states / states x parties by election (/elections/[electionId].astro)
+7. [ ] compare scenarios
+7. [ ] compare scenarios values
 
 
-implement:
-- state vs state comparison
+
+all across scenarios:
+- p1: general election
+  - dim: national
+- p2: simplified present day
+  - dim: state
+- p3: present-day
+  - dim: state/district. But really only in 2 states.
+  - maybe merge with p2?
+- p4: electoral with senators -> state
+  - dim: state/district
+- p5: proportional
+  - dim: state
+
+
+
+Initial plan:
+- impl p1, p2, p5 by state
+- and by state x party
+
+
 
 
 deploy:

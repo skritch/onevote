@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { untrack } from 'svelte';
-  import { fly, fade } from 'svelte/transition';
-  import { officesByName } from '../utils/elections';
-  import StatePicker from './StatePicker.svelte';
+  import { untrack } from "svelte";
+  import { fly, fade } from "svelte/transition";
+  import { officesByName } from "../utils/elections";
+  import StatePicker from "./StatePicker.svelte";
 
   let {
     years,
@@ -19,27 +19,27 @@
   } = $props();
 
   let selectedYear = $state(untrack(() => String(years[0] ?? 2024)));
-  let selectedOffice = $state(untrack(() => offices[0] ?? ''));
-  let myState = $state('');
-  let myParty = $state('');
-  let compareState = $state('');
-  let compareParty = $state('');
-  let compareMode = $state(initialCompareMode);
-  let showParty = $state(initialShowParty);
+  let selectedOffice = $state(untrack(() => offices[0] ?? ""));
+  let myState = $state("");
+  let myParty = $state("");
+  let compareState = $state("");
+  let compareParty = $state("");
+  let compareMode = $state(untrack(() => initialCompareMode));
+  let showParty = $state(untrack(() => initialShowParty));
 
   $effect(() => {
-    if (myState !== '' || compareState !== '') showParty = true;
+    if (myState !== "" || compareState !== "") showParty = true;
   });
 
   // When user picks a party, default the other side to the opposite
   $effect(() => {
-    if (myParty === 'democrat') compareParty = 'republican';
-    else if (myParty === 'republican') compareParty = 'democrat';
+    if (myParty === "democrat") compareParty = "republican";
+    else if (myParty === "republican") compareParty = "democrat";
   });
 
   function navigate() {
     if (!myState) return;
-    const officeKey = officesByName[selectedOffice] ?? 'president';
+    const officeKey = officesByName[selectedOffice] ?? "president";
     let url = `/states/${myState}?election=${selectedYear}-${officeKey}`;
     if (myParty) url += `&party=${myParty}`;
     window.location.href = url;
@@ -47,7 +47,7 @@
 
   function navigateCompare() {
     if (!myState || !compareState) return;
-    const officeKey = officesByName[selectedOffice] ?? 'president';
+    const officeKey = officesByName[selectedOffice] ?? "president";
     let url = `/compare-result?state1=${myState}&state2=${compareState}&election=${selectedYear}-${officeKey}`;
     if (myParty) url += `&party1=${myParty}`;
     if (compareParty) url += `&party2=${compareParty}`;
@@ -55,11 +55,14 @@
   }
 
   const partiesOk = $derived(
-    (myParty === '' && compareParty === '') || (myParty !== '' && compareParty !== '')
+    (myParty === "" && compareParty === "") ||
+      (myParty !== "" && compareParty !== ""),
   );
-  const canGo = $derived(compareMode
-    ? myState !== '' && compareState !== '' && partiesOk
-    : myState !== '');
+  const canGo = $derived(
+    compareMode
+      ? myState !== "" && compareState !== "" && partiesOk
+      : myState !== "",
+  );
 </script>
 
 <div class="main-content__question">
@@ -84,13 +87,27 @@
 <div class="pickers-wrapper" class:compare-mode={compareMode}>
   <div class="pickers-row" class:compare-mode={compareMode}>
     <div class="picker-card">
-      <StatePicker heading="You live in..." {states} bind:selectedState={myState} bind:selectedParty={myParty} forceShowParty={showParty} />
+      <StatePicker
+        heading="You live in..."
+        {states}
+        bind:selectedState={myState}
+        bind:selectedParty={myParty}
+        forceShowParty={showParty}
+      />
     </div>
     {#if compareMode}
-      <div class="picker-card" in:fly={{ x: 60, duration: 250 }} out:fade={{ duration: 150 }}>
-        <button class="close-compare" onclick={() => compareMode = false} aria-label="Close comparison">×</button>
+      <div
+        class="picker-card"
+        in:fly={{ x: 60, duration: 250 }}
+        out:fade={{ duration: 150 }}
+      >
+        <button
+          class="close-compare"
+          onclick={() => (compareMode = false)}
+          aria-label="Close comparison">×</button
+        >
         <StatePicker
-          heading="Comparing with..."
+          heading="Compare with..."
           {states}
           bind:selectedState={compareState}
           bind:selectedParty={compareParty}
@@ -110,7 +127,7 @@
   </button>
 
   {#if !compareMode}
-    <button class="compare-link" onclick={() => compareMode = true}>
+    <button class="compare-link" onclick={() => (compareMode = true)}>
       or, compare with another state →
     </button>
   {/if}

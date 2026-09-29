@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { untrack } from 'svelte';
-  import { officesByName } from '../utils/elections';
+  import { untrack } from "svelte";
+  import { officesByName } from "../utils/elections";
 
   let {
     years,
@@ -10,26 +10,38 @@
     offices: string[];
   } = $props();
 
+  const parties = ["Democrat", "Republican", "Other"];
+
   let selectedYear = $state(untrack(() => String(years[0] ?? 2024)));
-  let selectedOffice = $state(untrack(() => offices[0] ?? ''));
+  let selectedOffice = $state(untrack(() => offices[0] ?? ""));
+  let selectedParty = $state("");
 
   $effect(() => {
     const params = new URLSearchParams(window.location.search);
-    const election = params.get('election');
+    const election = params.get("election");
     if (election) {
-      const [year, officeKey] = election.split('-');
+      const [year, officeKey] = election.split("-");
       if (year) selectedYear = year;
-      const displayName = Object.entries(officesByName).find(([, v]) => v === officeKey)?.[0];
+      const displayName = Object.entries(officesByName).find(
+        ([, v]) => v === officeKey,
+      )?.[0];
       if (displayName) selectedOffice = displayName;
     }
+    const party = params.get("party");
+    if (party) selectedParty = party;
   });
 
   function updateURL() {
-    const officeKey = officesByName[selectedOffice] ?? 'president';
+    const officeKey = officesByName[selectedOffice] ?? "president";
     const electionId = `${selectedYear}-${officeKey}`;
     const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set('election', electionId);
-    window.history.replaceState({}, '', newUrl);
+    newUrl.searchParams.set("election", electionId);
+    if (selectedParty) {
+      newUrl.searchParams.set("party", selectedParty);
+    } else {
+      newUrl.searchParams.delete("party");
+    }
+    window.history.replaceState({}, "", newUrl);
   }
 </script>
 
@@ -45,6 +57,14 @@
     <select bind:value={selectedOffice} onchange={updateURL}>
       {#each offices as office}
         <option value={office}>{office}</option>
+      {/each}
+    </select>
+  </span>
+  <span class="select-wrapper">
+    <select bind:value={selectedParty} onchange={updateURL}>
+      <option value="">--</option>
+      {#each parties as party}
+        <option value={party}>{party}</option>
       {/each}
     </select>
   </span>
@@ -65,8 +85,8 @@
         background-color: variables.$white;
         border: 2px solid variables.$medium-gray;
         border-radius: variables.$border-radius;
-        padding: 2px variables.$spacing-xs;
-        font-size: variables.$font-size-medsmall;
+        padding: 1px 0.4rem;
+        font-size: 1.05rem;
         font-weight: 600;
         color: variables.$dark-gray;
         cursor: pointer;
