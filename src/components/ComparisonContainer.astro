@@ -73,7 +73,7 @@ const states = await getCollection("states");
 			const office = officesByName[officeSelect?.value] || "president";
 
 			const electionId = `${year}-${office}`;
-			window.location.href = `/states/${selectedState}?election=${electionId}`;
+			window.location.href = `${import.meta.env.BASE_URL}states/${selectedState}?election=${electionId}`;
 		}
 	});
 </script>

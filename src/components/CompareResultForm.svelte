@@ -40,7 +40,7 @@
   function navigate() {
     if (!canGo) return;
     const officeKey = officesByName[selectedOffice] ?? 'president';
-    let url = `/compare-result?state1=${myState}&state2=${cmpState}&election=${selectedYear}-${officeKey}`;
+    let url = `${import.meta.env.BASE_URL}compare-result?state1=${myState}&state2=${cmpState}&election=${selectedYear}-${officeKey}`;
     if (myParty)  url += `&party1=${myParty}`;
     if (cmpParty) url += `&party2=${cmpParty}`;
     window.location.href = url;

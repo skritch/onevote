@@ -40,7 +40,7 @@
   function navigate() {
     if (!myState) return;
     const officeKey = officesByName[selectedOffice] ?? "president";
-    let url = `/states/${myState}?election=${selectedYear}-${officeKey}`;
+    let url = `${import.meta.env.BASE_URL}states/${myState}?election=${selectedYear}-${officeKey}`;
     if (myParty) url += `&party=${myParty}`;
     window.location.href = url;
   }
@@ -48,7 +48,7 @@
   function navigateCompare() {
     if (!myState || !compareState) return;
     const officeKey = officesByName[selectedOffice] ?? "president";
-    let url = `/compare-result?state1=${myState}&state2=${compareState}&election=${selectedYear}-${officeKey}`;
+    let url = `${import.meta.env.BASE_URL}compare-result?state1=${myState}&state2=${compareState}&election=${selectedYear}-${officeKey}`;
     if (myParty) url += `&party1=${myParty}`;
     if (compareParty) url += `&party2=${compareParty}`;
     window.location.href = url;

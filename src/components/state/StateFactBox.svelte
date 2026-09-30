@@ -67,7 +67,7 @@
           <InfoLink
             text="Apportionment"
             description={popVarDescriptions.ap}
-            href="/about/population"
+            href={`${import.meta.env.BASE_URL}about/population`}
           />
         </span>
         <span class="factbox__val">{fmt(dim.apportionment_population)}</span>
@@ -78,7 +78,7 @@
             <InfoLink
               text="Voting Age"
               description={popVarDescriptions.vap}
-              href="/about/population"
+              href={`${import.meta.env.BASE_URL}about/population`}
             />
           </span>
           <span class="factbox__val">{fmt(dim.vap_estimate)}</span>
@@ -90,7 +90,7 @@
             <InfoLink
               text="Voting-Eligible"
               description={popVarDescriptions.vep}
-              href="/about/population"
+              href={`${import.meta.env.BASE_URL}about/population`}
             />
           </span>
           <span class="factbox__val">{fmt(dim.vep_estimate)}</span>

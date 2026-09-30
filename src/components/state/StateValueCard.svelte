@@ -142,7 +142,7 @@
     as determined by <InfoLink
       text={valueNames[chartState.value]}
       description={valueDescriptions[chartState.value]}
-      href="/about/definitions"
+      href={`${import.meta.env.BASE_URL}about/definitions`}
     />
   </p>
 
@@ -151,7 +151,7 @@
       in a <InfoLink
         text={scenarioNames[chartState.scenario]}
         description={scenarioDescriptions[chartState.scenario]}
-        href="/about/scenarios"
+        href={`${import.meta.env.BASE_URL}about/scenarios`}
       /> scenario
     </p>
   {/if}

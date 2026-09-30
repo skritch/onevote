@@ -103,7 +103,7 @@
       <!-- Value row -->
       <div class="row">
         <span class="row-label">
-          <a href="/about/definitions" class="row-label__link"
+          <a href={`${import.meta.env.BASE_URL}about/definitions`} class="row-label__link"
             >Value-of-a-vote:</a
           >
         </span>
@@ -140,7 +140,7 @@
       {#if showPopVar}
         <div class="row">
           <span class="row-label">
-            <a href="/about/population" class="row-label__link"
+            <a href={`${import.meta.env.BASE_URL}about/population`} class="row-label__link"
               >Population Variable:</a
             >
           </span>
@@ -178,7 +178,7 @@
       {#if showScenario}
       <div class="row">
         <span class="row-label">
-          <a href="/about/scenarios" class="row-label__link"
+          <a href={`${import.meta.env.BASE_URL}about/scenarios`} class="row-label__link"
             >Election Scenario:</a
           >
         </span>

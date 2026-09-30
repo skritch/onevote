@@ -7,13 +7,13 @@ import Layout from "../../layouts/Layout.astro";
 		<h2>Compare</h2>
 		<ul class="compare-list">
 			<li>
-				<a href="/compare/states" class="compare-list__link">
+				<a href={`${import.meta.env.BASE_URL}compare/states`} class="compare-list__link">
 					<span class="compare-list__text">State vs. State</span>
 					<span class="compare-list__graphic"></span>
 				</a>
 			</li>
 			<li>
-				<a href="/compare/elections" class="compare-list__link">
+				<a href={`${import.meta.env.BASE_URL}compare/elections`} class="compare-list__link">
 					<span class="compare-list__text">Election Year vs. Election Year</span>
 					<span class="compare-list__graphic"></span>
 				</a>
@@ -23,7 +23,7 @@ import Layout from "../../layouts/Layout.astro";
 				<span class="compare-list__graphic"></span>
 			</li>
 			<li>
-				<a href="/compare/scenarios" class="compare-list__link">
+				<a href={`${import.meta.env.BASE_URL}compare/scenarios`} class="compare-list__link">
 					<span class="compare-list__text">Scenarios (General Election, Electoral College, etc.)</span>
 					<span class="compare-list__graphic"></span>
 				</a>
