@@ -64,31 +64,12 @@ TODO: add tooltip to disabled V / Ps saying what is disabling them
 - need to do this for other disablements too. later.
 
 
+TODO:
+- port the shapefile pipeline to its own repo, upload to kaggle maybe
 
+TODO:
+- fix dropdowns all over the site. make them consistent. Probably no borders.
 
-deploy:
-- github pages
-- or, domain name + cloudflare or something
-- or a subdomain of my current site?
-
-
-
-
-Figure out a straightforward way to duplicate graphics between:
-- notebooks
-- markdown on website
-- html pages on website
-- directly-servable widgets
-
-More requirements:
-- ideally we can dynamically create a graphic per-state, highlighting that state in particular
-- a D3 pipeline like my personal blog would work for that, or similar, where we explicitly design graphics as react components
-- I'm not sure any form of Marimo-conversion would work, short of full Python-in-the-browser reactivity.
-- but ideally we'd have the same visuals on the state pages vs the method writeup, just with different emphasis...
-
-requirements:
-- supports mouseover
-- can easily populate from either json in JS or CSVs
 
 
 

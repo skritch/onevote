@@ -3,8 +3,15 @@
   import { getStateDimension, partyColors, candidatesByYear } from '../../lib/values.js'
   import { popVarDescriptions } from '../../lib/manifest.js'
   import InfoLink from '../InfoLink.svelte'
+  import StateMapLogo from './StateMapLogo.svelte'
 
-  let { statePo }: { statePo: string } = $props()
+  type DistrictData = {
+    year_to_congress: Record<string, number>;
+    districts_by_congress: Record<string, Record<string, string>>;
+    viewbox_by_congress?: Record<string, string>;
+  };
+
+  let { statePo, districtData = null }: { statePo: string; districtData: DistrictData | null } = $props()
 
   const CURRENT_YEAR = new Date().getFullYear()
 
@@ -55,6 +62,11 @@
 </script>
 
 <div class="factbox">
+  {#if districtData}
+    <div class="factbox__map">
+      <StateMapLogo {districtData} />
+    </div>
+  {/if}
   {#if dim}
     <!-- Population -->
     <div class="factbox__section">
@@ -153,6 +165,13 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
     font-size: variables.$font-size-small;
   }
+
+  .factbox__map {
+    display: flex;
+    justify-content: center;
+    padding-bottom: variables.$spacing-sm;
+  }
+
 
   .factbox__section {
     display: flex;

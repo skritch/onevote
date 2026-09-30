@@ -49,15 +49,15 @@ export const scenarioShortNames: Record<Scenario, string> = {
 
 export const scenarioDescriptions: Record<Scenario, string> = {
   p1: 'All votes are pooled nationally; the candidate with the most total votes wins. No Electoral College.',
-  p2: 'Each state awards its electors votes to its popular-vote winner. This is almost identical to the present-day system, but omit idiosyncrasies in Maine and Nebraska',
+  p2: 'Each state awards its electors votes to its popular-vote winner. This is nearly identical to the present-day system, but omits the idiosyncrasies of Maine and Nebraska',
   // p3: 'The present-day. Most states award all electoral votes to their popular-vote winner, while Maine and Nebraska award one elector to the winner of each House district, and the remaining two "Senate" electors to the statewide popular-vote winner.
   // p4: 'All states award electors to the popular winner in each House district, and the remaining two "Senate" electors to the statewide popular-vote winner. This is the system used by Maine and Nebraska at present, but applied to all states.
   p5: "Each state's electoral votes are split among all candidates in proportion to their share of the popular vote in that state.",
 }
 
 export const valueDescriptions: Record<ValueType, string> = {
-  av: 'How many electoral-vote-weighted votes your ballot counts for, relative to the national average. A value above 1.0 means your state is over-represented.',
-  pv: 'The probability that your single vote changes the final outcome, relative to the average American voter.',
+  av: 'The number of electors or representatives per voter, scaled so that the national average is 1.0. A value above 1.0 means your vote is over-represented in the election.',
+  pv: 'A measure of the chance that a single vote turns out to decide the final outcome. A value above 1.0 means that your vote ',
   wvv: 'A measure of electoral influence that weights only votes not cast for a losing candidate.',
 }
 

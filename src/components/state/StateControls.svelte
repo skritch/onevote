@@ -197,9 +197,9 @@
         background-color: variables.$white;
         border: 1px solid variables.$medium-gray;
         border-radius: variables.$border-radius;
-        padding: 1px 1.4rem 1px 0.4rem;
-        font-size: 1.05rem;
-        font-weight: 600;
+        padding: 0 1.2rem 0 0.35rem;
+        font-size: 0.85rem;
+        font-weight: 400;
         color: variables.$dark-gray;
         cursor: pointer;
 
@@ -216,9 +216,9 @@
           background-color: variables.$white;
           border: 1px solid variables.$medium-gray;
           border-radius: variables.$border-radius;
-          padding: 1px 0.4rem;
-          font-size: 1.05rem;
-          font-weight: 600;
+          padding: 0 0.35rem;
+          font-size: 0.85rem;
+          font-weight: 400;
           color: variables.$dark-gray;
           cursor: pointer;
 
@@ -246,8 +246,8 @@
             display: block;
             width: 100%;
             padding: 2px 0.6rem;
-            font-size: 1.05rem;
-            font-weight: 600;
+            font-size: 0.85rem;
+            font-weight: 400;
             color: variables.$dark-gray;
             background: none;
             border: none;

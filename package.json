@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "build:data": "PYTHONPATH=. uv run notebooks/build_dimensions.py && PYTHONPATH=. uv run notebooks/build_values.py"
+    "build:data": "PYTHONPATH=. uv run notebooks/build_dimensions.py && PYTHONPATH=. uv run notebooks/build_values.py",
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",
@@ -22,5 +23,8 @@
     "sass": "^1.97.3",
     "svelte": "^5.48.5",
     "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3"
   }
 }

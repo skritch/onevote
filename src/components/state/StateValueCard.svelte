@@ -108,9 +108,6 @@
         >
         vote in <strong>{stateName}</strong>
       {/if}
-      {#if !selectedPartyKey}
-        <span class="wvv-auto-label">(winning party)</span>
-      {/if}
     {:else if chartState.party}
       {#if chartState.party === "Other"}
         a <strong>Third Party</strong> vote in <strong>{stateName}</strong>
@@ -133,7 +130,7 @@
 
   {#if displayValue !== 0 && displayValue !== null}
     <p class="relative-label">
-      {displayValue > 1 ? "more than" : "as much as"} the average vote
+      {displayValue > 1 ? "times more than" : "of"} the nationwide average
     </p>
     <div class="sep" aria-hidden="true">—</div>
   {/if}

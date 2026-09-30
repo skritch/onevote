@@ -1,4 +1,6 @@
 ---
+import { readFileSync } from "fs";
+import { join } from "path";
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import StateControls from "../../components/state/StateControls.svelte";
@@ -8,15 +10,34 @@ import StateValueCard from "../../components/state/StateValueCard.svelte";
 import StateFactBox from "../../components/state/StateFactBox.svelte";
 import { officesByName } from "../../lib/elections";
 
+type DistrictData = {
+  year_to_congress: Record<string, number>;
+  districts_by_congress: Record<string, Record<string, string>>;
+  viewbox_by_congress?: Record<string, string>;
+};
+
 export async function getStaticPaths() {
   const states = await getCollection("states");
-  return states.map((state) => ({
-    params: { stateId: state.id },
-    props: { state },
-  }));
+  return states.map((state) => {
+    let districtData: DistrictData | null = null;
+    try {
+      districtData = JSON.parse(
+        readFileSync(
+          join(process.cwd(), ".data/district_paths", `${state.id.toUpperCase()}.json`),
+          "utf-8"
+        )
+      );
+    } catch {
+      // No district data for this state (e.g. DC).
+    }
+    return {
+      params: { stateId: state.id },
+      props: { state, districtData },
+    };
+  });
 }
 
-const { state } = Astro.props;
+const { state, districtData } = Astro.props;
 const elections = await getCollection("elections");
 const years = [...new Set(elections.map((e) => e.data.year))].sort(
   (a, b) => b - a,
@@ -30,8 +51,8 @@ const offices = Object.keys(officesByName);
     // StateControls removes this attribute after its first effect runs.
     document.documentElement.setAttribute('data-state-loading', '');
   </script>
-  <div class="content-page state-page">
-    <div class="page-header">
+  <div class="state-page">
+    <div class="page-header state-page__header">
       <h1>{state.data.name}</h1>
       <div class="page-controls">
         <StateControls client:load {years} {offices} />
@@ -39,13 +60,15 @@ const offices = Object.keys(officesByName);
       </div>
     </div>
 
-    <div class="state-page__panels">
-      <StateValueCard client:load stateName={state.data.name} statePo={state.id} />
-      <StateFactBox client:load statePo={state.id} />
-    </div>
+    <div class="content-page">
+      <div class="state-page__panels">
+        <StateValueCard client:load stateName={state.data.name} statePo={state.id} />
+        <StateFactBox client:load statePo={state.id} {districtData} />
+      </div>
 
-    <div class="state-page__content">
-      <ElectionSection client:load focusState={state.id} />
+      <div class="state-page__content">
+        <ElectionSection client:load focusState={state.id} />
+      </div>
     </div>
   </div>
 </Layout>
@@ -53,17 +76,20 @@ const offices = Object.keys(officesByName);
 <style lang="scss">
   @use "../../styles/variables.scss";
 
-  // Give the header its bottom spacing (global .page-header omits margin-bottom).
-  .page-header {
-    margin-bottom: variables.$spacing-lg;
-  }
-
   .state-page {
     h1 {
       font-size: variables.$font-size-large;
       color: variables.$dark-gray;
       margin: 0;
       white-space: nowrap;
+    }
+
+    &__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: variables.$spacing-md;
+      margin-bottom: variables.$spacing-md;
     }
 
     &__panels {
@@ -80,11 +106,15 @@ const offices = Object.keys(officesByName);
       border: 1px solid #e5e7eb;
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
     }
-  }
 
-  @media (max-width: variables.$content-breakpoint) {
-    .state-page__panels {
-      grid-template-columns: 1fr;
+    @media (max-width: variables.$content-breakpoint) {
+      &__header {
+        flex-wrap: wrap;
+      }
+
+      &__panels {
+        grid-template-columns: 1fr;
+      }
     }
   }
 
@@ -94,5 +124,10 @@ const offices = Object.keys(officesByName);
     .state-page__content {
       opacity: 0;
     }
+  }
+
+  // .state-logo lives in a Svelte component so needs a fully global selector.
+  :global([data-state-loading] .state-logo) {
+    opacity: 0;
   }
 </style>
