@@ -227,7 +227,7 @@
   // Single shared grid: dot | name | % | votes(✓) | electors
   .factbox__results-body {
     display: grid;
-    grid-template-columns: 8px 1fr auto auto auto;
+    grid-template-columns: 8px 5rem auto auto auto;
     align-items: center;
     column-gap: 0.35rem;
     row-gap: 0.2rem;

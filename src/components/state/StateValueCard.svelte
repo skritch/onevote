@@ -1,6 +1,7 @@
 <script lang="ts">
   import { chartState } from "../../lib/chartState.svelte.js";
   import { getStateValue } from "../../lib/values.js";
+  import { dimensionsStateWinner } from "../../lib/elections.js";
   import {
     scenarioNames,
     scenarioDescriptions,
@@ -39,7 +40,56 @@
         : "would have been",
   );
 
+  const isWVV = $derived(chartState.value === "wvv");
+
+  // TODO: when P3 district selection is implemented, this must use the district-level winner
+  // rather than the statewide winner — ME-2 and NE-2 flip the winning party relative to their state.
+  const winningParty = $derived(
+    dimensionsStateWinner[String(chartState.year)]?.[statePo.toUpperCase()] ??
+      null,
+  );
+
+  // chartState.party is title-cased ("Democrat"); normalize to lowercase for comparison
+  const selectedPartyKey = $derived(
+    chartState.party ? chartState.party.toLowerCase() : null,
+  );
+
+  // For WVV with no party selected, auto-use the winning party
+  const effectivePartyKey = $derived(
+    isWVV && !selectedPartyKey ? winningParty : selectedPartyKey,
+  );
+
+  // For WVV, any non-winning party has value 0
+  // TODO: don't hardcode this, read it from the source data
+  const displayValue = $derived(
+    isWVV && effectivePartyKey !== winningParty ? 0 : value,
+  );
+
+  // Build a list of parties not being shown in the main display (for the WVV note)
+  const wvvOtherParties = $derived.by(() => {
+    if (!isWVV || !winningParty)
+      return [] as Array<{
+        label: string;
+        apostrophe: boolean;
+        value: number | null;
+        isWinner: boolean;
+      }>;
+    const allParties = ["democrat", "republican", "other"] as const;
+    return allParties
+      .filter((p) => p !== effectivePartyKey)
+      .map((p) => ({
+        label:
+          p === "other"
+            ? "third party"
+            : p.charAt(0).toUpperCase() + p.slice(1),
+        apostrophe: p !== "other",
+        value: p === winningParty ? value : 0,
+        isWinner: p === winningParty,
+      }));
+  });
+
   function formatValue(v: number): string {
+    if (v === 0) return "0";
     const s = v.toFixed(3);
     return v < 1 ? s.slice(1) : s;
   }
@@ -48,29 +98,43 @@
 <div class="value-card">
   <p class="subject">
     in <strong>{chartState.year}</strong>,
-    {#if chartState.party}
+    {#if isWVV && effectivePartyKey}
+      {#if effectivePartyKey === "other"}
+        a <strong>Third Party</strong> vote in <strong>{stateName}</strong>
+      {:else}
+        a <strong
+          >{effectivePartyKey.charAt(0).toUpperCase() +
+            effectivePartyKey.slice(1)}'s</strong
+        >
+        vote in <strong>{stateName}</strong>
+      {/if}
+      {#if !selectedPartyKey}
+        <span class="wvv-auto-label">(winning party)</span>
+      {/if}
+    {:else if chartState.party}
       {#if chartState.party === "Other"}
         a <strong>Third Party</strong> vote in <strong>{stateName}</strong>
       {:else}
-        a <strong>{chartState.party}'s</strong> vote in <strong>{stateName}</strong>
+        a <strong>{chartState.party}'s</strong> vote in
+        <strong>{stateName}</strong>
       {/if}
     {:else}
       a vote in <strong>{stateName}</strong>
     {/if}
+    <br />
+    {tense} worth
   </p>
 
-  <p class="tense">{tense} worth</p>
-
-  {#if value !== null}
-    <p class="value">{formatValue(value)}</p>
-    <p class="votes-label">votes</p>
+  {#if displayValue !== null}
+    <p class="value">{formatValue(displayValue)}</p>
   {:else}
     <p class="value value--empty">—</p>
   {/if}
 
-  <p class="relative-label">relative to the average American</p>
-
-  <div class="sep" aria-hidden="true">—</div>
+  {#if displayValue !== 0}
+    <p class="relative-label">as much as the average American's vote</p>
+    <div class="sep" aria-hidden="true">—</div>
+  {/if}
 
   <p class="value-type">
     as determined by <InfoLink
@@ -81,7 +145,6 @@
   </p>
 
   {#if !isRealOutcome}
-    <div class="sep" aria-hidden="true">—</div>
     <p class="scenario">
       in a <InfoLink
         text={scenarioNames[chartState.scenario]}
@@ -89,6 +152,21 @@
         href="/about/scenarios"
       /> scenario
     </p>
+  {/if}
+
+  {#if wvvOtherParties.length > 0}
+    <div class="sep" aria-hidden="true">—</div>
+    <div class="wvv-others">
+      {#each wvvOtherParties as other}
+        <p class="wvv-other">
+          A {other.label}{other.apostrophe ? "'s" : ""}
+          vote {tense} worth
+          <strong
+            >{other.value !== null ? formatValue(other.value) : "—"}</strong
+          >
+        </p>
+      {/each}
+    </div>
   {/if}
 </div>
 
@@ -100,39 +178,24 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.3rem;
+    gap: 0.5rem;
     padding: variables.$spacing-sm variables.$spacing-md;
     background: variables.$white;
     border: 1px solid #e5e7eb;
     border-radius: variables.$border-radius;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
     text-align: center;
-
-    p {
-      margin: 0;
-    }
-
-    .value {
-      margin-top: 1rem;
-    }
-
-    .votes-label {
-      margin-bottom: 1rem;
-    }
   }
 
   .subject {
-    font-size: 1.2rem;
-    color: variables.$medium-gray;
-    line-height: 1.4;
-
     strong {
       color: variables.$dark-gray;
     }
   }
 
-  .tense {
-    font-size: 0.75rem;
+  .wvv-auto-label {
+    font-size: 0.7em;
+    font-weight: normal;
     color: variables.$medium-gray;
   }
 
@@ -140,16 +203,10 @@
     font-size: 3.2rem;
     font-weight: 700;
     color: variables.$dark-gray;
-    line-height: 1;
 
     &--empty {
       color: variables.$medium-gray;
     }
-  }
-
-  .votes-label {
-    font-size: 1.3rem;
-    color: variables.$medium-gray;
   }
 
   .sep {
@@ -159,12 +216,6 @@
     margin: -0.15rem 0;
     user-select: none;
   }
-
-  .relative-label {
-    font-size: 0.75rem;
-    color: variables.$medium-gray;
-  }
-
   .value-type {
     font-size: 0.72rem;
     color: variables.$medium-gray;
@@ -173,5 +224,21 @@
   .scenario {
     font-size: 0.72rem;
     color: variables.$medium-gray;
+  }
+
+  .wvv-others {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+  }
+
+  .wvv-other {
+    font-size: 0.72rem;
+    color: variables.$medium-gray;
+
+    strong {
+      color: variables.$dark-gray;
+    }
   }
 </style>
