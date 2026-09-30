@@ -123,7 +123,7 @@ def _(data, data_2028, output_dir):
 
         output.append(year_summary)
 
-    output_dir.mkdir(exist_ok=True)
+    output_dir.mkdir(parents=True, exist_ok=True)
     output_file = (output_dir / 'presidential_elections.json')
 
     # Write to JSON file

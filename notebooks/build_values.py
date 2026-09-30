@@ -850,7 +850,7 @@ def _(data_p1, data_p2, data_p3, data_p4, data_p5, output_dir):
 
     _value_cols = ['av_ap', 'av_vap', 'av_vep', 'av_vp', 'pv_ap', 'pv_vap', 'pv_vep', 'pv_vp', 'wvv_vp']
 
-    output_dir.mkdir(exist_ok=True)
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     (output_dir / 'p1.json').write_text(json.dumps(_to_nested(data_p1, ['year'], _value_cols), indent=2))
     (output_dir / 'p2.json').write_text(json.dumps(_to_nested(data_p2, ['year', 'state_po'], _value_cols), indent=2))

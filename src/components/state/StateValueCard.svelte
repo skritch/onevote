@@ -90,7 +90,7 @@
 
   function formatValue(v: number): string {
     if (v === 0) return "0";
-    const s = v.toFixed(3);
+    const s = v.toFixed(3).replace(/\.?0+$/, "");
     return v < 1 ? s.slice(1) : s;
   }
 </script>
@@ -131,8 +131,10 @@
     <p class="value value--empty">—</p>
   {/if}
 
-  {#if displayValue !== 0}
-    <p class="relative-label">as much as the average American's vote</p>
+  {#if displayValue !== 0 && displayValue !== null}
+    <p class="relative-label">
+      {displayValue > 1 ? "more than" : "as much as"} the average vote
+    </p>
     <div class="sep" aria-hidden="true">—</div>
   {/if}
 
