@@ -23,14 +23,26 @@
   let optionsEl: HTMLDivElement | undefined;
   let width = $state(600);
   let optionsOpen = $state(false);
+  const isHorizontal = $derived(width < 520);
 
   $effect(() => {
     if (!optionsOpen) return;
     const handler = (e: MouseEvent) => {
-      if (!optionsEl?.contains(e.target as Node)) optionsOpen = false;
+      if (!optionsEl?.contains(e.target as Node)) {
+        optionsOpen = false;
+        document.dispatchEvent(new CustomEvent("ui:close"));
+      }
     };
     document.addEventListener("pointerdown", handler);
     return () => document.removeEventListener("pointerdown", handler);
+  });
+
+  $effect(() => {
+    const handler = () => {
+      plotEl?.querySelector("svg")?.dispatchEvent(new PointerEvent("pointerleave", { bubbles: true }));
+    };
+    document.addEventListener("ui:close", handler);
+    return () => document.removeEventListener("ui:close", handler);
   });
 
   $effect(() => {
@@ -45,7 +57,7 @@
     );
     const hasData = plotRows.some((r) => r.value !== null);
 
-    const horizontal = width < 520;
+    const horizontal = isHorizontal;
     const fill = (d: (typeof plotRows)[0]) =>
       partyColors[d.winningParty ?? "unknown"];
     const fillOpacity = (d: (typeof plotRows)[0]) => (d.isFocus ? 1 : 0.38);
@@ -79,7 +91,7 @@
     const valueDomain: [number, number] = [0, Math.max(3, maxVal)];
 
     const effectiveSort = hasData ? chartState.sort : "alpha";
-    const xSort = effectiveSort === "value" ? { x: "-y" } : { x: "x" };
+    const xSort = effectiveSort === "value" ? { x: "y" } : { x: "x" };
     const ySort = effectiveSort === "value" ? { y: "-x" } : { y: "y" };
 
     const chart = !horizontal
@@ -169,7 +181,7 @@
   });
 </script>
 
-<div class="plot-outer">
+<div class="plot-outer" class:wide={!isHorizontal}>
   <div class="plot-content">
     <div bind:this={plotEl} bind:clientWidth={width}></div>
   </div>
@@ -180,7 +192,7 @@
         class:active={optionsOpen}
         onclick={() => (optionsOpen = !optionsOpen)}
         aria-label="Sort options"
-        aria-expanded={optionsOpen}>⇅</button
+        aria-expanded={optionsOpen}>{isHorizontal ? '⇅' : '⇄'}</button
       >
       {#if optionsOpen}
         <div
@@ -194,6 +206,7 @@
             onmousedown={() => {
               chartState.sort = "value";
               optionsOpen = false;
+              document.dispatchEvent(new CustomEvent("ui:close"));
             }}>by value</button
           >
           <button
@@ -202,6 +215,7 @@
             onmousedown={() => {
               chartState.sort = "alpha";
               optionsOpen = false;
+              document.dispatchEvent(new CustomEvent("ui:close"));
             }}>A–Z</button
           >
         </div>
@@ -220,6 +234,10 @@
     display: flex;
     align-items: flex-start;
     width: 100%;
+
+    &.wide {
+      align-items: flex-end;
+    }
   }
 
   .plot-content {

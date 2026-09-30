@@ -19,6 +19,7 @@
   function handleWindowClick(event: MouseEvent) {
     if (yearDropdownEl && !yearDropdownEl.contains(event.target as Node)) {
       yearDropdownOpen = false;
+      document.dispatchEvent(new CustomEvent('ui:close'));
     }
   }
 
@@ -130,7 +131,7 @@
           <li>
             <button
               class:selected={String(year) === selectedYear}
-              onclick={() => { selectedYear = String(year); yearDropdownOpen = false; }}
+              onclick={() => { selectedYear = String(year); yearDropdownOpen = false; document.dispatchEvent(new CustomEvent('ui:close')); }}
             >
               {year}
             </button>

@@ -139,13 +139,13 @@
 
   .main-content__question {
     text-align: center;
-    font-size: variables.$font-size-medium;
+    font-size: clamp(1.1rem, 2.5vw, variables.$font-size-medium);
     font-weight: 600;
     color: variables.$dark-gray;
     line-height: 1.4;
     padding: variables.$spacing-lg 0 variables.$spacing-xl 0;
 
-    @media (min-width: 769px) {
+    @media (min-width: 960px) {
       white-space: nowrap;
       width: 100vw;
       position: relative;
@@ -169,12 +169,6 @@
         color: variables.$dark-gray;
         cursor: pointer;
       }
-    }
-  }
-
-  @media (max-width: 768px) {
-    .main-content__question {
-      font-size: 1.25rem;
     }
   }
 
@@ -275,6 +269,12 @@
       &.compare-mode {
         max-width: 360px;
       }
+    }
+
+    .picker-card {
+      flex: none;
+      width: 100%;
+      max-width: 360px;
     }
 
     .go-button {
