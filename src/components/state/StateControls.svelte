@@ -25,12 +25,41 @@
 
   const parties = ["Democrat", "Republican", "Other"];
 
-  let selectedYear = $state(untrack(() => {
-    const now = new Date().getFullYear()
-    return String(years.find(y => y <= now) ?? years[0] ?? 2024)
-  }));
-  let selectedOffice = $state(untrack(() => offices[0] ?? ""));
-  let selectedParty = $state("");
+  // Parse URL params synchronously so initial state is correct on first render
+  const _urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+  const _election = _urlParams?.get("election") ?? null;
+  const [_yearParam, _officeParam] = _election ? _election.split("-") : [null, null];
+
+  // Apply chartState fields from URL before effects run
+  if (_urlParams) {
+    const scenarioParam = _urlParams.get("scenario");
+    if (scenarioParam === 'p1' || scenarioParam === 'p2' || scenarioParam === 'p5')
+      chartState.scenario = scenarioParam as Scenario;
+    const valueParam = _urlParams.get("value");
+    if (valueParam && valueParam in valueNames) chartState.value = valueParam as ValueType;
+    const popParam = _urlParams.get("pop");
+    if (popParam && popParam in popVarNames) chartState.popVar = popParam as PopVar;
+    const sortParam = _urlParams.get("sort");
+    if (sortParam === 'alpha' || sortParam === 'value') chartState.sort = sortParam;
+  }
+
+  const _initialYear = (() => {
+    if (_yearParam && years.includes(Number(_yearParam))) return _yearParam;
+    const now = new Date().getFullYear();
+    return String(years.find(y => y <= now) ?? years[0] ?? 2024);
+  })();
+  const _initialOffice = (() => {
+    if (_officeParam) {
+      const displayName = Object.entries(officesByName).find(([, v]) => v === _officeParam)?.[0];
+      if (displayName) return displayName;
+    }
+    return offices[0] ?? "";
+  })();
+  const _partyParam = _urlParams?.get("party") ?? null;
+
+  let selectedYear = $state(_initialYear);
+  let selectedOffice = $state(_initialOffice);
+  let selectedParty = $state(_partyParam ? (parties.find(p => p.toLowerCase() === _partyParam.toLowerCase()) ?? "") : "");
 
   // Sync local selectors → chartState
   $effect(() => { chartState.year = Number(selectedYear) });
@@ -50,30 +79,9 @@
     if (nextPop !== curPop) chartState.popVar = nextPop
   });
 
-  // Read URL params on mount (runs once — no reactive deps)
+  // Reveal page sections hidden by [data-state-loading] once correct values are applied.
   $effect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const election = params.get("election");
-    if (election) {
-      const [year, officeKey] = election.split("-");
-      if (year) selectedYear = year;
-      const displayName = Object.entries(officesByName).find(([, v]) => v === officeKey)?.[0];
-      if (displayName) selectedOffice = displayName;
-    }
-    const party = params.get("party");
-    if (party) {
-      const matched = parties.find(p => p.toLowerCase() === party.toLowerCase());
-      if (matched) selectedParty = matched;
-    }
-    const valueParam = params.get("value");
-    if (valueParam && valueParam in valueNames) chartState.value = valueParam as ValueType;
-    const popParam = params.get("pop");
-    if (popParam && popParam in popVarNames) chartState.popVar = popParam as PopVar;
-    const sortParam = params.get("sort");
-    if (sortParam === 'alpha' || sortParam === 'value') chartState.sort = sortParam;
-    const scenarioParam = params.get("scenario");
-    if (scenarioParam === 'p1' || scenarioParam === 'p2' || scenarioParam === 'p5')
-      chartState.scenario = scenarioParam as Scenario;
+    document.documentElement.removeAttribute('data-state-loading');
   });
 
   // Write URL whenever any relevant state changes (skip first run to let URL read happen first)

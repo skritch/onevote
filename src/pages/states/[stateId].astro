@@ -25,6 +25,11 @@ const offices = Object.keys(officesByName);
 ---
 
 <Layout>
+  <script is:inline>
+    // Hide URL-param-sensitive sections until Svelte hydrates with correct values.
+    // StateControls removes this attribute after its first effect runs.
+    document.documentElement.setAttribute('data-state-loading', '');
+  </script>
   <div class="content-page state-page">
     <div class="page-header">
       <h1>{state.data.name}</h1>
@@ -80,6 +85,14 @@ const offices = Object.keys(officesByName);
   @media (max-width: variables.$content-breakpoint) {
     .state-page__panels {
       grid-template-columns: 1fr;
+    }
+  }
+
+  :global([data-state-loading]) {
+    .page-controls,
+    .state-page__panels,
+    .state-page__content {
+      opacity: 0;
     }
   }
 </style>
