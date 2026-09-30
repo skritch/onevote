@@ -41,14 +41,19 @@ const offices = Object.keys(officesByName);
 <style lang="scss">
   @use "../../styles/variables.scss";
 
+  // 788px content + 2×16px Layout padding = 820px breakpoint.
+  // The breakpoint fires exactly when wide-mode outer margins hit zero,
+  // so there is no content-width jump at the transition.
+  $wide-content-width: 788px;
+  $breakpoint: 820px;
+
   .state-page {
-    max-width: 800px;
+    max-width: $wide-content-width;
     margin: 0 auto;
-    padding: variables.$spacing-sm variables.$spacing-lg;
 
     &__header {
       display: flex;
-      align-items: baseline;
+      align-items: center;
       justify-content: space-between;
       margin-bottom: variables.$spacing-lg;
       gap: variables.$spacing-md;
@@ -57,6 +62,7 @@ const offices = Object.keys(officesByName);
         font-size: variables.$font-size-large;
         color: variables.$dark-gray;
         margin: 0;
+        white-space: nowrap;
       }
     }
 
@@ -69,14 +75,16 @@ const offices = Object.keys(officesByName);
 
     &__content {
       background-color: variables.$white;
-      padding: variables.$spacing-lg;
+      padding: variables.$spacing-md;
       border-radius: variables.$border-radius;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: $breakpoint) {
     .state-page {
+      max-width: none;
+
       &__header {
         flex-direction: column;
         align-items: flex-start;

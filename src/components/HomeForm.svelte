@@ -18,7 +18,7 @@
     initialShowParty?: boolean;
   } = $props();
 
-  let selectedYear = $state(untrack(() => String(years[0] ?? 2024)));
+  let selectedYear = $state(untrack(() => String(2024)));
   let selectedOffice = $state(untrack(() => offices[0] ?? ""));
   let myState = $state("");
   let myParty = $state("");
@@ -63,10 +63,11 @@
       ? myState !== "" && compareState !== "" && partiesOk
       : myState !== "",
   );
+  const yearIsPast = $derived(Number(selectedYear) < new Date().getFullYear());
 </script>
 
 <div class="main-content__question">
-  How much will your vote be worth in the
+  {yearIsPast ? "How much would your vote have been worth in the" : "How much will your vote be worth in the"}
   <span class="select-wrapper">
     <select bind:value={selectedYear}>
       {#each years as year}

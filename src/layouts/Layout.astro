@@ -18,26 +18,29 @@ import Header from "../components/Header.astro";
 			<main class="main-content">
 				<slot />
 			</main>
-
 		</div>
 	</body>
 </html>
 
-<style lang="scss">
-	@use "../styles/variables.scss";
-	@use "../styles/global.scss";
-
+<style is:global lang="scss">
+	html {
+		scrollbar-gutter: stable;
+	}
 	html,
 	body {
 		margin: 0;
 		width: 100%;
 		height: 100%;
 	}
+</style>
 
-.main-content {
+<style lang="scss">
+	@use "../styles/variables.scss";
+	@use "../styles/global.scss";
 
-    max-width: 880px;
-    margin: 0 auto;
-    padding: variables.$spacing-lg;
+	.main-content {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: variables.$spacing-lg variables.$spacing-sm;
 	}
 </style>
