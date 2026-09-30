@@ -1,6 +1,6 @@
 <script lang="ts">
   import { untrack } from 'svelte';
-  import { officesByName } from '../utils/elections';
+  import { officesByName } from '../lib/elections';
 
   let {
     years,

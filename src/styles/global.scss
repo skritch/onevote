@@ -22,6 +22,40 @@ body {
   padding: 0 variables.$spacing-md;
 }
 
+// ── Shared content-page layout ──────────────────────────────────────────────
+// Applied to the root element of full-width content pages (states, compare, etc.)
+.content-page {
+  max-width: variables.$content-width;
+  margin: 0 auto;
+
+  @media (max-width: variables.$content-breakpoint) {
+    max-width: none;
+  }
+}
+
+// Flex header row: left slot (title) + right slot (controls).
+// margin-bottom is intentionally omitted — each page sets its own spacing.
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: variables.$spacing-md;
+
+  @media (max-width: variables.$content-breakpoint) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+// Right-side control strip inside a .page-header.
+// margin-left: auto pushes it to the far right even when the left slot is empty.
+.page-controls {
+  display: flex;
+  align-items: center;
+  gap: variables.$spacing-xs;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
 button {
   font-family: inherit;
   cursor: pointer;

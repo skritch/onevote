@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import HomeForm from "../components/HomeForm.svelte";
-import { officesByName } from "../utils/elections";
+import { officesByName } from "../lib/elections";
 
 const elections = await getCollection("elections");
 const states = await getCollection("states");

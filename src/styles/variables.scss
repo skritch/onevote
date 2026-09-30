@@ -24,6 +24,10 @@ $spacing-xl: 4rem;
 
 // Layout
 $container-max-width: 1200px;
+// 788px content + 2×$spacing-sm (Layout side padding) = 820px breakpoint.
+// Used by all content pages to size themselves identically.
+$content-width: 788px;
+$content-breakpoint: 820px;
 $border-radius: 8px;
 $transition-duration: 0.15s;
 

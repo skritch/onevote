@@ -1,7 +1,7 @@
 <script lang="ts">
   import { untrack } from "svelte";
   import { fly, fade } from "svelte/transition";
-  import { officesByName } from "../utils/elections";
+  import { officesByName } from "../lib/elections";
   import StatePicker from "./StatePicker.svelte";
 
   let {
@@ -67,7 +67,9 @@
 </script>
 
 <div class="main-content__question">
-  {yearIsPast ? "How much would your vote have been worth in the" : "How much will your vote be worth in the"}
+  {yearIsPast
+    ? "How much would your vote have been worth in the"
+    : "How much will your vote be worth in the"}
   <span class="select-wrapper">
     <select bind:value={selectedYear}>
       {#each years as year}
@@ -159,11 +161,23 @@
       display: inline-block;
       position: relative;
 
+      &::after {
+        content: "▾";
+        position: absolute;
+        right: 0.4rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 0.8rem;
+        color: variables.$medium-gray;
+        pointer-events: none;
+      }
+
       select {
+        appearance: none;
         background-color: variables.$white;
-        border: 2px solid variables.$medium-gray;
+        border: 1px solid variables.$medium-gray;
         border-radius: variables.$border-radius;
-        padding: 2px variables.$spacing-xs;
+        padding: 2px 1.4rem 2px variables.$spacing-xs;
         font-size: variables.$font-size-medsmall;
         font-weight: 600;
         color: variables.$dark-gray;

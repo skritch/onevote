@@ -54,3 +54,4 @@ https://www.fec.gov/documents/5645/2024presgeresults.xlsx
 * https://guides.library.harvard.edu/hks/campaigns_elections
 
 
+https://claude.ai/chat/03d71121-9a18-45fd-bb7f-261a12006df5 & other approaches

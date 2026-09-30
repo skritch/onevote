@@ -23,6 +23,8 @@ import Header from "../components/Header.astro";
 </html>
 
 <style is:global lang="scss">
+	@use "../styles/global.scss";
+
 	html {
 		scrollbar-gutter: stable;
 	}
@@ -36,7 +38,6 @@ import Header from "../components/Header.astro";
 
 <style lang="scss">
 	@use "../styles/variables.scss";
-	@use "../styles/global.scss";
 
 	.main-content {
 		max-width: 1200px;

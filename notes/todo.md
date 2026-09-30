@@ -5,18 +5,19 @@
 
 Views:
 1. [ ] value of a vote by election x state (/states/[stateId].astro)
-  - p1, p2, p5 as is
-  - p3, p4 require district
+  - [x] p1, p2, p5 as is
+  - [ ] p3, p4 require district
+  - [ ] Add a "fact chart", state viz, and top line "here's what your vote is worth"
 2. [ ] value by election x state by party (/states/[stateId].astro?)
-  - p1, p5 as is
-  - p3, p4 require district
+  - [x] p1, p2, p5 as is
+  - [ ] wvv needs to split out partie
+  - [x] p3, p4 require district
 3. [ ] compare state v state by election (/compare/compare-result.astro)
   - compare states/districts
 4. [ ] compare state v state by election x party (/compare/compare-result.astro)
 5. [ ] over time by state/district? (no route yet, stateId page is for something else)
-6. [ ] over states / states x parties by election (/elections/[electionId].astro)
-7. [ ] compare scenarios
-7. [ ] compare scenarios values
+6. [ ] compare scenarios
+7. [ ] over states / states x parties by election (/elections/[electionId].astro)
 
 
 
@@ -49,38 +50,18 @@ all across scenarios:
 
 
 
-Initial plan:
-- impl p1, p2, p5 by state
-  - for an election, should display vs all other states
-  - compare side-by-side with another presidential election scenario
-  - or, compare all scenarios side by side
-  - display av and pv x all available population variables
-- and by state x party
-  - also display wvv
-
-(Note I don't feel good about either pv or wvv)
 
 
-
-Implementation options:
-- D3 or similar JS library
-  - Observable
-- Astro-marimo
-  - How to embed in another page as a component?
-    - How to pass data from enclosing component to Notebook?
-  - Maybe better to just use Astro for the graphs?
-  - Replicate the marimo-mdx flow, but with our pre-rendering options?
-- Marimo-mdx
-  - Need to test: how fast is this? What can it do?
+I don't feel good about either pv or wvv
+- PV looks way too low across the board?
+- WVV obviously weird with the "national loser = zero".
 
 
 
 
-TODO: wvv should always use "vp". Should we suffix it?
 TODO: add tooltip to disabled V / Ps saying what is disabling them
 - in manifest probably
 - need to do this for other disablements too. later.
-TODO: make the narrow state page looks better, lose the page margins.
 
 
 

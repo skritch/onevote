@@ -1,20 +1,20 @@
 <script lang="ts">
   import * as Plot from "@observablehq/plot";
-  import { getPlotRows, partyColors } from "../utils/values.js";
-  import type { Scenario, ValueType, PopVar } from "../utils/values.js";
-  import { valueNames, validValues } from "../utils/manifest.js";
-  import { chartState } from "../utils/chartState.svelte.js";
+  import { getPlotRows, partyColors } from "../lib/values.js";
+  import type { Scenario, ValueType, PopVar } from "../lib/values.js";
+  import { valueNames, validValues } from "../lib/manifest.js";
+  import { chartState } from "../lib/chartState.svelte.js";
 
   let {
     scenario = "p2" as Scenario,
     year = 2024,
-    focusState,
+    focusState = "",
     value = "av" as ValueType,
     popVar = undefined as PopVar | undefined,
   }: {
     scenario?: Scenario;
     year?: number;
-    focusState: string; // lowercase stateId from page params
+    focusState?: string;
     value?: ValueType;
     popVar?: PopVar;
   } = $props();
@@ -60,7 +60,7 @@
     const horizontal = isHorizontal;
     const fill = (d: (typeof plotRows)[0]) =>
       partyColors[d.winningParty ?? "unknown"];
-    const fillOpacity = (d: (typeof plotRows)[0]) => (d.isFocus ? 1 : 0.38);
+    const fillOpacity = (d: (typeof plotRows)[0]) => (!focusState || d.isFocus ? 1 : 0.38);
     const formatVal = (v: number | null) => (v !== null ? v.toFixed(3) : "");
     const initCap = (s: string | null) =>
       s ? s.charAt(0).toUpperCase() + s.slice(1) : "";

@@ -1,8 +1,8 @@
 ---
 import { getCollection } from "astro:content";
-import Layout from "../layouts/Layout.astro";
-import HomeForm from "../components/HomeForm.svelte";
-import { officesByName } from "../utils/elections";
+import Layout from "../../layouts/Layout.astro";
+import CompareResultForm from "../../components/CompareResultForm.svelte";
+import { officesByName } from "../../lib/elections";
 
 const elections = await getCollection("elections");
 const states = await getCollection("states");
@@ -14,5 +14,5 @@ const stateList = states.map((s) => ({ id: s.id, name: s.data.name }));
 ---
 
 <Layout>
-	<HomeForm client:load {years} {offices} states={stateList} initialCompareMode={true} initialShowParty={true} />
+	<CompareResultForm client:load {years} {offices} states={stateList} />
 </Layout>

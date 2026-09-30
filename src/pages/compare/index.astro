@@ -1,0 +1,96 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout>
+	<div class="compare-index">
+		<h2>Compare</h2>
+		<ul class="compare-list">
+			<li>
+				<a href="/compare/states" class="compare-list__link">
+					<span class="compare-list__text">State vs. State</span>
+					<span class="compare-list__graphic"></span>
+				</a>
+			</li>
+			<li>
+				<a href="/compare/elections" class="compare-list__link">
+					<span class="compare-list__text">Election Year vs. Election Year</span>
+					<span class="compare-list__graphic"></span>
+				</a>
+			</li>
+			<li class="compare-list__item--disabled compare-list__link">
+				<span class="compare-list__text">District vs. District</span>
+				<span class="compare-list__graphic"></span>
+			</li>
+			<li>
+				<a href="/compare/scenarios" class="compare-list__link">
+					<span class="compare-list__text">Scenarios (General Election, Electoral College, etc.)</span>
+					<span class="compare-list__graphic"></span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</Layout>
+
+<style lang="scss">
+	@use "../../styles/variables.scss";
+
+	.compare-index {
+		max-width: 788px;
+		margin: 0 auto;
+
+		h2 {
+			font-size: 1.5rem;
+			font-weight: 700;
+			margin-bottom: variables.$spacing-lg;
+		}
+	}
+
+	.compare-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: variables.$spacing-xs;
+
+		&__link {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: variables.$spacing-md variables.$spacing-md;
+			border-radius: variables.$border-radius;
+			background-color: variables.$white;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+			color: variables.$dark-gray;
+			text-decoration: none;
+
+			&:hover {
+				box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+			}
+		}
+
+		&__text {
+			font-size: 1.1rem;
+		}
+
+		&__graphic {
+			width: 80px;
+			height: 48px;
+			flex-shrink: 0;
+			background-color: variables.$light-gray;
+			border-radius: 4px;
+			margin-left: variables.$spacing-md;
+		}
+
+		&__item--disabled {
+			color: #c0c0c0;
+			cursor: default;
+			pointer-events: none;
+
+			.compare-list__graphic {
+				opacity: 0.4;
+			}
+		}
+	}
+</style>

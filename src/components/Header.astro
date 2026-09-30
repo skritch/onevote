@@ -18,7 +18,17 @@ const essays: { url: string; frontmatter: { title: string } }[] = Object.values(
 			<h1 class="header__title">OneVote</h1>
 		</a>
 		<nav class="navigation">
-			<a href="/compare" class="navigation__item">compare</a>
+			<div class="navigation__item navigation__item--dropdown">
+				<a href="/compare" class="navigation__link">compare</a>
+				<div class="dropdown">
+					<div class="dropdown__list">
+						<a href="/compare/states" class="dropdown__item">states</a>
+						<a href="/compare/elections" class="dropdown__item">elections</a>
+						<span class="dropdown__item dropdown__item--disabled">districts</span>
+						<a href="/compare/scenarios" class="dropdown__item">scenarios</a>
+					</div>
+				</div>
+			</div>
 			<div class="navigation__item navigation__item--dropdown">
 				<a href="/elections" class="navigation__link">elections</a>
 				<div class="dropdown">
@@ -185,6 +195,16 @@ const essays: { url: string; frontmatter: { title: string } }[] = Object.values(
 			&:hover {
 				color: variables.$dark-gray;
 				background-color: #f9fafb;
+			}
+
+			&--disabled {
+				opacity: 0.4;
+				cursor: default;
+
+				&:hover {
+					color: variables.$medium-gray;
+					background-color: transparent;
+				}
 			}
 		}
 	}

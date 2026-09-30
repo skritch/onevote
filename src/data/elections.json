@@ -3,79 +3,105 @@
     "id": "1976-president",
     "year": 1976,
     "office": "president",
-    "name": "1976 Presidential"
+    "name": "1976 Presidential",
+    "candidate_democrat": "Jimmy Carter",
+    "candidate_republican": "Gerald Ford"
   },
   {
     "id": "1980-president",
     "year": 1980,
     "office": "president",
-    "name": "1980 Presidential"
+    "name": "1980 Presidential",
+    "candidate_democrat": "Jimmy Carter",
+    "candidate_republican": "Ronald Reagan"
   },
   {
     "id": "1984-president",
     "year": 1984,
     "office": "president",
-    "name": "1984 Presidential"
+    "name": "1984 Presidential",
+    "candidate_democrat": "Walter Mondale",
+    "candidate_republican": "Ronald Reagan"
   },
   {
     "id": "1988-president",
     "year": 1988,
     "office": "president",
-    "name": "1988 Presidential"
+    "name": "1988 Presidential",
+    "candidate_democrat": "Michael Dukakis",
+    "candidate_republican": "George H.W. Bush"
   },
   {
     "id": "1992-president",
     "year": 1992,
     "office": "president",
-    "name": "1992 Presidential"
+    "name": "1992 Presidential",
+    "candidate_democrat": "Bill Clinton",
+    "candidate_republican": "George H.W. Bush"
   },
   {
     "id": "1996-president",
     "year": 1996,
     "office": "president",
-    "name": "1996 Presidential"
+    "name": "1996 Presidential",
+    "candidate_democrat": "Bill Clinton",
+    "candidate_republican": "Bob Dole"
   },
   {
     "id": "2000-president",
     "year": 2000,
     "office": "president",
-    "name": "2000 Presidential"
+    "name": "2000 Presidential",
+    "candidate_democrat": "Al Gore",
+    "candidate_republican": "George W. Bush"
   },
   {
     "id": "2004-president",
     "year": 2004,
     "office": "president",
-    "name": "2004 Presidential"
+    "name": "2004 Presidential",
+    "candidate_democrat": "John Kerry",
+    "candidate_republican": "George W. Bush"
   },
   {
     "id": "2008-president",
     "year": 2008,
     "office": "president",
-    "name": "2008 Presidential"
+    "name": "2008 Presidential",
+    "candidate_democrat": "Barack Obama",
+    "candidate_republican": "John McCain"
   },
   {
     "id": "2012-president",
     "year": 2012,
     "office": "president",
-    "name": "2012 Presidential"
+    "name": "2012 Presidential",
+    "candidate_democrat": "Barack Obama",
+    "candidate_republican": "Mitt Romney"
   },
   {
     "id": "2016-president",
     "year": 2016,
     "office": "president",
-    "name": "2016 Presidential"
+    "name": "2016 Presidential",
+    "candidate_democrat": "Hillary Clinton",
+    "candidate_republican": "Donald Trump"
   },
   {
     "id": "2020-president",
     "year": 2020,
     "office": "president",
-    "name": "2020 Presidential"
+    "name": "2020 Presidential",
+    "candidate_democrat": "Joe Biden",
+    "candidate_republican": "Donald Trump"
   },
   {
     "id": "2024-president",
     "year": 2024,
     "office": "president",
-    "name": "2024 Presidential"
+    "name": "2024 Presidential",
+    "candidate_democrat": "Kamala Harris",
+    "candidate_republican": "Donald Trump"
   },
   {
     "id": "2028-president",

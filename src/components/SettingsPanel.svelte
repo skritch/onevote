@@ -9,9 +9,11 @@
     validValues,
     validPopVars,
     getValidForYear,
-  } from "../utils/manifest.js";
-  import { chartState } from "../utils/chartState.svelte.js";
-  import type { ValueType, PopVar, Scenario } from "../utils/values.js";
+  } from "../lib/manifest.js";
+  import { chartState } from "../lib/chartState.svelte.js";
+  import type { ValueType, PopVar, Scenario } from "../lib/values.js";
+
+  let { showScenario = true }: { showScenario?: boolean } = $props();
 
   let panelOpen = $state(false);
   let valueOpen = $state(false);
@@ -173,6 +175,7 @@
       {/if}
 
       <!-- Scenario row -->
+      {#if showScenario}
       <div class="row">
         <span class="row-label">
           <a href="/about/scenarios" class="row-label__link"
@@ -210,6 +213,7 @@
           {/if}
         </div>
       </div>
+      {/if}
     </div>
   {/if}
 </div>

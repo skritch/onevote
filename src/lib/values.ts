@@ -1,13 +1,19 @@
 import p1Raw from '../../.data/presidential_values/p1.json'
 import p2Raw from '../../.data/presidential_values/p2.json'
+import p3Raw from '../../.data/presidential_values/p3.json'
 import p5Raw from '../../.data/presidential_values/p5.json'
-import dimensionsRaw from '../../.data/dimensions/presidential_elections.json'
-import statesRaw from "../data/states.json";
+import statesRaw from "../data/states.json"
+import { dimensionsNationalWinner, dimensionsStateWinner } from './elections.js'
+import type { Party } from './elections.js'
+
+export type { Party } from './elections.js'
+export type { StateDimension } from './elections.js'
+export { candidatesByYear } from './elections.js'
+export { getStateDimension } from './elections.js'
 
 export type Scenario = 'p1' | 'p2' | 'p5'
 export type ValueType = 'av' | 'pv' | 'wvv'
 export type PopVar = 'ap' | 'vap' | 'vep' | 'vp'
-export type Party = 'democrat' | 'republican' | 'other'
 
 export interface PlotRow {
   state_po: string // uppercase state_po, e.g. 'AL'
@@ -22,27 +28,11 @@ type YearStateData = Record<string, StateValues>
 
 const p1Data = p1Raw as Record<string, StateValues>
 const p2Data = p2Raw as Record<string, YearStateData>
+// p3: year → state_po → district_number → values (ME/NE split electors by district)
+const p3Data = p3Raw as Record<string, Record<string, Record<string, StateValues>>>
 const p5Data = p5Raw as Record<string, YearStateData>
 
-// Build dimensions winner lookups: year -> (state_po ->) Party | null
-const dimensionsNationalWinner: Record<string, Party | null> = {}
-const dimensionsStateWinner: Record<string, Record<string, Party | null>> = {}
-const statesByPo = new Map(statesRaw.map(({ id, name }) => [id.toUpperCase(), name]))
-
-for (const yearData of dimensionsRaw as Array<{
-  year: number
-  winning_party: string | null
-  states: Array<{ state: string, state_po: string; winning_party: string | null }>
-}>) {
-  const yearKey = String(yearData.year)
-  dimensionsNationalWinner[yearKey] = (yearData.winning_party as Party | null) || null
-  dimensionsStateWinner[yearKey] = {}
-  for (const s of yearData.states) {
-    dimensionsStateWinner[yearKey][s.state_po] = (s.winning_party as Party | null) || null
-  }
-}
-
-const allStatePOs = [...statesByPo.keys()].sort()
+export const statesByPo = new Map(statesRaw.map(({ id, name }) => [id.toUpperCase(), name]))
 
 export const partyColors: Record<string, string> = {
   democrat: '#4169e1',
@@ -55,7 +45,6 @@ function extractValue(
   record: StateValues,
   value: ValueType,
   popVar: PopVar | undefined,
-  _winner: Party | null,
 ): number | null {
   const pop = popVar ?? (value === 'av' ? 'ap' : 'vap')
   const v = record[`${value}_${pop}`]
@@ -81,7 +70,7 @@ export function getPlotRows(
   if (!stateWinners) {
     return Array.from(statesByPo.entries()).map(([state_po, state]) => ({
       state_po,
-      state: state,
+      state,
       value: null,
       winningParty: null,
       isFocus: state_po === focusState,
@@ -91,9 +80,7 @@ export function getPlotRows(
   if (scenario === 'p1') {
     const national = p1Data[yearKey]
     const nationalWinner = dimensionsNationalWinner[yearKey] ?? null
-    const nationalValue = national
-      ? extractValue(national, value, popVar, nationalWinner)
-      : null
+    const nationalValue = national ? extractValue(national, value, popVar) : null
 
     return Array.from(statesByPo.entries()).map(([state_po, state]) => ({
       state_po,
@@ -121,9 +108,46 @@ export function getPlotRows(
     return {
       state_po,
       state,
-      value: record ? extractValue(record, value, popVar, winner) : null,
+      value: record ? extractValue(record, value, popVar) : null,
       winningParty: winner,
       isFocus: state_po === focusState,
     }
   })
+}
+
+/**
+ * Returns the value for a single state. For p3 (actual EC), district "1" is used
+ * as the state-level representative value (all districts identical except ME/NE).
+ */
+export function getStateValue(
+  scenario: string,
+  year: number,
+  state_po: string,
+  value: ValueType,
+  popVar?: PopVar,
+): number | null {
+  const yearKey = String(year)
+  const po = state_po.toUpperCase()
+  const pop = popVar ?? (value === 'av' ? 'ap' : 'vap')
+  const key = `${value}_${pop}`
+
+  if (scenario === 'p1') {
+    const national = p1Data[yearKey]
+    return national ? ((national[key] as number | null) ?? null) : null
+  }
+
+  if (scenario === 'p3') {
+    const yearData = p3Data[yearKey]
+    if (!yearData) return null
+    const stateDistricts = yearData[po]
+    if (!stateDistricts) return null
+    const first = stateDistricts['1'] ?? Object.values(stateDistricts)[0]
+    return first ? ((first[key] as number | null) ?? null) : null
+  }
+
+  const data = scenario === 'p5' ? p5Data : p2Data
+  const yearData = data[yearKey]
+  if (!yearData) return null
+  const record = yearData[po]
+  return record ? ((record[key] as number | null) ?? null) : null
 }

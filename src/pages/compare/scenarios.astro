@@ -1,0 +1,14 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import ScenariosPage from "../../components/ScenariosPage.svelte";
+
+const elections = await getCollection("elections");
+const years = [...new Set(elections.map((e) => e.data.year))].sort(
+	(a, b) => b - a,
+);
+---
+
+<Layout>
+	<ScenariosPage client:load {years} />
+</Layout>

@@ -4,7 +4,9 @@ import Layout from "../../layouts/Layout.astro";
 import StateControls from "../../components/StateControls.svelte";
 import StateSection from "../../components/StateSection.svelte";
 import SettingsPanel from "../../components/SettingsPanel.svelte";
-import { officesByName } from "../../utils/elections";
+import StateValueCard from "../../components/StateValueCard.svelte";
+import StateFactBox from "../../components/StateFactBox.svelte";
+import { officesByName } from "../../lib/elections";
 
 export async function getStaticPaths() {
   const states = await getCollection("states");
@@ -23,13 +25,18 @@ const offices = Object.keys(officesByName);
 ---
 
 <Layout>
-  <div class="state-page">
-    <div class="state-page__header">
+  <div class="content-page state-page">
+    <div class="page-header">
       <h1>{state.data.name}</h1>
-      <div class="state-page__header-controls">
+      <div class="page-controls">
         <StateControls client:load {years} {offices} />
         <SettingsPanel client:load />
       </div>
+    </div>
+
+    <div class="state-page__panels">
+      <StateValueCard client:load stateName={state.data.name} statePo={state.id} />
+      <StateFactBox client:load statePo={state.id} />
     </div>
 
     <div class="state-page__content">
@@ -41,54 +48,38 @@ const offices = Object.keys(officesByName);
 <style lang="scss">
   @use "../../styles/variables.scss";
 
-  // 788px content + 2×16px Layout padding = 820px breakpoint.
-  // The breakpoint fires exactly when wide-mode outer margins hit zero,
-  // so there is no content-width jump at the transition.
-  $wide-content-width: 788px;
-  $breakpoint: 820px;
+  // Give the header its bottom spacing (global .page-header omits margin-bottom).
+  .page-header {
+    margin-bottom: variables.$spacing-lg;
+  }
 
   .state-page {
-    max-width: $wide-content-width;
-    margin: 0 auto;
-
-    &__header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: variables.$spacing-lg;
-      gap: variables.$spacing-md;
-
-      h1 {
-        font-size: variables.$font-size-large;
-        color: variables.$dark-gray;
-        margin: 0;
-        white-space: nowrap;
-      }
+    h1 {
+      font-size: variables.$font-size-large;
+      color: variables.$dark-gray;
+      margin: 0;
+      white-space: nowrap;
     }
 
-    &__header-controls {
-      display: flex;
-      align-items: center;
-      gap: variables.$spacing-xs;
-      flex-shrink: 0;
+    &__panels {
+      display: grid;
+      grid-template-columns: 55fr 45fr;
+      gap: variables.$spacing-md;
+      margin-bottom: variables.$spacing-md;
     }
 
     &__content {
       background-color: variables.$white;
       padding: variables.$spacing-md;
       border-radius: variables.$border-radius;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
     }
   }
 
-  @media (max-width: $breakpoint) {
-    .state-page {
-      max-width: none;
-
-      &__header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+  @media (max-width: variables.$content-breakpoint) {
+    .state-page__panels {
+      grid-template-columns: 1fr;
     }
   }
 </style>

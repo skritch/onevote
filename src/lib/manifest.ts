@@ -47,6 +47,25 @@ export const scenarioShortNames: Record<Scenario, string> = {
   p5: 'Proportional EC',
 }
 
+export const scenarioDescriptions: Record<Scenario, string> = {
+  p1: 'All votes are pooled nationally; the candidate with the most total votes wins. No Electoral College.',
+  p2: 'Each state awards all its electoral votes to its popular-vote winner (winner-take-all). A candidate needs 270 electoral votes to win.',
+  p5: "Each state's electoral votes are split proportionally among candidates based on their vote share in that state.",
+}
+
+export const valueDescriptions: Record<ValueType, string> = {
+  av: 'How many electoral-vote-weighted votes your ballot counts for, relative to the national average. A value above 1.0 means your state is over-represented.',
+  pv: 'The probability that your single vote changes the final outcome, relative to the average American voter.',
+  wvv: 'A measure of electoral influence that weights only votes not cast for a losing candidate.',
+}
+
+export const popVarDescriptions: Record<PopVar, string> = {
+  ap: 'The official U.S. Census population count used to apportion House seats and Electoral College votes. Includes all residents regardless of citizenship or voting eligibility.',
+  vap: 'Estimated number of residents age 18 and older. Includes non-citizens and those legally barred from voting.',
+  vep: 'Estimated number of citizens age 18 or older who are legally eligible to vote in federal elections.',
+  vp: 'The actual number of ballots cast in the election.',
+}
+
 // Pop vars applicable per value type.
 export const validPopVars: Partial<Record<ValueType, PopVar[]>> = {
   av: ['ap', 'vap', 'vep', 'vp'],

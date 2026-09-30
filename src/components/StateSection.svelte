@@ -1,7 +1,7 @@
 <script lang="ts">
   import StateValuePlot from './StateValuePlot.svelte'
-  import { chartState } from '../utils/chartState.svelte.js'
-  import { validPopVars } from '../utils/manifest.js'
+  import { chartState } from '../lib/chartState.svelte.js'
+  import { validPopVars } from '../lib/manifest.js'
 
   let { focusState }: { focusState: string } = $props()
 

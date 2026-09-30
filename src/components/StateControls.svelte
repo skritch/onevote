@@ -1,9 +1,9 @@
 <script lang="ts">
   import { untrack } from "svelte";
-  import { officesByName } from "../utils/elections";
-  import { chartState } from "../utils/chartState.svelte.js";
-  import { valueNames, popVarNames, defaultValue, defaultPopVar, getValidForYear } from '../utils/manifest.js';
-  import type { ValueType, PopVar, Scenario } from '../utils/values.js';
+  import { officesByName } from "../lib/elections";
+  import { chartState } from "../lib/chartState.svelte.js";
+  import { valueNames, popVarNames, defaultValue, defaultPopVar, getValidForYear } from '../lib/manifest.js';
+  import type { ValueType, PopVar, Scenario } from '../lib/values.js';
 
   let {
     years,
@@ -35,6 +35,7 @@
   // Sync local selectors → chartState
   $effect(() => { chartState.year = Number(selectedYear) });
   $effect(() => { chartState.office = officesByName[selectedOffice] ?? 'president' });
+  $effect(() => { chartState.party = selectedParty });
 
   // Snap value/popVar to a valid combo when year or scenario changes
   $effect(() => {
@@ -60,13 +61,16 @@
       if (displayName) selectedOffice = displayName;
     }
     const party = params.get("party");
-    if (party) selectedParty = party;
+    if (party) {
+      const matched = parties.find(p => p.toLowerCase() === party.toLowerCase());
+      if (matched) selectedParty = matched;
+    }
     const valueParam = params.get("value");
     if (valueParam && valueParam in valueNames) chartState.value = valueParam as ValueType;
     const popParam = params.get("pop");
     if (popParam && popParam in popVarNames) chartState.popVar = popParam as PopVar;
     const sortParam = params.get("sort");
-    if (sortParam === 'alpha') chartState.sort = 'alpha';
+    if (sortParam === 'alpha' || sortParam === 'value') chartState.sort = sortParam;
     const scenarioParam = params.get("scenario");
     if (scenarioParam === 'p1' || scenarioParam === 'p2' || scenarioParam === 'p5')
       chartState.scenario = scenarioParam as Scenario;
@@ -96,14 +100,14 @@
     const defPop = defaultPopVar[chartState.value];
     const hasNonDefault = chartState.value !== defaultValue ||
       (defPop != null && chartState.popVar !== defPop) ||
-      chartState.sort !== 'value';
+      chartState.sort !== 'alpha';
     if (hasNonDefault) settingsWritten = true;
 
     if (settingsWritten) {
       newUrl.searchParams.set("value", chartState.value);
       if (defPop != null) newUrl.searchParams.set("pop", chartState.popVar);
       else newUrl.searchParams.delete("pop");
-      if (chartState.sort !== 'value') newUrl.searchParams.set("sort", chartState.sort);
+      if (chartState.sort !== 'alpha') newUrl.searchParams.set("sort", chartState.sort);
       else newUrl.searchParams.delete("sort");
     } else {
       newUrl.searchParams.delete("value");
@@ -123,7 +127,7 @@
       class="year-trigger"
       onclick={(e) => { e.stopPropagation(); yearDropdownOpen = !yearDropdownOpen; }}
     >
-      {selectedYear}
+      {selectedYear} ▾
     </button>
     {#if yearDropdownOpen}
       <ul class="year-options">
@@ -167,12 +171,25 @@
 
     .select-wrapper {
       display: inline-block;
+      position: relative;
+
+      &:not(&--year)::after {
+        content: '▾';
+        position: absolute;
+        right: 0.4rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 0.8rem;
+        color: variables.$medium-gray;
+        pointer-events: none;
+      }
 
       select {
+        appearance: none;
         background-color: variables.$white;
-        border: 2px solid variables.$medium-gray;
+        border: 1px solid variables.$medium-gray;
         border-radius: variables.$border-radius;
-        padding: 1px 0.4rem;
+        padding: 1px 1.4rem 1px 0.4rem;
         font-size: 1.05rem;
         font-weight: 600;
         color: variables.$dark-gray;
@@ -189,7 +206,7 @@
 
         .year-trigger {
           background-color: variables.$white;
-          border: 2px solid variables.$medium-gray;
+          border: 1px solid variables.$medium-gray;
           border-radius: variables.$border-radius;
           padding: 1px 0.4rem;
           font-size: 1.05rem;
@@ -212,7 +229,7 @@
           padding: 0;
           list-style: none;
           background-color: variables.$white;
-          border: 2px solid variables.$medium-gray;
+          border: 1px solid variables.$medium-gray;
           border-radius: variables.$border-radius;
           max-height: 16rem;
           overflow-y: auto;

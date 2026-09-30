@@ -3,10 +3,9 @@
 # description: Defining the value of a vote as the chance of deciding the election.
 # ///
 
-
 import marimo
 
-__generated_with = "0.19.6"
+__generated_with = "0.24.2"
 app = marimo.App(width="medium")
 
 with app.setup:
@@ -22,7 +21,7 @@ with app.setup:
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    # **V2**: Pivotolity Value
+    # **V2**: Pivotality Value
 
     a.k.a. Banzhaf Power.
     """)
@@ -425,6 +424,8 @@ def _():
     When we actually calculate these measures we may prefer not to approximate so much. The 2nd and 3rd  approximations should be easy to undo; the first becomes a complicated integer partition problem and is probably better left as is.
 
     TODO: consider redoing the derivation with votes $\pm 1$ and mean $0$, for clarity.
+
+    TODO: remove Stirling, use CLT directly.
 
     TODO: fit a regression to $e_s$ vs $n_s$ and work out the effective benefit for large districts...
 

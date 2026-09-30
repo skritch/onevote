@@ -9,5 +9,6 @@ export const chartState = $state({
   office: 'president' as Office,
   value: 'av' as ValueType,
   popVar: 'ap' as PopVar,
-  sort: 'value' as SortMode,
+  sort: 'alpha' as SortMode,
+  party: '' as string,
 })
