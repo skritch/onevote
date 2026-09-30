@@ -1,11 +1,11 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
-import StateControls from "../../components/StateControls.svelte";
-import StateSection from "../../components/StateSection.svelte";
+import StateControls from "../../components/state/StateControls.svelte";
+import ElectionSection from "../../components/ElectionSection.svelte";
 import SettingsPanel from "../../components/SettingsPanel.svelte";
-import StateValueCard from "../../components/StateValueCard.svelte";
-import StateFactBox from "../../components/StateFactBox.svelte";
+import StateValueCard from "../../components/state/StateValueCard.svelte";
+import StateFactBox from "../../components/state/StateFactBox.svelte";
 import { officesByName } from "../../lib/elections";
 
 export async function getStaticPaths() {
@@ -40,7 +40,7 @@ const offices = Object.keys(officesByName);
     </div>
 
     <div class="state-page__content">
-      <StateSection client:load focusState={state.id} />
+      <ElectionSection client:load focusState={state.id} />
     </div>
   </div>
 </Layout>

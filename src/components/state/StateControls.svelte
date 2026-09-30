@@ -1,9 +1,9 @@
 <script lang="ts">
   import { untrack } from "svelte";
-  import { officesByName } from "../lib/elections";
-  import { chartState } from "../lib/chartState.svelte.js";
-  import { valueNames, popVarNames, defaultValue, defaultPopVar, getValidForYear } from '../lib/manifest.js';
-  import type { ValueType, PopVar, Scenario } from '../lib/values.js';
+  import { officesByName } from "../../lib/elections";
+  import { chartState } from "../../lib/chartState.svelte.js";
+  import { valueNames, popVarNames, defaultValue, defaultPopVar, getValidForYear } from '../../lib/manifest.js';
+  import type { ValueType, PopVar, Scenario } from '../../lib/values.js';
 
   let {
     years,
@@ -162,7 +162,7 @@
 </div>
 
 <style lang="scss">
-  @use "../styles/variables.scss";
+  @use "../../styles/variables.scss";
 
   .state-page__controls {
     display: flex;

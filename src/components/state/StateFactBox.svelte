@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { chartState } from '../lib/chartState.svelte.js'
-  import { getStateDimension, partyColors, candidatesByYear } from '../lib/values.js'
-  import { popVarDescriptions } from '../lib/manifest.js'
-  import InfoLink from './InfoLink.svelte'
+  import { chartState } from '../../lib/chartState.svelte.js'
+  import { getStateDimension, partyColors, candidatesByYear } from '../../lib/values.js'
+  import { popVarDescriptions } from '../../lib/manifest.js'
+  import InfoLink from '../InfoLink.svelte'
 
   let { statePo }: { statePo: string } = $props()
 
@@ -143,7 +143,7 @@
 </div>
 
 <style lang="scss">
-  @use "../styles/variables.scss";
+  @use "../../styles/variables.scss";
 
   .factbox {
     background: variables.$white;

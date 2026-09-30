@@ -3,7 +3,7 @@
   import { chartState } from "../lib/chartState.svelte.js";
   import { validPopVars, getValidForYear, scenarioNames } from "../lib/manifest.js";
   import type { Scenario, ValueType, PopVar } from "../lib/values.js";
-  import StateValuePlot from "./StateValuePlot.svelte";
+  import ElectionPlot from "./ElectionPlot.svelte";
   import SettingsPanel from "./SettingsPanel.svelte";
 
   let { years }: { years: number[] } = $props();
@@ -132,7 +132,7 @@
   {#each SCENARIOS as scenario}
     <section class="scenario-section">
       <h3 class="scenario-title">{scenarioNames[scenario]}</h3>
-      <StateValuePlot
+      <ElectionPlot
         {scenario}
         year={chartState.year}
         value={chartState.value}

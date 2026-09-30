@@ -1,14 +1,14 @@
 <script lang="ts">
-  import { chartState } from "../lib/chartState.svelte.js";
-  import { getStateValue } from "../lib/values.js";
+  import { chartState } from "../../lib/chartState.svelte.js";
+  import { getStateValue } from "../../lib/values.js";
   import {
     scenarioNames,
     scenarioDescriptions,
     valueNames,
     valueDescriptions,
     validPopVars,
-  } from "../lib/manifest.js";
-  import InfoLink from "./InfoLink.svelte";
+  } from "../../lib/manifest.js";
+  import InfoLink from "../InfoLink.svelte";
 
   let { stateName, statePo }: { stateName: string; statePo: string } = $props();
 
@@ -93,7 +93,7 @@
 </div>
 
 <style lang="scss">
-  @use "../styles/variables.scss";
+  @use "../../styles/variables.scss";
 
   .value-card {
     display: flex;
