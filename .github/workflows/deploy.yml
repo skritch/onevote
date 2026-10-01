@@ -29,6 +29,14 @@ jobs:
         with:
           enable-cache: true
 
+      - name: Cache shapefile data
+        uses: actions/cache@v4
+        with:
+          path: |
+            .data/shapefiles
+            .data/district_paths
+          key: shapefiles-${{ hashFiles('notebooks/download_shapefiles.py') }}
+
       - name: Install Node dependencies
         run: npm ci
 

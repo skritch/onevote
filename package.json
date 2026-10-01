@@ -4,10 +4,11 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "prebuild": "npm run build:data",
+    "prebuild": "npm run build:shapefiles && npm run build:data",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "build:shapefiles": "PYTHONPATH=. uv run notebooks/download_shapefiles.py",
     "build:data": "PYTHONPATH=. uv run notebooks/build_dimensions.py && PYTHONPATH=. uv run notebooks/build_values.py",
     "check": "tsc --noEmit"
   },
