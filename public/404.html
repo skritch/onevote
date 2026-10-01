@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Redirecting...</title>
+    <script>
+        // GitHub Pages SPA redirect
+        // Store the path and redirect to index.html with the path as a query parameter
+        const path = window.location.pathname.replace(/\/onevote/, '');
+        const query = window.location.search;
+        const hash = window.location.hash;
+
+        // Redirect to index.html with the original path
+        window.location.replace('/onevote/' + (path ? '?p=' + path : '') + query + hash);
+    </script>
+</head>
+<body>
+    Redirecting...
+</body>
+</html>

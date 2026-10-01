@@ -12,7 +12,7 @@ const isCI = process.env.GITHUB_ACTIONS === 'true';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://skritch.github.io/onevote',
-  base: isCI ? '/onevote' : '/',
+  base: isCI ? '/onevote/' : '/',
   // vite: {
   //   plugins: [{
   //     name: 'suppress-marimo-health',

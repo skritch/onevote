@@ -19,23 +19,23 @@ const essays: { url: string; frontmatter: { title: string } }[] = Object.values(
 		</a>
 		<nav class="navigation">
 			<div class="navigation__item navigation__item--dropdown">
-				<a href={`${import.meta.env.BASE_URL}compare`} class="navigation__link">compare</a>
+				<a href={`${import.meta.env.BASE_URL}compare/`} class="navigation__link">compare</a>
 				<div class="dropdown">
 					<div class="dropdown__list">
-						<a href={`${import.meta.env.BASE_URL}compare/states`} class="dropdown__item">states</a>
-						<a href={`${import.meta.env.BASE_URL}compare/elections`} class="dropdown__item">elections</a>
+						<a href={`${import.meta.env.BASE_URL}compare/states/`} class="dropdown__item">states</a>
+						<a href={`${import.meta.env.BASE_URL}compare/elections/`} class="dropdown__item">elections</a>
 						<span class="dropdown__item dropdown__item--disabled">districts</span>
-						<a href={`${import.meta.env.BASE_URL}compare/scenarios`} class="dropdown__item">scenarios</a>
+						<a href={`${import.meta.env.BASE_URL}compare/scenarios/`} class="dropdown__item">scenarios</a>
 					</div>
 				</div>
 			</div>
 			<div class="navigation__item navigation__item--dropdown">
-				<a href={`${import.meta.env.BASE_URL}elections`} class="navigation__link">elections</a>
+				<a href={`${import.meta.env.BASE_URL}elections/`} class="navigation__link">elections</a>
 				<div class="dropdown">
 					<div class="dropdown__list">
 						{
 							elections.map((election) => (
-								<a href={`${import.meta.env.BASE_URL}elections/${election.id}`} class="dropdown__item">
+								<a href={`${import.meta.env.BASE_URL}elections/${election.id}/`} class="dropdown__item">
 									{election.data.name}
 								</a>
 							))
@@ -44,12 +44,12 @@ const essays: { url: string; frontmatter: { title: string } }[] = Object.values(
 				</div>
 			</div>
 			<div class="navigation__item navigation__item--dropdown">
-				<a href={`${import.meta.env.BASE_URL}states`} class="navigation__link">states</a>
+				<a href={`${import.meta.env.BASE_URL}states/`} class="navigation__link">states</a>
 				<div class="dropdown">
 					<div class="dropdown__grid">
 						{
 							states.map((state) => (
-								<a href={`${import.meta.env.BASE_URL}states/${state.id}`} class="dropdown__item">
+								<a href={`${import.meta.env.BASE_URL}states/${state.id}/`} class="dropdown__item">
 									{state.data.name}
 								</a>
 							))
@@ -60,7 +60,7 @@ const essays: { url: string; frontmatter: { title: string } }[] = Object.values(
 		</nav>
 		<nav class="navigation navigation--right">
 			<div class="navigation__item navigation__item--dropdown">
-				<a href={`${import.meta.env.BASE_URL}about`} class="navigation__link">about</a>
+				<a href={`${import.meta.env.BASE_URL}about/`} class="navigation__link">about</a>
 				<div class="dropdown dropdown--left">
 					<div class="dropdown__list">
 						{
