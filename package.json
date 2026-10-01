@@ -8,7 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "build:shapefiles": "PYTHONPATH=. uv run notebooks/download_shapefiles.py",
+    "build:shapefiles": "PYTHONPATH=. uv run notebooks/build_geometries.py",
     "build:data": "PYTHONPATH=. uv run notebooks/build_dimensions.py && PYTHONPATH=. uv run notebooks/build_values.py",
     "check": "tsc --noEmit"
   },

@@ -23,7 +23,7 @@ export async function getStaticPaths() {
     try {
       districtData = JSON.parse(
         readFileSync(
-          join(process.cwd(), ".data/district_paths", `${state.id.toUpperCase()}.json`),
+          join(process.cwd(), ".data/district_paths", `${state.id}.json`),
           "utf-8"
         )
       );
@@ -31,7 +31,7 @@ export async function getStaticPaths() {
       // No district data for this state (e.g. DC).
     }
     return {
-      params: { stateId: state.id },
+      params: { stateId: state.id.toLowerCase() },
       props: { state, districtData },
     };
   });

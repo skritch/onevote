@@ -1,6 +1,7 @@
 import p1Raw from '../../.data/presidential_values/p1.json'
 import p2Raw from '../../.data/presidential_values/p2.json'
 import p3Raw from '../../.data/presidential_values/p3.json'
+import p4Raw from '../../.data/presidential_values/p4.json'
 import p5Raw from '../../.data/presidential_values/p5.json'
 import statesRaw from "../data/states.json"
 import { dimensionsNationalWinner, dimensionsStateWinner } from './elections.js'
@@ -32,7 +33,7 @@ const p2Data = p2Raw as Record<string, YearStateData>
 const p3Data = p3Raw as Record<string, Record<string, Record<string, StateValues>>>
 const p5Data = p5Raw as Record<string, YearStateData>
 
-export const statesByPo = new Map(statesRaw.map(({ id, name }) => [id.toUpperCase(), name]))
+export const statesByPo = new Map(statesRaw.map(({ id, name }) => [id, name]))
 
 export const partyColors: Record<string, string> = {
   democrat: '#4169e1',
