@@ -5,18 +5,9 @@
   import type { Scenario, ValueType, PopVar } from "../lib/values.js";
   import ElectionPlot from "./ElectionPlot.svelte";
   import SettingsPanel from "./SettingsPanel.svelte";
+  import Select from "./Select.svelte";
 
   let { years }: { years: number[] } = $props();
-
-  let yearDropdownOpen = $state(false);
-  let yearDropdownEl: HTMLElement | null = $state(null);
-
-  function handleWindowClick(event: MouseEvent) {
-    if (yearDropdownEl && !yearDropdownEl.contains(event.target as Node)) {
-      yearDropdownOpen = false;
-      document.dispatchEvent(new CustomEvent("ui:close"));
-    }
-  }
 
   let selectedYear = $state(
     untrack(() => {
@@ -88,43 +79,13 @@
   const SCENARIOS: Scenario[] = ["p2", "p1", "p5"];
 </script>
 
-<svelte:window onclick={handleWindowClick} />
-
 <div class="content-page scenarios-page">
   <div class="page-header">
     <div class="page-controls">
-      <span
-        class="select-wrapper select-wrapper--year"
-        bind:this={yearDropdownEl}
-      >
-        <button
-          class="year-trigger"
-          onclick={(e) => {
-            e.stopPropagation();
-            yearDropdownOpen = !yearDropdownOpen;
-          }}
-        >
-          {selectedYear} ▾
-        </button>
-        {#if yearDropdownOpen}
-          <ul class="year-options">
-            {#each years as year}
-              <li>
-                <button
-                  class:selected={String(year) === selectedYear}
-                  onclick={() => {
-                    selectedYear = String(year);
-                    yearDropdownOpen = false;
-                    document.dispatchEvent(new CustomEvent("ui:close"));
-                  }}
-                >
-                  {year}
-                </button>
-              </li>
-            {/each}
-          </ul>
-        {/if}
-      </span>
+      <Select
+        bind:value={selectedYear}
+        options={years.map((y) => ({ value: String(y), label: String(y) }))}
+      />
       <SettingsPanel showScenario={false} />
     </div>
   </div>
@@ -175,63 +136,5 @@
 
   .metrics-gap {
     min-height: 3rem;
-  }
-
-  /* Year picker — copied from StateControls */
-  .select-wrapper {
-    display: inline-block;
-    position: relative;
-
-    &--year {
-      .year-trigger {
-        background-color: variables.$white;
-        border: 1px solid variables.$medium-gray;
-        border-radius: variables.$border-radius;
-        padding: 1px 0.4rem;
-        font-size: 1.05rem;
-        font-weight: 600;
-        color: variables.$dark-gray;
-        cursor: pointer;
-
-        &:focus {
-          outline: none;
-          border-color: variables.$royal-blue;
-        }
-      }
-
-      .year-options {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        z-index: 100;
-        margin: 2px 0 0;
-        padding: 0;
-        list-style: none;
-        background-color: variables.$white;
-        border: 1px solid variables.$medium-gray;
-        border-radius: variables.$border-radius;
-        max-height: 16rem;
-        overflow-y: auto;
-
-        li button {
-          display: block;
-          width: 100%;
-          padding: 2px 0.6rem;
-          font-size: 1.05rem;
-          font-weight: 600;
-          color: variables.$dark-gray;
-          background: none;
-          border: none;
-          cursor: pointer;
-          text-align: left;
-          white-space: nowrap;
-
-          &:hover,
-          &.selected {
-            background-color: variables.$light-gray;
-          }
-        }
-      }
-    }
   }
 </style>

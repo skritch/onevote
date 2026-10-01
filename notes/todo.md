@@ -54,6 +54,7 @@ all across scenarios:
 
 I don't feel good about either pv or wvv
 - PV looks way too low across the board?
+  - is it really normalized to 1? I'm skeptical
 - WVV obviously weird with the "national loser = zero".
 
 

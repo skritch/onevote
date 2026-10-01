@@ -1,6 +1,6 @@
 <script lang="ts">
   import { slide } from 'svelte/transition';
-  import CustomSelect from './CustomSelect.svelte';
+  import Select from './Select.svelte';
 
   let {
     heading,
@@ -22,7 +22,7 @@
 <div class="state-picker">
   <h3>{heading}</h3>
   <div class="form-group">
-    <CustomSelect
+    <Select
       bind:value={selectedState}
       options={[{ value: '', label: '-- select state --' }, ...states.map(s => ({ value: s.id, label: s.name }))]}
       style="width: 100%"
@@ -31,7 +31,7 @@
   {#if selectedState || forceShowParty}
     <div class="form-group party-group" transition:slide={{ duration: 200 }}>
       <p class="party-label">{partyLabel}</p>
-      <CustomSelect
+      <Select
         bind:value={selectedParty}
         options={[
           { value: '', label: '—' },

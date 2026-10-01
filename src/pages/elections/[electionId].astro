@@ -1,6 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import ElectionControls from '../../components/election/ElectionControls.svelte';
+import ElectionSection from '../../components/ElectionSection.svelte';
+import SettingsPanel from '../../components/SettingsPanel.svelte';
 
 export async function getStaticPaths() {
   const elections = await getCollection('elections');
@@ -14,56 +17,51 @@ const { election } = Astro.props;
 ---
 
 <Layout>
+  <script is:inline>
+    document.documentElement.setAttribute('data-election-loading', '');
+  </script>
   <div class="election-page">
-    <h1>{election.data.name}</h1>
-
-    <div class="election-page__metadata">
-      <span class="election-page__year">{election.data.year}</span>
-      <span class="election-page__type">{election.data.type}</span>
+    <div class="page-header election-page__header">
+      <h1>{election.data.name}</h1>
+      <div class="page-controls">
+        <ElectionControls client:load year={election.data.year} />
+        <SettingsPanel client:load />
+      </div>
     </div>
 
-    <div class="election-page__content">
-      <p>Election information and analysis will go here.</p>
+    <div class="content-page">
+      <div class="election-page__chart">
+        <ElectionSection client:load focusState="" />
+      </div>
     </div>
   </div>
 </Layout>
 
 <style lang="scss">
   @use "../../styles/variables.scss";
-  @use "../../styles/global.scss";
 
   .election-page {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: variables.$spacing-lg;
-
     h1 {
       font-size: variables.$font-size-large;
       color: variables.$dark-gray;
-      margin-bottom: variables.$spacing-sm;
+      margin: 0;
+      white-space: nowrap;
     }
 
-    &__metadata {
-      display: flex;
-      gap: variables.$spacing-md;
-      margin-bottom: variables.$spacing-lg;
-      font-size: variables.$font-size-base;
-      color: variables.$medium-gray;
+    &__header {
+      margin-bottom: variables.$spacing-md;
     }
 
-    &__year {
-      font-weight: 600;
+    &__chart {
+      @include variables.card;
+      padding: variables.$spacing-sm variables.$spacing-md;
     }
+  }
 
-    &__type {
-      text-transform: capitalize;
-    }
-
-    &__content {
-      background-color: variables.$white;
-      padding: variables.$spacing-lg;
-      border-radius: variables.$border-radius;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  :global([data-election-loading]) {
+    .page-controls,
+    .election-page__chart {
+      opacity: 0;
     }
   }
 </style>

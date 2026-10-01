@@ -68,8 +68,8 @@
 
 <div class="main-content__question">
   {yearIsPast
-    ? "What was your vote worth in the"
-    : "What will your vote be worth in the"}
+    ? "What was the value of your vote in the"
+    : "What will the value of your vote be in the"}
   <span class="select-wrapper">
     <select bind:value={selectedYear}>
       {#each years as year}

@@ -4,7 +4,7 @@
   import { chartState } from "../../lib/chartState.svelte.js";
   import { valueNames, popVarNames, defaultValue, defaultPopVar, getValidForYear } from '../../lib/manifest.js';
   import type { ValueType, PopVar, Scenario } from '../../lib/values.js';
-  import CustomSelect from "../CustomSelect.svelte";
+  import Select from "../Select.svelte";
 
   let {
     years,
@@ -119,16 +119,16 @@
 </script>
 
 <div class="state-page__controls">
-  <CustomSelect
+  <Select
     bind:value={selectedYear}
     options={years.map(y => ({ value: String(y), label: String(y) }))}
   />
-  <CustomSelect
+  <Select
     bind:value={selectedOffice}
     options={offices.map(o => ({ value: o, label: o }))}
     style="min-width: 6.5rem"
   />
-  <CustomSelect
+  <Select
     bind:value={selectedParty}
     options={[{ value: '', label: '—' }, ...parties.map(p => ({ value: p, label: p }))]}
     style="min-width: 6.5rem"

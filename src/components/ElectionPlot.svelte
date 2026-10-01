@@ -2,7 +2,7 @@
   import * as Plot from "@observablehq/plot";
   import { getPlotRows, partyColors } from "../lib/values.js";
   import type { Scenario, ValueType, PopVar } from "../lib/values.js";
-  import { valueNames, validValues } from "../lib/manifest.js";
+  import { valueNames, validValues, defaultPopVar } from "../lib/manifest.js";
   import { chartState } from "../lib/chartState.svelte.js";
 
   let {
@@ -67,9 +67,23 @@
 
     type AugRow = (typeof plotRows)[0];
 
+    const buildStateUrl = (statePo: string): string | null => {
+      if (year <= 0) return null;
+      const base = import.meta.env.BASE_URL;
+      const params = new URLSearchParams();
+      params.set("election", `${year}-president`);
+      if (scenario !== "p2") params.set("scenario", scenario);
+      params.set("value", value);
+      const defPop = defaultPopVar[value];
+      if (defPop != null && popVar != null) params.set("pop", popVar);
+      if (chartState.sort !== "alpha") params.set("sort", chartState.sort);
+      return `${base}states/${statePo.toLowerCase()}/?${params}`;
+    };
+
     const barOpts = {
       fill,
       fillOpacity,
+      href: (d: AugRow) => buildStateUrl(d.state_po),
     };
 
     const isWvv = value === "wvv";
@@ -250,6 +264,10 @@
 
     :global(svg) {
       display: block;
+    }
+
+    :global(svg a) {
+      cursor: pointer;
     }
 
     :global(.no-data) {

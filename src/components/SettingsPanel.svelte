@@ -12,7 +12,7 @@
   } from "../lib/manifest.js";
   import { chartState } from "../lib/chartState.svelte.js";
   import type { ValueType, PopVar, Scenario } from "../lib/values.js";
-  import CustomSelect from "./CustomSelect.svelte";
+  import Select from "./Select.svelte";
 
   let { showScenario = true }: { showScenario?: boolean } = $props();
 
@@ -112,7 +112,7 @@
             class="row-label__link">Value-of-a-vote:</a
           >
         </span>
-        <CustomSelect
+        <Select
           bind:value={valueVal}
           options={valueOptions}
           triggerLabel={valueShortNames[
@@ -131,7 +131,7 @@
               class="row-label__link">Population Variable:</a
             >
           </span>
-          <CustomSelect
+          <Select
             bind:value={popVarVal}
             options={popVarOptions}
             triggerLabel={popVarShortNames[
@@ -151,7 +151,7 @@
               class="row-label__link">Election Scenario:</a
             >
           </span>
-          <CustomSelect
+          <Select
             bind:value={scenarioVal}
             options={scenarioOptions}
             triggerLabel={scenarioShortNames[

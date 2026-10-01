@@ -57,7 +57,7 @@ export const scenarioDescriptions: Record<Scenario, string> = {
 
 export const valueDescriptions: Record<ValueType, string> = {
   av: 'Electors per voter, scaled to have a nationwide average of 1.00.',
-  pv: 'The approximate fraction of election outcomes in which this voter decides the overall election, scaled to have a nationwide average of 1.00.',
+  pv: 'The approximate fraction of all possible election outcomes in which this voter decides the overall election, scaled to have a nationwide average of 1.00.',
   wvv: 'Electors per winning-party voter, scaled to have a nationwide average of 1.00.',
 }
 
