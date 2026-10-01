@@ -56,9 +56,9 @@ export const scenarioDescriptions: Record<Scenario, string> = {
 }
 
 export const valueDescriptions: Record<ValueType, string> = {
-  av: 'The number of electors or representatives per voter, scaled so that the national average is 1.0. A value above 1.0 means your vote is over-represented in the election.',
-  pv: 'A measure of the chance that a single vote turns out to decide the final outcome. A value above 1.0 means that your vote ',
-  wvv: 'A measure of electoral influence that weights only votes not cast for a losing candidate.',
+  av: 'Electors per voter, scaled to have a nationwide average of 1.00.',
+  pv: 'The approximate fraction of election outcomes in which this voter decides the overall election, scaled to have a nationwide average of 1.00.',
+  wvv: 'Electors per winning-party voter, scaled to have a nationwide average of 1.00.',
 }
 
 export const popVarDescriptions: Record<PopVar, string> = {

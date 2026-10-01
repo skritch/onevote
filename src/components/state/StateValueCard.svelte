@@ -90,14 +90,14 @@
 
   function formatValue(v: number): string {
     if (v === 0) return "0";
-    const s = v.toFixed(3).replace(/\.?0+$/, "");
-    return v < 1 ? s.slice(1) : s;
+    const s = v.toFixed(2);
+    return s;
   }
 </script>
 
 <div class="value-card">
   <p class="subject">
-    in <strong>{chartState.year}</strong>,
+    in <strong>{chartState.year}</strong>, the value of
     {#if isWVV && effectivePartyKey}
       {#if effectivePartyKey === "other"}
         a <strong>Third Party</strong> vote in <strong>{stateName}</strong>
@@ -118,8 +118,7 @@
     {:else}
       a vote in <strong>{stateName}</strong>
     {/if}
-    <br />
-    {tense} worth
+    {tense}
   </p>
 
   {#if displayValue !== null}
@@ -128,12 +127,11 @@
     <p class="value value--empty">—</p>
   {/if}
 
-  {#if displayValue !== 0 && displayValue !== null}
-    <p class="relative-label">
-      {displayValue > 1 ? "times more than" : "of"} the nationwide average
-    </p>
-    <div class="sep" aria-hidden="true">—</div>
-  {/if}
+  <!-- {#if displayValue !== 0 && displayValue !== null}
+    {displayValue > 1 ? "times more than" : "as much as"} the nationwide average
+  {/if} -->
+  <p class="relative-label">compared to a nationwide average of 1.00</p>
+  <div class="sep" aria-hidden="true">—</div>
 
   <p class="value-type">
     as determined by <InfoLink
@@ -190,12 +188,6 @@
     strong {
       color: variables.$dark-gray;
     }
-  }
-
-  .wvv-auto-label {
-    font-size: 0.7em;
-    font-weight: normal;
-    color: variables.$medium-gray;
   }
 
   .value {
