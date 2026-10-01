@@ -164,30 +164,31 @@ const essays: { url: string; frontmatter: { title: string } }[] = Object.values(
 		&__list {
 			display: flex;
 			flex-direction: column;
-			gap: variables.$spacing-xs;
+			gap: 0.2rem;
 			background: white;
 			border: 1px solid #e5e7eb;
 			border-radius: variables.$border-radius;
 			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-			padding: variables.$spacing-sm;
+			padding: variables.$spacing-xs;
 			min-width: 200px;
 		}
 
 		&__grid {
 			display: grid;
 			grid-template-columns: repeat(3, 1fr);
-			gap: variables.$spacing-xs variables.$spacing-md;
+			gap: 0.15rem variables.$spacing-sm;
 			background: white;
 			border: 1px solid #e5e7eb;
 			border-radius: variables.$border-radius;
 			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-			padding: variables.$spacing-sm;
+			padding: variables.$spacing-xs;
 		}
 
 		&__item {
 			color: variables.$medium-gray;
 			text-decoration: none;
-			padding: 2px variables.$spacing-xs;
+			font-size: variables.$font-size-small;
+			padding: 1px variables.$spacing-xs;
 			border-radius: variables.$border-radius;
 			transition: all variables.$transition-duration ease;
 			white-space: nowrap;

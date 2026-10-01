@@ -1,5 +1,6 @@
 <script lang="ts">
   import { slide } from 'svelte/transition';
+  import CustomSelect from './CustomSelect.svelte';
 
   let {
     heading,
@@ -21,22 +22,25 @@
 <div class="state-picker">
   <h3>{heading}</h3>
   <div class="form-group">
-    <select bind:value={selectedState}>
-      <option value="">--select state--</option>
-      {#each states as state}
-        <option value={state.id}>{state.name}</option>
-      {/each}
-    </select>
+    <CustomSelect
+      bind:value={selectedState}
+      options={[{ value: '', label: '-- select state --' }, ...states.map(s => ({ value: s.id, label: s.name }))]}
+      style="width: 100%"
+    />
   </div>
   {#if selectedState || forceShowParty}
     <div class="form-group party-group" transition:slide={{ duration: 200 }}>
       <p class="party-label">{partyLabel}</p>
-      <select bind:value={selectedParty}>
-        <option value="">--</option>
-        <option value="democrat">Democrat</option>
-        <option value="republican">Republican</option>
-        <option value="other">Other</option>
-      </select>
+      <CustomSelect
+        bind:value={selectedParty}
+        options={[
+          { value: '', label: '—' },
+          { value: 'democrat', label: 'Democrat' },
+          { value: 'republican', label: 'Republican' },
+          { value: 'other', label: 'Other' },
+        ]}
+        style="width: 100%"
+      />
     </div>
   {/if}
 </div>
@@ -65,20 +69,6 @@
         margin: 0 0 variables.$spacing-xs 0;
       }
 
-      select {
-        width: 100%;
-        padding: variables.$spacing-xs variables.$spacing-sm;
-        border: 1px solid variables.$medium-gray;
-        border-radius: variables.$border-radius;
-        font-size: variables.$font-size-base;
-        background-color: variables.$white;
-        cursor: pointer;
-
-        &:focus {
-          outline: none;
-          border-color: variables.$royal-blue;
-        }
-      }
     }
   }
 </style>

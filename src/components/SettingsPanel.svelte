@@ -12,26 +12,12 @@
   } from "../lib/manifest.js";
   import { chartState } from "../lib/chartState.svelte.js";
   import type { ValueType, PopVar, Scenario } from "../lib/values.js";
+  import CustomSelect from "./CustomSelect.svelte";
 
   let { showScenario = true }: { showScenario?: boolean } = $props();
 
   let panelOpen = $state(false);
-  let valueOpen = $state(false);
-  let popVarOpen = $state(false);
-  let scenarioOpen = $state(false);
   let panelEl: HTMLDivElement | undefined;
-  let valueSelectEl: HTMLDivElement | undefined;
-  let popVarSelectEl: HTMLDivElement | undefined;
-  let scenarioSelectEl: HTMLDivElement | undefined;
-
-  function handlePanelPointerDown(e: PointerEvent) {
-    if (valueOpen && !valueSelectEl?.contains(e.target as Node))
-      valueOpen = false;
-    if (popVarOpen && !popVarSelectEl?.contains(e.target as Node))
-      popVarOpen = false;
-    if (scenarioOpen && !scenarioSelectEl?.contains(e.target as Node))
-      scenarioOpen = false;
-  }
 
   const scenarios = Object.keys(scenarioShortNames) as Scenario[];
 
@@ -74,14 +60,37 @@
     return () => document.removeEventListener("pointerdown", handler);
   });
 
-  function selectValue(v: ValueType) {
-    chartState.value = v;
-    valueOpen = false;
-  }
-  function selectPopVar(p: PopVar) {
-    chartState.popVar = p;
-    popVarOpen = false;
-  }
+  const valueOptions = $derived(
+    allValues.map((v) => ({
+      value: v,
+      label: valueNames[v],
+      disabled: !enabledValues.includes(v),
+    })),
+  );
+  const popVarOptions = $derived(
+    allPopVars.map((p) => ({
+      value: p,
+      label: popVarNames[p],
+      disabled: !enabledPopVars.includes(p),
+    })),
+  );
+  const scenarioOptions = $derived(
+    scenarios.map((s) => ({ value: s, label: scenarioNames[s] })),
+  );
+
+  // Local string mirrors for bind compatibility
+  let valueVal = $state(chartState.value as string);
+  let popVarVal = $state(chartState.popVar as string);
+  let scenarioVal = $state(chartState.scenario as string);
+  $effect(() => {
+    chartState.value = valueVal as ValueType;
+  });
+  $effect(() => {
+    chartState.popVar = popVarVal as PopVar;
+  });
+  $effect(() => {
+    chartState.scenario = scenarioVal as Scenario;
+  });
 </script>
 
 <div class="settings" bind:this={panelEl}>
@@ -94,125 +103,63 @@
   >
 
   {#if panelOpen}
-    <div
-      class="settings__panel"
-      role="dialog"
-      aria-label="Chart settings"
-      onpointerdown={handlePanelPointerDown}
-    >
+    <div class="settings__panel" role="dialog" aria-label="Chart settings">
       <!-- Value row -->
       <div class="row">
         <span class="row-label">
-          <a href={`${import.meta.env.BASE_URL}about/definitions/`} class="row-label__link"
-            >Value-of-a-vote:</a
+          <a
+            href={`${import.meta.env.BASE_URL}about/definitions/`}
+            class="row-label__link">Value-of-a-vote:</a
           >
         </span>
-        <div
-          class="custom-select"
-          class:open={valueOpen}
-          bind:this={valueSelectEl}
-        >
-          <button
-            class="custom-select__trigger"
-            onclick={() => {
-              valueOpen = !valueOpen;
-              popVarOpen = false;
-            }}
-            >{valueShortNames[chartState.value]}
-            <span class="arrow">▾</span></button
-          >
-          {#if valueOpen}
-            <div class="custom-select__list">
-              {#each allValues as v}
-                <button
-                  class="custom-select__option"
-                  class:selected={v === chartState.value}
-                  disabled={!enabledValues.includes(v)}
-                  onmousedown={() => selectValue(v)}>{valueNames[v]}</button
-                >
-              {/each}
-            </div>
-          {/if}
-        </div>
+        <CustomSelect
+          bind:value={valueVal}
+          options={valueOptions}
+          triggerLabel={valueShortNames[
+            valueVal as keyof typeof valueShortNames
+          ]}
+          style="width: 100%"
+        />
       </div>
 
       <!-- PopVar row -->
       {#if showPopVar}
         <div class="row">
           <span class="row-label">
-            <a href={`${import.meta.env.BASE_URL}about/population/`} class="row-label__link"
-              >Population Variable:</a
+            <a
+              href={`${import.meta.env.BASE_URL}about/population/`}
+              class="row-label__link">Population Variable:</a
             >
           </span>
-          <div
-            class="custom-select"
-            class:open={popVarOpen}
-            bind:this={popVarSelectEl}
-          >
-            <button
-              class="custom-select__trigger"
-              onclick={() => {
-                popVarOpen = !popVarOpen;
-                valueOpen = false;
-              }}
-              >{popVarShortNames[chartState.popVar]}
-              <span class="arrow">▾</span></button
-            >
-            {#if popVarOpen}
-              <div class="custom-select__list">
-                {#each allPopVars as p}
-                  <button
-                    class="custom-select__option"
-                    class:selected={p === chartState.popVar}
-                    disabled={!enabledPopVars.includes(p)}
-                    onmousedown={() => selectPopVar(p)}>{popVarNames[p]}</button
-                  >
-                {/each}
-              </div>
-            {/if}
-          </div>
+          <CustomSelect
+            bind:value={popVarVal}
+            options={popVarOptions}
+            triggerLabel={popVarShortNames[
+              popVarVal as keyof typeof popVarShortNames
+            ]}
+            style="width: 100%"
+          />
         </div>
       {/if}
 
       <!-- Scenario row -->
       {#if showScenario}
-      <div class="row">
-        <span class="row-label">
-          <a href={`${import.meta.env.BASE_URL}about/scenarios/`} class="row-label__link"
-            >Election Scenario:</a
-          >
-        </span>
-        <div
-          class="custom-select"
-          class:open={scenarioOpen}
-          bind:this={scenarioSelectEl}
-        >
-          <button
-            class="custom-select__trigger"
-            onclick={() => {
-              scenarioOpen = !scenarioOpen;
-              valueOpen = false;
-              popVarOpen = false;
-            }}
-            >{scenarioShortNames[chartState.scenario]}
-            <span class="arrow">▾</span></button
-          >
-          {#if scenarioOpen}
-            <div class="custom-select__list">
-              {#each scenarios as s}
-                <button
-                  class="custom-select__option"
-                  class:selected={s === chartState.scenario}
-                  onmousedown={() => {
-                    chartState.scenario = s;
-                    scenarioOpen = false;
-                  }}>{scenarioNames[s]}</button
-                >
-              {/each}
-            </div>
-          {/if}
+        <div class="row">
+          <span class="row-label">
+            <a
+              href={`${import.meta.env.BASE_URL}about/scenarios/`}
+              class="row-label__link">Election Scenario:</a
+            >
+          </span>
+          <CustomSelect
+            bind:value={scenarioVal}
+            options={scenarioOptions}
+            triggerLabel={scenarioShortNames[
+              scenarioVal as keyof typeof scenarioShortNames
+            ]}
+            style="width: 100%"
+          />
         </div>
-      </div>
       {/if}
     </div>
   {/if}
@@ -280,79 +227,6 @@
     &:hover {
       color: variables.$dark-gray;
       border-bottom-color: variables.$dark-gray;
-    }
-  }
-
-  /* custom select */
-  .custom-select {
-    position: relative;
-    width: 8.4rem;
-
-    &__trigger {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: variables.$white;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      padding: 3px 0.5rem;
-      font-size: 0.8rem;
-      color: variables.$dark-gray;
-      cursor: pointer;
-      text-align: left;
-
-      &:focus {
-        outline: none;
-        border-color: variables.$royal-blue;
-      }
-
-      .arrow {
-        font-size: 0.65rem;
-        color: variables.$medium-gray;
-        flex-shrink: 0;
-      }
-    }
-
-    &__list {
-      position: absolute;
-      top: calc(100% + 2px);
-      right: 0;
-      width: max-content;
-      min-width: 100%;
-      background: variables.$white;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      z-index: 400;
-      overflow: hidden;
-    }
-
-    &__option {
-      display: block;
-      width: 100%;
-      text-align: left;
-      background: none;
-      border: none;
-      padding: 5px 0.5rem;
-      font-size: 0.8rem;
-      color: variables.$dark-gray;
-      cursor: pointer;
-      white-space: nowrap;
-
-      &:hover:not(:disabled) {
-        background: variables.$light-gray;
-      }
-
-      &:disabled {
-        color: #bfc2c6;
-        cursor: not-allowed;
-      }
-
-      &.selected {
-        font-weight: 600;
-        color: variables.$royal-blue;
-      }
     }
   }
 </style>

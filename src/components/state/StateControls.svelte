@@ -4,6 +4,7 @@
   import { chartState } from "../../lib/chartState.svelte.js";
   import { valueNames, popVarNames, defaultValue, defaultPopVar, getValidForYear } from '../../lib/manifest.js';
   import type { ValueType, PopVar, Scenario } from '../../lib/values.js';
+  import CustomSelect from "../CustomSelect.svelte";
 
   let {
     years,
@@ -12,16 +13,6 @@
     years: number[];
     offices: string[];
   } = $props();
-
-  let yearDropdownOpen = $state(false);
-  let yearDropdownEl: HTMLElement | null = $state(null);
-
-  function handleWindowClick(event: MouseEvent) {
-    if (yearDropdownEl && !yearDropdownEl.contains(event.target as Node)) {
-      yearDropdownOpen = false;
-      document.dispatchEvent(new CustomEvent('ui:close'));
-    }
-  }
 
   const parties = ["Democrat", "Republican", "Other"];
 
@@ -127,141 +118,28 @@
   }
 </script>
 
-<svelte:window onclick={handleWindowClick} />
-
 <div class="state-page__controls">
-  <span class="select-wrapper select-wrapper--year" bind:this={yearDropdownEl}>
-    <button
-      class="year-trigger"
-      onclick={(e) => { e.stopPropagation(); yearDropdownOpen = !yearDropdownOpen; }}
-    >
-      {selectedYear} ▾
-    </button>
-    {#if yearDropdownOpen}
-      <ul class="year-options">
-        {#each years as year}
-          <li>
-            <button
-              class:selected={String(year) === selectedYear}
-              onclick={() => { selectedYear = String(year); yearDropdownOpen = false; document.dispatchEvent(new CustomEvent('ui:close')); }}
-            >
-              {year}
-            </button>
-          </li>
-        {/each}
-      </ul>
-    {/if}
-  </span>
-  <span class="select-wrapper">
-    <select bind:value={selectedOffice}>
-      {#each offices as office}
-        <option value={office}>{office}</option>
-      {/each}
-    </select>
-  </span>
-  <span class="select-wrapper">
-    <select bind:value={selectedParty}>
-      <option value="">--</option>
-      {#each parties as party}
-        <option value={party}>{party}</option>
-      {/each}
-    </select>
-  </span>
+  <CustomSelect
+    bind:value={selectedYear}
+    options={years.map(y => ({ value: String(y), label: String(y) }))}
+  />
+  <CustomSelect
+    bind:value={selectedOffice}
+    options={offices.map(o => ({ value: o, label: o }))}
+    style="min-width: 6.5rem"
+  />
+  <CustomSelect
+    bind:value={selectedParty}
+    options={[{ value: '', label: '—' }, ...parties.map(p => ({ value: p, label: p }))]}
+    style="min-width: 6.5rem"
+  />
 </div>
 
 <style lang="scss">
-  @use "../../styles/variables.scss";
-
   .state-page__controls {
     display: flex;
-    gap: variables.$spacing-xs;
+    gap: 0.4rem;
     align-items: center;
-
-    .select-wrapper {
-      display: inline-block;
-      position: relative;
-
-      &:not(&--year)::after {
-        content: '▾';
-        position: absolute;
-        right: 0.4rem;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 0.8rem;
-        color: variables.$medium-gray;
-        pointer-events: none;
-      }
-
-      select {
-        appearance: none;
-        background-color: variables.$white;
-        border: 1px solid variables.$medium-gray;
-        border-radius: variables.$border-radius;
-        padding: 0 1.2rem 0 0.35rem;
-        font-size: 0.85rem;
-        font-weight: 400;
-        color: variables.$dark-gray;
-        cursor: pointer;
-
-        &:focus {
-          outline: none;
-          border-color: variables.$royal-blue;
-        }
-      }
-
-      &--year {
-        position: relative;
-
-        .year-trigger {
-          background-color: variables.$white;
-          border: 1px solid variables.$medium-gray;
-          border-radius: variables.$border-radius;
-          padding: 0 0.35rem;
-          font-size: 0.85rem;
-          font-weight: 400;
-          color: variables.$dark-gray;
-          cursor: pointer;
-
-          &:focus {
-            outline: none;
-            border-color: variables.$royal-blue;
-          }
-        }
-
-        .year-options {
-          position: absolute;
-          top: 100%;
-          left: 0;
-          z-index: 100;
-          margin: 2px 0 0;
-          padding: 0;
-          list-style: none;
-          background-color: variables.$white;
-          border: 1px solid variables.$medium-gray;
-          border-radius: variables.$border-radius;
-          max-height: 16rem;
-          overflow-y: auto;
-
-          li button {
-            display: block;
-            width: 100%;
-            padding: 2px 0.6rem;
-            font-size: 0.85rem;
-            font-weight: 400;
-            color: variables.$dark-gray;
-            background: none;
-            border: none;
-            cursor: pointer;
-            text-align: left;
-            white-space: nowrap;
-
-            &:hover, &.selected {
-              background-color: variables.$light-gray;
-            }
-          }
-        }
-      }
-    }
   }
 
   @media (max-width: 768px) {
