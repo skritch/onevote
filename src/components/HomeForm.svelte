@@ -20,7 +20,7 @@
 
   let selectedYear = $state(untrack(() => String(2024)));
   let selectedOffice = $state(untrack(() => offices[0] ?? ""));
-  let myState = $state("");
+  let myStatePO = $state("");
   let myParty = $state("");
   let compareState = $state("");
   let compareParty = $state("");
@@ -28,7 +28,7 @@
   let showParty = $state(untrack(() => initialShowParty));
 
   $effect(() => {
-    if (myState !== "" || compareState !== "") showParty = true;
+    if (myStatePO !== "" || compareState !== "") showParty = true;
   });
 
   // When user picks a party, default the other side to the opposite
@@ -38,17 +38,17 @@
   });
 
   function navigate() {
-    if (!myState) return;
+    if (!myStatePO) return;
     const officeKey = officesByName[selectedOffice] ?? "president";
-    let url = `${import.meta.env.BASE_URL}states/${myState}?election=${selectedYear}-${officeKey}`;
+    let url = `${import.meta.env.BASE_URL}states/${myStatePO.toLowerCase()}?election=${selectedYear}-${officeKey}`;
     if (myParty) url += `&party=${myParty}`;
     window.location.href = url;
   }
 
   function navigateCompare() {
-    if (!myState || !compareState) return;
+    if (!myStatePO || !compareState) return;
     const officeKey = officesByName[selectedOffice] ?? "president";
-    let url = `${import.meta.env.BASE_URL}compare-result?state1=${myState}&state2=${compareState}&election=${selectedYear}-${officeKey}`;
+    let url = `${import.meta.env.BASE_URL}compare-result?state1=${myStatePO}&state2=${compareState}&election=${selectedYear}-${officeKey}`;
     if (myParty) url += `&party1=${myParty}`;
     if (compareParty) url += `&party2=${compareParty}`;
     window.location.href = url;
@@ -60,8 +60,8 @@
   );
   const canGo = $derived(
     compareMode
-      ? myState !== "" && compareState !== "" && partiesOk
-      : myState !== "",
+      ? myStatePO !== "" && compareState !== "" && partiesOk
+      : myStatePO !== "",
   );
   const yearIsPast = $derived(Number(selectedYear) < new Date().getFullYear());
 </script>
@@ -93,7 +93,7 @@
       <StatePicker
         heading="You live in..."
         {states}
-        bind:selectedState={myState}
+        bind:selectedState={myStatePO}
         bind:selectedParty={myParty}
         forceShowParty={showParty}
       />

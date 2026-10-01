@@ -57,9 +57,8 @@ export const candidatesByYear: Record<number, { democrat: string; republican: st
   )
 
 export function getStateDimension(year: number, state_po: string): StateDimension | null {
-  const po = state_po.toUpperCase()
   const yearData = (dimensionsRaw as Array<{ year: number; states: StateDimension[] }>)
     .find(d => d.year === year)
   if (!yearData) return null
-  return yearData.states.find(s => s.state_po === po) ?? null
+  return yearData.states.find(s => s.state_po === state_po) ?? null
 }

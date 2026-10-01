@@ -1,9 +1,13 @@
 <script lang="ts">
-  import { chartState } from '../../lib/chartState.svelte.js'
-  import { getStateDimension, partyColors, candidatesByYear } from '../../lib/values.js'
-  import { popVarDescriptions } from '../../lib/manifest.js'
-  import InfoLink from '../InfoLink.svelte'
-  import StateMapLogo from './StateMapLogo.svelte'
+  import { chartState } from "../../lib/chartState.svelte.js";
+  import {
+    getStateDimension,
+    partyColors,
+    candidatesByYear,
+  } from "../../lib/values.js";
+  import { popVarDescriptions } from "../../lib/manifest.js";
+  import InfoLink from "../InfoLink.svelte";
+  import StateMapLogo from "./StateMapLogo.svelte";
 
   type DistrictData = {
     year_to_congress: Record<string, number>;
@@ -11,54 +15,62 @@
     viewbox_by_congress?: Record<string, string>;
   };
 
-  let { statePo, districtData = null }: { statePo: string; districtData: DistrictData | null } = $props()
+  let {
+    statePo,
+    districtData = null,
+  }: { statePo: string; districtData: DistrictData | null } = $props();
 
-  const CURRENT_YEAR = new Date().getFullYear()
+  const CURRENT_YEAR = new Date().getFullYear();
 
-  const dim = $derived(getStateDimension(chartState.year, statePo.toUpperCase()))
+  const dim = $derived(getStateDimension(chartState.year, statePo));
   const hasPastResults = $derived(
-    dim !== null && chartState.year <= CURRENT_YEAR && dim.votes_total !== null
-  )
+    dim !== null && chartState.year <= CURRENT_YEAR && dim.votes_total !== null,
+  );
 
   const votesSum = $derived(
     dim
-      ? (dim.votes_democrat ?? 0) + (dim.votes_republican ?? 0) + (dim.votes_other ?? 0)
-      : 0
-  )
+      ? (dim.votes_democrat ?? 0) +
+          (dim.votes_republican ?? 0) +
+          (dim.votes_other ?? 0)
+      : 0,
+  );
 
   function fmt(n: number | null | undefined): string {
-    if (n == null) return '—'
-    return Math.round(n).toLocaleString('en-US')
+    if (n == null) return "—";
+    return Math.round(n).toLocaleString("en-US");
   }
 
   function fmtElectors(n: number | null | undefined): string {
-    if (n == null || n === 0) return ''
-    return String(Math.round(n))
+    if (n == null || n === 0) return "";
+    return String(Math.round(n));
   }
 
   function pct(votes: number | null | undefined, total: number): string {
-    if (votes == null || total === 0) return '—'
-    return ((votes / total) * 100).toFixed(1) + '%'
+    if (votes == null || total === 0) return "—";
+    return ((votes / total) * 100).toFixed(1) + "%";
   }
 
   function lastName(fullName: string): string {
-    const parts = fullName.trim().split(' ')
-    return parts[parts.length - 1]
+    const parts = fullName.trim().split(" ");
+    return parts[parts.length - 1];
   }
 
-  function displayName(party: 'democrat' | 'republican' | 'other', year: number): string {
-    if (party === 'democrat') {
-      const name = candidatesByYear[year]?.democrat
-      return name ? lastName(name) : 'Democrat'
+  function displayName(
+    party: "democrat" | "republican" | "other",
+    year: number,
+  ): string {
+    if (party === "democrat") {
+      const name = candidatesByYear[year]?.democrat;
+      return name ? lastName(name) : "Democrat";
     }
-    if (party === 'republican') {
-      const name = candidatesByYear[year]?.republican
-      return name ? lastName(name) : 'Republican'
+    if (party === "republican") {
+      const name = candidatesByYear[year]?.republican;
+      return name ? lastName(name) : "Republican";
     }
-    return 'Other'
+    return "Other";
   }
 
-  const resultParties = ['democrat', 'republican', 'other'] as const
+  const resultParties = ["democrat", "republican", "other"] as const;
 </script>
 
 <div class="factbox">
@@ -121,20 +133,42 @@
           <span class="factbox__col-header">%</span>
           <span class="factbox__col-header">EC</span>
           {#each resultParties as party}
-            {@const votes = dim[`votes_${party}` as keyof typeof dim] as number | null}
-            {@const electors = dim[`electors_${party}` as keyof typeof dim] as number | null}
+            {@const votes = dim[`votes_${party}` as keyof typeof dim] as
+              | number
+              | null}
+            {@const electors = dim[`electors_${party}` as keyof typeof dim] as
+              | number
+              | null}
             {#if votes != null && votes > 0}
-              <span class="factbox__dot" style="background: {partyColors[party]}"></span>
-              <span class="factbox__party-name" class:winner={dim.winning_party === party}>
-                {displayName(party, chartState.year)}{dim.winning_party === party ? ' ✓' : ''}
+              <span
+                class="factbox__dot"
+                style="background: {partyColors[party]}"
+              ></span>
+              <span
+                class="factbox__party-name"
+                class:winner={dim.winning_party === party}
+              >
+                {displayName(party, chartState.year)}{dim.winning_party ===
+                party
+                  ? " ✓"
+                  : ""}
               </span>
-              <span class="factbox__vote-count" class:winner={dim.winning_party === party}>
+              <span
+                class="factbox__vote-count"
+                class:winner={dim.winning_party === party}
+              >
                 {fmt(votes)}
               </span>
-              <span class="factbox__pct" class:winner={dim.winning_party === party}>
+              <span
+                class="factbox__pct"
+                class:winner={dim.winning_party === party}
+              >
                 {pct(votes, votesSum)}
               </span>
-              <span class="factbox__electors" class:winner={dim.winning_party === party}>
+              <span
+                class="factbox__electors"
+                class:winner={dim.winning_party === party}
+              >
                 {fmtElectors(electors)}
               </span>
             {/if}
@@ -171,7 +205,6 @@
     justify-content: center;
     padding-bottom: variables.$spacing-sm;
   }
-
 
   .factbox__section {
     display: flex;
@@ -265,7 +298,9 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 
-    &.winner { font-weight: 600; }
+    &.winner {
+      font-weight: 600;
+    }
   }
 
   .factbox__pct {
@@ -273,7 +308,9 @@
     text-align: center;
     font-variant-numeric: tabular-nums;
 
-    &.winner { font-weight: 600; }
+    &.winner {
+      font-weight: 600;
+    }
   }
 
   .factbox__vote-count {
@@ -281,7 +318,9 @@
     text-align: center;
     font-variant-numeric: tabular-nums;
 
-    &.winner { font-weight: 600; }
+    &.winner {
+      font-weight: 600;
+    }
   }
 
   .factbox__electors {
@@ -289,7 +328,9 @@
     text-align: center;
     font-variant-numeric: tabular-nums;
 
-    &.winner { font-weight: 600; }
+    &.winner {
+      font-weight: 600;
+    }
   }
 
   // Total row — border-span trick: first cell spans all 5 cols
@@ -305,8 +346,12 @@
     text-align: center;
     font-variant-numeric: tabular-nums;
 
-    &--votes { /* column 3 (pct) is empty, this is col 4 — no extra style needed */ }
-    &--electors { /* col 5 */ }
+    &--votes {
+      /* column 3 (pct) is empty, this is col 4 — no extra style needed */
+    }
+    &--electors {
+      /* col 5 */
+    }
   }
 
   .factbox__no-data {

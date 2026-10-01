@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { untrack } from 'svelte';
-  import { officesByName } from '../lib/elections';
+  import { untrack } from "svelte";
+  import { officesByName } from "../lib/elections";
 
   let {
     years,
@@ -13,35 +13,44 @@
   } = $props();
 
   const reverseOffices = Object.fromEntries(
-    Object.entries(officesByName).map(([name, key]) => [key, name])
+    Object.entries(officesByName).map(([name, key]) => [key, name]),
   );
 
-  const params = typeof window !== 'undefined'
-    ? new URLSearchParams(window.location.search)
-    : new URLSearchParams();
+  const params =
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search)
+      : new URLSearchParams();
 
-  const electionParam = params.get('election') ?? '';
-  const dashIdx = electionParam.indexOf('-');
-  const yearPart = dashIdx >= 0 ? electionParam.slice(0, dashIdx) : '';
-  const officePart = dashIdx >= 0 ? electionParam.slice(dashIdx + 1) : '';
+  const electionParam = params.get("election") ?? "";
+  const dashIdx = electionParam.indexOf("-");
+  const yearPart = dashIdx >= 0 ? electionParam.slice(0, dashIdx) : "";
+  const officePart = dashIdx >= 0 ? electionParam.slice(dashIdx + 1) : "";
 
-  let myState    = $state(untrack(() => params.get('state1') ?? ''));
-  let myParty    = $state(untrack(() => params.get('party1') ?? ''));
-  let cmpState   = $state(untrack(() => params.get('state2') ?? ''));
-  let cmpParty   = $state(untrack(() => params.get('party2') ?? ''));
-  let selectedYear   = $state(untrack(() => yearPart || String(years[0] ?? 2024)));
-  let selectedOffice = $state(untrack(() => reverseOffices[officePart] ?? offices[0] ?? ''));
+  let myStatePO = $state(
+    untrack(() => params.get("state1")?.toLowerCase() ?? ""),
+  );
+  let myParty = $state(untrack(() => params.get("party1") ?? ""));
+  let cmpStatePO = $state(
+    untrack(() => params.get("state2")?.toLowerCase() ?? ""),
+  );
+  let cmpParty = $state(untrack(() => params.get("party2") ?? ""));
+  let selectedYear = $state(
+    untrack(() => yearPart || String(years[0] ?? 2024)),
+  );
+  let selectedOffice = $state(
+    untrack(() => reverseOffices[officePart] ?? offices[0] ?? ""),
+  );
 
   const partiesOk = $derived(
-    (myParty === '' && cmpParty === '') || (myParty !== '' && cmpParty !== '')
+    (myParty === "" && cmpParty === "") || (myParty !== "" && cmpParty !== ""),
   );
-  const canGo = $derived(myState !== '' && cmpState !== '' && partiesOk);
+  const canGo = $derived(myStatePO !== "" && cmpStatePO !== "" && partiesOk);
 
   function navigate() {
     if (!canGo) return;
-    const officeKey = officesByName[selectedOffice] ?? 'president';
-    let url = `${import.meta.env.BASE_URL}compare-result?state1=${myState}&state2=${cmpState}&election=${selectedYear}-${officeKey}`;
-    if (myParty)  url += `&party1=${myParty}`;
+    const officeKey = officesByName[selectedOffice] ?? "president";
+    let url = `${import.meta.env.BASE_URL}compare-result?state1=${myStatePO}&state2=${cmpStatePO}&election=${selectedYear}-${officeKey}`;
+    if (myParty) url += `&party1=${myParty}`;
     if (cmpParty) url += `&party2=${cmpParty}`;
     window.location.href = url;
   }
@@ -50,7 +59,7 @@
 <div class="compare-bar">
   <div class="compare-bar__group">
     <span class="compare-bar__label">you live in</span>
-    <select bind:value={myState}>
+    <select bind:value={myStatePO}>
       <option value="">--</option>
       {#each states as state}
         <option value={state.id}>{state.name}</option>
@@ -66,7 +75,7 @@
 
   <div class="compare-bar__group">
     <span class="compare-bar__label">comparing with</span>
-    <select bind:value={cmpState}>
+    <select bind:value={cmpStatePO}>
       <option value="">--</option>
       {#each states as state}
         <option value={state.id}>{state.name}</option>
@@ -80,7 +89,9 @@
     </select>
   </div>
 
-  <button class="compare-bar__go" onclick={navigate} disabled={!canGo}>Go</button>
+  <button class="compare-bar__go" onclick={navigate} disabled={!canGo}
+    >Go</button
+  >
 </div>
 
 <div class="results-panel">
@@ -127,7 +138,9 @@
         }
       }
 
-      &:nth-child(2) { grid-area: g2; }
+      &:nth-child(2) {
+        grid-area: g2;
+      }
     }
 
     &__label {

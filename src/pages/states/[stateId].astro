@@ -24,8 +24,8 @@ export async function getStaticPaths() {
       districtData = JSON.parse(
         readFileSync(
           join(process.cwd(), ".data/district_paths", `${state.id}.json`),
-          "utf-8"
-        )
+          "utf-8",
+        ),
       );
     } catch {
       // No district data for this state (e.g. DC).
@@ -49,7 +49,7 @@ const offices = Object.keys(officesByName);
   <script is:inline>
     // Hide URL-param-sensitive sections until Svelte hydrates with correct values.
     // StateControls removes this attribute after its first effect runs.
-    document.documentElement.setAttribute('data-state-loading', '');
+    document.documentElement.setAttribute("data-state-loading", "");
   </script>
   <div class="state-page">
     <div class="page-header state-page__header">
@@ -62,12 +62,16 @@ const offices = Object.keys(officesByName);
 
     <div class="content-page">
       <div class="state-page__panels">
-        <StateValueCard client:load stateName={state.data.name} statePo={state.id} />
+        <StateValueCard
+          client:load
+          stateName={state.data.name}
+          statePo={state.id}
+        />
         <StateFactBox client:load statePo={state.id} {districtData} />
       </div>
 
       <div class="state-page__content">
-        <ElectionSection client:load focusState={state.id} />
+        <ElectionSection client:load focusStatePO={state.id} />
       </div>
     </div>
   </div>

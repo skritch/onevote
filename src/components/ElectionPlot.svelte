@@ -8,13 +8,13 @@
   let {
     scenario = "p2" as Scenario,
     year = 2024,
-    focusState = "",
+    focusStatePO = "",
     value = "av" as ValueType,
     popVar = undefined as PopVar | undefined,
   }: {
     scenario?: Scenario;
     year?: number;
-    focusState?: string;
+    focusStatePO?: string;
     value?: ValueType;
     popVar?: PopVar;
   } = $props();
@@ -39,7 +39,9 @@
 
   $effect(() => {
     const handler = () => {
-      plotEl?.querySelector("svg")?.dispatchEvent(new PointerEvent("pointerleave", { bubbles: true }));
+      plotEl
+        ?.querySelector("svg")
+        ?.dispatchEvent(new PointerEvent("pointerleave", { bubbles: true }));
     };
     document.addEventListener("ui:close", handler);
     return () => document.removeEventListener("ui:close", handler);
@@ -48,19 +50,14 @@
   $effect(() => {
     if (!plotEl) return;
 
-    const plotRows = getPlotRows(
-      scenario,
-      year,
-      focusState.toUpperCase(),
-      value,
-      popVar,
-    );
+    const plotRows = getPlotRows(scenario, year, focusStatePO, value, popVar);
     const hasData = plotRows.some((r) => r.value !== null);
 
     const horizontal = isHorizontal;
     const fill = (d: (typeof plotRows)[0]) =>
       partyColors[d.winningParty ?? "unknown"];
-    const fillOpacity = (d: (typeof plotRows)[0]) => (!focusState || d.isFocus ? 1 : 0.38);
+    const fillOpacity = (d: (typeof plotRows)[0]) =>
+      !focusStatePO || d.isFocus ? 1 : 0.38;
     const formatVal = (v: number | null) => (v !== null ? v.toFixed(3) : "");
     const initCap = (s: string | null) =>
       s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
@@ -206,7 +203,7 @@
         class:active={optionsOpen}
         onclick={() => (optionsOpen = !optionsOpen)}
         aria-label="Sort options"
-        aria-expanded={optionsOpen}>{isHorizontal ? '⇅' : '⇄'}</button
+        aria-expanded={optionsOpen}>{isHorizontal ? "⇅" : "⇄"}</button
       >
       {#if optionsOpen}
         <div
