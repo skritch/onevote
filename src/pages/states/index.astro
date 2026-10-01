@@ -11,7 +11,7 @@ const states = await getCollection('states');
 
     <div class="states-index__grid">
       {states.map((state) => (
-        <a href={`/states/${state.id}`} class="state-card">
+        <a href={`${import.meta.env.BASE_URL}states/${state.id}`} class="state-card">
           <h2 class="state-card__name">{state.data.name}</h2>
         </a>
       ))}
