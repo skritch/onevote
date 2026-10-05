@@ -80,7 +80,7 @@
   <span class="select-wrapper">
     <select bind:value={selectedOffice}>
       {#each offices as office}
-        <option value={office}>{office}</option>
+        <option value={office} disabled={office === 'House' || office === 'Senate'}>{office}</option>
       {/each}
     </select>
   </span>

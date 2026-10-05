@@ -172,6 +172,12 @@ const essays: { url: string; frontmatter: { title: string } }[] = Object.values(
 		}
 	}
 
+	@media (max-width: variables.$content-breakpoint) {
+		.dropdown {
+			display: none !important;
+		}
+	}
+
 	.dropdown {
 		display: none;
 		position: absolute;

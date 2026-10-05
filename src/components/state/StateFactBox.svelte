@@ -76,7 +76,7 @@
 <div class="factbox">
   {#if districtData}
     <div class="factbox__map">
-      <StateMapLogo {districtData} />
+      <StateMapLogo {districtData} {statePo} />
     </div>
   {/if}
   {#if chartState.district}

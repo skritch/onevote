@@ -12,4 +12,5 @@ export const chartState = $state({
   sort: 'alpha' as SortMode,
   party: '' as string,
   district: '' as string,
+  districtId: '' as string,
 })

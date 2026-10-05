@@ -66,7 +66,7 @@
       {/each}
     </select>
     <select bind:value={myParty}>
-      <option value="">any party</option>
+      <option value="">--</option>
       <option value="democrat">Democrat</option>
       <option value="republican">Republican</option>
       <option value="other">Other</option>
@@ -82,7 +82,7 @@
       {/each}
     </select>
     <select bind:value={cmpParty}>
-      <option value="">any party</option>
+      <option value="">--</option>
       <option value="democrat">Democrat</option>
       <option value="republican">Republican</option>
       <option value="other">Other</option>

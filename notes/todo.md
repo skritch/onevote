@@ -8,10 +8,10 @@ Views:
   - [x] p1, p2, p5 as is
   - [ ] p3, p4 require district
   - [ ] Add a "fact chart", state viz, and top line "here's what your vote is worth"
-2. [ ] value by election x state by party (/states/[stateId].astro?)
+2. [x] value by election x state by party (/states/[stateId].astro?)
   - [x] p1, p2, p5 as is
-  - [ ] wvv needs to split out partie
-  - [x] p3, p4 require district
+  - [x] wvv needs to split out parties
+  - [ ] p3, p4 require district
 3. [ ] compare state v state by election (/compare/compare-result.astro)
   - compare states/districts
 4. [ ] compare state v state by election x party (/compare/compare-result.astro)
@@ -68,8 +68,6 @@ TODO: add tooltip to disabled V / Ps saying what is disabling them
 TODO:
 - port the shapefile pipeline to its own repo, upload to kaggle maybe
 
-TODO:
-- fix dropdowns all over the site. make them consistent. Probably no borders.
 
 
 

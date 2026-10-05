@@ -37,8 +37,8 @@ const p5Data = p5Raw as Record<string, YearStateData>
 export const statesByPo = new Map(statesRaw.map(({ id, name }) => [id, name]))
 
 export const partyColors: Record<string, string> = {
-  democrat: '#4169e1',
-  republican: '#a0372e',
+  democrat: '#3d66cd',
+  republican: '#cd3d3d',
   other: '#6c757d',
   unknown: '#adb5bd',
 }

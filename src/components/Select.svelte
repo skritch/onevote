@@ -80,10 +80,12 @@
       cursor: pointer;
       text-align: left;
       white-space: nowrap;
+      appearance: none;
       transition: border-color 0.1s;
 
       &:hover, &.open {
         border-color: #9ca3af;
+        transform: none;
       }
 
       &:focus {
