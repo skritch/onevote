@@ -11,4 +11,5 @@ export const chartState = $state({
   popVar: 'ap' as PopVar,
   sort: 'alpha' as SortMode,
   party: '' as string,
+  district: '' as string,
 })

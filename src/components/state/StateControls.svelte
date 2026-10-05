@@ -3,15 +3,18 @@
   import { officesByName } from "../../lib/elections";
   import { chartState } from "../../lib/chartState.svelte.js";
   import { valueNames, popVarNames, defaultValue, defaultPopVar, getValidForYear } from '../../lib/manifest.js';
+  import { getDistrictsForState } from '../../lib/values.js';
   import type { ValueType, PopVar, Scenario } from '../../lib/values.js';
   import Select from "../Select.svelte";
 
   let {
     years,
     offices,
+    statePo = '',
   }: {
     years: number[];
     offices: string[];
+    statePo?: string;
   } = $props();
 
   const parties = ["Democrat", "Republican", "Other"];
@@ -24,7 +27,7 @@
   // Apply chartState fields from URL before effects run
   if (_urlParams) {
     const scenarioParam = _urlParams.get("scenario");
-    if (scenarioParam === 'p1' || scenarioParam === 'p2' || scenarioParam === 'p5')
+    if (scenarioParam === 'p1' || scenarioParam === 'p2' || scenarioParam === 'p3' || scenarioParam === 'p4' || scenarioParam === 'p5')
       chartState.scenario = scenarioParam as Scenario;
     const valueParam = _urlParams.get("value");
     if (valueParam && valueParam in valueNames) chartState.value = valueParam as ValueType;
@@ -32,6 +35,8 @@
     if (popParam && popParam in popVarNames) chartState.popVar = popParam as PopVar;
     const sortParam = _urlParams.get("sort");
     if (sortParam === 'alpha' || sortParam === 'value') chartState.sort = sortParam;
+    const districtParam = _urlParams.get("district");
+    if (districtParam) chartState.district = districtParam;
   }
 
   const _initialYear = (() => {
@@ -57,6 +62,23 @@
   $effect(() => { chartState.office = officesByName[selectedOffice] ?? 'president' });
   $effect(() => { chartState.party = selectedParty });
 
+  // Available districts for this state under the current scenario/year
+  const availableDistricts = $derived(
+    statePo ? getDistrictsForState(chartState.scenario, chartState.year, statePo) : []
+  );
+  const showDistrictSelector = $derived(availableDistricts.length > 1);
+
+  // Reset district when scenario doesn't support districts or district is no longer valid
+  $effect(() => {
+    const scenario = chartState.scenario;
+    const available = availableDistricts;
+    if (scenario !== 'p3' && scenario !== 'p4') {
+      if (untrack(() => chartState.district)) chartState.district = '';
+    } else if (chartState.district && !available.includes(chartState.district)) {
+      chartState.district = '';
+    }
+  });
+
   // Snap value/popVar to a valid combo when year or scenario changes
   $effect(() => {
     const year = Number(selectedYear)
@@ -80,7 +102,7 @@
   // Once any non-default setting has appeared, always write all settings (even if reverted to default)
   let settingsWritten = false;
   $effect(() => {
-    void [selectedYear, selectedOffice, selectedParty, chartState.scenario, chartState.value, chartState.popVar, chartState.sort];
+    void [selectedYear, selectedOffice, selectedParty, chartState.scenario, chartState.value, chartState.popVar, chartState.sort, chartState.district];
     if (!urlSyncReady) { urlSyncReady = true; return; }
     syncURL();
   });
@@ -95,6 +117,9 @@
 
     if (chartState.scenario !== 'p2') newUrl.searchParams.set("scenario", chartState.scenario);
     else newUrl.searchParams.delete("scenario");
+
+    if (chartState.district) newUrl.searchParams.set("district", chartState.district);
+    else newUrl.searchParams.delete("district");
 
     const defPop = defaultPopVar[chartState.value];
     const hasNonDefault = chartState.value !== defaultValue ||
@@ -133,6 +158,16 @@
     options={[{ value: '', label: '—' }, ...parties.map(p => ({ value: p, label: p }))]}
     style="min-width: 6.5rem"
   />
+  {#if showDistrictSelector}
+    <Select
+      bind:value={chartState.district}
+      options={[
+        { value: '', label: 'Statewide' },
+        ...availableDistricts.map(d => ({ value: d, label: `District ${d}` })),
+      ]}
+      style="min-width: 7rem"
+    />
+  {/if}
 </div>
 
 <style lang="scss">

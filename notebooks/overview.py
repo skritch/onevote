@@ -181,14 +181,9 @@ def _(mo):
 
     **L4**. **Feedback Effects**
 
-    The basic idea here is that the choice of voting system dictates how the political process plays out. For example, the votes of swing-state voters matter far more for national victories than do non-swing states. Political parties will specifically target swing-state voters with their choices of candidates and platforms, and their canvassing and advertising spend, giving vastly more power over the electoral outcome to swing-state voters relative to others.
+    The basic idea here is that the choice of voting system dictates how the political process plays out. For example, the votes of swing-state voters matter far more for national victories than do non-swing states, so political parties will specifically target swing-state voters with their choices of candidates and platforms, and their canvassing and advertising spend, giving vastly more power over the electoral outcome to swing-state voters relative to others. At the same time, the preferences of swing-state voters will have some causal effect on the platforms and candidates.
 
-    - ...choice of candidates
-    - ...choice of platforms
-    - ...canvassing, ad spend, etc.
-    - ...voter turnout: whether people vote depends on the perception that their votes will matter.
-
-    These feedback affects quickly complex, and we will generally not attempt to take them on.
+    These feedback affects quickly complex, and we will generally not attempt to take them on. We'll take the position that, for an election to be fair, it ought to be fair before these effects are considered—there is no world without such feedback effects.
 
     But we should ought to this category in mind when considering *counterfactuals*. For example, the voter turnout we actually see is the one arising as a result of this sort of feedback from the voting system. we cannot simply say "what would have been the outcome of a national general election under such-and-such system?", because different voters would have turned up to vote, candidates would have positioned themselves and advertised differently, etc.
 
@@ -208,6 +203,10 @@ def _(mo):
     - Fraud
     - Restrictions on the franchise itself: unreasonable ID requirements, intimidation, poll taxes, etc.
     - Philosophical issues with the franchise itself, such as the exclusion of overseas territories
+
+    These issues are certainly pertinent to the fairness of a democracy, but do not affect the actual voting system or algorithm.
+
+    Mainly it will be interesting to compare the size of these factors to voting-system inequalities.
     """)
     return
 
@@ -241,9 +240,7 @@ def _(mo):
 
     **P7, P8, and P9**. As P2, P4, and P5, but without the 2 Senate electors per state.
 
-    **P10**. Ranked-choice/instant-runoff-type schemes to determine electors at the state level.
-
-    **P11**. As P10 but at the district level.
+    **P10, P11**. Ranked-choice/instant-runoff-type schemes to determine electors at the state / district levels.
     """)
     return
 

@@ -25,7 +25,7 @@ $spacing-xl: 4rem;
 // Layout
 // $content-width is the single source of truth; other layout values are derived.
 $content-width: 788px;
-$content-breakpoint: $content-width + 32px;   // + 2×16px ($spacing-sm) side padding
+$content-breakpoint: 720px;
 $container-max-width: $content-width + 150px; // ~940px — header breathing room
 $border-radius: 8px;
 $transition-duration: 0.15s;

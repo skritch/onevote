@@ -79,6 +79,11 @@
       <StateMapLogo {districtData} />
     </div>
   {/if}
+  {#if chartState.district}
+    <div class="factbox__district-badge">
+      District {chartState.district}
+    </div>
+  {/if}
   {#if dim}
     <!-- Population -->
     <div class="factbox__section">
@@ -204,6 +209,20 @@
     display: flex;
     justify-content: center;
     padding-bottom: variables.$spacing-sm;
+  }
+
+  .factbox__district-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: variables.$royal-blue;
+    background: rgba(65, 105, 225, 0.08);
+    border: 1px solid rgba(65, 105, 225, 0.2);
+    border-radius: 3px;
+    padding: 2px 6px;
+    margin-bottom: variables.$spacing-sm;
   }
 
   .factbox__section {
@@ -345,13 +364,6 @@
     color: variables.$dark-gray;
     text-align: center;
     font-variant-numeric: tabular-nums;
-
-    &--votes {
-      /* column 3 (pct) is empty, this is col 4 — no extra style needed */
-    }
-    &--electors {
-      /* col 5 */
-    }
   }
 
   .factbox__no-data {

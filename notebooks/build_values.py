@@ -54,9 +54,9 @@ def _():
     \text{AV}(x) = \frac{e_{s(x)} / E}{n_{s(x)} / N}
     $$
 
-    As a measure of apportionment, $n_s$ should be the apportionment population (AP).
+    As a characterization of apportionment itself, $n_s$ should be the apportionment population (AP).
 
-    As a measure of the value of a vote it could use voting-eligible population (VEP) (which would make it a "potential" value of a vote, ex ante) or voting population (VP) (which would make it an ex post "actual" value of a vote). In these cases the meaning is a bit different, but we won't think about that for now.
+    As a characterization of the value of a vote it could use voting-eligible population (VEP) (which would make it a "potential" value of a vote, ex ante) or voting population (VP) (which would make it an ex post "actual" value of a vote). In these cases the meaning is a bit different, but we won't think about that for now.
 
     We'll calculate all four as columns `av_ap`, `av_vap`, `av_vep`, and `av_vp`.
 
@@ -128,11 +128,13 @@ def _():
 
 @app.cell(hide_code=True)
 def _():
-    data_national = kagglehub.dataset_load(
-      KaggleDatasetAdapter.PANDAS,
-      "samkritch/u-s-presidential-elections-by-state-1976-2024",
-      'pres_1976_2024.csv',
-    )
+    # data_national = kagglehub.dataset_load(
+    #   KaggleDatasetAdapter.PANDAS,
+    #   "samkritch/u-s-presidential-elections-by-state-1976-2024",
+    #   'pres_1976_2024.csv',
+    # )
+
+    data_national = pd.read_csv('.data/pres_1976_2024.csv')
 
     _data_2028 = data_national[data_national['year'] == 2024].copy()
     _data_2028['year'] = 2028
@@ -162,11 +164,12 @@ def _():
 
 @app.cell(hide_code=True)
 def _():
-    data_state = kagglehub.dataset_load(
-      KaggleDatasetAdapter.PANDAS,
-      "samkritch/u-s-presidential-elections-by-state-1976-2024",
-      'pres_by_state_1976_2024.csv',
-    )
+    # data_state = kagglehub.dataset_load(
+    #   KaggleDatasetAdapter.PANDAS,
+    #   "samkritch/u-s-presidential-elections-by-state-1976-2024",
+    #   'pres_by_state_1976_2024.csv',
+    # )
+    data_state = pd.read_csv('.data/pres_by_state_1976_2024.csv')
 
     _nansum = lambda x: x.sum(min_count=1)
     national_totals = data_state.groupby('year').agg({
@@ -224,11 +227,13 @@ def _():
 
 @app.cell(hide_code=True)
 def _(data_state, national_totals):
-    data_district: pd.DataFrame = kagglehub.dataset_load(
-      KaggleDatasetAdapter.PANDAS,
-      "samkritch/u-s-presidential-elections-by-state-1976-2024",
-      'pres_by_district_2012_2024.csv',
-    )
+    # data_district: pd.DataFrame = kagglehub.dataset_load(
+    #   KaggleDatasetAdapter.PANDAS,
+    #   "samkritch/u-s-presidential-elections-by-state-1976-2024",
+    #   'pres_by_district_2012_2024.csv',
+    # )
+
+    data_district = pd.read_csv('.data/pres_by_district_2012_2024.csv')
 
     # todo: support third parties
     data_district['winning_party'] = data_district.apply(lambda row: "democrat" if row["votes_democrat"] > row["votes_republican"] else "republican", axis=1)
@@ -552,7 +557,7 @@ def _(PopCols):
 @app.cell(hide_code=True)
 def _(
     av_for_district,
-    data_district: pd.DataFrame,
+    data_district,
     population_cols,
     pv_for_district,
     wvv_for_district,
@@ -626,7 +631,7 @@ def _():
 @app.cell(hide_code=True)
 def _(
     av_for_district,
-    data_district: pd.DataFrame,
+    data_district,
     population_cols,
     pv_for_district,
     wvv_for_district,

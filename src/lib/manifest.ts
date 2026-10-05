@@ -38,20 +38,24 @@ export const popVarShortNames: Record<PopVar, string> = {
 export const scenarioNames: Record<Scenario, string> = {
   p1: 'National General Election',
   p2: 'Simplified Electoral College',
+  p3: 'Present Electoral College',
+  p4: 'District Electoral College',
   p5: 'Proportional Electors',
 }
 
 export const scenarioShortNames: Record<Scenario, string> = {
   p1: 'General',
   p2: 'Simplified EC',
+  p3: 'Present EC',
+  p4: 'District EC',
   p5: 'Proportional EC',
 }
 
 export const scenarioDescriptions: Record<Scenario, string> = {
   p1: 'All votes are pooled nationally; the candidate with the most total votes wins. No Electoral College.',
-  p2: 'Each state awards its electors votes to its popular-vote winner. This is nearly identical to the present-day system, but omits the idiosyncrasies of Maine and Nebraska',
-  // p3: 'The present-day. Most states award all electoral votes to their popular-vote winner, while Maine and Nebraska award one elector to the winner of each House district, and the remaining two "Senate" electors to the statewide popular-vote winner.
-  // p4: 'All states award electors to the popular winner in each House district, and the remaining two "Senate" electors to the statewide popular-vote winner. This is the system used by Maine and Nebraska at present, but applied to all states.
+  p2: 'Each state awards its electors votes to its popular-vote winner. This is nearly identical to the present-day system, but omits the idiosyncrasies of Maine and Nebraska.',
+  p3: 'The present-day system. Most states award all electoral votes to their popular-vote winner, while Maine and Nebraska award one elector to the winner of each congressional district, plus two statewide "Senate" electors.',
+  p4: 'All states award electors to the popular-vote winner in each congressional district, plus two statewide "Senate" electors — the system Maine and Nebraska currently use, applied nationwide.',
   p5: "Each state's electoral votes are split among all candidates in proportion to their share of the popular vote in that state.",
 }
 
@@ -86,6 +90,8 @@ export const defaultPopVar: Partial<Record<ValueType, PopVar>> = {
 export const validValues: Record<Scenario, ValueType[]> = {
   p1: ['av', 'pv', 'wvv'],
   p2: ['av', 'pv', 'wvv'],
+  p3: ['av', 'pv', 'wvv'],
+  p4: ['av', 'pv', 'wvv'],
   p5: ['av', 'wvv'],
 }
 

@@ -24,6 +24,7 @@
       (validPopVars[chartState.value] ?? []).length > 0
         ? chartState.popVar
         : undefined,
+      chartState.district || undefined,
     ),
   );
 
@@ -88,6 +89,18 @@
       }));
   });
 
+  function districtOrdinal(d: string): string {
+    const n = parseInt(d);
+    const suffix = n === 1 ? 'st' : n === 2 ? 'nd' : n === 3 ? 'rd' : 'th';
+    return `${n}${suffix}`;
+  }
+
+  const locationLabel = $derived(
+    chartState.district
+      ? `${stateName}'s ${districtOrdinal(chartState.district)} district`
+      : stateName
+  );
+
   function formatValue(v: number): string {
     if (v === 0) return "0";
     const s = v.toFixed(2);
@@ -100,23 +113,23 @@
     in <strong>{chartState.year}</strong>, the value of
     {#if isWVV && effectivePartyKey}
       {#if effectivePartyKey === "other"}
-        a <strong>Third Party</strong> vote in <strong>{stateName}</strong>
+        a <strong>Third Party</strong> vote in <strong>{locationLabel}</strong>
       {:else}
         a <strong
           >{effectivePartyKey.charAt(0).toUpperCase() +
             effectivePartyKey.slice(1)}'s</strong
         >
-        vote in <strong>{stateName}</strong>
+        vote in <strong>{locationLabel}</strong>
       {/if}
     {:else if chartState.party}
       {#if chartState.party === "Other"}
-        a <strong>Third Party</strong> vote in <strong>{stateName}</strong>
+        a <strong>Third Party</strong> vote in <strong>{locationLabel}</strong>
       {:else}
         a <strong>{chartState.party}'s</strong> vote in
-        <strong>{stateName}</strong>
+        <strong>{locationLabel}</strong>
       {/if}
     {:else}
-      a vote in <strong>{stateName}</strong>
+      a vote in <strong>{locationLabel}</strong>
     {/if}
     {tense}
   </p>

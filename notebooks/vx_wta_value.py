@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.19.6"
+__generated_with = "0.24.2"
 app = marimo.App(width="medium")
 
 with app.setup(hide_code=True):
@@ -19,11 +19,13 @@ def _():
     from kagglehub import KaggleDatasetAdapter
 
     # Load the latest version
-    data = kagglehub.dataset_load(
-      KaggleDatasetAdapter.PANDAS,
-      "samkritch/u-s-presidential-elections-by-state-1976-2024",
-      'pres_by_state_1976_2024.csv',
-    )
+    # data = kagglehub.dataset_load(
+    #   KaggleDatasetAdapter.PANDAS,
+    #   "samkritch/u-s-presidential-elections-by-state-1976-2024",
+    #   'pres_by_state_1976_2024.csv',
+    # )
+
+    data = pd.read_csv('.data/pres_by_state_1976_2024.csv')
 
     # data.head()
     return (data,)
@@ -68,7 +70,7 @@ def _():
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    We observed above that AV and AVI make no use of the "winner-takes-all" assignment of state electors.
+    We observed above that AV make no use of the "winner-takes-all" assignment of state electors.
 
     Obviously this is, in some sense, less "fair" than an election where everyone's vote is counted directly: many voters are disincentivized from voting, candidates are disincentivized from paying attention to many of their voters, and campaigning (and likely the exchange of favors and promises for votes) is massively concentrated in a handful of contested "swing states", to an almost comical degree.
 
@@ -77,23 +79,18 @@ def _():
     But it will be useful to try to characterize the inequality without party affiliations first, i.e. to come up with an L2 measure.
 
     Here are some properties our characterization should capture:
-    - Clearly the grouping of voters into states or "districts" (which we will be our general term for such grouping operations) with WTA-within-districts is less fair than a general election (or than proportional repr. within districts).
+    - Clearly the grouping of voters into states or "districts" (which we will be our general term for such grouping operations) with WTA-within-districts will be less fair than a general election (or than proportional repr. within districts).
     - Larger districts are less fair than small ones.
     - If a single district reaches an elector count equal to half of the national population, the value of all votes in the other districts should go to zero.
-    - Districting should reduce fairness in a way which is distinct from AVI: however many electors your state has, assigning them by WTA ought to increase the inequality of the individual voters' votes.
-    - Likewise, for a given set of district sizes, increasing AVI ought to increase inequality in general.
     - WTA is less fair than any reasonable "proportional" assignment of electors within a state.
+    - WTA should reduce fairness in a way which is distinct from Apportionment. If your district-to-elector assignment is not proportional, and then you furthermore stipulate WTA-within-districts, the overall inequality becomes worse.
+    - Likewise, for a given set of district sizes operating under TWTA, increasing AV inequality ought to increase inequality in general.
 
-    For clarity, let us record our other stipulation:
-    - The inequality measure we use should not depend on *actual party affiliations*, for now. We will devise a separate measure using this information later.
-
+    For completeness let us also record some other stipulation:
+    - The inequality measure we use should not depend on *actual party affiliations*, for now, *only* on the districting. We will devise a separate measure using this information later.
+    - We will ignore abstentions, for the time being.
     ---
     """)
-    return
-
-
-@app.cell
-def _():
     return
 
 
@@ -107,7 +104,7 @@ def _():
     Later, when we bring party affiliation into the mix, we'll be able to determine *which* votes had no effect; for now we only know it was some half.
 
     So we'll consider a WTA state election to assign values to votes by a function **Winner-Takes-All Value** or $\text{WTAV}(x)$:
-    - $\text{WTAV}(x) = 2 \cdot \text{AV}(x) = 2\cdot \frac{e_{s(x)}/E}{n_{s(x)}/N}$ for approximately $\frac{n_{s(x)}}{2}$ members of the state
+    - $\text{WTAV}(x) = 2 \cdot \text{AV}(x) = 2\cdot \frac{e_{s(x)}/E}{n_{s(x)}/N}$ for $\frac{n_{s(x)}}{2}$ members of the state
     - $\text{WTAV}(x) = 0$ to the remaining $\frac{n_{s(x)}}{2}$ voters.
 
     We won't bother with the exact rounding of $\frac{n_{s(x)}}{2}$, and will ignore ties. For now, we won't think about which population $n_s$ is taken to measure; later we might want to use AP, VEP, or VP.
@@ -146,7 +143,9 @@ def _():
     \end{align}
     $$
 
-    If $\text{AV}(s) \ge \frac{1}{2}$ everywhere, the absolute value signs can be removed, and this expression comes reduces to $\frac{\sum n_s \text{AV}(s)}{N} = 1$. That's not very interesting.
+    If $\text{AV}(s) \ge \frac{1}{2}$ everywhere, the absolute value signs can be removed, and this expression comes reduces to $\frac{\sum n_s \text{AV}(s)}{N} = 1$.
+
+    That's not very interesting.
 
     **RMS Deviation**:
 
@@ -162,7 +161,7 @@ def _():
 
     If $\text{AV}(s) = 1$ this expression is exactly 1.
 
-    It can also be written as $2 \text{E}[(\text{AV}(x))^2] - 2$.
+    It can also be written as $2 \text{E}[(\text{AV}(x))^2] - 2$. This is simply twice the variance of $AV$.
 
 
     **Relative Entropy**:
@@ -189,11 +188,13 @@ def _():
     mo.md(r"""
     ---
 
-    All of these expression give exactly 1 for uniform $\text{AV}(s) = 1$, i.e. for "perfectly proportional apportionment". So:" considering a WTA election automatically adds 1 to its MAD/Var/Entropy, but this is *completely insensitive to the size of the states*. As long as every voter is in *some* WTA district, their vote counts 0 half the time.
+    All of these expression give exactly 1 for uniform $\text{AV}(s) = 1$, i.e. for "perfectly proportional apportionment". So:" considering a WTA election automatically adds 1 to its Var and Entropy, but this is *completely insensitive to the size of the states*. As long as every voter is in *some* WTA district, their vote counts 0 half the time.
+
+    Therefore we have not really met our goal.
 
     Note that we are *not* considering the WTA nature of the national election. At the "top" level, every vote has an influence on the candidates, so we don't need to account for this.
 
-    Still: these metrics aren't much use. These will be a handy baseline for when we consider wasted votes *with* parties, but to capture the effect of WTA elections in the states we need some other measure which distinguishes large states from small ones. Intuitively it should be "more fair" to divide a state up into districts than to consider it all as one block--there are more opportunity to have marginal effects on the outermost election. We'll turn our attention to this in the next analysis.
+    Still: these metrics aren't much use. They will only be interesting when comparing metrics from different systems to one another.
     """)
     return
 
@@ -201,7 +202,13 @@ def _():
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
- 
+    # Winner-Take-All, Take 2
+
+    Is it possible to capture the property of WTA elections at L2 with a "value-of-a-vote" function at all?
+
+    In the first attempt we had to say "half of the vote will have value zero, but we don't know which half".
+
+    This is essentially true...
     """)
     return
 

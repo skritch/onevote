@@ -19,8 +19,8 @@ def viz_value_by_state(df, column_name: str, value_name: str, year: int):
         tooltip=[
             altair.Tooltip('state:N', title='State'),
             altair.Tooltip('winning_party:N', title='Winner'),
-            altair.Tooltip('state_population:Q', title='Population', format=','),
-            altair.Tooltip('state_electors:Q', title='Electors'),
+            altair.Tooltip('apportionment_population:Q', title='Population', format=','),
+            altair.Tooltip('electors:Q', title='Electors'),
             altair.Tooltip('votes_total:Q', title='Total Votes', format=','),
             altair.Tooltip(f'{column_name}:Q', title=value_name, format='.3f')
         ]
@@ -246,8 +246,8 @@ def viz_scatter_compare(df, x: str, x_name: str, y: str, y_name: str, year: int,
             altair.Tooltip('state:N', title='State'),
             altair.Tooltip('state_po:N', title='Abbreviation'),
             altair.Tooltip('winning_party:N', title='Winner'),
-            altair.Tooltip('state_population:Q', title='Population', format=','),
-            altair.Tooltip('state_electors:Q', title='Electors'),
+            altair.Tooltip('apportionment_population:Q', title='Population', format=','),
+            altair.Tooltip('electors:Q', title='Electors'),
             altair.Tooltip('votes_total:Q', title='Total Votes', format=','),
             altair.Tooltip(f'{x}:Q', title=x_name, format='.3f'),
             altair.Tooltip(f'{y}:Q', title=y_name, format='.3f')
@@ -316,7 +316,7 @@ def viz_measure_over_time(df, column_name):
 
     _charts = []
     for _col, _title in _metrics:
-        _chart = altair.Chart(inequality_df).mark_bar().encode(
+        _chart = altair.Chart(inequality_df).mark_line().encode(
             x=altair.X('year:O', title='Year'),
             y=altair.Y(f'{_col}:Q', title=_title),
             color=altair.Color('winning_party:N',

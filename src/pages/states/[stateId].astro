@@ -55,7 +55,7 @@ const offices = Object.keys(officesByName);
     <div class="page-header state-page__header">
       <h1>{state.data.name}</h1>
       <div class="page-controls">
-        <StateControls client:load {years} {offices} />
+        <StateControls client:load {years} {offices} statePo={state.id} />
         <SettingsPanel client:load />
       </div>
     </div>

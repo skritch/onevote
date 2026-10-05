@@ -5,7 +5,7 @@
 
 import marimo
 
-__generated_with = "0.19.6"
+__generated_with = "0.24.2"
 app = marimo.App(width="medium")
 
 with app.setup:
@@ -139,11 +139,12 @@ def _():
     from kagglehub import KaggleDatasetAdapter
 
     # Load the latest version
-    data = kagglehub.dataset_load(
-      KaggleDatasetAdapter.PANDAS,
-      "samkritch/u-s-presidential-elections-by-state-1976-2024",
-      'pres_by_state_1976_2024.csv',
-    )
+    # data = kagglehub.dataset_load(
+    #   KaggleDatasetAdapter.PANDAS,
+    #   "samkritch/u-s-presidential-elections-by-state-1976-2024",
+    #   'pres_by_state_1976_2024.csv',
+    # )
+    data = pd.read_csv('.data/pres_by_state_1976_2024.csv')
 
     # data.head()
     return (data,)
@@ -214,7 +215,9 @@ def _(data_with_av, year_dropdown):
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    The main inequality is the non-zero intercept with the elector axis, due to the floor of 3 electors.
+    This is quite linear, of course, but not perfectly so.
+
+    The main issue is the non-zero intercept with the elector axis, due to the floor of 3 electors.
 
     Now we can view AV vs state populations in another way. Note that in a general popular election, AV would *not vary* with population.
     """)
@@ -280,9 +283,9 @@ def _(data_with_av, party_dropdown):
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    Well: it turns out that no, AVs are not much good as predictors of the actual EC outcome. What correlation we do see in the left plot is surely just due to the AV % tracking the popular % closely; the right plot looks the same.
+    Well: it turns out that no, AVs are not much good as predictors of the actual EC outcome.
 
-    Apparently AVs are close enough to 1 on average that they don't tell us much about the results of elections. This isn't too surprising.
+    Apparently AVs are close enough to 1 on average that they follow the popular vote very closely.
     """)
     return
 
@@ -371,12 +374,17 @@ def _():
 
     Recording a few thoughts on these measures:
 
-    What "population" variable should we use?
+    #### Population Variables
+
+    What "population" variable should we use to calculate AV?
     - The obvious guess is "apportionment population", but not everyone counted in AP can vote
     - Using VAP/VEP makes it a measure of "average impact on the election over potential voters"
-    - Using VP makes it an average over actual voters
-      - but VP is downstream of actual turnout, which we expect to be affected by incentivize to vote under apportionment.
+    - Using VP makes it an average over actual voters, but VP is downstream of actual turnout, which we expect to be affected by incentivize to vote under apportionment.
 
+
+    We'll compute it with all of these, but VP should be considered meaningless.
+
+    ---
 
 
     We could also try to characterize the EC distribution $\frac{e_s}{E}$ relative to the state population distribution $\frac{n_s}{N}$.
@@ -399,11 +407,6 @@ def _():
     - Is it worth considering relative entropy going the other way, $H[1/N ~\Vert~ \text{AV}/N]$? AI tells me this is called a "Theil index" of inequality, but I can't see the sense in it.
     - Worth considering RMS w.r.t. 0 instead of 1?
     """)
-    return
-
-
-@app.cell
-def _():
     return
 
 

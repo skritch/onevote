@@ -12,7 +12,7 @@ export type { StateDimension } from './elections.js'
 export { candidatesByYear } from './elections.js'
 export { getStateDimension } from './elections.js'
 
-export type Scenario = 'p1' | 'p2' | 'p5'
+export type Scenario = 'p1' | 'p2' | 'p3' | 'p4' | 'p5'
 export type ValueType = 'av' | 'pv' | 'wvv'
 export type PopVar = 'ap' | 'vap' | 'vep' | 'vp'
 
@@ -29,8 +29,9 @@ type YearStateData = Record<string, StateValues>
 
 const p1Data = p1Raw as Record<string, StateValues>
 const p2Data = p2Raw as Record<string, YearStateData>
-// p3: year → state_po → district_number → values (ME/NE split electors by district)
+// p3/p4: year → state_po → district_number → values
 const p3Data = p3Raw as Record<string, Record<string, Record<string, StateValues>>>
+const p4Data = p4Raw as Record<string, Record<string, Record<string, StateValues>>>
 const p5Data = p5Raw as Record<string, YearStateData>
 
 export const statesByPo = new Map(statesRaw.map(({ id, name }) => [id, name]))
@@ -50,6 +51,26 @@ function extractValue(
   const pop = popVar ?? (value === 'av' ? 'ap' : 'vap')
   const v = record[`${value}_${pop}`]
   return v == null ? null : (v as number)
+}
+
+/**
+ * Returns the available district numbers for a state under a given scenario/year.
+ * Returns [] for scenarios that don't use districts (p1/p2/p5) or years with no data.
+ * For p3, only ME and NE have multiple districts; all other states return ['1'].
+ * For p4, every state has one entry per congressional district.
+ */
+export function getDistrictsForState(
+  scenario: string,
+  year: number,
+  statePo: string,
+): string[] {
+  if (scenario !== 'p3' && scenario !== 'p4') return []
+  const data = scenario === 'p3' ? p3Data : p4Data
+  const yearData = data[String(year)]
+  if (!yearData) return []
+  const stateData = yearData[statePo.toUpperCase()]
+  if (!stateData) return []
+  return Object.keys(stateData).filter(d => Object.keys(stateData[d]).length > 0)
 }
 
 /**
@@ -117,8 +138,9 @@ export function getPlotRows(
 }
 
 /**
- * Returns the value for a single state. For p3 (actual EC), district "1" is used
- * as the state-level representative value (all districts identical except ME/NE).
+ * Returns the value for a single state or district.
+ * For p3/p4, pass `district` (e.g. '1', '2') to get a district-specific value;
+ * omit or pass undefined to get the default (district '1', or first available).
  */
 export function getStateValue(
   scenario: string,
@@ -126,6 +148,7 @@ export function getStateValue(
   state_po: string,
   value: ValueType,
   popVar?: PopVar,
+  district?: string,
 ): number | null {
   const yearKey = String(year)
   const po = state_po.toUpperCase()
@@ -137,13 +160,15 @@ export function getStateValue(
     return national ? ((national[key] as number | null) ?? null) : null
   }
 
-  if (scenario === 'p3') {
-    const yearData = p3Data[yearKey]
+  if (scenario === 'p3' || scenario === 'p4') {
+    const data = scenario === 'p3' ? p3Data : p4Data
+    const yearData = data[yearKey]
     if (!yearData) return null
     const stateDistricts = yearData[po]
     if (!stateDistricts) return null
-    const first = stateDistricts['1'] ?? Object.values(stateDistricts)[0]
-    return first ? ((first[key] as number | null) ?? null) : null
+    const d = district && stateDistricts[district] ? district : ('1' in stateDistricts ? '1' : Object.keys(stateDistricts)[0])
+    const record = stateDistricts[d]
+    return record ? ((record[key] as number | null) ?? null) : null
   }
 
   const data = scenario === 'p5' ? p5Data : p2Data
