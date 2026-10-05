@@ -139,14 +139,13 @@ def _():
     from kagglehub import KaggleDatasetAdapter
 
     # Load the latest version
-    # data = kagglehub.dataset_load(
-    #   KaggleDatasetAdapter.PANDAS,
-    #   "samkritch/u-s-presidential-elections-by-state-1976-2024",
-    #   'pres_by_state_1976_2024.csv',
-    # )
-    data = pd.read_csv('.data/pres_by_state_1976_2024.csv')
+    data = kagglehub.dataset_load(
+      KaggleDatasetAdapter.PANDAS,
+      "samkritch/u-s-presidential-elections-by-state-1976-2024",
+      'pres_by_state_1976_2024.csv',
+    )
 
-    # data.head()
+    data.head()
     return (data,)
 
 

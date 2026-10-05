@@ -55,10 +55,14 @@ all across scenarios:
 I don't feel good about either pv or wvv
 - PV looks way too low across the board?
   - is it really normalized to 1? I'm skeptical
+  - why missing for p5?
 - WVV obviously weird with the "national loser = zero".
 
 
 
+TODO: clean up 2028 page
+- show empty VAP/VEP
+- where are state logos?
 
 TODO: add tooltip to disabled V / Ps saying what is disabling them
 - in manifest probably
@@ -68,7 +72,9 @@ TODO: add tooltip to disabled V / Ps saying what is disabling them
 TODO:
 - port the shapefile pipeline to its own repo, upload to kaggle maybe
 
-
+TODO: script cleanup
+- cache kaggle results locally.
+- no default paths in CLI args
 
 
 

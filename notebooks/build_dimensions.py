@@ -24,7 +24,6 @@ def _():
         help='Output directory for results')
     _args = _parser.parse_args()
     output_dir = Path(_args.output)
-
     return (output_dir,)
 
 
@@ -43,7 +42,7 @@ def _():
     )
 
     data
-    return (data,)
+    return KaggleDatasetAdapter, data, kagglehub
 
 
 @app.cell
@@ -72,7 +71,52 @@ def _(data):
 
 
 @app.cell
-def _(data, data_2028, output_dir):
+def _(KaggleDatasetAdapter, kagglehub):
+    data_district = kagglehub.dataset_load(
+      KaggleDatasetAdapter.PANDAS,
+      "samkritch/u-s-presidential-elections-by-state-1976-2024",
+      'pres_by_district_2012_2024.csv',
+    )
+
+    data_district.head(3)
+    return (data_district,)
+
+
+@app.cell
+def _(data_district):
+    _keep = [
+        'apportionment_population', # 'apportionment_voting_age_population',
+        'votes_democrat', 'votes_republican', 'votes_other', 'votes_total',
+        'electors', 'electors_democrat', 'electors_republican', 'electors_other',
+        'winning_party', 'district_code'
+    ]
+
+    districts = {}
+    for _row in data_district.to_dict('records'):
+        _state = _row['state_po'].upper()
+        _year = int(_row['year'])
+        districts.setdefault(_year, {}).setdefault(_state, []).append(
+            {
+                k: (None if isinstance(v, float) and pd.isna(v) else v)
+                for k, v in _row.items() if k in _keep
+            }
+        )
+
+    # Synthetic 2028: same states/districts as 2024, only apportionment_population and electors
+    for _row in data_district[data_district['year'] == 2024].to_dict('records'):
+        _state = _row['state_po'].upper()
+        districts.setdefault(2028, {}).setdefault(_state, []).append(
+            {
+                'apportionment_population': _row['apportionment_population'],
+                'electors': _row['electors'],
+                'district_code': _row['district_code']
+            }
+        )
+    return (districts,)
+
+
+@app.cell
+def _(data, data_2028, districts, output_dir):
     data_complete = pd.concat([data, data_2028], ignore_index=True)
 
     output = []
@@ -114,6 +158,10 @@ def _(data, data_2028, output_dir):
             }
             for state in year_data.to_dict('records')
         ]
+        for s in state_data:
+            if d := districts.get(s['year'], {}).get(s['state_po'], []):
+                s['districts'] = d
+    
         year_summary['states'] = state_data
 
         year_summary = {
