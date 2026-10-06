@@ -2,6 +2,7 @@
   import { chartState } from "../../lib/chartState.svelte.js";
   import {
     getStateDimension,
+    getDistrictDimension,
     partyColors,
     candidatesByYear,
   } from "../../lib/values.js";
@@ -23,16 +24,32 @@
   const CURRENT_YEAR = new Date().getFullYear();
 
   const dim = $derived(getStateDimension(chartState.year, statePo));
-  const hasPastResults = $derived(
-    dim !== null && chartState.year <= CURRENT_YEAR && dim.votes_total !== null,
+  const districtDim = $derived(
+    chartState.districtId
+      ? getDistrictDimension(chartState.year, statePo, chartState.districtId)
+      : null,
   );
 
+  const hasPastResults = $derived(
+    chartState.year <= CURRENT_YEAR &&
+    (districtDim
+      ? districtDim.votes_total !== null
+      : dim !== null && dim.votes_total !== null),
+  );
+
+  const resultsData = $derived(districtDim ?? dim);
+
   const votesSum = $derived(
-    dim
-      ? (dim.votes_democrat ?? 0) +
-          (dim.votes_republican ?? 0) +
-          (dim.votes_other ?? 0)
+    resultsData
+      ? (resultsData.votes_democrat ?? 0) +
+          (resultsData.votes_republican ?? 0) +
+          (resultsData.votes_other ?? 0)
       : 0,
+  );
+
+  // Only show electors column for statewide view, or district view when district has electors (ME/NE)
+  const showElectors = $derived(
+    !districtDim || ((districtDim.electors ?? 0) > 0),
   );
 
   function fmt(n: number | null | undefined): string {
@@ -79,16 +96,14 @@
       <StateMapLogo {districtData} {statePo} />
     </div>
   {/if}
-  {#if chartState.district}
-    <div class="factbox__district-badge">
-      District {chartState.district}
-    </div>
-  {/if}
+
   {#if dim}
     <!-- Population -->
     <div class="factbox__section">
       <div class="factbox__pop-header">
-        <span class="factbox__pop-title">Population</span>
+        <span class="factbox__pop-title">
+          {districtDim ? "District Population" : "State Population"}
+        </span>
         <hr class="factbox__pop-hr" />
       </div>
       <div class="factbox__row">
@@ -99,51 +114,49 @@
             href={`${import.meta.env.BASE_URL}about/population/`}
           />
         </span>
-        <span class="factbox__val">{fmt(dim.apportionment_population)}</span>
+        <span class="factbox__val">
+          {fmt(districtDim ? districtDim.apportionment_population : dim.apportionment_population)}
+        </span>
       </div>
-      {#if dim.vap_estimate != null}
-        <div class="factbox__row">
-          <span class="factbox__label">
-            <InfoLink
-              text="Voting Age"
-              description={popVarDescriptions.vap}
-              href={`${import.meta.env.BASE_URL}about/population/`}
-            />
-          </span>
-          <span class="factbox__val">{fmt(dim.vap_estimate)}</span>
-        </div>
-      {/if}
-      {#if dim.vep_estimate != null}
-        <div class="factbox__row">
-          <span class="factbox__label">
-            <InfoLink
-              text="Voting-Eligible"
-              description={popVarDescriptions.vep}
-              href={`${import.meta.env.BASE_URL}about/population/`}
-            />
-          </span>
-          <span class="factbox__val">{fmt(dim.vep_estimate)}</span>
-        </div>
-      {/if}
+      <div class="factbox__row" class:factbox__row--unavailable={!!districtDim}>
+        <span class="factbox__label">
+          <InfoLink
+            text="Voting Age"
+            description={popVarDescriptions.vap}
+            href={`${import.meta.env.BASE_URL}about/population/`}
+          />
+        </span>
+        <span class="factbox__val" title={districtDim ? "Data unavailable" : undefined}>
+          {districtDim ? "—" : fmt(dim.vap_estimate)}
+        </span>
+      </div>
+      <div class="factbox__row" class:factbox__row--unavailable={!!districtDim}>
+        <span class="factbox__label">
+          <InfoLink
+            text="Voting-Eligible"
+            description={popVarDescriptions.vep}
+            href={`${import.meta.env.BASE_URL}about/population/`}
+          />
+        </span>
+        <span class="factbox__val" title={districtDim ? "Data unavailable" : undefined}>
+          {districtDim ? "—" : fmt(dim.vep_estimate)}
+        </span>
+      </div>
     </div>
 
     <!-- Election results -->
-    {#if hasPastResults}
+    {#if hasPastResults && resultsData}
       <div class="factbox__section factbox__section--results">
         <div class="factbox__results-title">Election Results</div>
         <hr class="factbox__results-hr" />
-        <div class="factbox__results-body">
+        <div class="factbox__results-body" class:no-electors={!showElectors}>
           <span></span><span></span>
           <span class="factbox__col-header">Votes</span>
           <span class="factbox__col-header">%</span>
-          <span class="factbox__col-header">EC</span>
+          {#if showElectors}<span class="factbox__col-header">EC</span>{/if}
           {#each resultParties as party}
-            {@const votes = dim[`votes_${party}` as keyof typeof dim] as
-              | number
-              | null}
-            {@const electors = dim[`electors_${party}` as keyof typeof dim] as
-              | number
-              | null}
+            {@const votes = resultsData[`votes_${party}` as keyof typeof resultsData] as number | null}
+            {@const electors = resultsData[`electors_${party}` as keyof typeof resultsData] as number | null}
             {#if votes != null && votes > 0}
               <span
                 class="factbox__dot"
@@ -151,31 +164,30 @@
               ></span>
               <span
                 class="factbox__party-name"
-                class:winner={dim.winning_party === party}
+                class:winner={resultsData.winning_party === party}
               >
-                {displayName(party, chartState.year)}{dim.winning_party ===
-                party
-                  ? " ✓"
-                  : ""}
+                {displayName(party, chartState.year)}{resultsData.winning_party === party ? " ✓" : ""}
               </span>
               <span
                 class="factbox__vote-count"
-                class:winner={dim.winning_party === party}
+                class:winner={resultsData.winning_party === party}
               >
                 {fmt(votes)}
               </span>
               <span
                 class="factbox__pct"
-                class:winner={dim.winning_party === party}
+                class:winner={resultsData.winning_party === party}
               >
                 {pct(votes, votesSum)}
               </span>
-              <span
-                class="factbox__electors"
-                class:winner={dim.winning_party === party}
-              >
-                {fmtElectors(electors)}
-              </span>
+              {#if showElectors}
+                <span
+                  class="factbox__electors"
+                  class:winner={resultsData.winning_party === party}
+                >
+                  {fmtElectors(electors)}
+                </span>
+              {/if}
             {/if}
           {/each}
           {#if votesSum > 0}
@@ -183,7 +195,9 @@
             <span></span><span></span>
             <span class="factbox__total">{fmt(votesSum)}</span>
             <span></span>
-            <span class="factbox__total">{fmtElectors(dim.electors)}</span>
+            {#if showElectors}
+              <span class="factbox__total">{fmtElectors(resultsData.electors)}</span>
+            {/if}
           {/if}
         </div>
       </div>
@@ -209,20 +223,6 @@
     display: flex;
     justify-content: center;
     padding-bottom: variables.$spacing-sm;
-  }
-
-  .factbox__district-badge {
-    display: inline-block;
-    font-size: 0.68rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: variables.$royal-blue;
-    background: rgba(65, 105, 225, 0.08);
-    border: 1px solid rgba(65, 105, 225, 0.2);
-    border-radius: 3px;
-    padding: 2px 6px;
-    margin-bottom: variables.$spacing-sm;
   }
 
   .factbox__section {
@@ -259,6 +259,10 @@
     justify-content: space-between;
     align-items: baseline;
     gap: variables.$spacing-xs;
+
+    &--unavailable .factbox__val {
+      opacity: 0.4;
+    }
   }
 
   .factbox__label {
@@ -295,13 +299,16 @@
     text-align: center;
   }
 
-  // Single shared grid: dot | name | % | votes(✓) | electors
   .factbox__results-body {
     display: grid;
     grid-template-columns: 8px 5rem auto auto auto;
     align-items: center;
     column-gap: 0.35rem;
     row-gap: 0.2rem;
+
+    &.no-electors {
+      grid-template-columns: 8px 5rem auto auto;
+    }
   }
 
   .factbox__dot {
@@ -352,7 +359,6 @@
     }
   }
 
-  // Total row — border-span trick: first cell spans all 5 cols
   .factbox__total-border {
     grid-column: 1 / -1;
     border-top: 1px solid #d1d5db;

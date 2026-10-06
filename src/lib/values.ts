@@ -8,9 +8,9 @@ import { dimensionsNationalWinner, dimensionsStateWinner } from './elections.js'
 import type { Party } from './elections.js'
 
 export type { Party } from './elections.js'
-export type { StateDimension } from './elections.js'
+export type { StateDimension, DistrictDimension } from './elections.js'
 export { candidatesByYear } from './elections.js'
-export { getStateDimension } from './elections.js'
+export { getStateDimension, getDistrictDimension } from './elections.js'
 
 export type Scenario = 'p1' | 'p2' | 'p3' | 'p4' | 'p5'
 export type ValueType = 'av' | 'pv' | 'wvv'

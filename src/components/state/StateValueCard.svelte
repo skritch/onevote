@@ -1,7 +1,8 @@
 <script lang="ts">
   import { chartState } from "../../lib/chartState.svelte.js";
-  import { getStateValue } from "../../lib/values.js";
+  import { getStateValue, getDistrictDimension } from "../../lib/values.js";
   import { dimensionsStateWinner } from "../../lib/elections.js";
+  import type { Party } from "../../lib/elections.js";
   import {
     scenarioNames,
     scenarioDescriptions,
@@ -24,7 +25,10 @@
       (validPopVars[chartState.value] ?? []).length > 0
         ? chartState.popVar
         : undefined,
-      chartState.district || undefined,
+      // P3/P4 define district-level values; other scenarios are state-level only
+      chartState.scenario === "p3" || chartState.scenario === "p4"
+        ? chartState.districtId || chartState.district || undefined
+        : chartState.district || undefined,
     ),
   );
 
@@ -37,18 +41,27 @@
         ? "will be"
         : "was"
       : isFuture
-        ? "would be"
+        ? "will be"
         : "would have been",
   );
 
   const isWVV = $derived(chartState.value === "wvv");
 
-  // TODO: when P3 district selection is implemented, this must use the district-level winner
-  // rather than the statewide winner — ME-2 and NE-2 flip the winning party relative to their state.
-  const winningParty = $derived(
-    dimensionsStateWinner[String(chartState.year)]?.[statePo.toUpperCase()] ??
-      null,
-  );
+  // For P3 with a district, use district-level winner — ME-2 and NE-2 differ from their state.
+  const winningParty = $derived.by((): Party | null => {
+    const stateWinner =
+      dimensionsStateWinner[String(chartState.year)]?.[statePo.toUpperCase()] ??
+      null;
+    if (chartState.scenario === "p3" && chartState.districtId) {
+      const distDim = getDistrictDimension(
+        chartState.year,
+        statePo,
+        chartState.districtId,
+      );
+      return (distDim?.winning_party as Party | null) ?? stateWinner;
+    }
+    return stateWinner;
+  });
 
   // chartState.party is title-cased ("Democrat"); normalize to lowercase for comparison
   const selectedPartyKey = $derived(
@@ -89,16 +102,18 @@
       }));
   });
 
-  function districtOrdinal(d: string): string {
+  function districtLabel(d: string): string {
+    if (d.toUpperCase() === "AL") return "at-large";
     const n = parseInt(d);
-    const suffix = n === 1 ? 'st' : n === 2 ? 'nd' : n === 3 ? 'rd' : 'th';
+    if (isNaN(n)) return d;
+    const suffix = n === 1 ? "st" : n === 2 ? "nd" : n === 3 ? "rd" : "th";
     return `${n}${suffix}`;
   }
 
   const locationLabel = $derived(
-    chartState.district
-      ? `${stateName}'s ${districtOrdinal(chartState.district)} district`
-      : stateName
+    chartState.districtId
+      ? `${stateName}'s ${districtLabel(chartState.districtId)} district`
+      : stateName,
   );
 
   function formatValue(v: number): string {
@@ -146,14 +161,6 @@
   <p class="relative-label">compared to a nationwide average of 1.00</p>
   <div class="sep" aria-hidden="true">—</div>
 
-  <p class="value-type">
-    as determined by <InfoLink
-      text={valueNames[chartState.value]}
-      description={valueDescriptions[chartState.value]}
-      href={`${import.meta.env.BASE_URL}about/definitions/`}
-    />
-  </p>
-
   {#if !isRealOutcome}
     <p class="scenario">
       in a <InfoLink
@@ -163,6 +170,14 @@
       /> scenario
     </p>
   {/if}
+
+  <p class="value-type">
+    as determined by <InfoLink
+      text={valueNames[chartState.value]}
+      description={valueDescriptions[chartState.value]}
+      href={`${import.meta.env.BASE_URL}about/definitions/`}
+    />
+  </p>
 
   {#if wvvOtherParties.length > 0}
     <div class="sep" aria-hidden="true">—</div>

@@ -16,7 +16,10 @@
 
   const districtResults = districtResultsRaw as Record<string, Record<string, Record<string, string | null>>>;
 
-  const congress = $derived(districtData.year_to_congress[chartState.year]);
+  const congress = $derived(
+    districtData.year_to_congress[chartState.year] ??
+    Math.max(...Object.values(districtData.year_to_congress))
+  );
 
   const districtEntries = $derived(
     congress == null
@@ -42,7 +45,14 @@
     return partyColors[party ?? 'unknown'] ?? partyColors.unknown;
   }
 
+  const isSelectable = $derived(
+    districtEntries.length > 0 &&
+    chartState.year >= 2012 &&
+    !(districtEntries.length === 1 && districtEntries[0][0] === 'AL')
+  );
+
   function handleClick(districtId: string) {
+    if (!isSelectable) return;
     chartState.districtId = chartState.districtId === districtId ? '' : districtId;
   }
 </script>
@@ -55,7 +65,7 @@
     aria-hidden="true"
     onmousedown={(e) => e.preventDefault()}
   >
-    <g class="state-logo__districts" class:has-selection={chartState.districtId}>
+    <g class="state-logo__districts" class:has-selection={chartState.districtId} class:selectable={isSelectable}>
       {#each districtEntries as [districtId, d]}
         <path
           {d}
@@ -63,10 +73,10 @@
           style="fill: {districtColor(districtId)}"
           onclick={() => handleClick(districtId)}
           onkeydown={(e) => e.key === 'Enter' && handleClick(districtId)}
-          role="button"
-          tabindex="0"
-          aria-label="District {districtId}"
-          aria-pressed={chartState.districtId === districtId}
+          role={isSelectable ? "button" : undefined}
+          tabindex={isSelectable ? 0 : undefined}
+          aria-label={isSelectable ? `District ${districtId}` : undefined}
+          aria-pressed={isSelectable ? chartState.districtId === districtId : undefined}
         />
       {/each}
     </g>
@@ -87,13 +97,16 @@
       stroke: #000;
       stroke-width: 0.3px;
       vector-effect: non-scaling-stroke;
-      cursor: pointer;
       outline: none;
       transition: opacity 0.15s, filter 0.15s;
 
       &:hover {
         transform: none;
       }
+    }
+
+    &__districts.selectable path {
+      cursor: pointer;
     }
 
     &__districts.has-selection path {

@@ -4,11 +4,13 @@
     value = $bindable(''),
     triggerLabel,
     style = '',
+    disabled = false,
   }: {
     options: { value: string; label: string; disabled?: boolean }[];
     value?: string;
     triggerLabel?: string;
     style?: string;
+    disabled?: boolean;
   } = $props();
 
   let open = $state(false);
@@ -37,7 +39,8 @@
   <button
     class="cs__trigger"
     class:open
-    onclick={() => (open = !open)}
+    {disabled}
+    onclick={() => !disabled && (open = !open)}
   >
     <span class="cs__label">{selectedLabel}</span>
     <span class="cs__arrow" class:open>▾</span>
@@ -91,6 +94,12 @@
       &:focus {
         outline: none;
         border-color: variables.$royal-blue;
+      }
+
+      &:disabled {
+        color: #b0b5be;
+        cursor: default;
+        border-color: #e0e2e6;
       }
     }
 

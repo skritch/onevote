@@ -121,6 +121,25 @@
     });
   });
 
+  // Show selector whenever districts exist, but disable it for at-large-only states or pre-2012
+  const showDistrictIdSelector = $derived(availableDistrictIds.length > 0);
+  const districtIdSelectorDisabled = $derived(
+    (availableDistrictIds.length === 1 && availableDistrictIds[0] === 'AL') ||
+    Number(selectedYear) < 2012
+  );
+
+  // Reset districtId when it becomes invalid (year change, at-large, etc.)
+  $effect(() => {
+    const year = Number(selectedYear);
+    const available = availableDistrictIds;
+    const isAtLarge = available.length === 1 && available[0] === 'AL';
+    const curDistrict = untrack(() => chartState.districtId);
+    if (!curDistrict) return;
+    if (year < 2012 || available.length === 0 || isAtLarge || !available.includes(curDistrict)) {
+      chartState.districtId = '';
+    }
+  });
+
   // Available districts for this state under the current scenario/year
   const availableDistricts = $derived(
     statePo
@@ -242,9 +261,10 @@
     }))}
     style="min-width: 6.5rem"
   />
-  {#if availableDistrictIds.length > 0}
+  {#if showDistrictIdSelector}
     <Select
       bind:value={chartState.districtId}
+      disabled={districtIdSelectorDisabled}
       options={[
         { value: "", label: "All Districts" },
         ...availableDistrictIds.map((d) => ({
