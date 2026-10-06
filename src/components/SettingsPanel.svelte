@@ -10,7 +10,7 @@
     validPopVars,
     getValidForYear,
   } from "../lib/manifest.js";
-  import { chartState } from "../lib/chartState.svelte.js";
+  import { statePageParams } from "../lib/statePageParams.svelte.js";
   import type { ValueType, PopVar, Scenario } from "../lib/values.js";
   import Select from "./Select.svelte";
 
@@ -22,28 +22,28 @@
   const scenarios = Object.keys(scenarioShortNames) as Scenario[];
 
   // Full option lists (for display — always show all)
-  const allValues = $derived(validValues[chartState.scenario]);
+  const allValues = $derived(validValues[statePageParams.scenario]);
   const allPopVars = $derived(
-    (validPopVars[chartState.value] ?? []) as PopVar[],
+    (validPopVars[statePageParams.value] ?? []) as PopVar[],
   );
   const showPopVar = $derived(allPopVars.length > 0);
 
   // Year-filtered subsets (used only to mark options disabled)
   const yearValid = $derived(
-    getValidForYear(chartState.year, chartState.scenario),
+    getValidForYear(statePageParams.year, statePageParams.scenario),
   );
   const enabledValues = $derived(yearValid.values);
   const enabledPopVars = $derived(
-    yearValid.popVarsFor(chartState.value) as PopVar[],
+    yearValid.popVarsFor(statePageParams.value) as PopVar[],
   );
 
   // Snap popVar if it becomes disabled when value or year changes
   $effect(() => {
     if (
       enabledPopVars.length > 0 &&
-      !enabledPopVars.includes(chartState.popVar)
+      !enabledPopVars.includes(statePageParams.popVar)
     ) {
-      chartState.popVar = enabledPopVars[0];
+      statePageParams.popVar = enabledPopVars[0];
     }
   });
 
@@ -79,17 +79,17 @@
   );
 
   // Local string mirrors for bind compatibility
-  let valueVal = $state(chartState.value as string);
-  let popVarVal = $state(chartState.popVar as string);
-  let scenarioVal = $state(chartState.scenario as string);
+  let valueVal = $state(statePageParams.value as string);
+  let popVarVal = $state(statePageParams.popVar as string);
+  let scenarioVal = $state(statePageParams.scenario as string);
   $effect(() => {
-    chartState.value = valueVal as ValueType;
+    statePageParams.value = valueVal as ValueType;
   });
   $effect(() => {
-    chartState.popVar = popVarVal as PopVar;
+    statePageParams.popVar = popVarVal as PopVar;
   });
   $effect(() => {
-    chartState.scenario = scenarioVal as Scenario;
+    statePageParams.scenario = scenarioVal as Scenario;
   });
 </script>
 

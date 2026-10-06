@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { chartState } from "../../lib/chartState.svelte.js";
+  import { statePageParams } from "../../lib/statePageParams.svelte.js";
   import { getStateValue, getDistrictDimension } from "../../lib/values.js";
   import { dimensionsStateWinner } from "../../lib/elections.js";
   import type { Party } from "../../lib/elections.js";
@@ -19,22 +19,22 @@
 
   const value = $derived(
     getStateValue(
-      chartState.scenario,
-      chartState.year,
+      statePageParams.scenario,
+      statePageParams.year,
       statePO,
-      chartState.value,
-      (validPopVars[chartState.value] ?? []).length > 0
-        ? chartState.popVar
+      statePageParams.value,
+      (validPopVars[statePageParams.value] ?? []).length > 0
+        ? statePageParams.popVar
         : undefined,
       // P3/P4 define district-level values; other scenarios are state-level only
-      chartState.scenario === "p3" || chartState.scenario === "p4"
-        ? chartState.districtId || chartState.district || undefined
-        : chartState.district || undefined,
+      statePageParams.scenario === "p3" || statePageParams.scenario === "p4"
+        ? statePageParams.districtId || statePageParams.district || undefined
+        : statePageParams.district || undefined,
     ),
   );
 
-  const isRealOutcome = $derived((chartState.scenario as string) === "p3");
-  const isFuture = $derived(chartState.year > CURRENT_YEAR);
+  const isRealOutcome = $derived((statePageParams.scenario as string) === "p3");
+  const isFuture = $derived(statePageParams.year > CURRENT_YEAR);
 
   const tense = $derived(
     isRealOutcome
@@ -46,26 +46,26 @@
         : "would have been",
   );
 
-  const isWVV = $derived(chartState.value === "wvv");
+  const isWVV = $derived(statePageParams.value === "wvv");
 
   // For P3 with a district, use district-level winner — ME-2 and NE-2 differ from their state.
   const winningParty = $derived.by((): Party | null => {
     const stateWinner =
-      dimensionsStateWinner[String(chartState.year)]?.[statePO] ?? null;
-    if (chartState.scenario === "p3" && chartState.districtId) {
+      dimensionsStateWinner[String(statePageParams.year)]?.[statePO] ?? null;
+    if (statePageParams.scenario === "p3" && statePageParams.districtId) {
       const distDim = getDistrictDimension(
-        chartState.year,
+        statePageParams.year,
         statePO,
-        chartState.districtId,
+        statePageParams.districtId,
       );
       return (distDim?.winningParty as Party | null) ?? stateWinner;
     }
     return stateWinner;
   });
 
-  // chartState.party is title-cased ("Democrat"); normalize to lowercase for comparison
+  // statePageParams.party is title-cased ("Democrat"); normalize to lowercase for comparison
   const selectedPartyKey = $derived(
-    chartState.party ? chartState.party.toLowerCase() : null,
+    statePageParams.party ? statePageParams.party.toLowerCase() : null,
   );
 
   // For WVV with no party selected, auto-use the winning party
@@ -111,8 +111,8 @@
   }
 
   const locationLabel = $derived(
-    chartState.districtId
-      ? `${stateName}'s ${districtLabel(chartState.districtId)} district`
+    statePageParams.districtId
+      ? `${stateName}'s ${districtLabel(statePageParams.districtId)} district`
       : stateName,
   );
 
@@ -125,7 +125,7 @@
 
 <div class="value-card">
   <p class="subject">
-    in <strong>{chartState.year}</strong>, the value of
+    in <strong>{statePageParams.year}</strong>, the value of
     {#if isWVV && effectivePartyKey}
       {#if effectivePartyKey === "other"}
         a <strong>Third Party</strong> vote in <strong>{locationLabel}</strong>
@@ -135,11 +135,11 @@
         >
         vote in <strong>{locationLabel}</strong>
       {/if}
-    {:else if chartState.party}
-      {#if chartState.party === "Other"}
+    {:else if statePageParams.party}
+      {#if statePageParams.party === "Other"}
         a <strong>Third Party</strong> vote in <strong>{locationLabel}</strong>
       {:else}
-        a <strong>{chartState.party}'s</strong> vote in
+        a <strong>{statePageParams.party}'s</strong> vote in
         <strong>{locationLabel}</strong>
       {/if}
     {:else}
@@ -163,8 +163,8 @@
   {#if !isRealOutcome}
     <p class="scenario">
       in a <InfoLink
-        text={scenarioNames[chartState.scenario]}
-        description={scenarioDescriptions[chartState.scenario]}
+        text={scenarioNames[statePageParams.scenario]}
+        description={scenarioDescriptions[statePageParams.scenario]}
         href={`${import.meta.env.BASE_URL}about/scenarios/`}
       /> scenario
     </p>
@@ -172,8 +172,8 @@
 
   <p class="value-type">
     as determined by <InfoLink
-      text={valueNames[chartState.value]}
-      description={valueDescriptions[chartState.value]}
+      text={valueNames[statePageParams.value]}
+      description={valueDescriptions[statePageParams.value]}
       href={`${import.meta.env.BASE_URL}about/definitions/`}
     />
   </p>

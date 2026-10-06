@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { chartState } from "../../lib/chartState.svelte.js";
+  import { statePageParams } from "../../lib/statePageParams.svelte.js";
   import { partyColors } from "../../lib/values.js";
   import { getCongressForYear } from "../../lib/districts.js";
   import type { DistrictData } from "../../lib/districts.js";
@@ -16,7 +16,9 @@
     Record<string, Record<string, string | null>>
   >;
 
-  const congress = $derived(getCongressForYear(districtData, chartState.year));
+  const congress = $derived(
+    getCongressForYear(districtData, statePageParams.year),
+  );
 
   const districtEntries = $derived(
     congress == null
@@ -31,7 +33,7 @@
   );
 
   const yearDistrictResults = $derived(
-    districtResults[String(chartState.year)]?.[statePO] ?? {},
+    districtResults[String(statePageParams.year)]?.[statePO] ?? {},
   );
 
   // Path keys are '1','2'... but results keys are '01','02'... — normalize both sides.
@@ -45,14 +47,14 @@
 
   const isSelectable = $derived(
     districtEntries.length > 0 &&
-      chartState.year >= 2012 &&
+      statePageParams.year >= 2012 &&
       !(districtEntries.length === 1 && districtEntries[0][0] === "AL"),
   );
 
   function handleClick(districtId: string) {
     if (!isSelectable) return;
-    chartState.districtId =
-      chartState.districtId === districtId ? "" : districtId;
+    statePageParams.districtId =
+      statePageParams.districtId === districtId ? "" : districtId;
   }
 </script>
 
@@ -66,18 +68,18 @@
   >
     <g
       class="state-logo__districts"
-      class:has-selection={chartState.districtId}
+      class:has-selection={statePageParams.districtId}
       class:selectable={isSelectable}
     >
       {#each districtEntries as [districtId, d]}
         <path
           {d}
-          class:is-selected={chartState.districtId === districtId}
+          class:is-selected={statePageParams.districtId === districtId}
           style="fill: {districtColor(districtId)}"
           role="button"
           tabindex={isSelectable ? 0 : -1}
           aria-label="District {districtId}"
-          aria-pressed={chartState.districtId === districtId}
+          aria-pressed={statePageParams.districtId === districtId}
           onclick={() => handleClick(districtId)}
           onkeydown={(e) => e.key === "Enter" && handleClick(districtId)}
         />

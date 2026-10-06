@@ -1,7 +1,11 @@
 <script lang="ts">
   import { untrack } from "svelte";
-  import { chartState } from "../lib/chartState.svelte.js";
-  import { validPopVars, getValidForYear, scenarioNames } from "../lib/manifest.js";
+  import { statePageParams } from "../lib/statePageParams.svelte.js";
+  import {
+    validPopVars,
+    getValidForYear,
+    scenarioNames,
+  } from "../lib/manifest.js";
   import type { Scenario, ValueType, PopVar } from "../lib/values.js";
   import ElectionPlot from "./ElectionPlot.svelte";
   import SettingsPanel from "./SettingsPanel.svelte";
@@ -17,7 +21,7 @@
   );
 
   $effect(() => {
-    chartState.year = Number(selectedYear);
+    statePageParams.year = Number(selectedYear);
   });
 
   // Snap value/popVar to valid combo when year changes.
@@ -26,14 +30,14 @@
   $effect(() => {
     const year = Number(selectedYear);
     const { values, popVarsFor } = getValidForYear(year, "p2");
-    const curVal = untrack(() => chartState.value);
-    const curPop = untrack(() => chartState.popVar);
+    const curVal = untrack(() => statePageParams.value);
+    const curPop = untrack(() => statePageParams.popVar);
     const nextVal = values.includes(curVal) ? curVal : (values[0] ?? "av");
     const pops = popVarsFor(nextVal);
     const nextPop =
       pops.length === 0 || pops.includes(curPop) ? curPop : pops[0];
-    if (nextVal !== curVal) chartState.value = nextVal;
-    if (nextPop !== curPop) chartState.popVar = nextPop;
+    if (nextVal !== curVal) statePageParams.value = nextVal;
+    if (nextPop !== curPop) statePageParams.popVar = nextPop;
   });
 
   // Read URL params on mount
@@ -43,34 +47,40 @@
     if (year && years.includes(Number(year))) selectedYear = year;
     const valueParam = params.get("value");
     if (valueParam && valueParam in validPopVars)
-      chartState.value = valueParam as ValueType;
+      statePageParams.value = valueParam as ValueType;
     const popParam = params.get("pop");
-    if (popParam) chartState.popVar = popParam as PopVar;
+    if (popParam) statePageParams.popVar = popParam as PopVar;
     const sortParam = params.get("sort");
     if (sortParam === "alpha" || sortParam === "value")
-      chartState.sort = sortParam;
+      statePageParams.sort = sortParam;
   });
 
   // Write URL on change
   let urlSyncReady = false;
   $effect(() => {
-    void [selectedYear, chartState.value, chartState.popVar, chartState.sort];
+    void [
+      selectedYear,
+      statePageParams.value,
+      statePageParams.popVar,
+      statePageParams.sort,
+    ];
     if (!urlSyncReady) {
       urlSyncReady = true;
       return;
     }
     const newUrl = new URL(window.location.href);
     newUrl.searchParams.set("year", selectedYear);
-    newUrl.searchParams.set("value", chartState.value);
-    if (chartState.popVar) newUrl.searchParams.set("pop", chartState.popVar);
-    if (chartState.sort !== "alpha")
-      newUrl.searchParams.set("sort", chartState.sort);
+    newUrl.searchParams.set("value", statePageParams.value);
+    if (statePageParams.popVar)
+      newUrl.searchParams.set("pop", statePageParams.popVar);
+    if (statePageParams.sort !== "alpha")
+      newUrl.searchParams.set("sort", statePageParams.sort);
     else newUrl.searchParams.delete("sort");
     window.history.replaceState({}, "", newUrl);
   });
 
   const showPopVar = $derived(
-    (validPopVars[chartState.value] ?? []).length > 0,
+    (validPopVars[statePageParams.value] ?? []).length > 0,
   );
 
   // TODO: office picker — all scenarios here are presidential;
@@ -95,9 +105,9 @@
       <h3 class="scenario-title">{scenarioNames[scenario]}</h3>
       <ElectionPlot
         {scenario}
-        year={chartState.year}
-        value={chartState.value}
-        popVar={showPopVar ? chartState.popVar : undefined}
+        year={statePageParams.year}
+        value={statePageParams.value}
+        popVar={showPopVar ? statePageParams.popVar : undefined}
       />
       <div class="metrics-gap">
         <!-- TODO: show outcome metrics here — did this scenario flip the national winner?

@@ -3,7 +3,7 @@ import type { Office } from './elections.js'
 
 export type SortMode = 'value' | 'alpha'
 
-export const chartState = $state({
+export const statePageParams = $state({
   scenario: 'p2' as Scenario,
   year: 2024,
   office: 'president' as Office,

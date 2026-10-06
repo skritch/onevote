@@ -4,7 +4,7 @@
   import type { Scenario, ValueType, PopVar } from "../lib/values.js";
   import type { StatePO } from "../lib/states.js";
   import { valueNames, validValues, defaultPopVar } from "../lib/manifest.js";
-  import { chartState } from "../lib/chartState.svelte.js";
+  import { statePageParams } from "../lib/statePageParams.svelte.js";
 
   let {
     scenario = "p2" as Scenario,
@@ -74,7 +74,8 @@
       params.set("value", value);
       const defPop = defaultPopVar[value];
       if (defPop != null && popVar != null) params.set("pop", popVar);
-      if (chartState.sort !== "alpha") params.set("sort", chartState.sort);
+      if (statePageParams.sort !== "alpha")
+        params.set("sort", statePageParams.sort);
       return `${base}states/${statePO.toLowerCase()}/?${params}`;
     };
 
@@ -102,7 +103,7 @@
     const maxVal = hasData ? Math.max(...plotRows.map((r) => r.value ?? 0)) : 0;
     const valueDomain: [number, number] = [0, Math.max(3, maxVal)];
 
-    const effectiveSort = hasData ? chartState.sort : "alpha";
+    const effectiveSort = hasData ? statePageParams.sort : "alpha";
     const xSort = effectiveSort === "value" ? { x: "y" } : { x: "x" };
     const ySort = effectiveSort === "value" ? { y: "-x" } : { y: "y" };
 
@@ -187,7 +188,7 @@
     //   labelEl.style.textDecoration = 'underline'
     //   labelEl.addEventListener('click', () => {
     //     const values = validValues[scenario]
-    //     chartState.value = values[(values.indexOf(value) + 1) % values.length]
+    //     statePageParams.value = values[(values.indexOf(value) + 1) % values.length]
     //   })
     // }
   });
@@ -214,18 +215,18 @@
         >
           <button
             class="toolbar-item__choice"
-            class:selected={chartState.sort === "value"}
+            class:selected={statePageParams.sort === "value"}
             onmousedown={() => {
-              chartState.sort = "value";
+              statePageParams.sort = "value";
               optionsOpen = false;
               document.dispatchEvent(new CustomEvent("ui:close"));
             }}>by value</button
           >
           <button
             class="toolbar-item__choice"
-            class:selected={chartState.sort === "alpha"}
+            class:selected={statePageParams.sort === "alpha"}
             onmousedown={() => {
-              chartState.sort = "alpha";
+              statePageParams.sort = "alpha";
               optionsOpen = false;
               document.dispatchEvent(new CustomEvent("ui:close"));
             }}>A–Z</button

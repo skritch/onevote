@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { chartState } from "../../lib/chartState.svelte.js";
+  import { statePageParams } from "../../lib/statePageParams.svelte.js";
   import {
     getStateDimension,
     getDistrictDimension,
@@ -19,15 +19,19 @@
 
   const CURRENT_YEAR = new Date().getFullYear();
 
-  const dim = $derived(getStateDimension(chartState.year, statePO));
+  const dim = $derived(getStateDimension(statePageParams.year, statePO));
   const districtDim = $derived(
-    chartState.districtId
-      ? getDistrictDimension(chartState.year, statePO, chartState.districtId)
+    statePageParams.districtId
+      ? getDistrictDimension(
+          statePageParams.year,
+          statePO,
+          statePageParams.districtId,
+        )
       : null,
   );
 
   const hasPastResults = $derived(
-    chartState.year <= CURRENT_YEAR &&
+    statePageParams.year <= CURRENT_YEAR &&
       (districtDim
         ? districtDim.votesTotal !== null
         : dim !== null && dim.votesTotal !== null),
@@ -178,7 +182,7 @@
               >
                 {displayName(
                   party,
-                  chartState.year,
+                  statePageParams.year,
                 )}{resultsData.winningParty === party ? " ✓" : ""}
               </span>
               <span
@@ -218,7 +222,9 @@
       </div>
     {/if}
   {:else}
-    <p class="factbox__no-data">No data available for {chartState.year}.</p>
+    <p class="factbox__no-data">
+      No data available for {statePageParams.year}.
+    </p>
   {/if}
 </div>
 

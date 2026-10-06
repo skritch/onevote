@@ -6,7 +6,7 @@
     getDistrictDimension,
   } from "../../lib/elections";
   import type { StatePO } from "../../lib/states.js";
-  import { chartState } from "../../lib/chartState.svelte.js";
+  import { statePageParams } from "../../lib/statePageParams.svelte.js";
   import {
     valueNames,
     popVarNames,
@@ -27,12 +27,7 @@
     districtData?: DistrictData | null;
   };
 
-  let {
-    years,
-    offices,
-    statePO = "",
-    districtData = null,
-  }: Props = $props();
+  let { years, offices, statePO = "", districtData = null }: Props = $props();
 
   const parties = ["Democrat", "Republican", "Other"];
 
@@ -45,7 +40,7 @@
     ? _election.split("-")
     : [null, null];
 
-  // Apply chartState fields from URL before effects run
+  // Apply statePageParams fields from URL before effects run
   if (_urlParams) {
     const scenarioParam = _urlParams.get("scenario");
     if (
@@ -55,20 +50,20 @@
       scenarioParam === "p4" ||
       scenarioParam === "p5"
     )
-      chartState.scenario = scenarioParam as Scenario;
+      statePageParams.scenario = scenarioParam as Scenario;
     const valueParam = _urlParams.get("value");
     if (valueParam && valueParam in valueNames)
-      chartState.value = valueParam as ValueType;
+      statePageParams.value = valueParam as ValueType;
     const popParam = _urlParams.get("pop");
     if (popParam && popParam in popVarNames)
-      chartState.popVar = popParam as PopVar;
+      statePageParams.popVar = popParam as PopVar;
     const sortParam = _urlParams.get("sort");
     if (sortParam === "alpha" || sortParam === "value")
-      chartState.sort = sortParam;
+      statePageParams.sort = sortParam;
     const districtParam = _urlParams.get("district");
-    if (districtParam) chartState.district = districtParam;
+    if (districtParam) statePageParams.district = districtParam;
     const districtIdParam = _urlParams.get("districtId");
-    if (districtIdParam) chartState.districtId = districtIdParam;
+    if (districtIdParam) statePageParams.districtId = districtIdParam;
   }
 
   const _initialYear = (() => {
@@ -96,29 +91,28 @@
       : "",
   );
 
-  // Sync local selectors → chartState
+  // Sync local selectors → statePageParams
   $effect(() => {
-    chartState.year = Number(selectedYear);
+    statePageParams.year = Number(selectedYear);
   });
   $effect(() => {
-    chartState.office = officesByName[selectedOffice] ?? "president";
+    statePageParams.office = officesByName[selectedOffice] ?? "president";
   });
   $effect(() => {
-    chartState.party = selectedParty;
+    statePageParams.party = selectedParty;
   });
 
   // Auto-select winning party when WVV is chosen
   $effect(() => {
-    if (chartState.value !== "wvv") return;
+    if (statePageParams.value !== "wvv") return;
     untrack(() => {
-      const year = chartState.year;
-      const districtId = chartState.districtId;
-      const scenario = chartState.scenario;
+      const year = statePageParams.year;
+      const districtId = statePageParams.districtId;
+      const scenario = statePageParams.scenario;
       let winner: string | null = null;
       if (scenario === "p3" && districtId) {
         winner =
-          getDistrictDimension(year, statePO, districtId)?.winningParty ??
-          null;
+          getDistrictDimension(year, statePO, districtId)?.winningParty ?? null;
       }
       if (!winner) {
         winner = dimensionsStateWinner[String(year)]?.[statePO] ?? null;
@@ -149,7 +143,7 @@
     const year = Number(selectedYear);
     const available = availableDistrictIds;
     const isAtLarge = available.length === 1 && available[0] === "AL";
-    const curDistrict = untrack(() => chartState.districtId);
+    const curDistrict = untrack(() => statePageParams.districtId);
     if (!curDistrict) return;
     if (
       year < 2012 ||
@@ -157,43 +151,51 @@
       isAtLarge ||
       !available.includes(curDistrict)
     ) {
-      chartState.districtId = "";
+      statePageParams.districtId = "";
     }
   });
 
   // Available districts for this state under the current scenario/year
   const availableDistricts = $derived(
     statePO
-      ? getDistrictsForState(chartState.scenario, chartState.year, statePO)
+      ? getDistrictsForState(
+          statePageParams.scenario,
+          statePageParams.year,
+          statePO,
+        )
       : [],
   );
 
   // Reset district when scenario doesn't support districts or district is no longer valid
   $effect(() => {
-    const scenario = chartState.scenario;
+    const scenario = statePageParams.scenario;
     const available = availableDistricts;
     if (scenario !== "p3" && scenario !== "p4") {
-      if (untrack(() => chartState.district)) chartState.district = "";
+      if (untrack(() => statePageParams.district))
+        statePageParams.district = "";
     } else if (
-      chartState.district &&
-      !available.includes(chartState.district)
+      statePageParams.district &&
+      !available.includes(statePageParams.district)
     ) {
-      chartState.district = "";
+      statePageParams.district = "";
     }
   });
 
   // Snap value/popVar to a valid combo when year or scenario changes
   $effect(() => {
     const year = Number(selectedYear);
-    const { values, popVarsFor } = getValidForYear(year, chartState.scenario);
-    const curVal = untrack(() => chartState.value);
-    const curPop = untrack(() => chartState.popVar);
+    const { values, popVarsFor } = getValidForYear(
+      year,
+      statePageParams.scenario,
+    );
+    const curVal = untrack(() => statePageParams.value);
+    const curPop = untrack(() => statePageParams.popVar);
     const nextVal = values.includes(curVal) ? curVal : (values[0] ?? "av");
     const pops = popVarsFor(nextVal);
     const nextPop =
       pops.length === 0 || pops.includes(curPop) ? curPop : pops[0];
-    if (nextVal !== curVal) chartState.value = nextVal;
-    if (nextPop !== curPop) chartState.popVar = nextPop;
+    if (nextVal !== curVal) statePageParams.value = nextVal;
+    if (nextPop !== curPop) statePageParams.popVar = nextPop;
   });
 
   // Reveal page sections hidden by [data-state-loading] once correct values are applied.
@@ -210,12 +212,12 @@
       selectedYear,
       selectedOffice,
       selectedParty,
-      chartState.scenario,
-      chartState.value,
-      chartState.popVar,
-      chartState.sort,
-      chartState.district,
-      chartState.districtId,
+      statePageParams.scenario,
+      statePageParams.value,
+      statePageParams.popVar,
+      statePageParams.sort,
+      statePageParams.district,
+      statePageParams.districtId,
     ];
     if (!urlSyncReady) {
       urlSyncReady = true;
@@ -232,31 +234,32 @@
     if (selectedParty) newUrl.searchParams.set("party", selectedParty);
     else newUrl.searchParams.delete("party");
 
-    if (chartState.scenario !== "p2")
-      newUrl.searchParams.set("scenario", chartState.scenario);
+    if (statePageParams.scenario !== "p2")
+      newUrl.searchParams.set("scenario", statePageParams.scenario);
     else newUrl.searchParams.delete("scenario");
 
-    if (chartState.district)
-      newUrl.searchParams.set("district", chartState.district);
+    if (statePageParams.district)
+      newUrl.searchParams.set("district", statePageParams.district);
     else newUrl.searchParams.delete("district");
 
-    if (chartState.districtId)
-      newUrl.searchParams.set("districtId", chartState.districtId);
+    if (statePageParams.districtId)
+      newUrl.searchParams.set("districtId", statePageParams.districtId);
     else newUrl.searchParams.delete("districtId");
 
-    const defPop = defaultPopVar[chartState.value];
+    const defPop = defaultPopVar[statePageParams.value];
     const hasNonDefault =
-      chartState.value !== defaultValue ||
-      (defPop != null && chartState.popVar !== defPop) ||
-      chartState.sort !== "alpha";
+      statePageParams.value !== defaultValue ||
+      (defPop != null && statePageParams.popVar !== defPop) ||
+      statePageParams.sort !== "alpha";
     if (hasNonDefault) settingsWritten = true;
 
     if (settingsWritten) {
-      newUrl.searchParams.set("value", chartState.value);
-      if (defPop != null) newUrl.searchParams.set("pop", chartState.popVar);
+      newUrl.searchParams.set("value", statePageParams.value);
+      if (defPop != null)
+        newUrl.searchParams.set("pop", statePageParams.popVar);
       else newUrl.searchParams.delete("pop");
-      if (chartState.sort !== "alpha")
-        newUrl.searchParams.set("sort", chartState.sort);
+      if (statePageParams.sort !== "alpha")
+        newUrl.searchParams.set("sort", statePageParams.sort);
       else newUrl.searchParams.delete("sort");
     } else {
       newUrl.searchParams.delete("value");
@@ -284,7 +287,7 @@
   />
   {#if showDistrictIdSelector}
     <Select
-      bind:value={chartState.districtId}
+      bind:value={statePageParams.districtId}
       disabled={districtIdSelectorDisabled}
       options={[
         { value: "", label: "All Districts" },
