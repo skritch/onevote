@@ -8,9 +8,7 @@ import p5Raw from '../../.data/presidential_values/p5.json'
 import { states } from './states.js'
 import type { StatePO } from './states.js'
 import { dimensionsNationalWinner, dimensionsStateWinner } from './elections.js'
-import type { Party } from './elections.js'
-
-export type { Party } from './elections.js'
+import type { Party } from './party.js'
 export type { StateDimension, DistrictDimension } from './elections.js'
 export { candidatesByYear } from './elections.js'
 export { getStateDimension, getDistrictDimension } from './elections.js'
@@ -41,12 +39,6 @@ const p5Data = p5Raw as Record<string, YearStateData>
 
 export const statesByPo = new Map(states.map(({ statePO, stateName }) => [statePO, stateName]))
 
-export const partyColors: Record<string, string> = {
-  democrat: '#3d66cd',
-  republican: '#cd3d3d',
-  other: '#6c757d',
-  unknown: '#adb5bd',
-}
 
 function extractValue(
   record: StateValues,

@@ -2,7 +2,6 @@
   import { statePageParams } from "../../lib/statePageParams.svelte.js";
   import { getStateValue, getDistrictDimension } from "../../lib/values.js";
   import { dimensionsStateWinner } from "../../lib/elections.js";
-  import type { Party } from "../../lib/elections.js";
   import type { State } from "../../lib/states.js";
   import {
     scenarioNames,
@@ -12,6 +11,7 @@
     validPopVars,
   } from "../../lib/manifest.js";
   import InfoLink from "../InfoLink.svelte";
+  import { PARTIES, type Party } from "../../lib/party.js";
 
   let { stateName, statePO }: State = $props();
 
@@ -58,7 +58,7 @@
         statePO,
         statePageParams.districtId,
       );
-      return (distDim?.winningParty as Party | null) ?? stateWinner;
+      return distDim?.winningParty ?? stateWinner;
     }
     return stateWinner;
   });
@@ -88,18 +88,12 @@
         value: number | null;
         isWinner: boolean;
       }>;
-    const allParties = ["democrat", "republican", "other"] as const;
-    return allParties
-      .filter((p) => p !== effectivePartyKey)
-      .map((p) => ({
-        label:
-          p === "other"
-            ? "third party"
-            : p.charAt(0).toUpperCase() + p.slice(1),
-        apostrophe: p !== "other",
-        value: p === winningParty ? value : 0,
-        isWinner: p === winningParty,
-      }));
+    return PARTIES.filter((p) => p !== effectivePartyKey).map((p) => ({
+      label: p === "Other" ? "third party" : p,
+      apostrophe: p !== "Other",
+      value: p === winningParty ? value : 0,
+      isWinner: p === winningParty,
+    }));
   });
 
   function districtLabel(d: string): string {

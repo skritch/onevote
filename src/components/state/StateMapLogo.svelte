@@ -1,10 +1,11 @@
 <script lang="ts">
   import { statePageParams } from "../../lib/statePageParams.svelte.js";
-  import { partyColors } from "../../lib/values.js";
   import { getCongressForYear } from "../../lib/districts.js";
   import type { DistrictData } from "../../lib/districts.js";
   import type { StatePO } from "../../lib/states.js";
   import districtResultsRaw from "../../data/district_results.json";
+  import { partyColors } from "../../lib/party.js";
+  import { initCap } from "../../utils/strings.js";
 
   let {
     districtData,
@@ -40,9 +41,9 @@
   function districtColor(districtId: string): string {
     const party =
       yearDistrictResults[districtId] ??
-      yearDistrictResults[districtId.padStart(2, "0")] ??
-      null;
-    return partyColors[party ?? "unknown"] ?? partyColors.unknown;
+      yearDistrictResults[districtId.padStart(2, "0")] ?? // TODO
+      "unknown";
+    return partyColors[initCap(party)] ?? partyColors.Unknown;
   }
 
   const isSelectable = $derived(

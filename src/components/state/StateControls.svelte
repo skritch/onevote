@@ -19,6 +19,7 @@
   import { getAvailableDistrictIds } from "../../lib/districts.js";
   import type { DistrictData } from "../../lib/districts.js";
   import Select from "../Select.svelte";
+  import { PARTIES, type Party } from "../../lib/party.js";
 
   type Props = {
     years: number[];
@@ -28,8 +29,6 @@
   };
 
   let { years, offices, statePO = "", districtData = null }: Props = $props();
-
-  const parties = ["Democrat", "Republican", "Other"];
 
   const _urlParams =
     typeof window !== "undefined"
@@ -85,10 +84,10 @@
   let selectedYear = $state(_initialYear);
   let selectedOffice = $state(_initialOffice);
   let selectedParty = $state(
-    _partyParam
-      ? (parties.find((p) => p.toLowerCase() === _partyParam.toLowerCase()) ??
-          "")
-      : "",
+    (_partyParam
+      ? (PARTIES.find((p) => p.toLowerCase() === _partyParam.toLowerCase()) ??
+        undefined)
+      : "undefined") as Party | undefined,
   );
 
   // Sync local selectors → statePageParams
@@ -118,8 +117,10 @@
         winner = dimensionsStateWinner[String(year)]?.[statePO] ?? null;
       }
       if (winner) {
-        const display = winner.charAt(0).toUpperCase() + winner.slice(1);
-        if (parties.includes(display)) selectedParty = display;
+        const winningParty =
+          PARTIES.find((p) => p.toLowerCase() === winner.toLowerCase()) ??
+          undefined;
+        selectedParty = winningParty;
       }
     });
   });
@@ -302,8 +303,8 @@
   <Select
     bind:value={selectedParty}
     options={[
-      { value: "", label: "Any Party" },
-      ...parties.map((p) => ({ value: p, label: p })),
+      { value: undefined, label: "Any Party" },
+      ...PARTIES.map((p) => ({ value: p, label: p })),
     ]}
     style="min-width: 6.5rem"
   />

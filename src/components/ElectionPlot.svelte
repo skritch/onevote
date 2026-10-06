@@ -1,10 +1,11 @@
 <script lang="ts">
   import * as Plot from "@observablehq/plot";
-  import { getPlotRows, partyColors } from "../lib/values.js";
+  import { getPlotRows } from "../lib/values.js";
   import type { Scenario, ValueType, PopVar } from "../lib/values.js";
   import type { StatePO } from "../lib/states.js";
   import { valueNames, validValues, defaultPopVar } from "../lib/manifest.js";
   import { statePageParams } from "../lib/statePageParams.svelte.js";
+  import { partyColors } from "../lib/party.js";
 
   let {
     scenario = "p2" as Scenario,
@@ -56,7 +57,7 @@
 
     const horizontal = isHorizontal;
     const fill = (d: (typeof plotRows)[0]) =>
-      partyColors[d.winningParty ?? "unknown"];
+      partyColors[initCap(d.winningParty ?? "unknown")];
     const fillOpacity = (d: (typeof plotRows)[0]) =>
       !focusStatePO || d.isFocus ? 1 : 0.38;
     const formatVal = (v: number | null) => (v !== null ? v.toFixed(3) : "");
@@ -91,7 +92,7 @@
         ? formatVal(d.value)
         : `
 • ${initCap(d.winningParty)}: ${formatVal(d.value)}
-• ${d.winningParty == "democrat" ? "Republican" : "Democrat"}: 0
+• ${d.winningParty == "Democrat" ? "Republican" : "Democrat"}: 0
 • Other: 0`;
     const tooltip = (d: AugRow) =>
       `State: ${d.state}\n\n${valueNames[value]}: ${tooltipValue(d)}`;

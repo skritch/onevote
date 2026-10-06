@@ -1,12 +1,12 @@
 <script lang="ts">
   let {
     options,
-    value = $bindable(''),
+    value = $bindable(""),
     triggerLabel,
-    style = '',
+    style = "",
     disabled = false,
   }: {
-    options: { value: string; label: string; disabled?: boolean }[];
+    options: { value: any; label: string; disabled?: boolean }[];
     value?: string;
     triggerLabel?: string;
     style?: string;
@@ -17,7 +17,7 @@
   let el: HTMLDivElement | undefined;
 
   const selectedLabel = $derived(
-    triggerLabel ?? options.find(o => o.value === value)?.label ?? '—'
+    triggerLabel ?? options.find((o) => o.value === value)?.label ?? "—",
   );
 
   function handlePointerDown(e: PointerEvent) {
@@ -29,7 +29,9 @@
   // Dispatch ui:close when dropdown closes so ElectionPlot can close tooltips
   $effect(() => {
     if (!open) return;
-    return () => { document.dispatchEvent(new CustomEvent('ui:close')); };
+    return () => {
+      document.dispatchEvent(new CustomEvent("ui:close"));
+    };
   });
 </script>
 
@@ -52,7 +54,11 @@
           class="cs__option"
           class:selected={opt.value === value}
           disabled={opt.disabled}
-          onmousedown={(e) => { e.preventDefault(); value = opt.value; open = false; }}
+          onmousedown={(e) => {
+            e.preventDefault();
+            value = opt.value;
+            open = false;
+          }}
         >
           {opt.label}
         </button>
@@ -86,7 +92,8 @@
       appearance: none;
       transition: border-color 0.1s;
 
-      &:hover, &.open {
+      &:hover,
+      &.open {
         border-color: #9ca3af;
         transform: none;
       }
@@ -124,7 +131,7 @@
       background: variables.$white;
       border: 1px solid #e0e2e6;
       border-radius: 6px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
       z-index: 400;
       padding: 4px 0;
       max-height: 18rem;

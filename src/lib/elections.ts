@@ -1,9 +1,10 @@
 import dimensionsRaw from '../../.data/dimensions/presidential_elections.json'
 import electionsRaw from '../data/elections.json'
+import { initCap } from '../utils/strings.js'
+import type { Party } from './party.js'
 import type { StatePO } from './states.js'
 
 export type Office = "president" | "house" | "senate"
-export type Party = 'democrat' | 'republican' | 'other'
 
 export const officesByName: Record<string, Office> = {
   Presidential: "president",
@@ -22,7 +23,7 @@ export type StateDimension = {
   votesDemocrat: number | null
   votesRepublican: number | null
   votesOther: number | null
-  winningParty: string | null
+  winningParty: Party | null
   electors: number | null
   electorsDemocrat: number | null
   electorsRepublican: number | null
@@ -36,7 +37,7 @@ export type DistrictDimension = {
   votesDemocrat: number | null
   votesRepublican: number | null
   votesOther: number | null
-  winningParty: string | null
+  winningParty: Party | null
   electors: number | null
   electorsDemocrat: number | null
   electorsRepublican: number | null
@@ -94,7 +95,7 @@ function toStateDimension(raw: RawStateDimension): StateDimension {
     votesDemocrat: raw.votes_democrat,
     votesRepublican: raw.votes_republican,
     votesOther: raw.votes_other,
-    winningParty: raw.winning_party,
+    winningParty: raw.winning_party ? initCap(raw.winning_party) as Party : null,
     electors: raw.electors,
     electorsDemocrat: raw.electors_democrat,
     electorsRepublican: raw.electors_republican,
@@ -110,7 +111,7 @@ function toDistrictDimension(raw: RawDistrictDimension): DistrictDimension {
     votesDemocrat: raw.votes_democrat,
     votesRepublican: raw.votes_republican,
     votesOther: raw.votes_other,
-    winningParty: raw.winning_party,
+    winningParty: raw.winning_party ? initCap(raw.winning_party) as Party : null,
     electors: raw.electors,
     electorsDemocrat: raw.electors_democrat,
     electorsRepublican: raw.electors_republican,

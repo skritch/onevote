@@ -3,7 +3,6 @@
   import {
     getStateDimension,
     getDistrictDimension,
-    partyColors,
     candidatesByYear,
   } from "../../lib/values.js";
   import { popVarDescriptions } from "../../lib/manifest.js";
@@ -11,6 +10,8 @@
   import StateMapLogo from "./StateMapLogo.svelte";
   import type { DistrictData } from "../../lib/districts.js";
   import type { StatePO } from "../../lib/states.js";
+  import { initCap } from "../../utils/strings.js";
+  import { PARTIES, partyColors, type Party } from "../../lib/party.js";
 
   let {
     statePO,
@@ -72,22 +73,17 @@
     return parts[parts.length - 1];
   }
 
-  function displayName(
-    party: "democrat" | "republican" | "other",
-    year: number,
-  ): string {
-    if (party === "democrat") {
+  function candidateName(party: Party, year: number): string {
+    if (party === "Democrat") {
       const name = candidatesByYear[year]?.democrat;
       return name ? lastName(name) : "Democrat";
     }
-    if (party === "republican") {
+    if (party === "Republican") {
       const name = candidatesByYear[year]?.republican;
       return name ? lastName(name) : "Republican";
     }
     return "Other";
   }
-
-  const resultParties = ["democrat", "republican", "other"] as const;
 </script>
 
 <div class="factbox">
@@ -164,23 +160,23 @@
           <span class="factbox__col-header">Votes</span>
           <span class="factbox__col-header">%</span>
           {#if showElectors}<span class="factbox__col-header">EC</span>{/if}
-          {#each resultParties as party}
+          {#each PARTIES as party}
             {@const votes = resultsData[
-              `votes${party.charAt(0).toUpperCase()}${party.slice(1)}` as keyof typeof resultsData
+              `votes${party}` as keyof typeof resultsData
             ] as number | null}
             {@const electors = resultsData[
-              `electors${party.charAt(0).toUpperCase()}${party.slice(1)}` as keyof typeof resultsData
+              `electors${party}` as keyof typeof resultsData
             ] as number | null}
             {#if votes != null && votes > 0}
               <span
                 class="factbox__dot"
-                style="background: {partyColors[party]}"
+                style="background: {partyColors[initCap(party)]}"
               ></span>
               <span
                 class="factbox__party-name"
                 class:winner={resultsData.winningParty === party}
               >
-                {displayName(
+                {candidateName(
                   party,
                   statePageParams.year,
                 )}{resultsData.winningParty === party ? " ✓" : ""}
