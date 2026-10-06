@@ -12,7 +12,7 @@ const states = await getCollection("states");
 				<option value="">--select state--</option>
 				{
 					states.map((state) => (
-						<option value={state.id}>{state.data.name}</option>
+						<option value={state.data.statePO}>{state.data.stateName}</option>
 					))
 				}
 			</select>
@@ -44,7 +44,7 @@ const states = await getCollection("states");
 			<select id="right-state">
 				<option value="">select state</option>
 				{states.map((state) => (
-					<option value={state.id}>{state.data.name}</option>
+					<option value={state.data.statePO}>{state.data.stateName}</option>
 				))}
 			</select>
 		</div>

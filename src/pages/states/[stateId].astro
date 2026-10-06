@@ -18,7 +18,11 @@ export async function getStaticPaths() {
     try {
       districtData = JSON.parse(
         readFileSync(
-          join(process.cwd(), ".data/district_paths", `${state.id}.json`),
+          join(
+            process.cwd(),
+            ".data/district_paths",
+            `${state.data.statePO}.json`,
+          ),
           "utf-8",
         ),
       );
@@ -26,8 +30,8 @@ export async function getStaticPaths() {
       // No district data for this state (e.g. DC).
     }
     return {
-      params: { stateId: state.id.toLowerCase() },
-      props: { state, districtData },
+      params: { stateId: state.id },
+      props: { state: state.data, districtData },
     };
   });
 }
@@ -48,9 +52,15 @@ const offices = Object.keys(officesByName);
   </script>
   <div class="state-page">
     <div class="page-header state-page__header">
-      <h1>{state.data.name}</h1>
+      <h1>{state.stateName}</h1>
       <div class="page-controls">
-        <StateControls client:load {years} {offices} statePo={state.id} {districtData} />
+        <StateControls
+          client:load
+          {years}
+          {offices}
+          statePO={state.statePO}
+          {districtData}
+        />
         <SettingsPanel client:load />
       </div>
     </div>
@@ -59,14 +69,14 @@ const offices = Object.keys(officesByName);
       <div class="state-page__panels">
         <StateValueCard
           client:load
-          stateName={state.data.name}
-          statePo={state.id}
+          stateName={state.stateName}
+          statePO={state.statePO}
         />
-        <StateFactBox client:load statePo={state.id} {districtData} />
+        <StateFactBox client:load statePO={state.statePO} {districtData} />
       </div>
 
       <div class="state-page__content">
-        <ElectionSection client:load focusStatePO={state.id} />
+        <ElectionSection client:load focusStatePO={state.statePO} />
       </div>
     </div>
   </div>

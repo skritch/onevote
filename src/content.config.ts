@@ -3,10 +3,13 @@ import { file } from 'astro/loaders';
 import { z } from 'astro/zod';
 
 const states = defineCollection({
-  loader: file("src/data/states.json"),
+  loader: file("src/data/states.json", {
+    parser: (text) => JSON.parse(text).map((s: { statePO: string }) =>
+      ({ ...s, id: s.statePO.toLowerCase() }))
+  }),
   schema: z.object({
-    id: z.string(),
-    name: z.string()
+    statePO: z.string(),
+    stateName: z.string()
   })
 });
 

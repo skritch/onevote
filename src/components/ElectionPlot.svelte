@@ -64,7 +64,7 @@
 
     type AugRow = (typeof plotRows)[0];
 
-    const buildStateUrl = (statePo: string): string | null => {
+    const buildStateUrl = (statePO: string): string | null => {
       if (year <= 0) return null;
       const base = import.meta.env.BASE_URL;
       const params = new URLSearchParams();
@@ -74,13 +74,13 @@
       const defPop = defaultPopVar[value];
       if (defPop != null && popVar != null) params.set("pop", popVar);
       if (chartState.sort !== "alpha") params.set("sort", chartState.sort);
-      return `${base}states/${statePo.toLowerCase()}/?${params}`;
+      return `${base}states/${statePO.toLowerCase()}/?${params}`;
     };
 
     const barOpts = {
       fill,
       fillOpacity,
-      href: (d: AugRow) => buildStateUrl(d.state_po),
+      href: (d: AugRow) => buildStateUrl(d.statePO),
     };
 
     const isWvv = value === "wvv";
@@ -114,7 +114,7 @@
           x: {
             label: null,
             padding: 0.15,
-            domain: hasData ? undefined : plotRows.map((r) => r.state_po),
+            domain: hasData ? undefined : plotRows.map((r) => r.statePO),
           },
           y: {
             label: axisLabel,
@@ -151,7 +151,7 @@
           x: { label: axisLabel, grid: true, domain: valueDomain },
           y: {
             label: null,
-            domain: hasData ? undefined : plotRows.map((r) => r.state_po),
+            domain: hasData ? undefined : plotRows.map((r) => r.statePO),
           },
           marks: [
             Plot.axisY({ fontSize: 8, tickSize: 0 }),

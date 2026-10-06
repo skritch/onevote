@@ -71,10 +71,10 @@ const essays: { url: string; frontmatter: { title: string } }[] = Object.values(
 						{
 							states.map((state) => (
 								<a
-									href={`${import.meta.env.BASE_URL}states/${state.id.toLowerCase()}/`}
+									href={`${import.meta.env.BASE_URL}states/${state.id}/`}
 									class="dropdown__item"
 								>
-									{state.data.name}
+									{state.data.stateName}
 								</a>
 							))
 						}

@@ -12,7 +12,7 @@
   } from "../../lib/manifest.js";
   import InfoLink from "../InfoLink.svelte";
 
-  let { stateName, statePo }: { stateName: string; statePo: string } = $props();
+  let { stateName, statePO }: { stateName: string; statePO: string } = $props();
 
   const CURRENT_YEAR = new Date().getFullYear();
 
@@ -20,7 +20,7 @@
     getStateValue(
       chartState.scenario,
       chartState.year,
-      statePo.toUpperCase(),
+      statePO,
       chartState.value,
       (validPopVars[chartState.value] ?? []).length > 0
         ? chartState.popVar
@@ -50,15 +50,14 @@
   // For P3 with a district, use district-level winner — ME-2 and NE-2 differ from their state.
   const winningParty = $derived.by((): Party | null => {
     const stateWinner =
-      dimensionsStateWinner[String(chartState.year)]?.[statePo.toUpperCase()] ??
-      null;
+      dimensionsStateWinner[String(chartState.year)]?.[statePO] ?? null;
     if (chartState.scenario === "p3" && chartState.districtId) {
       const distDim = getDistrictDimension(
         chartState.year,
-        statePo,
+        statePO,
         chartState.districtId,
       );
-      return (distDim?.winning_party as Party | null) ?? stateWinner;
+      return (distDim?.winningParty as Party | null) ?? stateWinner;
     }
     return stateWinner;
   });
@@ -131,8 +130,7 @@
         a <strong>Third Party</strong> vote in <strong>{locationLabel}</strong>
       {:else}
         a <strong
-          >{effectivePartyKey.charAt(0).toUpperCase() +
-            effectivePartyKey.slice(1)}'s</strong
+          >{effectivePartyKey.charAt(0) + effectivePartyKey.slice(1)}'s</strong
         >
         vote in <strong>{locationLabel}</strong>
       {/if}

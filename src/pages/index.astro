@@ -10,7 +10,7 @@ const years = [...new Set(elections.map((e) => e.data.year))].sort(
 	(a, b) => b - a,
 );
 const offices = Object.keys(officesByName);
-const stateList = states.map((s) => ({ id: s.id, name: s.data.name }));
+const stateList = states.map((s) => s.data);
 ---
 
 <Layout>

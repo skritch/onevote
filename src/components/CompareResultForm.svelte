@@ -9,7 +9,7 @@
   }: {
     years: number[];
     offices: string[];
-    states: { id: string; name: string }[];
+    states: { statePO: string; stateName: string }[];
   } = $props();
 
   const reverseOffices = Object.fromEntries(
@@ -62,7 +62,7 @@
     <select bind:value={myStatePO}>
       <option value="">--</option>
       {#each states as state}
-        <option value={state.id}>{state.name}</option>
+        <option value={state.statePO}>{state.stateName}</option>
       {/each}
     </select>
     <select bind:value={myParty}>
@@ -78,7 +78,7 @@
     <select bind:value={cmpStatePO}>
       <option value="">--</option>
       {#each states as state}
-        <option value={state.id}>{state.name}</option>
+        <option value={state.statePO}>{state.stateName}</option>
       {/each}
     </select>
     <select bind:value={cmpParty}>

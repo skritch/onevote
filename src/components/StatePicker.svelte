@@ -1,17 +1,17 @@
 <script lang="ts">
-  import { slide } from 'svelte/transition';
-  import Select from './Select.svelte';
+  import { slide } from "svelte/transition";
+  import Select from "./Select.svelte";
 
   let {
     heading,
     states,
-    selectedState = $bindable(''),
-    selectedParty = $bindable(''),
-    partyLabel = 'Your party... (optional)',
+    selectedState = $bindable(""),
+    selectedParty = $bindable(""),
+    partyLabel = "Your party... (optional)",
     forceShowParty = false,
   }: {
     heading: string;
-    states: { id: string; name: string }[];
+    states: { statePO: string; stateName: string }[];
     selectedState?: string;
     selectedParty?: string;
     partyLabel?: string;
@@ -24,7 +24,10 @@
   <div class="form-group">
     <Select
       bind:value={selectedState}
-      options={[{ value: '', label: '-- select state --' }, ...states.map(s => ({ value: s.id, label: s.name }))]}
+      options={[
+        { value: "", label: "-- select state --" },
+        ...states.map((s) => ({ value: s.statePO, label: s.stateName })),
+      ]}
       style="width: 100%"
     />
   </div>
@@ -34,10 +37,10 @@
       <Select
         bind:value={selectedParty}
         options={[
-          { value: '', label: '—' },
-          { value: 'democrat', label: 'Democrat' },
-          { value: 'republican', label: 'Republican' },
-          { value: 'other', label: 'Other' },
+          { value: "", label: "—" },
+          { value: "democrat", label: "Democrat" },
+          { value: "republican", label: "Republican" },
+          { value: "other", label: "Other" },
         ]}
         style="width: 100%"
       />
@@ -68,7 +71,6 @@
         color: variables.$dark-gray;
         margin: 0 0 variables.$spacing-xs 0;
       }
-
     }
   }
 </style>

@@ -19,7 +19,7 @@ export type ValueType = 'av' | 'pv' | 'wvv'
 export type PopVar = 'ap' | 'vap' | 'vep' | 'vp'
 
 export interface PlotRow {
-  state_po: string // uppercase state_po, e.g. 'AL'
+  statePO: string
   state: string
   value: number | null
   winningParty: Party | null
@@ -31,14 +31,14 @@ type YearStateData = Record<string, StateValues>
 
 const p1Data = p1Raw as Record<string, StateValues>
 const p2Data = p2Raw as Record<string, YearStateData>
-// p3/p4: year → state_po → district_number → values
+// p3/p4: year → statePO → district_number → values
 const p3Data = p3Raw as Record<string, Record<string, Record<string, StateValues>>>
 const p3StateData = p3StateRaw as Record<string, YearStateData>
 const p4Data = p4Raw as Record<string, Record<string, Record<string, StateValues>>>
 const p4StateData = p4StateRaw as Record<string, YearStateData>
 const p5Data = p5Raw as Record<string, YearStateData>
 
-export const statesByPo = new Map(statesRaw.map(({ id, name }) => [id, name]))
+export const statesByPo = new Map(statesRaw.map(({ statePO, stateName }) => [statePO, stateName]))
 
 export const partyColors: Record<string, string> = {
   democrat: '#3d66cd',
@@ -66,13 +66,13 @@ function extractValue(
 export function getDistrictsForState(
   scenario: string,
   year: number,
-  statePo: string,
+  statePO: string,
 ): string[] {
   if (scenario !== 'p3' && scenario !== 'p4') return []
   const data = scenario === 'p3' ? p3Data : p4Data
   const yearData = data[String(year)]
   if (!yearData) return []
-  const stateData = yearData[statePo.toUpperCase()]
+  const stateData = yearData[statePO]
   if (!stateData) return []
   return Object.keys(stateData).filter(d => Object.keys(stateData[d]).length > 0)
 }
@@ -86,7 +86,7 @@ export function getDistrictsForState(
 export function getPlotRows(
   scenario: Scenario,
   year: number,
-  focusState: string,   // uppercase state_po, e.g. 'NY'
+  focusStatePO: string,
   value: ValueType,
   popVar?: PopVar,
 ): PlotRow[] {
@@ -94,12 +94,12 @@ export function getPlotRows(
   const stateWinners = dimensionsStateWinner[yearKey]
 
   if (!stateWinners) {
-    return Array.from(statesByPo.entries()).map(([state_po, state]) => ({
-      state_po,
+    return Array.from(statesByPo.entries()).map(([statePO, state]) => ({
+      statePO,
       state,
       value: null,
       winningParty: null,
-      isFocus: state_po === focusState,
+      isFocus: statePO === focusStatePO,
     }))
   }
 
@@ -108,36 +108,36 @@ export function getPlotRows(
     const nationalWinner = dimensionsNationalWinner[yearKey] ?? null
     const nationalValue = national ? extractValue(national, value, popVar) : null
 
-    return Array.from(statesByPo.entries()).map(([state_po, state]) => ({
-      state_po,
+    return Array.from(statesByPo.entries()).map(([statePO, state]) => ({
+      statePO,
       state,
       value: nationalValue,
-      winningParty: stateWinners[state_po] ?? null,
-      isFocus: state_po === focusState,
+      winningParty: stateWinners[statePO] ?? null,
+      isFocus: statePO === focusStatePO,
     }))
   }
 
   const stateDataMap: Record<string, Record<string, YearStateData>> = { p3: p3StateData, p4: p4StateData, p5: p5Data }
   const scenarioYear = (stateDataMap[scenario] ?? p2Data)[yearKey]
   if (!scenarioYear) {
-    return Array.from(statesByPo.entries()).map(([state_po, state]) => ({
-      state_po,
+    return Array.from(statesByPo.entries()).map(([statePO, state]) => ({
+      statePO,
       state,
       value: null,
-      winningParty: stateWinners[state_po] ?? null,
-      isFocus: state_po === focusState,
+      winningParty: stateWinners[statePO] ?? null,
+      isFocus: statePO === focusStatePO,
     }))
   }
 
-  return Array.from(statesByPo.entries()).map(([state_po, state]) => {
-    const winner = stateWinners[state_po] ?? null
-    const record = scenarioYear[state_po]
+  return Array.from(statesByPo.entries()).map(([statePO, state]) => {
+    const winner = stateWinners[statePO] ?? null
+    const record = scenarioYear[statePO]
     return {
-      state_po,
+      statePO,
       state,
       value: record ? extractValue(record, value, popVar) : null,
       winningParty: winner,
-      isFocus: state_po === focusState,
+      isFocus: statePO === focusStatePO,
     }
   })
 }
@@ -150,13 +150,12 @@ export function getPlotRows(
 export function getStateValue(
   scenario: string,
   year: number,
-  state_po: string,
+  statePO: string,
   value: ValueType,
   popVar?: PopVar,
   district?: string,
 ): number | null {
   const yearKey = String(year)
-  const po = state_po.toUpperCase()
   const pop = popVar ?? (value === 'av' ? 'ap' : 'vap')
   const key = `${value}_${pop}`
 
@@ -170,19 +169,19 @@ export function getStateValue(
       const data = scenario === 'p3' ? p3Data : p4Data
       const yearData = data[yearKey]
       if (!yearData) return null
-      const stateDistricts = yearData[po]
+      const stateDistricts = yearData[statePO]
       if (!stateDistricts) return null
       const record = stateDistricts[district]
       return record ? ((record[key] as number | null) ?? null) : null
     }
     const stateData = scenario === 'p3' ? p3StateData : p4StateData
-    const record = stateData[yearKey]?.[po]
+    const record = stateData[yearKey]?.[statePO]
     return record ? ((record[key] as number | null) ?? null) : null
   }
 
   const data = scenario === 'p5' ? p5Data : p2Data
   const yearData = data[yearKey]
   if (!yearData) return null
-  const record = yearData[po]
+  const record = yearData[statePO]
   return record ? ((record[key] as number | null) ?? null) : null
 }

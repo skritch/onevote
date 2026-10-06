@@ -13,6 +13,38 @@ export const officesByName: Record<string, Office> = {
 export type StateDimension = {
   year: number
   state: string
+  statePO: string
+  apportionmentPopulation: number | null
+  vapEstimate: number | null
+  vepEstimate: number | null
+  votesTotal: number | null
+  votesDemocrat: number | null
+  votesRepublican: number | null
+  votesOther: number | null
+  winningParty: string | null
+  electors: number | null
+  electorsDemocrat: number | null
+  electorsRepublican: number | null
+  electorsOther: number | null
+}
+
+export type DistrictDimension = {
+  districtCode: string
+  apportionmentPopulation: number | null
+  votesTotal: number | null
+  votesDemocrat: number | null
+  votesRepublican: number | null
+  votesOther: number | null
+  winningParty: string | null
+  electors: number | null
+  electorsDemocrat: number | null
+  electorsRepublican: number | null
+  electorsOther: number | null
+}
+
+type RawStateDimension = {
+  year: number
+  state: string
   state_po: string
   apportionment_population: number | null
   vap_estimate: number | null
@@ -26,9 +58,10 @@ export type StateDimension = {
   electors_democrat: number | null
   electors_republican: number | null
   electors_other: number | null
+  districts?: RawDistrictDimension[]
 }
 
-export type DistrictDimension = {
+type RawDistrictDimension = {
   district_code: string
   apportionment_population: number | null
   votes_total: number | null
@@ -46,6 +79,42 @@ type RawYearEntry = {
   year: number
   winning_party: string | null
   states: Array<{ state_po: string; winning_party: string | null }>
+}
+
+function toStateDimension(raw: RawStateDimension): StateDimension {
+  return {
+    year: raw.year,
+    state: raw.state,
+    statePO: raw.state_po,
+    apportionmentPopulation: raw.apportionment_population,
+    vapEstimate: raw.vap_estimate,
+    vepEstimate: raw.vep_estimate,
+    votesTotal: raw.votes_total,
+    votesDemocrat: raw.votes_democrat,
+    votesRepublican: raw.votes_republican,
+    votesOther: raw.votes_other,
+    winningParty: raw.winning_party,
+    electors: raw.electors,
+    electorsDemocrat: raw.electors_democrat,
+    electorsRepublican: raw.electors_republican,
+    electorsOther: raw.electors_other,
+  }
+}
+
+function toDistrictDimension(raw: RawDistrictDimension): DistrictDimension {
+  return {
+    districtCode: raw.district_code,
+    apportionmentPopulation: raw.apportionment_population,
+    votesTotal: raw.votes_total,
+    votesDemocrat: raw.votes_democrat,
+    votesRepublican: raw.votes_republican,
+    votesOther: raw.votes_other,
+    winningParty: raw.winning_party,
+    electors: raw.electors,
+    electorsDemocrat: raw.electors_democrat,
+    electorsRepublican: raw.electors_republican,
+    electorsOther: raw.electors_other,
+  }
 }
 
 // Winner lookups built once at module load: year → Party | null
@@ -70,8 +139,6 @@ export const candidatesByYear: Record<number, { democrat: string; republican: st
       .map(e => [e.year, { democrat: e.candidate_democrat, republican: e.candidate_republican }])
   )
 
-type RawStateEntry = StateDimension & { districts?: DistrictDimension[] }
-
 const allDimYears = (dimensionsRaw as Array<{ year: number }>).map(d => d.year)
 
 function resolveYear(year: number): number {
@@ -80,23 +147,25 @@ function resolveYear(year: number): number {
   return past.length > 0 ? Math.max(...past) : Math.min(...allDimYears)
 }
 
-export function getStateDimension(year: number, state_po: string): StateDimension | null {
+export function getStateDimension(year: number, statePO: string): StateDimension | null {
   const resolved = resolveYear(year)
-  const yearData = (dimensionsRaw as Array<{ year: number; states: RawStateEntry[] }>)
+  const yearData = (dimensionsRaw as Array<{ year: number; states: RawStateDimension[] }>)
     .find(d => d.year === resolved)
   if (!yearData) return null
-  return yearData.states.find(s => s.state_po === state_po) ?? null
+  const raw = yearData.states.find(s => s.state_po === statePO)
+  return raw ? toStateDimension(raw) : null
 }
 
-export function getDistrictDimension(year: number, state_po: string, districtId: string): DistrictDimension | null {
+export function getDistrictDimension(year: number, statePO: string, districtId: string): DistrictDimension | null {
   const resolved = resolveYear(year)
-  const yearData = (dimensionsRaw as Array<{ year: number; states: RawStateEntry[] }>)
+  const yearData = (dimensionsRaw as Array<{ year: number; states: RawStateDimension[] }>)
     .find(d => d.year === resolved)
   if (!yearData) return null
-  const stateEntry = yearData.states.find(s => s.state_po === state_po)
+  const stateEntry = yearData.states.find(s => s.state_po === statePO)
   if (!stateEntry?.districts) return null
   // district_codes in data use leading zeros ("01"), districtId may not ("1")
-  return stateEntry.districts.find(d =>
+  const raw = stateEntry.districts.find(d =>
     d.district_code === districtId || d.district_code === districtId.padStart(2, '0')
-  ) ?? null
+  )
+  return raw ? toDistrictDimension(raw) : null
 }

@@ -7,8 +7,8 @@
 
   let {
     districtData,
-    statePo,
-  }: { districtData: DistrictData; statePo: string } = $props();
+    statePO,
+  }: { districtData: DistrictData; statePO: string } = $props();
 
   const districtResults = districtResultsRaw as Record<
     string,
@@ -30,7 +30,7 @@
   );
 
   const yearDistrictResults = $derived(
-    districtResults[String(chartState.year)]?.[statePo.toUpperCase()] ?? {},
+    districtResults[String(chartState.year)]?.[statePO] ?? {},
   );
 
   // Path keys are '1','2'... but results keys are '01','02'... — normalize both sides.
@@ -73,14 +73,12 @@
           {d}
           class:is-selected={chartState.districtId === districtId}
           style="fill: {districtColor(districtId)}"
+          role="button"
+          tabindex={isSelectable ? 0 : -1}
+          aria-label="District {districtId}"
+          aria-pressed={chartState.districtId === districtId}
           onclick={() => handleClick(districtId)}
           onkeydown={(e) => e.key === "Enter" && handleClick(districtId)}
-          role={isSelectable ? "button" : undefined}
-          tabindex={isSelectable ? 0 : undefined}
-          aria-label={isSelectable ? `District ${districtId}` : undefined}
-          aria-pressed={isSelectable
-            ? chartState.districtId === districtId
-            : undefined}
         />
       {/each}
     </g>

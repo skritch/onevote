@@ -13,7 +13,7 @@
   }: {
     years: number[];
     offices: string[];
-    states: { id: string; name: string }[];
+    states: { statePO: string; stateName: string }[];
     initialCompareMode?: boolean;
     initialShowParty?: boolean;
   } = $props();
@@ -80,7 +80,10 @@
   <span class="select-wrapper">
     <select bind:value={selectedOffice}>
       {#each offices as office}
-        <option value={office} disabled={office === 'House' || office === 'Senate'}>{office}</option>
+        <option
+          value={office}
+          disabled={office === "House" || office === "Senate"}>{office}</option
+        >
       {/each}
     </select>
   </span>

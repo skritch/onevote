@@ -22,12 +22,12 @@
   let {
     years,
     offices,
-    statePo = "",
+    statePO = "",
     districtData = null,
   }: {
     years: number[];
     offices: string[];
-    statePo?: string;
+    statePO?: string;
     districtData?: DistrictData | null;
   } = $props();
 
@@ -114,12 +114,11 @@
       let winner: string | null = null;
       if (scenario === "p3" && districtId) {
         winner =
-          getDistrictDimension(year, statePo, districtId)?.winning_party ??
+          getDistrictDimension(year, statePO, districtId)?.winningParty ??
           null;
       }
       if (!winner) {
-        winner =
-          dimensionsStateWinner[String(year)]?.[statePo.toUpperCase()] ?? null;
+        winner = dimensionsStateWinner[String(year)]?.[statePO] ?? null;
       }
       if (winner) {
         const display = winner.charAt(0).toUpperCase() + winner.slice(1);
@@ -130,7 +129,9 @@
 
   // Congressional districts for this state page, keyed by year
   const availableDistrictIds = $derived(
-    districtData ? getAvailableDistrictIds(districtData, Number(selectedYear)) : [],
+    districtData
+      ? getAvailableDistrictIds(districtData, Number(selectedYear))
+      : [],
   );
 
   const showDistrictIdSelector = true;
@@ -159,8 +160,8 @@
 
   // Available districts for this state under the current scenario/year
   const availableDistricts = $derived(
-    statePo
-      ? getDistrictsForState(chartState.scenario, chartState.year, statePo)
+    statePO
+      ? getDistrictsForState(chartState.scenario, chartState.year, statePO)
       : [],
   );
 

@@ -12,39 +12,39 @@
   import type { DistrictData } from "../../lib/districts.js";
 
   let {
-    statePo,
+    statePO,
     districtData = null,
-  }: { statePo: string; districtData: DistrictData | null } = $props();
+  }: { statePO: string; districtData: DistrictData | null } = $props();
 
   const CURRENT_YEAR = new Date().getFullYear();
 
-  const dim = $derived(getStateDimension(chartState.year, statePo));
+  const dim = $derived(getStateDimension(chartState.year, statePO));
   const districtDim = $derived(
     chartState.districtId
-      ? getDistrictDimension(chartState.year, statePo, chartState.districtId)
+      ? getDistrictDimension(chartState.year, statePO, chartState.districtId)
       : null,
   );
 
   const hasPastResults = $derived(
     chartState.year <= CURRENT_YEAR &&
-    (districtDim
-      ? districtDim.votes_total !== null
-      : dim !== null && dim.votes_total !== null),
+      (districtDim
+        ? districtDim.votesTotal !== null
+        : dim !== null && dim.votesTotal !== null),
   );
 
   const resultsData = $derived(districtDim ?? dim);
 
   const votesSum = $derived(
     resultsData
-      ? (resultsData.votes_democrat ?? 0) +
-          (resultsData.votes_republican ?? 0) +
-          (resultsData.votes_other ?? 0)
+      ? (resultsData.votesDemocrat ?? 0) +
+          (resultsData.votesRepublican ?? 0) +
+          (resultsData.votesOther ?? 0)
       : 0,
   );
 
   // Only show electors column for statewide view, or district view when district has electors (ME/NE)
   const showElectors = $derived(
-    !districtDim || ((districtDim.electors ?? 0) > 0),
+    !districtDim || (districtDim.electors ?? 0) > 0,
   );
 
   function fmt(n: number | null | undefined): string {
@@ -88,7 +88,7 @@
 <div class="factbox">
   {#if districtData}
     <div class="factbox__map">
-      <StateMapLogo {districtData} {statePo} />
+      <StateMapLogo {districtData} {statePO} />
     </div>
   {/if}
 
@@ -110,7 +110,11 @@
           />
         </span>
         <span class="factbox__val">
-          {fmt(districtDim ? districtDim.apportionment_population : dim.apportionment_population)}
+          {fmt(
+            districtDim
+              ? districtDim.apportionmentPopulation
+              : dim.apportionmentPopulation,
+          )}
         </span>
       </div>
       <div class="factbox__row" class:factbox__row--unavailable={!!districtDim}>
@@ -121,8 +125,11 @@
             href={`${import.meta.env.BASE_URL}about/population/`}
           />
         </span>
-        <span class="factbox__val" title={districtDim ? "Data unavailable" : undefined}>
-          {districtDim ? "—" : fmt(dim.vap_estimate)}
+        <span
+          class="factbox__val"
+          title={districtDim ? "Data unavailable" : undefined}
+        >
+          {districtDim ? "—" : fmt(dim.vapEstimate)}
         </span>
       </div>
       <div class="factbox__row" class:factbox__row--unavailable={!!districtDim}>
@@ -133,8 +140,11 @@
             href={`${import.meta.env.BASE_URL}about/population/`}
           />
         </span>
-        <span class="factbox__val" title={districtDim ? "Data unavailable" : undefined}>
-          {districtDim ? "—" : fmt(dim.vep_estimate)}
+        <span
+          class="factbox__val"
+          title={districtDim ? "Data unavailable" : undefined}
+        >
+          {districtDim ? "—" : fmt(dim.vepEstimate)}
         </span>
       </div>
     </div>
@@ -150,8 +160,12 @@
           <span class="factbox__col-header">%</span>
           {#if showElectors}<span class="factbox__col-header">EC</span>{/if}
           {#each resultParties as party}
-            {@const votes = resultsData[`votes_${party}` as keyof typeof resultsData] as number | null}
-            {@const electors = resultsData[`electors_${party}` as keyof typeof resultsData] as number | null}
+            {@const votes = resultsData[
+              `votes${party.charAt(0).toUpperCase()}${party.slice(1)}` as keyof typeof resultsData
+            ] as number | null}
+            {@const electors = resultsData[
+              `electors${party.charAt(0).toUpperCase()}${party.slice(1)}` as keyof typeof resultsData
+            ] as number | null}
             {#if votes != null && votes > 0}
               <span
                 class="factbox__dot"
@@ -159,26 +173,29 @@
               ></span>
               <span
                 class="factbox__party-name"
-                class:winner={resultsData.winning_party === party}
+                class:winner={resultsData.winningParty === party}
               >
-                {displayName(party, chartState.year)}{resultsData.winning_party === party ? " ✓" : ""}
+                {displayName(
+                  party,
+                  chartState.year,
+                )}{resultsData.winningParty === party ? " ✓" : ""}
               </span>
               <span
                 class="factbox__vote-count"
-                class:winner={resultsData.winning_party === party}
+                class:winner={resultsData.winningParty === party}
               >
                 {fmt(votes)}
               </span>
               <span
                 class="factbox__pct"
-                class:winner={resultsData.winning_party === party}
+                class:winner={resultsData.winningParty === party}
               >
                 {pct(votes, votesSum)}
               </span>
               {#if showElectors}
                 <span
                   class="factbox__electors"
-                  class:winner={resultsData.winning_party === party}
+                  class:winner={resultsData.winningParty === party}
                 >
                   {fmtElectors(electors)}
                 </span>
@@ -191,7 +208,9 @@
             <span class="factbox__total">{fmt(votesSum)}</span>
             <span></span>
             {#if showElectors}
-              <span class="factbox__total">{fmtElectors(resultsData.electors)}</span>
+              <span class="factbox__total"
+                >{fmtElectors(resultsData.electors)}</span
+              >
             {/if}
           {/if}
         </div>
