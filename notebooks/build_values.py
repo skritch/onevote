@@ -128,13 +128,11 @@ def _():
 
 @app.cell(hide_code=True)
 def _():
-    # data_national = kagglehub.dataset_load(
-    #   KaggleDatasetAdapter.PANDAS,
-    #   "samkritch/u-s-presidential-elections-by-state-1976-2024",
-    #   'pres_1976_2024.csv',
-    # )
-
-    data_national = pd.read_csv('.data/pres_1976_2024.csv')
+    data_national = kagglehub.dataset_load(
+      KaggleDatasetAdapter.PANDAS,
+      "samkritch/u-s-presidential-elections-by-state-1976-2024",
+      'pres_1976_2024.csv',
+    )
 
     _data_2028 = data_national[data_national['year'] == 2024].copy()
     _data_2028['year'] = 2028
@@ -164,12 +162,11 @@ def _():
 
 @app.cell(hide_code=True)
 def _():
-    # data_state = kagglehub.dataset_load(
-    #   KaggleDatasetAdapter.PANDAS,
-    #   "samkritch/u-s-presidential-elections-by-state-1976-2024",
-    #   'pres_by_state_1976_2024.csv',
-    # )
-    data_state = pd.read_csv('.data/pres_by_state_1976_2024.csv')
+    data_state = kagglehub.dataset_load(
+      KaggleDatasetAdapter.PANDAS,
+      "samkritch/u-s-presidential-elections-by-state-1976-2024",
+      'pres_by_state_1976_2024.csv',
+    )
 
     _nansum = lambda x: x.sum(min_count=1)
     national_totals = data_state.groupby('year').agg({
@@ -227,13 +224,11 @@ def _():
 
 @app.cell(hide_code=True)
 def _(data_state, national_totals):
-    # data_district: pd.DataFrame = kagglehub.dataset_load(
-    #   KaggleDatasetAdapter.PANDAS,
-    #   "samkritch/u-s-presidential-elections-by-state-1976-2024",
-    #   'pres_by_district_2012_2024.csv',
-    # )
-
-    data_district = pd.read_csv('.data/pres_by_district_2012_2024.csv')
+    data_district: pd.DataFrame = kagglehub.dataset_load(
+      KaggleDatasetAdapter.PANDAS,
+      "samkritch/u-s-presidential-elections-by-state-1976-2024",
+      'pres_by_district_2012_2024.csv',
+    )
 
     # todo: support third parties
     data_district['winning_party'] = data_district.apply(lambda row: "democrat" if row["votes_democrat"] > row["votes_republican"] else "republican", axis=1)

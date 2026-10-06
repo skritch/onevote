@@ -108,7 +108,9 @@
   // Congressional districts for this state page, keyed by year
   const availableDistrictIds = $derived.by(() => {
     if (!districtData) return [];
-    const congress = districtData.year_to_congress[String(selectedYear)];
+    const congress =
+      districtData.year_to_congress[String(selectedYear)] ??
+      Math.max(...Object.values(districtData.year_to_congress));
     if (congress == null) return [];
     return Object.keys(
       districtData.districts_by_congress[String(congress)] ?? {},
