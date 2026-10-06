@@ -37,12 +37,14 @@ export async function getStaticPaths() {
   });
 }
 
-const { state, districtData }: { state: State; districtData: DistrictData | null } = Astro.props;
+const {
+  state,
+  districtData,
+}: { state: State; districtData: DistrictData | null } = Astro.props;
 const elections = await getCollection("elections");
 const years = [...new Set(elections.map((e) => e.data.year))].sort(
   (a, b) => b - a,
 );
-const offices = Object.keys(officesByName);
 ---
 
 <Layout>
@@ -58,7 +60,6 @@ const offices = Object.keys(officesByName);
         <StateControls
           client:load
           {years}
-          {offices}
           statePO={state.statePO}
           {districtData}
         />

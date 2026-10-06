@@ -7,7 +7,7 @@
     disabled = false,
   }: {
     options: { value: any; label: string; disabled?: boolean }[];
-    value?: string;
+    value?: any;
     triggerLabel?: string;
     style?: string;
     disabled?: boolean;

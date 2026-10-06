@@ -5,6 +5,7 @@ import type { Party } from './party.js'
 import type { StatePO } from './states.js'
 
 export type Office = "president" | "house" | "senate"
+export const OFFICES = ["president", "house", "senate"] as const
 
 export const officesByName: Record<string, Office> = {
   Presidential: "president",
