@@ -59,6 +59,18 @@ I don't feel good about either pv or wvv
 - WVV obviously weird with the "national loser = zero".
 
 
+TODO p3:
+- what to do before 2012? 
+  - don't support districts, I guess. 
+  - copy p2?
+
+TODO p4:
+- display average value for states
+- display electors for districts
+- display electors for states 
+- is a statewide average correct? Does it include the senate contribution?
+- only support p4 after 2012
+
 
 TODO: clean up 2028 page
 - show empty VAP/VEP
@@ -76,6 +88,8 @@ TODO: script cleanup
 - cache kaggle results locally.
 - no default paths in CLI args
 
+
+TODO: maybe "at large" districts aren't = "the whole state"?
 
 
 

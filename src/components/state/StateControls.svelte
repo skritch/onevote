@@ -1,6 +1,10 @@
 <script lang="ts">
   import { untrack } from "svelte";
-  import { officesByName } from "../../lib/elections";
+  import {
+    officesByName,
+    dimensionsStateWinner,
+    getDistrictDimension,
+  } from "../../lib/elections";
   import { chartState } from "../../lib/chartState.svelte.js";
   import {
     valueNames,
@@ -11,13 +15,9 @@
   } from "../../lib/manifest.js";
   import { getDistrictsForState } from "../../lib/values.js";
   import type { ValueType, PopVar, Scenario } from "../../lib/values.js";
+  import { getAvailableDistrictIds } from "../../lib/districts.js";
+  import type { DistrictData } from "../../lib/districts.js";
   import Select from "../Select.svelte";
-
-  type DistrictData = {
-    year_to_congress: Record<string, number>;
-    districts_by_congress: Record<string, Record<string, string>>;
-    viewbox_by_congress?: Record<string, string>;
-  };
 
   let {
     years,
@@ -33,7 +33,6 @@
 
   const parties = ["Democrat", "Republican", "Other"];
 
-  // Parse URL params synchronously so initial state is correct on first render
   const _urlParams =
     typeof window !== "undefined"
       ? new URLSearchParams(window.location.search)
@@ -105,40 +104,56 @@
     chartState.party = selectedParty;
   });
 
-  // Congressional districts for this state page, keyed by year
-  const availableDistrictIds = $derived.by(() => {
-    if (!districtData) return [];
-    const congress =
-      districtData.year_to_congress[String(selectedYear)] ??
-      Math.max(...Object.values(districtData.year_to_congress));
-    if (congress == null) return [];
-    return Object.keys(
-      districtData.districts_by_congress[String(congress)] ?? {},
-    ).sort((a, b) => {
-      const na = Number(a), nb = Number(b);
-      if (!isNaN(na) && !isNaN(nb)) return na - nb;
-      if (!isNaN(na)) return -1;
-      if (!isNaN(nb)) return 1;
-      return a.localeCompare(b);
+  // Auto-select winning party when WVV is chosen
+  $effect(() => {
+    if (chartState.value !== "wvv") return;
+    untrack(() => {
+      const year = chartState.year;
+      const districtId = chartState.districtId;
+      const scenario = chartState.scenario;
+      let winner: string | null = null;
+      if (scenario === "p3" && districtId) {
+        winner =
+          getDistrictDimension(year, statePo, districtId)?.winning_party ??
+          null;
+      }
+      if (!winner) {
+        winner =
+          dimensionsStateWinner[String(year)]?.[statePo.toUpperCase()] ?? null;
+      }
+      if (winner) {
+        const display = winner.charAt(0).toUpperCase() + winner.slice(1);
+        if (parties.includes(display)) selectedParty = display;
+      }
     });
   });
 
-  // Show selector whenever districts exist, but disable it for at-large-only states or pre-2012
-  const showDistrictIdSelector = $derived(availableDistrictIds.length > 0);
+  // Congressional districts for this state page, keyed by year
+  const availableDistrictIds = $derived(
+    districtData ? getAvailableDistrictIds(districtData, Number(selectedYear)) : [],
+  );
+
+  const showDistrictIdSelector = true;
   const districtIdSelectorDisabled = $derived(
-    (availableDistrictIds.length === 1 && availableDistrictIds[0] === 'AL') ||
-    Number(selectedYear) < 2012
+    availableDistrictIds.length === 0 ||
+      (availableDistrictIds.length === 1 && availableDistrictIds[0] === "AL") ||
+      Number(selectedYear) < 2012,
   );
 
   // Reset districtId when it becomes invalid (year change, at-large, etc.)
   $effect(() => {
     const year = Number(selectedYear);
     const available = availableDistrictIds;
-    const isAtLarge = available.length === 1 && available[0] === 'AL';
+    const isAtLarge = available.length === 1 && available[0] === "AL";
     const curDistrict = untrack(() => chartState.districtId);
     if (!curDistrict) return;
-    if (year < 2012 || available.length === 0 || isAtLarge || !available.includes(curDistrict)) {
-      chartState.districtId = '';
+    if (
+      year < 2012 ||
+      available.length === 0 ||
+      isAtLarge ||
+      !available.includes(curDistrict)
+    ) {
+      chartState.districtId = "";
     }
   });
 

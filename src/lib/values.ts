@@ -1,7 +1,9 @@
 import p1Raw from '../../.data/presidential_values/p1.json'
 import p2Raw from '../../.data/presidential_values/p2.json'
 import p3Raw from '../../.data/presidential_values/p3.json'
+import p3StateRaw from '../../.data/presidential_values/p3_state.json'
 import p4Raw from '../../.data/presidential_values/p4.json'
+import p4StateRaw from '../../.data/presidential_values/p4_state.json'
 import p5Raw from '../../.data/presidential_values/p5.json'
 import statesRaw from "../data/states.json"
 import { dimensionsNationalWinner, dimensionsStateWinner } from './elections.js'
@@ -31,7 +33,9 @@ const p1Data = p1Raw as Record<string, StateValues>
 const p2Data = p2Raw as Record<string, YearStateData>
 // p3/p4: year → state_po → district_number → values
 const p3Data = p3Raw as Record<string, Record<string, Record<string, StateValues>>>
+const p3StateData = p3StateRaw as Record<string, YearStateData>
 const p4Data = p4Raw as Record<string, Record<string, Record<string, StateValues>>>
+const p4StateData = p4StateRaw as Record<string, YearStateData>
 const p5Data = p5Raw as Record<string, YearStateData>
 
 export const statesByPo = new Map(statesRaw.map(({ id, name }) => [id, name]))
@@ -113,7 +117,8 @@ export function getPlotRows(
     }))
   }
 
-  const scenarioYear = (scenario === 'p5' ? p5Data : p2Data)[yearKey]
+  const stateDataMap: Record<string, Record<string, YearStateData>> = { p3: p3StateData, p4: p4StateData, p5: p5Data }
+  const scenarioYear = (stateDataMap[scenario] ?? p2Data)[yearKey]
   if (!scenarioYear) {
     return Array.from(statesByPo.entries()).map(([state_po, state]) => ({
       state_po,
@@ -161,13 +166,17 @@ export function getStateValue(
   }
 
   if (scenario === 'p3' || scenario === 'p4') {
-    const data = scenario === 'p3' ? p3Data : p4Data
-    const yearData = data[yearKey]
-    if (!yearData) return null
-    const stateDistricts = yearData[po]
-    if (!stateDistricts) return null
-    const d = district && stateDistricts[district] ? district : ('1' in stateDistricts ? '1' : Object.keys(stateDistricts)[0])
-    const record = stateDistricts[d]
+    if (district) {
+      const data = scenario === 'p3' ? p3Data : p4Data
+      const yearData = data[yearKey]
+      if (!yearData) return null
+      const stateDistricts = yearData[po]
+      if (!stateDistricts) return null
+      const record = stateDistricts[district]
+      return record ? ((record[key] as number | null) ?? null) : null
+    }
+    const stateData = scenario === 'p3' ? p3StateData : p4StateData
+    const record = stateData[yearKey]?.[po]
     return record ? ((record[key] as number | null) ?? null) : null
   }
 

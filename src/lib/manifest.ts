@@ -38,7 +38,7 @@ export const popVarShortNames: Record<PopVar, string> = {
 export const scenarioNames: Record<Scenario, string> = {
   p1: 'National General Election',
   p2: 'Simplified Electoral College',
-  p3: 'Present-day',
+  p3: 'Actual EC',
   p4: 'Districtized Electoral College',
   p5: 'Proportional Electors',
 }
@@ -46,7 +46,7 @@ export const scenarioNames: Record<Scenario, string> = {
 export const scenarioShortNames: Record<Scenario, string> = {
   p1: 'General',
   p2: 'Simplified EC',
-  p3: 'Present-day',
+  p3: 'Actual EC',
   p4: 'District EC',
   p5: 'Proportional EC',
 }

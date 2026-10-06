@@ -381,9 +381,9 @@ def _(ELECTION_TO_CONGRESS, STATE_NAME_TO_ABBR, compute_viewboxes, data_dir, dis
 
         viewbox_by_congress = compute_viewboxes(districts_by_congress, state_abbr)
         out_path.write_text(json.dumps({
-            "year_to_congress": {str(k): v for k, v in sorted(year_to_congress_key.items())},
-            "districts_by_congress": districts_by_congress,
-            "viewbox_by_congress": viewbox_by_congress,
+            "yearToCongress": {str(k): v for k, v in sorted(year_to_congress_key.items())},
+            "districtsByCongress": districts_by_congress,
+            "viewboxByCongress": viewbox_by_congress,
         }))
         n = len(districts_by_congress)
         print(f"  {state_abbr}: {n} unique boundary set(s)")

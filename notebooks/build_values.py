@@ -349,6 +349,10 @@ def _():
 def _(PopCols, data_state, population_cols):
     data_p2 = data_state.copy()
 
+    # Undo the real assignment of ME/NE electors
+    data_p2['electors_democrat'] = data_p2['state_electors'].where(data_p2['votes_democrat'] >= data_p2['votes_republican'], 0)
+    data_p2['electors_republican'] = data_p2['state_electors'].where(data_p2['votes_democrat'] < data_p2['votes_republican'], 0)
+
     # Calcualtes PV(x) = (N * e_s / sqrt(n_s)) / (sum of e_s * sqrt(n_s) for all s)
     def calculate_pv(group, pcols: PopCols):
         # Calculate the denominator: sum of e_s * sqrt(n_s) for all states
@@ -382,64 +386,8 @@ def _(PopCols, data_state, population_cols):
         / (row["national_electors"] * row[f"votes_{row['winning_party']}"]),
         axis=1,
     )
-    data_p2.head(3)
+    data_p2
     return (data_p2,)
-
-
-@app.cell(hide_code=True)
-def _(data_p2):
-    year_dropdown = mo.ui.dropdown.from_series(data_p2.year, value=2024, label="Choose a year: ")
-    state1_dropdown = mo.ui.dropdown.from_series(data_p2.state, value="NEW YORK", label="Choose a state: ")
-    state2_dropdown = mo.ui.dropdown.from_series(data_p2.state, value="OHIO", label="Choose a state: ")
-
-    year_dropdown, state1_dropdown, state2_dropdown
-    return state1_dropdown, state2_dropdown, year_dropdown
-
-
-@app.cell(hide_code=True)
-def _(data_p2, state1_dropdown, state2_dropdown, year_dropdown):
-    # Filter data for selected year and states
-    year_data = data_p2[data_p2.year == year_dropdown.value]
-    state1_data = year_data[year_data.state == state1_dropdown.value].iloc[0]
-    state2_data = year_data[year_data.state == state2_dropdown.value].iloc[0]
-
-    # Prepare data for visualization
-    _values = ['av_ap', 'av_vap', 'av_vep', 'av_vp',  'pv_vap', 'pv_vep', 'pv_vp', 'wvv_vp']
-    state1_values = [state1_data[_v] for _v in _values]
-    state2_values = [state2_data[_v] for _v in _values]
-
-    # Create combined dataset
-    chart_data = []
-    for i, _v in enumerate(_values):
-        chart_data.append({
-            'name': _v,
-            'value': state1_values[i],
-            'state': state1_dropdown.value,
-        })
-        chart_data.append({
-            'name': _v,
-            'value': state2_values[i],
-            'state': state2_dropdown.value,
-        })
-
-    chart_df = pd.DataFrame(chart_data)
-
-    # Create the chart with state facets
-    chart = altair.Chart(chart_df).mark_bar().encode(
-        x=altair.X('name:O', title='Metric', axis=altair.Axis(labelAngle=-45)),
-        y=altair.Y('value:Q', title='Value', scale=altair.Scale(zero=False)),
-        column=altair.Column('state:N', title='State'),
-        tooltip=['name:O', 'value:Q', 'state:N', 'category:O']
-    ).resolve_scale(
-        y='shared'
-    ).properties(
-        width=180,
-        height=300,
-        title=f'P2 Value Comparison ({year_dropdown.value})'
-    )
-
-    chart
-    return
 
 
 @app.cell(hide_code=True)
@@ -552,7 +500,7 @@ def _(PopCols):
 @app.cell(hide_code=True)
 def _(
     av_for_district,
-    data_district,
+    data_district: pd.DataFrame,
     population_cols,
     pv_for_district,
     wvv_for_district,
@@ -609,8 +557,33 @@ def _(
     data_p3['wvv_vp'] = data_p3.apply(wvv_for_district, p=population_cols['vp'], axis=1)
 
 
-    data_p3.head(3)
+    data_p3
     return (data_p3,)
+
+
+@app.cell
+def _(data_p2, data_p3, data_state):
+    # Build state-level data for p3
+    # For split states values we need to use p3 aggs
+    # For electors we need to use data_state directly, since p2 undoes ME/NE
+    # For everything else we can use p2
+
+    _dim_cols = ['year', 'state_po']
+    _elector_cols = ['electors_democrat', 'electors_republican', 'electors_other']
+    _val_cols = [
+        'av_ap', 'av_vap', 'av_vp', 'pv_vap', 'pv_vp', 
+        # 'wvv_vp' # disabling this at state level, not sure how it should be defined.
+    ]
+
+    _not_split_p2 = ~((data_p2['state'] == 'MAINE') | ((data_p2['state'] == 'NEBRASKA') & (data_p2['year'] >= 1992)))
+    _not_in_district_data = data_p2['year'] < 2012
+    _non_split_state_values = data_p2[_not_split_p2 | _not_in_district_data][_dim_cols + _val_cols]
+    _split_state_values = data_p3[data_p3['_is_split']].groupby(_dim_cols)[_val_cols].mean().reset_index()
+    _state_values = pd.concat([_non_split_state_values, _split_state_values], ignore_index=True).set_index(_dim_cols, drop=True)
+    _state_electors  = data_state[_dim_cols +_elector_cols].set_index(_dim_cols, drop=True)
+    data_p3_state = pd.concat([_state_values, _state_electors], axis=1).reset_index()
+    data_p3_state
+    return (data_p3_state,)
 
 
 @app.cell(hide_code=True)
@@ -626,13 +599,21 @@ def _():
 @app.cell(hide_code=True)
 def _(
     av_for_district,
-    data_district,
+    data_district: pd.DataFrame,
     population_cols,
     pv_for_district,
     wvv_for_district,
 ):
     data_p4 = data_district.copy()
     data_p4['_is_split'] = True
+
+    # Set P4 elector values
+    # These are only the house electors; we'll add senate electors to our state aggs.
+    # For D.C., we consider one of its 3 electors to be a "House" elector.
+    data_p4['electors'] = 1  
+    data_p4['electors_democrat'] = (data_p4['votes_democrat'] > data_p4['votes_republican']).astype(int)
+    data_p4['electors_republican'] = (data_p4['votes_democrat'] < data_p4['votes_republican']).astype(int)
+
 
     for _p in ['ap', 'vap', 'vp']:
         _pcols = population_cols[_p]
@@ -666,9 +647,38 @@ def _(
 
     # WVV
     data_p4['wvv_vp'] = data_p4.apply(wvv_for_district, p=population_cols['vep'], axis=1)
-
-    data_p4.head(3)
+    data_p4
     return (data_p4,)
+
+
+@app.cell
+def _(data_p4):
+    # build state-level data for p4
+
+    _dim_cols = ['year', 'state_po']
+    _elector_cols = ['electors_democrat', 'electors_republican', 'electors_other']
+    _val_cols = [
+        'av_ap', 'av_vap', 'av_vp', 'pv_vap', 'pv_vp', 
+        # 'wvv_vp'  # disabling this at state level, not sure how it should be defined.
+    ]
+
+    # Easiest 
+    _value_means = data_p4.groupby(_dim_cols)[_val_cols].mean()
+    _elector_sums = data_p4.groupby(_dim_cols)[_elector_cols].sum(min_count=1)
+
+    # Add senate electors. Easiest to compute these from the same dataset.
+    _state_votes = data_p4.groupby(_dim_cols)[['state_votes_democrat', 'state_votes_republican']].max()
+    _state_d = (_state_votes['state_votes_democrat'] >= _state_votes['state_votes_republican']).apply(lambda b: 2 if b else 0)
+    _state_r = (_state_votes['state_votes_democrat'] < _state_votes['state_votes_republican']).apply(lambda b: 2 if b else 0)
+    _elector_sums['electors_democrat'] = _elector_sums['electors_democrat'] + _state_d
+    _elector_sums['electors_republican'] = _elector_sums['electors_republican'] + _state_r
+
+    data_p4_state = pd.concat([_value_means, _elector_sums], axis=1).reset_index()
+
+
+    data_p4_state
+
+    return (data_p4_state,)
 
 
 @app.cell(hide_code=True)
@@ -819,7 +829,16 @@ def _():
 
 
 @app.cell
-def _(data_p1, data_p2, data_p3, data_p4, data_p5, output_dir):
+def _(
+    data_p1,
+    data_p2,
+    data_p3,
+    data_p3_state,
+    data_p4,
+    data_p4_state,
+    data_p5,
+    output_dir,
+):
     import json, math
 
     def _clean(v):
@@ -849,17 +868,29 @@ def _(data_p1, data_p2, data_p3, data_p4, data_p5, output_dir):
         return result
 
     _value_cols = ['av_ap', 'av_vap', 'av_vep', 'av_vp', 'pv_ap', 'pv_vap', 'pv_vep', 'pv_vp', 'wvv_vp']
+    _elector_cols = ['electors_democrat', 'electors_republican', 'electors_other']
+    _output_cols = _value_cols + _elector_cols
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    (output_dir / 'p1.json').write_text(json.dumps(_to_nested(data_p1, ['year'], _value_cols), indent=2))
-    (output_dir / 'p2.json').write_text(json.dumps(_to_nested(data_p2, ['year', 'state_po'], _value_cols), indent=2))
-    (output_dir / 'p3.json').write_text(json.dumps(_to_nested(data_p3, ['year', 'state_po', 'district_code'], _value_cols), indent=2))
-    (output_dir / 'p4.json').write_text(json.dumps(_to_nested(data_p4, ['year', 'state_po', 'district_code'], _value_cols), indent=2))
-    (output_dir / 'p5.json').write_text(json.dumps(_to_nested(data_p5, ['year', 'state_po'], _value_cols), indent=2))
+
+    _outputs = [
+        ('p1.json', data_p1, ['year']),
+        ('p2.json', data_p2, ['year', 'state_po']),
+        ('p3.json', data_p3, ['year', 'state_po', 'district_code']),
+        ('p3_state.json', data_p3_state, ['year', 'state_po']),
+        ('p4.json', data_p4, ['year', 'state_po', 'district_code']),
+        ('p4_state.json', data_p4_state, ['year', 'state_po']),
+        ('p5.json', data_p5, ['year', 'state_po'])
+    ]
+
+    for (_name, _df, _levels) in _outputs:
+        _output = _to_nested(_df, _levels, _output_cols)
+        (output_dir / _name).write_text(json.dumps(_output, indent=2))
 
 
-    print(f"Wrote 5 files to {output_dir}...")
+
+    print(f"Wrote {len(_outputs)} files to {output_dir}...")
     return
 
 

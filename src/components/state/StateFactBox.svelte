@@ -9,12 +9,7 @@
   import { popVarDescriptions } from "../../lib/manifest.js";
   import InfoLink from "../InfoLink.svelte";
   import StateMapLogo from "./StateMapLogo.svelte";
-
-  type DistrictData = {
-    year_to_congress: Record<string, number>;
-    districts_by_congress: Record<string, Record<string, string>>;
-    viewbox_by_congress?: Record<string, string>;
-  };
+  import type { DistrictData } from "../../lib/districts.js";
 
   let {
     statePo,
