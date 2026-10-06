@@ -1,13 +1,11 @@
 ---
-import { getCollection } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import ElectionControls from '../../components/election/ElectionControls.svelte';
-import ElectionSection from '../../components/ElectionSection.svelte';
-import SettingsPanel from '../../components/SettingsPanel.svelte';
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import ElectionPage from "../../components/election/ElectionPage.svelte";
 
 export async function getStaticPaths() {
-  const elections = await getCollection('elections');
-  return elections.map(election => ({
+  const elections = await getCollection("elections");
+  return elections.map((election) => ({
     params: { electionId: election.id },
     props: { election },
   }));
@@ -18,50 +16,11 @@ const { election } = Astro.props;
 
 <Layout>
   <script is:inline>
-    document.documentElement.setAttribute('data-election-loading', '');
+    document.documentElement.setAttribute("data-election-loading", "");
   </script>
-  <div class="election-page">
-    <div class="page-header election-page__header">
-      <h1>{election.data.name}</h1>
-      <div class="page-controls">
-        <ElectionControls client:load year={election.data.year} />
-        <SettingsPanel client:load />
-      </div>
-    </div>
-
-    <div class="content-page">
-      <div class="election-page__chart">
-        <ElectionSection client:load focusState="" />
-      </div>
-    </div>
-  </div>
+  <ElectionPage
+    client:load
+    year={election.data.year}
+    electionName={election.data.name}
+  />
 </Layout>
-
-<style lang="scss">
-  @use "../../styles/variables.scss";
-
-  .election-page {
-    h1 {
-      font-size: variables.$font-size-large;
-      color: variables.$dark-gray;
-      margin: 0;
-      white-space: nowrap;
-    }
-
-    &__header {
-      margin-bottom: variables.$spacing-md;
-    }
-
-    &__chart {
-      @include variables.card;
-      padding: variables.$spacing-sm variables.$spacing-md;
-    }
-  }
-
-  :global([data-election-loading]) {
-    .page-controls,
-    .election-page__chart {
-      opacity: 0;
-    }
-  }
-</style>

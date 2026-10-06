@@ -10,11 +10,22 @@
     validPopVars,
     getValidForYear,
   } from "../lib/manifest.js";
-  import { statePageParams } from "../lib/statePageParams.svelte.js";
   import type { ValueType, PopVar, Scenario } from "../lib/values.js";
   import Select from "./Select.svelte";
 
-  let { showScenario = true }: { showScenario?: boolean } = $props();
+  let {
+    year,
+    value = $bindable("av" as ValueType),
+    popVar = $bindable("ap" as PopVar),
+    scenario = $bindable("p2" as Scenario),
+    showScenario = true,
+  }: {
+    year: number;
+    value?: ValueType;
+    popVar?: PopVar;
+    scenario?: Scenario;
+    showScenario?: boolean;
+  } = $props();
 
   let panelOpen = $state(false);
   let panelEl: HTMLDivElement | undefined;
@@ -22,28 +33,19 @@
   const scenarios = Object.keys(scenarioShortNames) as Scenario[];
 
   // Full option lists (for display — always show all)
-  const allValues = $derived(validValues[statePageParams.scenario]);
-  const allPopVars = $derived(
-    (validPopVars[statePageParams.value] ?? []) as PopVar[],
-  );
+  const allValues = $derived(validValues[scenario]);
+  const allPopVars = $derived((validPopVars[value] ?? []) as PopVar[]);
   const showPopVar = $derived(allPopVars.length > 0);
 
   // Year-filtered subsets (used only to mark options disabled)
-  const yearValid = $derived(
-    getValidForYear(statePageParams.year, statePageParams.scenario),
-  );
+  const yearValid = $derived(getValidForYear(year, scenario));
   const enabledValues = $derived(yearValid.values);
-  const enabledPopVars = $derived(
-    yearValid.popVarsFor(statePageParams.value) as PopVar[],
-  );
+  const enabledPopVars = $derived(yearValid.popVarsFor(value) as PopVar[]);
 
   // Snap popVar if it becomes disabled when value or year changes
   $effect(() => {
-    if (
-      enabledPopVars.length > 0 &&
-      !enabledPopVars.includes(statePageParams.popVar)
-    ) {
-      statePageParams.popVar = enabledPopVars[0];
+    if (enabledPopVars.length > 0 && !enabledPopVars.includes(popVar)) {
+      popVar = enabledPopVars[0];
     }
   });
 
@@ -77,20 +79,6 @@
   const scenarioOptions = $derived(
     scenarios.map((s) => ({ value: s, label: scenarioNames[s] })),
   );
-
-  // Local string mirrors for bind compatibility
-  let valueVal = $state(statePageParams.value as string);
-  let popVarVal = $state(statePageParams.popVar as string);
-  let scenarioVal = $state(statePageParams.scenario as string);
-  $effect(() => {
-    statePageParams.value = valueVal as ValueType;
-  });
-  $effect(() => {
-    statePageParams.popVar = popVarVal as PopVar;
-  });
-  $effect(() => {
-    statePageParams.scenario = scenarioVal as Scenario;
-  });
 </script>
 
 <div class="settings" bind:this={panelEl}>
@@ -113,11 +101,9 @@
           >
         </span>
         <Select
-          bind:value={valueVal}
+          bind:value={value}
           options={valueOptions}
-          triggerLabel={valueShortNames[
-            valueVal as keyof typeof valueShortNames
-          ]}
+          triggerLabel={valueShortNames[value as keyof typeof valueShortNames]}
           style="width: 100%"
         />
       </div>
@@ -132,11 +118,9 @@
             >
           </span>
           <Select
-            bind:value={popVarVal}
+            bind:value={popVar}
             options={popVarOptions}
-            triggerLabel={popVarShortNames[
-              popVarVal as keyof typeof popVarShortNames
-            ]}
+            triggerLabel={popVarShortNames[popVar as keyof typeof popVarShortNames]}
             style="width: 100%"
           />
         </div>
@@ -152,11 +136,9 @@
             >
           </span>
           <Select
-            bind:value={scenarioVal}
+            bind:value={scenario}
             options={scenarioOptions}
-            triggerLabel={scenarioShortNames[
-              scenarioVal as keyof typeof scenarioShortNames
-            ]}
+            triggerLabel={scenarioShortNames[scenario as keyof typeof scenarioShortNames]}
             style="width: 100%"
           />
         </div>

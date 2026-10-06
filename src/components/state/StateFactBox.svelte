@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { statePageParams } from "../../lib/statePageParams.svelte.js";
+  import type { StatePageParams } from "../../lib/statePageParams.js";
   import {
     getStateDimension,
     getDistrictDimension,
@@ -16,23 +16,20 @@
   let {
     statePO,
     districtData = null,
-  }: { statePO: StatePO; districtData: DistrictData | null } = $props();
+    params,
+  }: { statePO: StatePO; districtData: DistrictData | null; params: StatePageParams } = $props();
 
   const CURRENT_YEAR = new Date().getFullYear();
 
-  const dim = $derived(getStateDimension(statePageParams.year, statePO));
+  const dim = $derived(getStateDimension(params.year, statePO));
   const districtDim = $derived(
-    statePageParams.districtId
-      ? getDistrictDimension(
-          statePageParams.year,
-          statePO,
-          statePageParams.districtId,
-        )
+    params.districtId
+      ? getDistrictDimension(params.year, statePO, params.districtId)
       : null,
   );
 
   const hasPastResults = $derived(
-    statePageParams.year <= CURRENT_YEAR &&
+    params.year <= CURRENT_YEAR &&
       (districtDim
         ? districtDim.votesTotal !== null
         : dim !== null && dim.votesTotal !== null),
@@ -89,7 +86,7 @@
 <div class="factbox">
   {#if districtData}
     <div class="factbox__map">
-      <StateMapLogo {districtData} {statePO} />
+      <StateMapLogo {districtData} {statePO} {params} />
     </div>
   {/if}
 
@@ -176,10 +173,10 @@
                 class="factbox__party-name"
                 class:winner={resultsData.winningParty === party}
               >
-                {candidateName(
-                  party,
-                  statePageParams.year,
-                )}{resultsData.winningParty === party ? " ✓" : ""}
+                {candidateName(party, params.year)}{resultsData.winningParty ===
+                party
+                  ? " ✓"
+                  : ""}
               </span>
               <span
                 class="factbox__vote-count"
@@ -219,7 +216,7 @@
     {/if}
   {:else}
     <p class="factbox__no-data">
-      No data available for {statePageParams.year}.
+      No data available for {params.year}.
     </p>
   {/if}
 </div>

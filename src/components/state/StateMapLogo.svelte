@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { statePageParams } from "../../lib/statePageParams.svelte.js";
+  import type { StatePageParams } from "../../lib/statePageParams.js";
   import { getCongressForYear } from "../../lib/districts.js";
   import type { DistrictData } from "../../lib/districts.js";
   import type { StatePO } from "../../lib/states.js";
@@ -10,16 +10,16 @@
   let {
     districtData,
     statePO,
-  }: { districtData: DistrictData; statePO: StatePO } = $props();
+    params,
+  }: { districtData: DistrictData; statePO: StatePO; params: StatePageParams } =
+    $props();
 
   const districtResults = districtResultsRaw as Record<
     string,
     Record<string, Record<string, string | null>>
   >;
 
-  const congress = $derived(
-    getCongressForYear(districtData, statePageParams.year),
-  );
+  const congress = $derived(getCongressForYear(districtData, params.year));
 
   const districtEntries = $derived(
     congress == null
@@ -34,7 +34,7 @@
   );
 
   const yearDistrictResults = $derived(
-    districtResults[String(statePageParams.year)]?.[statePO] ?? {},
+    districtResults[String(params.year)]?.[statePO] ?? {},
   );
 
   // Path keys are '1','2'... but results keys are '01','02'... — normalize both sides.
@@ -48,14 +48,13 @@
 
   const isSelectable = $derived(
     districtEntries.length > 0 &&
-      statePageParams.year >= 2012 &&
+      params.year >= 2012 &&
       !(districtEntries.length === 1 && districtEntries[0][0] === "AL"),
   );
 
   function handleClick(districtId: string) {
     if (!isSelectable) return;
-    statePageParams.districtId =
-      statePageParams.districtId === districtId ? "" : districtId;
+    params.districtId = params.districtId === districtId ? "" : districtId;
   }
 </script>
 
@@ -69,18 +68,18 @@
   >
     <g
       class="state-logo__districts"
-      class:has-selection={statePageParams.districtId}
+      class:has-selection={params.districtId}
       class:selectable={isSelectable}
     >
       {#each districtEntries as [districtId, d]}
         <path
           {d}
-          class:is-selected={statePageParams.districtId === districtId}
+          class:is-selected={params.districtId === districtId}
           style="fill: {districtColor(districtId)}"
           role="button"
           tabindex={isSelectable ? 0 : -1}
           aria-label="District {districtId}"
-          aria-pressed={statePageParams.districtId === districtId}
+          aria-pressed={params.districtId === districtId}
           onclick={() => handleClick(districtId)}
           onkeydown={(e) => e.key === "Enter" && handleClick(districtId)}
         />

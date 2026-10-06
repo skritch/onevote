@@ -3,12 +3,7 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
-import StateControls from "../../components/state/StateControls.svelte";
-import ElectionSection from "../../components/ElectionSection.svelte";
-import SettingsPanel from "../../components/SettingsPanel.svelte";
-import StateValueCard from "../../components/state/StateValueCard.svelte";
-import StateFactBox from "../../components/state/StateFactBox.svelte";
-import { officesByName } from "../../lib/elections";
+import StatePage from "../../components/state/StatePage.svelte";
 import type { State } from "../../lib/states";
 import type { DistrictData } from "../../lib/districts";
 
@@ -49,96 +44,13 @@ const years = [...new Set(elections.map((e) => e.data.year))].sort(
 
 <Layout>
   <script is:inline>
-    // Hide URL-param-sensitive sections until Svelte hydrates with correct values.
-    // StateControls removes this attribute after its first effect runs.
     document.documentElement.setAttribute("data-state-loading", "");
   </script>
-  <div class="state-page">
-    <div class="page-header state-page__header">
-      <h1>{state.stateName}</h1>
-      <div class="page-controls">
-        <StateControls
-          client:load
-          {years}
-          statePO={state.statePO}
-          {districtData}
-        />
-        <SettingsPanel client:load />
-      </div>
-    </div>
-
-    <div class="content-page">
-      <div class="state-page__panels">
-        <StateValueCard
-          client:load
-          stateName={state.stateName}
-          statePO={state.statePO}
-        />
-        <StateFactBox client:load statePO={state.statePO} {districtData} />
-      </div>
-
-      <div class="state-page__content">
-        <ElectionSection client:load focusStatePO={state.statePO} />
-      </div>
-    </div>
-  </div>
+  <StatePage
+    client:load
+    {years}
+    stateName={state.stateName}
+    statePO={state.statePO}
+    {districtData}
+  />
 </Layout>
-
-<style lang="scss">
-  @use "../../styles/variables.scss";
-
-  .state-page {
-    h1 {
-      font-size: variables.$font-size-large;
-      color: variables.$dark-gray;
-      margin: 0;
-      white-space: nowrap;
-    }
-
-    &__header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: variables.$spacing-md;
-      margin-bottom: variables.$spacing-md;
-    }
-
-    &__panels {
-      display: grid;
-      grid-template-columns: 55fr 45fr;
-      gap: variables.$spacing-md;
-      margin-bottom: variables.$spacing-md;
-    }
-
-    &__content {
-      background-color: variables.$white;
-      padding: variables.$spacing-md;
-      border-radius: variables.$border-radius;
-      border: 1px solid #e5e7eb;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
-    }
-
-    @media (max-width: variables.$content-breakpoint) {
-      &__header {
-        flex-wrap: wrap;
-      }
-
-      &__panels {
-        grid-template-columns: 1fr;
-      }
-    }
-  }
-
-  :global([data-state-loading]) {
-    .page-controls,
-    .state-page__panels,
-    .state-page__content {
-      opacity: 0;
-    }
-  }
-
-  // .state-logo lives in a Svelte component so needs a fully global selector.
-  :global([data-state-loading] .state-logo) {
-    opacity: 0;
-  }
-</style>

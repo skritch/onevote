@@ -3,23 +3,33 @@
   import { getPlotRows } from "../lib/values.js";
   import type { Scenario, ValueType, PopVar } from "../lib/values.js";
   import type { StatePO } from "../lib/states.js";
-  import { valueNames, validValues, defaultPopVar } from "../lib/manifest.js";
-  import { statePageParams } from "../lib/statePageParams.svelte.js";
+  import {
+    valueNames,
+    validValues,
+    validPopVars,
+    defaultPopVar,
+  } from "../lib/manifest.js";
   import { partyColors } from "../lib/party.js";
 
   let {
     scenario = "p2" as Scenario,
     year = 2024,
-    focusStatePO = "",
+    focusStatePO = "" as StatePO,
     value = "av" as ValueType,
     popVar = undefined as PopVar | undefined,
+    sort = $bindable("alpha" as "alpha" | "value"),
   }: {
     scenario?: Scenario;
     year?: number;
     focusStatePO?: StatePO;
     value?: ValueType;
     popVar?: PopVar;
+    sort?: "alpha" | "value";
   } = $props();
+
+  const effectivePopVar = $derived(
+    (validPopVars[value] ?? []).length > 0 ? popVar : undefined,
+  );
 
   let plotEl: HTMLDivElement | undefined;
   let optionsEl: HTMLDivElement | undefined;
@@ -52,7 +62,13 @@
   $effect(() => {
     if (!plotEl) return;
 
-    const plotRows = getPlotRows(scenario, year, focusStatePO, value, popVar);
+    const plotRows = getPlotRows(
+      scenario,
+      year,
+      focusStatePO,
+      value,
+      effectivePopVar,
+    );
     const hasData = plotRows.some((r) => r.value !== null);
 
     const horizontal = isHorizontal;
@@ -74,9 +90,9 @@
       if (scenario !== "p2") params.set("scenario", scenario);
       params.set("value", value);
       const defPop = defaultPopVar[value];
-      if (defPop != null && popVar != null) params.set("pop", popVar);
-      if (statePageParams.sort !== "alpha")
-        params.set("sort", statePageParams.sort);
+      if (defPop != null && effectivePopVar != null)
+        params.set("pop", effectivePopVar);
+      if (sort !== "alpha") params.set("sort", sort);
       return `${base}states/${statePO.toLowerCase()}/?${params}`;
     };
 
@@ -104,7 +120,7 @@
     const maxVal = hasData ? Math.max(...plotRows.map((r) => r.value ?? 0)) : 0;
     const valueDomain: [number, number] = [0, Math.max(3, maxVal)];
 
-    const effectiveSort = hasData ? statePageParams.sort : "alpha";
+    const effectiveSort = hasData ? sort : "alpha";
     const xSort = effectiveSort === "value" ? { x: "y" } : { x: "x" };
     const ySort = effectiveSort === "value" ? { y: "-x" } : { y: "y" };
 
@@ -179,19 +195,6 @@
 
     plotEl.innerHTML = "";
     plotEl.appendChild(chart);
-
-    // // Make the axis label clickable to cycle through value types
-    // const labelEl = [...chart.querySelectorAll('text')].find(
-    //   t => t.textContent?.trim() === axisLabel
-    // ) as SVGTextElement | undefined
-    // if (labelEl) {
-    //   labelEl.style.cursor = 'pointer'
-    //   labelEl.style.textDecoration = 'underline'
-    //   labelEl.addEventListener('click', () => {
-    //     const values = validValues[scenario]
-    //     statePageParams.value = values[(values.indexOf(value) + 1) % values.length]
-    //   })
-    // }
   });
 </script>
 
@@ -216,18 +219,18 @@
         >
           <button
             class="toolbar-item__choice"
-            class:selected={statePageParams.sort === "value"}
+            class:selected={sort === "value"}
             onmousedown={() => {
-              statePageParams.sort = "value";
+              sort = "value";
               optionsOpen = false;
               document.dispatchEvent(new CustomEvent("ui:close"));
             }}>by value</button
           >
           <button
             class="toolbar-item__choice"
-            class:selected={statePageParams.sort === "alpha"}
+            class:selected={sort === "alpha"}
             onmousedown={() => {
-              statePageParams.sort = "alpha";
+              sort = "alpha";
               optionsOpen = false;
               document.dispatchEvent(new CustomEvent("ui:close"));
             }}>A–Z</button

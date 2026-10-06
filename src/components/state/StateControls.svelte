@@ -1,22 +1,13 @@
 <script lang="ts">
   import { untrack } from "svelte";
   import {
-    officesByName,
     dimensionsStateWinner,
     getDistrictDimension,
     OFFICES,
   } from "../../lib/elections";
   import type { StatePO } from "../../lib/states.js";
-  import {
-    defaultStatePageParams,
-    fromUrlParams,
-    statePageParams,
-  } from "../../lib/statePageParams.svelte.js";
-  import {
-    defaultValue,
-    defaultPopVar,
-    getValidForYear,
-  } from "../../lib/manifest.js";
+  import type { StatePageParams } from "../../lib/statePageParams.js";
+  import { getValidForYear } from "../../lib/manifest.js";
   import { getDistrictsForState } from "../../lib/values.js";
   import { getAvailableDistrictIds } from "../../lib/districts.js";
   import type { DistrictData } from "../../lib/districts.js";
@@ -28,25 +19,18 @@
     years: number[];
     statePO?: StatePO;
     districtData?: DistrictData | null;
+    params: StatePageParams;
   };
 
-  let { years, statePO = "", districtData = null }: Props = $props();
-
-  // Init from url query params if available
-  if (typeof window !== "undefined") {
-    Object.assign(
-      statePageParams,
-      fromUrlParams(new URLSearchParams(window.location.search)),
-    );
-  }
+  let { years, statePO = "", districtData = null, params }: Props = $props();
 
   // Auto-select winning party when WVV is chosen
   $effect(() => {
-    if (statePageParams.value !== "wvv") return;
+    if (params.value !== "wvv") return;
     untrack(() => {
-      const year = statePageParams.year;
-      const districtId = statePageParams.districtId;
-      const scenario = statePageParams.scenario;
+      const year = params.year;
+      const districtId = params.districtId;
+      const scenario = params.scenario;
       let winner: string | null = null;
       if (scenario === "p3" && districtId) {
         winner =
@@ -59,30 +43,28 @@
         const winningParty =
           PARTIES.find((p) => p.toLowerCase() === winner.toLowerCase()) ??
           undefined;
-        statePageParams.party = winningParty;
+        params.party = winningParty;
       }
     });
   });
 
   // Congressional districts for this state page, keyed by year
   const availableDistrictIds = $derived(
-    districtData
-      ? getAvailableDistrictIds(districtData, statePageParams.year)
-      : [],
+    districtData ? getAvailableDistrictIds(districtData, params.year) : [],
   );
 
   const districtIdSelectorDisabled = $derived(
     availableDistrictIds.length === 0 ||
       (availableDistrictIds.length === 1 && availableDistrictIds[0] === "AL") ||
-      statePageParams.year < 2012,
+      params.year < 2012,
   );
 
   // Reset districtId when it becomes invalid (year change, at-large, etc.)
   $effect(() => {
-    const year = statePageParams.year;
+    const year = params.year;
     const available = availableDistrictIds;
     const isAtLarge = available.length === 1 && available[0] === "AL";
-    const curDistrict = untrack(() => statePageParams.districtId);
+    const curDistrict = untrack(() => params.districtId);
     if (!curDistrict) return;
     if (
       year < 2012 ||
@@ -90,142 +72,49 @@
       isAtLarge ||
       !available.includes(curDistrict)
     ) {
-      statePageParams.districtId = "";
+      params.districtId = "";
     }
   });
 
   // Available districts for this state under the current scenario/year
   const availableDistricts = $derived(
     statePO
-      ? getDistrictsForState(
-          statePageParams.scenario,
-          statePageParams.year,
-          statePO,
-        )
+      ? getDistrictsForState(params.scenario, params.year, statePO)
       : [],
   );
 
   // Reset district when scenario doesn't support districts or district is no longer valid
   $effect(() => {
-    const scenario = statePageParams.scenario;
+    const scenario = params.scenario;
     const available = availableDistricts;
     if (scenario !== "p3" && scenario !== "p4") {
-      if (untrack(() => statePageParams.district))
-        statePageParams.district = "";
-    } else if (
-      statePageParams.district &&
-      !available.includes(statePageParams.district)
-    ) {
-      statePageParams.district = "";
+      if (untrack(() => params.district)) params.district = "";
+    } else if (params.district && !available.includes(params.district)) {
+      params.district = "";
     }
   });
 
   // Snap value/popVar to a valid combo when year or scenario changes
   $effect(() => {
-    const { values, popVarsFor } = getValidForYear(
-      statePageParams.year,
-      statePageParams.scenario,
-    );
-    const curVal = untrack(() => statePageParams.value);
-    const curPop = untrack(() => statePageParams.popVar);
+    const { values, popVarsFor } = getValidForYear(params.year, params.scenario);
+    const curVal = untrack(() => params.value);
+    const curPop = untrack(() => params.popVar);
     const nextVal = values.includes(curVal) ? curVal : (values[0] ?? "av");
     const pops = popVarsFor(nextVal);
     const nextPop =
       pops.length === 0 || pops.includes(curPop) ? curPop : pops[0];
-    if (nextVal !== curVal) statePageParams.value = nextVal;
-    if (nextPop !== curPop) statePageParams.popVar = nextPop;
+    if (nextVal !== curVal) params.value = nextVal;
+    if (nextPop !== curPop) params.popVar = nextPop;
   });
-
-  // Reveal page sections hidden by [data-state-loading] once correct values are applied.
-  $effect(() => {
-    document.documentElement.removeAttribute("data-state-loading");
-  });
-
-  // Write URL whenever any relevant state changes (skip first run to let URL read happen first)
-  let urlSyncReady = false;
-  let settingsWritten = false;
-  $effect(() => {
-    void [
-      statePageParams.year,
-      statePageParams.office,
-      statePageParams.party,
-      statePageParams.scenario,
-      statePageParams.value,
-      statePageParams.popVar,
-      statePageParams.sort,
-      statePageParams.district,
-      statePageParams.districtId,
-    ];
-    if (!urlSyncReady) {
-      urlSyncReady = true;
-      return;
-    }
-    syncURL();
-  });
-
-  function syncURL() {
-    const newUrl = new URL(window.location.href);
-
-    if (
-      statePageParams.year != defaultStatePageParams.year ||
-      statePageParams.office != defaultStatePageParams.office
-    ) {
-      newUrl.searchParams.set(
-        "election",
-        `${statePageParams.year}-${statePageParams.office}`,
-      );
-    } else {
-      newUrl.searchParams.delete("election");
-    }
-
-    if (statePageParams.party)
-      newUrl.searchParams.set("party", statePageParams.party);
-    else newUrl.searchParams.delete("party");
-
-    if (statePageParams.scenario !== defaultStatePageParams.scenario)
-      newUrl.searchParams.set("scenario", statePageParams.scenario);
-    else newUrl.searchParams.delete("scenario");
-
-    if (statePageParams.district)
-      newUrl.searchParams.set("district", statePageParams.district);
-    else newUrl.searchParams.delete("district");
-
-    if (statePageParams.districtId)
-      newUrl.searchParams.set("districtId", statePageParams.districtId);
-    else newUrl.searchParams.delete("districtId");
-
-    const defPop = defaultPopVar[statePageParams.value];
-    const hasNonDefault =
-      statePageParams.value !== defaultValue ||
-      (defPop != null && statePageParams.popVar !== defPop) ||
-      statePageParams.sort !== "alpha";
-    if (hasNonDefault) settingsWritten = true;
-
-    if (settingsWritten) {
-      newUrl.searchParams.set("value", statePageParams.value);
-      if (defPop != null)
-        newUrl.searchParams.set("pop", statePageParams.popVar);
-      else newUrl.searchParams.delete("pop");
-      if (statePageParams.sort !== "alpha")
-        newUrl.searchParams.set("sort", statePageParams.sort);
-      else newUrl.searchParams.delete("sort");
-    } else {
-      newUrl.searchParams.delete("value");
-      newUrl.searchParams.delete("pop");
-      newUrl.searchParams.delete("sort");
-    }
-
-    window.history.replaceState({}, "", newUrl);
-  }
 </script>
 
 <div class="state-page__controls">
   <Select
-    bind:value={statePageParams.year}
+    bind:value={params.year}
     options={years.map((y) => ({ value: y, label: String(y) }))}
   />
   <Select
-    bind:value={statePageParams.office}
+    bind:value={params.office}
     options={OFFICES.map((o) => ({
       value: o,
       label: initCap(o),
@@ -234,7 +123,7 @@
     style="min-width: 6.5rem"
   />
   <Select
-    bind:value={statePageParams.districtId}
+    bind:value={params.districtId}
     disabled={districtIdSelectorDisabled}
     options={[
       { value: "", label: "All Districts" },
@@ -246,7 +135,7 @@
     style="min-width: 7rem"
   />
   <Select
-    bind:value={statePageParams.party}
+    bind:value={params.party}
     options={[
       { value: undefined, label: "Any Party" },
       ...PARTIES.map((p) => ({ value: p, label: p })),

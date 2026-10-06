@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { statePageParams } from "../../lib/statePageParams.svelte.js";
+  import type { StatePageParams } from "../../lib/statePageParams.js";
   import { getStateValue, getDistrictDimension } from "../../lib/values.js";
   import { dimensionsStateWinner } from "../../lib/elections.js";
   import type { State } from "../../lib/states.js";
@@ -13,28 +13,27 @@
   import InfoLink from "../InfoLink.svelte";
   import { PARTIES, type Party } from "../../lib/party.js";
 
-  let { stateName, statePO }: State = $props();
+  let { stateName, statePO, params }: State & { params: StatePageParams } =
+    $props();
 
   const CURRENT_YEAR = new Date().getFullYear();
 
   const value = $derived(
     getStateValue(
-      statePageParams.scenario,
-      statePageParams.year,
+      params.scenario,
+      params.year,
       statePO,
-      statePageParams.value,
-      (validPopVars[statePageParams.value] ?? []).length > 0
-        ? statePageParams.popVar
-        : undefined,
+      params.value,
+      (validPopVars[params.value] ?? []).length > 0 ? params.popVar : undefined,
       // P3/P4 define district-level values; other scenarios are state-level only
-      statePageParams.scenario === "p3" || statePageParams.scenario === "p4"
-        ? statePageParams.districtId || statePageParams.district || undefined
-        : statePageParams.district || undefined,
+      params.scenario === "p3" || params.scenario === "p4"
+        ? params.districtId || params.district || undefined
+        : params.district || undefined,
     ),
   );
 
-  const isRealOutcome = $derived((statePageParams.scenario as string) === "p3");
-  const isFuture = $derived(statePageParams.year > CURRENT_YEAR);
+  const isRealOutcome = $derived((params.scenario as string) === "p3");
+  const isFuture = $derived(params.year > CURRENT_YEAR);
 
   const tense = $derived(
     isRealOutcome
@@ -46,26 +45,26 @@
         : "would have been",
   );
 
-  const isWVV = $derived(statePageParams.value === "wvv");
+  const isWVV = $derived(params.value === "wvv");
 
   // For P3 with a district, use district-level winner — ME-2 and NE-2 differ from their state.
   const winningParty = $derived.by((): Party | null => {
     const stateWinner =
-      dimensionsStateWinner[String(statePageParams.year)]?.[statePO] ?? null;
-    if (statePageParams.scenario === "p3" && statePageParams.districtId) {
+      dimensionsStateWinner[String(params.year)]?.[statePO] ?? null;
+    if (params.scenario === "p3" && params.districtId) {
       const distDim = getDistrictDimension(
-        statePageParams.year,
+        params.year,
         statePO,
-        statePageParams.districtId,
+        params.districtId,
       );
       return distDim?.winningParty ?? stateWinner;
     }
     return stateWinner;
   });
 
-  // statePageParams.party is title-cased ("Democrat"); normalize to lowercase for comparison
+  // params.party is title-cased ("Democrat"); normalize to lowercase for comparison
   const selectedPartyKey = $derived(
-    statePageParams.party ? statePageParams.party.toLowerCase() : null,
+    params.party ? params.party.toLowerCase() : null,
   );
 
   // For WVV with no party selected, auto-use the winning party
@@ -105,8 +104,8 @@
   }
 
   const locationLabel = $derived(
-    statePageParams.districtId
-      ? `${stateName}'s ${districtLabel(statePageParams.districtId)} district`
+    params.districtId
+      ? `${stateName}'s ${districtLabel(params.districtId)} district`
       : stateName,
   );
 
@@ -119,7 +118,7 @@
 
 <div class="value-card">
   <p class="subject">
-    in <strong>{statePageParams.year}</strong>, the value of
+    in <strong>{params.year}</strong>, the value of
     {#if isWVV && effectivePartyKey}
       {#if effectivePartyKey === "other"}
         a <strong>Third Party</strong> vote in <strong>{locationLabel}</strong>
@@ -129,11 +128,11 @@
         >
         vote in <strong>{locationLabel}</strong>
       {/if}
-    {:else if statePageParams.party}
-      {#if statePageParams.party === "Other"}
+    {:else if params.party}
+      {#if params.party === "Other"}
         a <strong>Third Party</strong> vote in <strong>{locationLabel}</strong>
       {:else}
-        a <strong>{statePageParams.party}'s</strong> vote in
+        a <strong>{params.party}'s</strong> vote in
         <strong>{locationLabel}</strong>
       {/if}
     {:else}
@@ -157,8 +156,8 @@
   {#if !isRealOutcome}
     <p class="scenario">
       in a <InfoLink
-        text={scenarioNames[statePageParams.scenario]}
-        description={scenarioDescriptions[statePageParams.scenario]}
+        text={scenarioNames[params.scenario]}
+        description={scenarioDescriptions[params.scenario]}
         href={`${import.meta.env.BASE_URL}about/scenarios/`}
       /> scenario
     </p>
@@ -166,8 +165,8 @@
 
   <p class="value-type">
     as determined by <InfoLink
-      text={valueNames[statePageParams.value]}
-      description={valueDescriptions[statePageParams.value]}
+      text={valueNames[params.value]}
+      description={valueDescriptions[params.value]}
       href={`${import.meta.env.BASE_URL}about/definitions/`}
     />
   </p>
