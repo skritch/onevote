@@ -3,12 +3,13 @@
   import { partyColors } from "../../lib/values.js";
   import { getCongressForYear } from "../../lib/districts.js";
   import type { DistrictData } from "../../lib/districts.js";
+  import type { StatePO } from "../../lib/states.js";
   import districtResultsRaw from "../../data/district_results.json";
 
   let {
     districtData,
     statePO,
-  }: { districtData: DistrictData; statePO: string } = $props();
+  }: { districtData: DistrictData; statePO: StatePO } = $props();
 
   const districtResults = districtResultsRaw as Record<
     string,

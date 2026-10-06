@@ -1,10 +1,11 @@
 import { defineCollection } from 'astro:content';
 import { file } from 'astro/loaders';
 import { z } from 'astro/zod';
+import type { State } from './lib/states';
 
 const states = defineCollection({
   loader: file("src/data/states.json", {
-    parser: (text) => JSON.parse(text).map((s: { statePO: string }) =>
+    parser: (text) => JSON.parse(text).map((s: State) =>
       ({ ...s, id: s.statePO.toLowerCase() }))
   }),
   schema: z.object({

@@ -1,5 +1,6 @@
 import dimensionsRaw from '../../.data/dimensions/presidential_elections.json'
 import electionsRaw from '../data/elections.json'
+import type { StatePO } from './states.js'
 
 export type Office = "president" | "house" | "senate"
 export type Party = 'democrat' | 'republican' | 'other'
@@ -13,7 +14,7 @@ export const officesByName: Record<string, Office> = {
 export type StateDimension = {
   year: number
   state: string
-  statePO: string
+  statePO: StatePO
   apportionmentPopulation: number | null
   vapEstimate: number | null
   vepEstimate: number | null
@@ -147,7 +148,7 @@ function resolveYear(year: number): number {
   return past.length > 0 ? Math.max(...past) : Math.min(...allDimYears)
 }
 
-export function getStateDimension(year: number, statePO: string): StateDimension | null {
+export function getStateDimension(year: number, statePO: StatePO): StateDimension | null {
   const resolved = resolveYear(year)
   const yearData = (dimensionsRaw as Array<{ year: number; states: RawStateDimension[] }>)
     .find(d => d.year === resolved)
@@ -156,7 +157,7 @@ export function getStateDimension(year: number, statePO: string): StateDimension
   return raw ? toStateDimension(raw) : null
 }
 
-export function getDistrictDimension(year: number, statePO: string, districtId: string): DistrictDimension | null {
+export function getDistrictDimension(year: number, statePO: StatePO, districtId: string): DistrictDimension | null {
   const resolved = resolveYear(year)
   const yearData = (dimensionsRaw as Array<{ year: number; states: RawStateDimension[] }>)
     .find(d => d.year === resolved)

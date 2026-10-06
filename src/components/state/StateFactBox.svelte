@@ -10,11 +10,12 @@
   import InfoLink from "../InfoLink.svelte";
   import StateMapLogo from "./StateMapLogo.svelte";
   import type { DistrictData } from "../../lib/districts.js";
+  import type { StatePO } from "../../lib/states.js";
 
   let {
     statePO,
     districtData = null,
-  }: { statePO: string; districtData: DistrictData | null } = $props();
+  }: { statePO: StatePO; districtData: DistrictData | null } = $props();
 
   const CURRENT_YEAR = new Date().getFullYear();
 

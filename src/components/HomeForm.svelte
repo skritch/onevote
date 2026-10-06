@@ -2,6 +2,7 @@
   import { untrack } from "svelte";
   import { fly, fade } from "svelte/transition";
   import { officesByName } from "../lib/elections";
+  import type { State } from "../lib/states.js";
   import StatePicker from "./StatePicker.svelte";
 
   let {
@@ -13,7 +14,7 @@
   }: {
     years: number[];
     offices: string[];
-    states: { statePO: string; stateName: string }[];
+    states: State[];
     initialCompareMode?: boolean;
     initialShowParty?: boolean;
   } = $props();

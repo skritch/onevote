@@ -1,6 +1,16 @@
 <script lang="ts">
   import { slide } from "svelte/transition";
   import Select from "./Select.svelte";
+  import type { State, StatePO } from "../lib/states.js";
+
+  type Props = {
+    heading: string;
+    states: State[];
+    selectedState?: StatePO;
+    selectedParty?: string;
+    partyLabel?: string;
+    forceShowParty?: boolean;
+  };
 
   let {
     heading,
@@ -9,14 +19,7 @@
     selectedParty = $bindable(""),
     partyLabel = "Your party... (optional)",
     forceShowParty = false,
-  }: {
-    heading: string;
-    states: { statePO: string; stateName: string }[];
-    selectedState?: string;
-    selectedParty?: string;
-    partyLabel?: string;
-    forceShowParty?: boolean;
-  } = $props();
+  }: Props = $props();
 </script>
 
 <div class="state-picker">

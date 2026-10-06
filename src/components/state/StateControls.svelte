@@ -5,6 +5,7 @@
     dimensionsStateWinner,
     getDistrictDimension,
   } from "../../lib/elections";
+  import type { StatePO } from "../../lib/states.js";
   import { chartState } from "../../lib/chartState.svelte.js";
   import {
     valueNames,
@@ -19,17 +20,19 @@
   import type { DistrictData } from "../../lib/districts.js";
   import Select from "../Select.svelte";
 
+  type Props = {
+    years: number[];
+    offices: string[];
+    statePO?: StatePO;
+    districtData?: DistrictData | null;
+  };
+
   let {
     years,
     offices,
     statePO = "",
     districtData = null,
-  }: {
-    years: number[];
-    offices: string[];
-    statePO?: string;
-    districtData?: DistrictData | null;
-  } = $props();
+  }: Props = $props();
 
   const parties = ["Democrat", "Republican", "Other"];
 

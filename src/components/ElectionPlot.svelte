@@ -2,6 +2,7 @@
   import * as Plot from "@observablehq/plot";
   import { getPlotRows, partyColors } from "../lib/values.js";
   import type { Scenario, ValueType, PopVar } from "../lib/values.js";
+  import type { StatePO } from "../lib/states.js";
   import { valueNames, validValues, defaultPopVar } from "../lib/manifest.js";
   import { chartState } from "../lib/chartState.svelte.js";
 
@@ -14,7 +15,7 @@
   }: {
     scenario?: Scenario;
     year?: number;
-    focusStatePO?: string;
+    focusStatePO?: StatePO;
     value?: ValueType;
     popVar?: PopVar;
   } = $props();
@@ -64,7 +65,7 @@
 
     type AugRow = (typeof plotRows)[0];
 
-    const buildStateUrl = (statePO: string): string | null => {
+    const buildStateUrl = (statePO: StatePO): string | null => {
       if (year <= 0) return null;
       const base = import.meta.env.BASE_URL;
       const params = new URLSearchParams();
@@ -126,7 +127,7 @@
           marks: [
             Plot.axisX({ tickRotate: -55, fontSize: 9 }),
             Plot.barY(plotRows, {
-              x: "state_po",
+              x: "statePO",
               y: "value",
               sort: xSort,
               ...barOpts,
@@ -135,7 +136,7 @@
             Plot.tip(
               plotRows,
               Plot.pointerX({
-                x: "state_po",
+                x: "statePO",
                 y: "value",
                 sort: xSort,
                 title: tooltip,
@@ -156,7 +157,7 @@
           marks: [
             Plot.axisY({ fontSize: 8, tickSize: 0 }),
             Plot.barX(plotRows, {
-              y: "state_po",
+              y: "statePO",
               x: "value",
               sort: ySort,
               ...barOpts,
@@ -164,7 +165,7 @@
             Plot.tip(
               plotRows,
               Plot.pointerY({
-                y: "state_po",
+                y: "statePO",
                 x: "value",
                 sort: ySort,
                 title: tooltip,

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { untrack } from "svelte";
   import { officesByName } from "../lib/elections";
+  import type { State } from "../lib/states.js";
 
   let {
     years,
@@ -9,7 +10,7 @@
   }: {
     years: number[];
     offices: string[];
-    states: { statePO: string; stateName: string }[];
+    states: State[];
   } = $props();
 
   const reverseOffices = Object.fromEntries(

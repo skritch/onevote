@@ -3,6 +3,7 @@
   import { getStateValue, getDistrictDimension } from "../../lib/values.js";
   import { dimensionsStateWinner } from "../../lib/elections.js";
   import type { Party } from "../../lib/elections.js";
+  import type { State } from "../../lib/states.js";
   import {
     scenarioNames,
     scenarioDescriptions,
@@ -12,7 +13,7 @@
   } from "../../lib/manifest.js";
   import InfoLink from "../InfoLink.svelte";
 
-  let { stateName, statePO }: { stateName: string; statePO: string } = $props();
+  let { stateName, statePO }: State = $props();
 
   const CURRENT_YEAR = new Date().getFullYear();
 

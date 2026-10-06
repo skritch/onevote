@@ -5,7 +5,8 @@ import p3StateRaw from '../../.data/presidential_values/p3_state.json'
 import p4Raw from '../../.data/presidential_values/p4.json'
 import p4StateRaw from '../../.data/presidential_values/p4_state.json'
 import p5Raw from '../../.data/presidential_values/p5.json'
-import statesRaw from "../data/states.json"
+import { states } from './states.js'
+import type { StatePO } from './states.js'
 import { dimensionsNationalWinner, dimensionsStateWinner } from './elections.js'
 import type { Party } from './elections.js'
 
@@ -19,7 +20,7 @@ export type ValueType = 'av' | 'pv' | 'wvv'
 export type PopVar = 'ap' | 'vap' | 'vep' | 'vp'
 
 export interface PlotRow {
-  statePO: string
+  statePO: StatePO
   state: string
   value: number | null
   winningParty: Party | null
@@ -38,7 +39,7 @@ const p4Data = p4Raw as Record<string, Record<string, Record<string, StateValues
 const p4StateData = p4StateRaw as Record<string, YearStateData>
 const p5Data = p5Raw as Record<string, YearStateData>
 
-export const statesByPo = new Map(statesRaw.map(({ statePO, stateName }) => [statePO, stateName]))
+export const statesByPo = new Map(states.map(({ statePO, stateName }) => [statePO, stateName]))
 
 export const partyColors: Record<string, string> = {
   democrat: '#3d66cd',
@@ -66,7 +67,7 @@ function extractValue(
 export function getDistrictsForState(
   scenario: string,
   year: number,
-  statePO: string,
+  statePO: StatePO,
 ): string[] {
   if (scenario !== 'p3' && scenario !== 'p4') return []
   const data = scenario === 'p3' ? p3Data : p4Data
@@ -86,7 +87,7 @@ export function getDistrictsForState(
 export function getPlotRows(
   scenario: Scenario,
   year: number,
-  focusStatePO: string,
+  focusStatePO: StatePO,
   value: ValueType,
   popVar?: PopVar,
 ): PlotRow[] {
@@ -150,7 +151,7 @@ export function getPlotRows(
 export function getStateValue(
   scenario: string,
   year: number,
-  statePO: string,
+  statePO: StatePO,
   value: ValueType,
   popVar?: PopVar,
   district?: string,
