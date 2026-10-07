@@ -19,7 +19,6 @@ const date = frontmatter.date
 
 <Layout
   title={frontmatter.title}
-  ,
   url={frontmatter.url}
   math={frontmatter.math}
 >
@@ -42,3 +41,101 @@ const date = frontmatter.date
     </div>
   </article>
 </Layout>
+
+<style lang="scss">
+  @use "../styles/variables.scss";
+
+  .post-content {
+    max-width: variables.$content-width;
+    margin: 0 auto;
+
+    :global(h1),
+    :global(h2),
+    :global(h3),
+    :global(h4),
+    :global(h5),
+    :global(h6) {
+      margin-top: 2em;
+      margin-bottom: 0.5em;
+      line-height: 1.3;
+    }
+
+    :global(h1) { font-size: 2rem; }
+    :global(h2) { font-size: 1.5rem; }
+    :global(h3) { font-size: 1.25rem; }
+
+    :global(p) {
+      margin-bottom: 1em;
+    }
+
+    :global(ul),
+    :global(ol) {
+      margin-bottom: 1em;
+      padding-left: 1.75em;
+    }
+
+    :global(li) {
+      margin-bottom: 0.25em;
+    }
+
+    :global(blockquote) {
+      margin: 1.5em 0;
+      padding: 0.5em 1em;
+      border-left: 4px solid variables.$medium-gray;
+      color: variables.$medium-gray;
+    }
+
+    :global(code) {
+      font-size: 0.9em;
+      background: variables.$light-gray;
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+    }
+
+    :global(pre) {
+      margin: 1.5em 0;
+      padding: 1em;
+      background: variables.$light-gray;
+      border-radius: variables.$border-radius;
+      overflow-x: auto;
+
+      :global(code) {
+        background: none;
+        padding: 0;
+      }
+    }
+
+    :global(hr) {
+      margin: 2em 0;
+      border: none;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    :global(a) {
+      color: variables.$royal-blue;
+    }
+
+    :global(table) {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2.5em 0;
+      font-size: variables.$font-size-small;
+    }
+
+    :global(th),
+    :global(td) {
+      padding: 0.6em 1em;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    :global(th) {
+      font-weight: 600;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    :global(tbody tr:hover) {
+      background: rgba(0, 0, 0, 0.03);
+    }
+  }
+</style>

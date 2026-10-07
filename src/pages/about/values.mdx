@@ -1,0 +1,67 @@
+---
+layout: ../../layouts/MarkdownLayout.astro
+title: "The Value of a Vote"
+math: true
+---
+
+## Defining Value
+
+#### Apportionment Value (AV)
+
+Electors allocated per person in a state, scaled so the national average is $1$.
+
+$$
+\text{AV}(s) = \frac{e_s / n_s}{E / N}
+$$
+
+Here $e_s$ is the number of electors allocated to state $s$, and $n_s$ is the population of state $s$. $E$ and $N$ are the national totals.
+
+AV captures inequalities in the assignment of electors to state. This primarily affects the smallest-population states due to the default 2 "Senate" electors which are assigned to each state.
+
+AV does not account in any way for the actual votes cast in a state, nor for the method by which state electors are allocated (which is winner-take-all in almost all states).
+
+
+#### Pivotality Value (PV)
+
+The approximate fraction of all possible election outcomes in which a given voter in state $s$ casts the decisive vote.
+
+$$
+\text{PV}(s) = \frac{f_s}{\overline{f}}
+$$
+
+Here $\overline{f}$ is the average fraction over all voters, 
+
+$$
+f_s = (\sum_s n_s f_s)/N
+$$ 
+
+Using some simple approximations, the fraction $f_s$ is roughly
+
+$$
+p_s \propto \frac{e_s}{\sqrt{n_s}}
+$$
+
+PV, like AV, depends only on elector-counts and populations, and so tells us nothing about the actual results of the vote, or the "probability" of any particular electoral outcome.
+
+
+#### Wasted Vote Value (WVV)
+
+Electors per voter, assigned to voters for the winning party only. Losing parties are assigned zero value, representing their votes as being "wasted" rather than contributing to a race in a different state or district.
+
+$$
+\text{WVV}(s) = \frac{e_s / w_s}{E / N}
+$$
+
+
+
+### Defining the Population
+
+The population variables $n_s$ and $N$ can be defined in various ways, each reflecting a different theory of representation.
+
+
+| Label | Name | Description |
+| --- | --- | --- |
+| **AP** | Apportionment Population | Official census count used for apportionment; includes non-citizens. |
+| **VAP** | Voting-Age Population | Residents aged 18+; includes non-citizens and the disenfranchised. |
+| **VEP** | Voting-Eligible Population | Citizens 18+ minus those legally barred from voting. |
+| **VP** | Votes Cast | Actual number of ballots cast in the election. |

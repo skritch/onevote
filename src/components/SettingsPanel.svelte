@@ -114,7 +114,7 @@
         <div class="row">
           <span class="row-label">
             <a
-              href={`${import.meta.env.BASE_URL}about/population/`}
+              href={`${import.meta.env.BASE_URL}about/definitions/#population-measures`}
               class="row-label__link">Population Variable:</a
             >
           </span>

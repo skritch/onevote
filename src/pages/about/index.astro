@@ -19,13 +19,22 @@ const essays: {
     <p class="essays-index__description">About text</p>
 
     <div class="essays-index__list">
+      <a href={`${import.meta.env.BASE_URL}about/about/`} class="essay-card">
+        <h2 class="essay-card__title">About OneVote</h2>
+      </a>
+      <a href={`${import.meta.env.BASE_URL}about/values/`} class="essay-card">
+        <h2 class="essay-card__title">The Value of a Vote</h2>
+      </a>
+      <a
+        href={`${import.meta.env.BASE_URL}about/scenarios/`}
+        class="essay-card"
+      >
+        <h2 class="essay-card__title">Election Scenarios</h2>
+      </a>
       {
         essays.map((essay) => (
           <a href={essay.url} class="essay-card">
             <h2 class="essay-card__title">{essay.frontmatter.title}</h2>
-            {/* <time class="essay-card__date">
-              {parseLocalDate(essay.date).toLocaleDateString()}
-            </time> */}
           </a>
         ))
       }

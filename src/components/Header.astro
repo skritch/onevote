@@ -89,6 +89,18 @@ const essays: { url: string; frontmatter: { title: string } }[] = Object.values(
 				>
 				<div class="dropdown dropdown--left">
 					<div class="dropdown__list">
+						<a
+							href={`${import.meta.env.BASE_URL}about/about/`}
+							class="dropdown__item">About OneVote</a
+						>
+						<a
+							href={`${import.meta.env.BASE_URL}about/values/`}
+							class="dropdown__item">The Value of a Vote</a
+						>
+						<a
+							href={`${import.meta.env.BASE_URL}about/scenarios/`}
+							class="dropdown__item">Election Scenarios</a
+						>
 						{
 							essays.map((essay) => (
 								<a href={essay.url} class="dropdown__item">
