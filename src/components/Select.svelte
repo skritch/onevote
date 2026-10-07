@@ -110,6 +110,13 @@
       }
     }
 
+    &__label {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     &__arrow {
       font-size: 0.6rem;
       color: #b0b5be;

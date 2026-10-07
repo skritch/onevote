@@ -1,25 +1,27 @@
 <script lang="ts">
-  import type { StatePageParams } from "./StatePage.svelte";
-  import { getCongressForYear } from "../../lib/districts.js";
-  import type { DistrictData } from "../../lib/districts.js";
-  import type { StatePO } from "../../lib/states.js";
-  import districtResultsRaw from "../../data/district_results.json";
-  import { partyColors } from "../../lib/party.js";
-  import { initCap } from "../../utils/strings.js";
+  import { getCongressForYear } from "../lib/districts.js";
+  import type { DistrictData } from "../lib/districts.js";
+  import type { StatePO } from "../lib/states.js";
+  import districtResultsRaw from "../data/district_results.json";
+  import { partyColors } from "../lib/party.js";
+  import { initCap } from "../utils/strings.js";
 
-  let {
-    districtData,
-    statePO,
-    params,
-  }: { districtData: DistrictData; statePO: StatePO; params: StatePageParams } =
-    $props();
+  type Props = {
+    districtData: DistrictData;
+    statePO: StatePO;
+    year: number;
+    districtId?: string;
+    onDistrictChange?: (id: string | undefined) => void;
+  };
+
+  let { districtData, statePO, year, districtId, onDistrictChange }: Props = $props();
 
   const districtResults = districtResultsRaw as Record<
     string,
     Record<string, Record<string, string | null>>
   >;
 
-  const congress = $derived(getCongressForYear(districtData, params.year));
+  const congress = $derived(getCongressForYear(districtData, year));
 
   const districtEntries = $derived(
     congress == null
@@ -34,27 +36,27 @@
   );
 
   const yearDistrictResults = $derived(
-    districtResults[String(params.year)]?.[statePO] ?? {},
+    districtResults[String(year)]?.[statePO] ?? {},
   );
 
   // Path keys are '1','2'... but results keys are '01','02'... — normalize both sides.
-  function districtColor(districtId: string): string {
+  function districtColor(id: string): string {
     const party =
-      yearDistrictResults[districtId] ??
-      yearDistrictResults[districtId.padStart(2, "0")] ?? // TODO
+      yearDistrictResults[id] ??
+      yearDistrictResults[id.padStart(2, "0")] ?? // TODO
       "unknown";
     return partyColors[initCap(party)] ?? partyColors.Unknown;
   }
 
   const isSelectable = $derived(
     districtEntries.length > 0 &&
-      params.year >= 2012 &&
+      year >= 2012 &&
       !(districtEntries.length === 1 && districtEntries[0][0] === "AL"),
   );
 
-  function handleClick(districtId: string) {
+  function handleClick(id: string) {
     if (!isSelectable) return;
-    params.districtId = params.districtId === districtId ? undefined : districtId;
+    onDistrictChange?.(districtId === id ? undefined : id);
   }
 </script>
 
@@ -68,20 +70,20 @@
   >
     <g
       class="state-logo__districts"
-      class:has-selection={params.districtId}
+      class:has-selection={districtId}
       class:selectable={isSelectable}
     >
-      {#each districtEntries as [districtId, d]}
+      {#each districtEntries as [id, d]}
         <path
           {d}
-          class:is-selected={params.districtId === districtId}
-          style="fill: {districtColor(districtId)}"
+          class:is-selected={districtId === id}
+          style="fill: {districtColor(id)}"
           role="button"
           tabindex={isSelectable ? 0 : -1}
-          aria-label="District {districtId}"
-          aria-pressed={params.districtId === districtId}
-          onclick={() => handleClick(districtId)}
-          onkeydown={(e) => e.key === "Enter" && handleClick(districtId)}
+          aria-label="District {id}"
+          aria-pressed={districtId === id}
+          onclick={() => handleClick(id)}
+          onkeydown={(e) => e.key === "Enter" && handleClick(id)}
         />
       {/each}
     </g>
@@ -89,7 +91,7 @@
 {/if}
 
 <style lang="scss">
-  @use "../../styles/variables.scss";
+  @use "../styles/variables.scss";
 
   .state-logo {
     display: block;

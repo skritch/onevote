@@ -37,8 +37,8 @@
   import type { DistrictData } from "../../lib/districts.js";
   import StateControls from "./StateControls.svelte";
   import SettingsPanel from "../SettingsPanel.svelte";
-  import StateValueCard from "./StateValueCard.svelte";
-  import StateFactBox from "./StateFactBox.svelte";
+  import StateValueCard from "../StateValueCard.svelte";
+  import StateFactBox from "../StateFactBox.svelte";
   import ElectionPlot from "../ElectionPlot.svelte";
 
   type Props = {
@@ -91,8 +91,25 @@
 
   <div class="content-page">
     <div class="state-page__panels">
-      <StateValueCard {stateName} {statePO} {params} />
-      <StateFactBox {statePO} {districtData} {params} />
+      <StateValueCard
+        {stateName}
+        {statePO}
+        scenario={params.scenario}
+        year={params.year}
+        office={params.office}
+        value={params.value}
+        popVar={params.popVar}
+        party={params.party}
+        district={params.district}
+        districtId={params.districtId}
+      />
+      <StateFactBox
+        {statePO}
+        {districtData}
+        year={params.year}
+        districtId={params.districtId}
+        onDistrictChange={(id) => { params.districtId = id; }}
+      />
     </div>
     <div class="state-page__content">
       <ElectionPlot

@@ -1,35 +1,38 @@
 <script lang="ts">
-  import type { StatePageParams } from "./StatePage.svelte";
   import {
     getStateDimension,
     getDistrictDimension,
     candidatesByYear,
-  } from "../../lib/values.js";
-  import { popVarDescriptions } from "../../lib/manifest.js";
-  import InfoLink from "../InfoLink.svelte";
+  } from "../lib/values.js";
+  import { popVarDescriptions } from "../lib/manifest.js";
+  import InfoLink from "./InfoLink.svelte";
   import StateMapLogo from "./StateMapLogo.svelte";
-  import type { DistrictData } from "../../lib/districts.js";
-  import type { StatePO } from "../../lib/states.js";
-  import { initCap } from "../../utils/strings.js";
-  import { PARTIES, partyColors, type Party } from "../../lib/party.js";
+  import type { DistrictData } from "../lib/districts.js";
+  import type { StatePO } from "../lib/states.js";
+  import { initCap } from "../utils/strings.js";
+  import { PARTIES, partyColors, type Party } from "../lib/party.js";
 
-  let {
-    statePO,
-    districtData = null,
-    params,
-  }: { statePO: StatePO; districtData: DistrictData | null; params: StatePageParams } = $props();
+  type Props = {
+    statePO: StatePO;
+    districtData?: DistrictData | null;
+    year: number;
+    districtId?: string;
+    onDistrictChange?: (id: string | undefined) => void;
+  };
+
+  let { statePO, districtData = null, year, districtId, onDistrictChange }: Props = $props();
 
   const CURRENT_YEAR = new Date().getFullYear();
 
-  const dim = $derived(getStateDimension(params.year, statePO));
+  const dim = $derived(getStateDimension(year, statePO));
   const districtDim = $derived(
-    params.districtId
-      ? getDistrictDimension(params.year, statePO, params.districtId)
+    districtId
+      ? getDistrictDimension(year, statePO, districtId)
       : null,
   );
 
   const hasPastResults = $derived(
-    params.year <= CURRENT_YEAR &&
+    year <= CURRENT_YEAR &&
       (districtDim
         ? districtDim.votesTotal !== null
         : dim !== null && dim.votesTotal !== null),
@@ -86,7 +89,7 @@
 <div class="factbox">
   {#if districtData}
     <div class="factbox__map">
-      <StateMapLogo {districtData} {statePO} {params} />
+      <StateMapLogo {districtData} {statePO} {year} {districtId} {onDistrictChange} />
     </div>
   {/if}
 
@@ -173,7 +176,7 @@
                 class="factbox__party-name"
                 class:winner={resultsData.winningParty === party}
               >
-                {candidateName(party, params.year)}{resultsData.winningParty ===
+                {candidateName(party, year)}{resultsData.winningParty ===
                 party
                   ? " ✓"
                   : ""}
@@ -216,13 +219,13 @@
     {/if}
   {:else}
     <p class="factbox__no-data">
-      No data available for {params.year}.
+      No data available for {year}.
     </p>
   {/if}
 </div>
 
 <style lang="scss">
-  @use "../../styles/variables.scss";
+  @use "../styles/variables.scss";
 
   .factbox {
     background: variables.$white;

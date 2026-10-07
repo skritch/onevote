@@ -1,39 +1,52 @@
 <script lang="ts">
-  import type { StatePageParams } from "./StatePage.svelte";
-  import { getStateValue, getDistrictDimension } from "../../lib/values.js";
-  import { dimensionsStateWinner } from "../../lib/elections.js";
-  import type { State } from "../../lib/states.js";
+  import type { ValueType, PopVar, Scenario } from "../lib/values.js";
+  import { getStateValue, getDistrictDimension } from "../lib/values.js";
+  import { dimensionsStateWinner } from "../lib/elections.js";
+  import type { StatePO } from "../lib/states.js";
+  import type { Office } from "../lib/elections.js";
   import {
     scenarioNames,
     scenarioDescriptions,
     valueNames,
     valueDescriptions,
     validPopVars,
-  } from "../../lib/manifest.js";
-  import InfoLink from "../InfoLink.svelte";
-  import { PARTIES, type Party } from "../../lib/party.js";
+  } from "../lib/manifest.js";
+  import InfoLink from "./InfoLink.svelte";
+  import { PARTIES, type Party } from "../lib/party.js";
 
-  let { stateName, statePO, params }: State & { params: StatePageParams } =
-    $props();
+  type Props = {
+    stateName: string;
+    statePO: StatePO;
+    scenario: Scenario;
+    year: number;
+    office: Office;
+    value: ValueType;
+    popVar: PopVar;
+    party?: Party;
+    district?: string;
+    districtId?: string;
+  };
+
+  let { stateName, statePO, scenario, year, office, value, popVar, party, district, districtId }: Props = $props();
 
   const CURRENT_YEAR = new Date().getFullYear();
 
-  const value = $derived(
+  const stateValue = $derived(
     getStateValue(
-      params.scenario,
-      params.year,
+      scenario,
+      year,
       statePO,
-      params.value,
-      (validPopVars[params.value] ?? []).length > 0 ? params.popVar : undefined,
+      value,
+      (validPopVars[value] ?? []).length > 0 ? popVar : undefined,
       // P3/P4 define district-level values; other scenarios are state-level only
-      params.scenario === "p3" || params.scenario === "p4"
-        ? params.districtId || params.district || undefined
-        : params.district || undefined,
+      scenario === "p3" || scenario === "p4"
+        ? districtId || district || undefined
+        : district || undefined,
     ),
   );
 
-  const isRealOutcome = $derived((params.scenario as string) === "p3");
-  const isFuture = $derived(params.year > CURRENT_YEAR);
+  const isRealOutcome = $derived((scenario as string) === "p3");
+  const isFuture = $derived(year > CURRENT_YEAR);
 
   const tense = $derived(
     isRealOutcome
@@ -45,26 +58,26 @@
         : "would have been",
   );
 
-  const isWVV = $derived(params.value === "wvv");
+  const isWVV = $derived(value === "wvv");
 
   // For P3 with a district, use district-level winner — ME-2 and NE-2 differ from their state.
   const winningParty = $derived.by((): Party | null => {
     const stateWinner =
-      dimensionsStateWinner[String(params.year)]?.[statePO] ?? null;
-    if (params.scenario === "p3" && params.districtId) {
+      dimensionsStateWinner[String(year)]?.[statePO] ?? null;
+    if (scenario === "p3" && districtId) {
       const distDim = getDistrictDimension(
-        params.year,
+        year,
         statePO,
-        params.districtId,
+        districtId,
       );
       return distDim?.winningParty ?? stateWinner;
     }
     return stateWinner;
   });
 
-  // params.party is title-cased ("Democrat"); normalize to lowercase for comparison
+  // party is title-cased ("Democrat"); normalize to lowercase for comparison
   const selectedPartyKey = $derived(
-    params.party ? params.party.toLowerCase() : null,
+    party ? party.toLowerCase() : null,
   );
 
   // For WVV with no party selected, auto-use the winning party
@@ -75,7 +88,7 @@
   // For WVV, any non-winning party has value 0
   // TODO: don't hardcode this, read it from the source data
   const displayValue = $derived(
-    isWVV && effectivePartyKey !== winningParty ? 0 : value,
+    isWVV && effectivePartyKey !== winningParty ? 0 : stateValue,
   );
 
   // Build a list of parties not being shown in the main display (for the WVV note)
@@ -90,7 +103,7 @@
     return PARTIES.filter((p) => p !== effectivePartyKey).map((p) => ({
       label: p === "Other" ? "third party" : p,
       apostrophe: p !== "Other",
-      value: p === winningParty ? value : 0,
+      value: p === winningParty ? stateValue : 0,
       isWinner: p === winningParty,
     }));
   });
@@ -104,8 +117,8 @@
   }
 
   const locationLabel = $derived(
-    params.districtId
-      ? `${stateName}'s ${districtLabel(params.districtId)} district`
+    districtId
+      ? `${stateName}'s ${districtLabel(districtId)} district`
       : stateName,
   );
 
@@ -118,7 +131,7 @@
 
 <div class="value-card">
   <p class="subject">
-    in <strong>{params.year}</strong>, the value of
+    in <strong>{year}</strong>, the value of
     {#if isWVV && effectivePartyKey}
       {#if effectivePartyKey === "other"}
         a <strong>Third Party</strong> vote in <strong>{locationLabel}</strong>
@@ -128,11 +141,11 @@
         >
         vote in <strong>{locationLabel}</strong>
       {/if}
-    {:else if params.party}
-      {#if params.party === "Other"}
+    {:else if party}
+      {#if party === "Other"}
         a <strong>Third Party</strong> vote in <strong>{locationLabel}</strong>
       {:else}
-        a <strong>{params.party}'s</strong> vote in
+        a <strong>{party}'s</strong> vote in
         <strong>{locationLabel}</strong>
       {/if}
     {:else}
@@ -156,8 +169,8 @@
   {#if !isRealOutcome}
     <p class="scenario">
       in a <InfoLink
-        text={scenarioNames[params.scenario]}
-        description={scenarioDescriptions[params.scenario]}
+        text={scenarioNames[scenario]}
+        description={scenarioDescriptions[scenario]}
         href={`${import.meta.env.BASE_URL}about/scenarios/`}
       /> scenario
     </p>
@@ -165,8 +178,8 @@
 
   <p class="value-type">
     as determined by <InfoLink
-      text={valueNames[params.value]}
-      description={valueDescriptions[params.value]}
+      text={valueNames[value]}
+      description={valueDescriptions[value]}
       href={`${import.meta.env.BASE_URL}about/definitions/`}
     />
   </p>
@@ -188,7 +201,7 @@
 </div>
 
 <style lang="scss">
-  @use "../../styles/variables.scss";
+  @use "../styles/variables.scss";
 
   .value-card {
     display: flex;
