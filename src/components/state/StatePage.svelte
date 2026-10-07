@@ -1,10 +1,37 @@
+<script module lang="ts">
+  import type { ValueType, PopVar, Scenario } from "../../lib/values.js";
+  import type { Office } from "../../lib/elections.js";
+  import type { Party } from "../../lib/party.js";
+
+  export type SortMode = "value" | "alpha";
+
+  export type StatePageParams = {
+    scenario: Scenario;
+    year: number;
+    office: Office;
+    value: ValueType;
+    popVar: PopVar;
+    sort: SortMode;
+    party?: Party;
+    district?: string;
+    districtId?: string;
+  };
+
+  export const defaultStatePageParams: StatePageParams = {
+    scenario: "p2" as Scenario,
+    year: 2024,
+    office: "president" as Office,
+    value: "av" as ValueType,
+    popVar: "ap" as PopVar,
+    sort: "alpha" as SortMode,
+    party: undefined,
+    district: undefined,
+    districtId: undefined,
+  };
+</script>
+
 <script lang="ts">
-  import {
-    defaultStatePageParams,
-    fromUrlParams,
-    type StatePageParams,
-  } from "../../lib/statePageParams.js";
-  import { defaultValue, defaultPopVar } from "../../lib/manifest.js";
+  import { readFromUrl, syncToUrl } from "../../utils/url.js";
   import type { StatePO } from "../../lib/states.js";
   import type { DistrictData } from "../../lib/districts.js";
   import StateControls from "./StateControls.svelte";
@@ -24,7 +51,7 @@
 
   const params = $state<StatePageParams>(
     typeof window !== "undefined"
-      ? fromUrlParams(new URLSearchParams(window.location.search))
+      ? readFromUrl(new URLSearchParams(window.location.search), defaultStatePageParams)
       : { ...defaultStatePageParams },
   );
 
@@ -35,74 +62,16 @@
 
   // Write URL whenever any relevant state changes (skip first run).
   let urlSyncReady = false;
-  // Once any non-default setting has appeared, always write all settings.
-  let settingsWritten = false;
   $effect(() => {
     void [
-      params.year,
-      params.office,
-      params.party,
-      params.scenario,
-      params.value,
-      params.popVar,
-      params.sort,
-      params.district,
-      params.districtId,
+      params.year, params.office, params.party, params.scenario,
+      params.value, params.popVar, params.sort, params.district, params.districtId,
     ];
-    if (!urlSyncReady) {
-      urlSyncReady = true;
-      return;
-    }
-    syncURL();
-  });
-
-  function syncURL() {
+    if (!urlSyncReady) { urlSyncReady = true; return; }
     const newUrl = new URL(window.location.href);
-
-    if (
-      params.year !== defaultStatePageParams.year ||
-      params.office !== defaultStatePageParams.office
-    ) {
-      newUrl.searchParams.set("election", `${params.year}-${params.office}`);
-    } else {
-      newUrl.searchParams.delete("election");
-    }
-
-    if (params.party) newUrl.searchParams.set("party", params.party);
-    else newUrl.searchParams.delete("party");
-
-    if (params.scenario !== defaultStatePageParams.scenario)
-      newUrl.searchParams.set("scenario", params.scenario);
-    else newUrl.searchParams.delete("scenario");
-
-    if (params.district) newUrl.searchParams.set("district", params.district);
-    else newUrl.searchParams.delete("district");
-
-    if (params.districtId)
-      newUrl.searchParams.set("districtId", params.districtId);
-    else newUrl.searchParams.delete("districtId");
-
-    const defPop = defaultPopVar[params.value];
-    const hasNonDefault =
-      params.value !== defaultValue ||
-      (defPop != null && params.popVar !== defPop) ||
-      params.sort !== "alpha";
-    if (hasNonDefault) settingsWritten = true;
-
-    if (settingsWritten) {
-      newUrl.searchParams.set("value", params.value);
-      if (defPop != null) newUrl.searchParams.set("pop", params.popVar);
-      else newUrl.searchParams.delete("pop");
-      if (params.sort !== "alpha") newUrl.searchParams.set("sort", params.sort);
-      else newUrl.searchParams.delete("sort");
-    } else {
-      newUrl.searchParams.delete("value");
-      newUrl.searchParams.delete("pop");
-      newUrl.searchParams.delete("sort");
-    }
-
+    syncToUrl(params, defaultStatePageParams, newUrl);
     window.history.replaceState({}, "", newUrl);
-  }
+  });
 </script>
 
 <div class="state-page">

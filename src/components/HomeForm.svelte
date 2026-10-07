@@ -41,17 +41,19 @@
   function navigate() {
     if (!myStatePO) return;
     const officeKey = officesByName[selectedOffice] ?? "president";
-    let url = `${import.meta.env.BASE_URL}states/${myStatePO.toLowerCase()}?election=${selectedYear}-${officeKey}`;
-    if (myParty) url += `&party=${myParty}`;
+    const params = new URLSearchParams({ year: selectedYear, office: officeKey });
+    if (myParty) params.set("party", myParty);
+    let url = `${import.meta.env.BASE_URL}states/${myStatePO.toLowerCase()}?${params}`;
     window.location.href = url;
   }
 
   function navigateCompare() {
     if (!myStatePO || !compareState) return;
     const officeKey = officesByName[selectedOffice] ?? "president";
-    let url = `${import.meta.env.BASE_URL}compare-result?state1=${myStatePO}&state2=${compareState}&election=${selectedYear}-${officeKey}`;
-    if (myParty) url += `&party1=${myParty}`;
-    if (compareParty) url += `&party2=${compareParty}`;
+    const params = new URLSearchParams({ state1: myStatePO, state2: compareState, year: selectedYear, office: officeKey });
+    if (myParty) params.set("party1", myParty);
+    if (compareParty) params.set("party2", compareParty);
+    let url = `${import.meta.env.BASE_URL}compare-result?${params}`;
     window.location.href = url;
   }
 

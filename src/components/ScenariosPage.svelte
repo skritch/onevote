@@ -1,24 +1,32 @@
 <script lang="ts">
   import { untrack } from "svelte";
-  import { validPopVars, getValidForYear, scenarioNames } from "../lib/manifest.js";
+  import { getValidForYear, scenarioNames } from "../lib/manifest.js";
   import type { Scenario, ValueType, PopVar } from "../lib/values.js";
+  import { readFromUrl, syncToUrl } from "../utils/url.js";
   import ElectionPlot from "./ElectionPlot.svelte";
   import SettingsPanel from "./SettingsPanel.svelte";
   import Select from "./Select.svelte";
 
   let { years }: { years: number[] } = $props();
 
-  let selectedYear = $state(
-    untrack(() => {
-      const now = new Date().getFullYear();
-      return String(years.find((y) => y <= now) ?? years[0] ?? 2024);
-    }),
-  );
+  const _scenariosDefaults = untrack(() => ({
+    year: String(years.find((y) => y <= new Date().getFullYear()) ?? years[0] ?? 2024),
+    value: "av" as ValueType,
+    popVar: "ap" as PopVar,
+    sort: "alpha" as "alpha" | "value",
+  }));
+
+  const _parsed =
+    typeof window !== "undefined"
+      ? readFromUrl(new URLSearchParams(window.location.search), _scenariosDefaults)
+      : _scenariosDefaults;
+
+  let selectedYear = $state(_parsed.year);
   const year = $derived(Number(selectedYear));
 
-  let value = $state<ValueType>("av");
-  let popVar = $state<PopVar>("ap");
-  let sort = $state<"alpha" | "value">("alpha");
+  let value = $state(_parsed.value);
+  let popVar = $state(_parsed.popVar);
+  let sort = $state(_parsed.sort);
 
   // Snap value/popVar to valid combo when year changes.
   // Using p2 constraints since it's the most permissive scenario on this page.
@@ -35,33 +43,13 @@
     if (nextPop !== curPop) popVar = nextPop;
   });
 
-  // Read URL params on mount
-  $effect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const yearParam = params.get("year");
-    if (yearParam && years.includes(Number(yearParam))) selectedYear = yearParam;
-    const valueParam = params.get("value");
-    if (valueParam && valueParam in validPopVars) value = valueParam as ValueType;
-    const popParam = params.get("pop");
-    if (popParam) popVar = popParam as PopVar;
-    const sortParam = params.get("sort");
-    if (sortParam === "alpha" || sortParam === "value") sort = sortParam;
-  });
-
-  // Write URL on change
+  // Write URL whenever relevant state changes (skip first run)
   let urlSyncReady = false;
   $effect(() => {
     void [selectedYear, value, popVar, sort];
-    if (!urlSyncReady) {
-      urlSyncReady = true;
-      return;
-    }
+    if (!urlSyncReady) { urlSyncReady = true; return; }
     const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set("year", selectedYear);
-    newUrl.searchParams.set("value", value);
-    if (popVar) newUrl.searchParams.set("pop", popVar);
-    if (sort !== "alpha") newUrl.searchParams.set("sort", sort);
-    else newUrl.searchParams.delete("sort");
+    syncToUrl({ year: selectedYear, value, popVar, sort }, _scenariosDefaults, newUrl);
     window.history.replaceState({}, "", newUrl);
   });
 

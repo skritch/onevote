@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { StatePageParams } from "../../lib/statePageParams.js";
+  import type { StatePageParams } from "./StatePage.svelte";
   import {
     getStateDimension,
     getDistrictDimension,

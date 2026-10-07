@@ -1,50 +1,30 @@
 <script lang="ts">
   import { untrack } from "svelte";
-  import {
-    valueNames,
-    popVarNames,
-    defaultValue,
-    defaultPopVar,
-    getValidForYear,
-  } from "../../lib/manifest.js";
+  import { getValidForYear } from "../../lib/manifest.js";
   import type { Scenario, ValueType, PopVar } from "../../lib/values.js";
+  import { readFromUrl, syncToUrl } from "../../utils/url.js";
   import SettingsPanel from "../SettingsPanel.svelte";
   import ElectionPlot from "../ElectionPlot.svelte";
 
   type Props = { year: number; electionName: string };
   let { year, electionName }: Props = $props();
 
-  // Parse URL params synchronously so initial state is correct on first render
-  const _urlParams =
+  const _electionDefaults = {
+    scenario: "p2" as Scenario,
+    value: "av" as ValueType,
+    popVar: "ap" as PopVar,
+    sort: "alpha" as "alpha" | "value",
+  };
+
+  const _parsed =
     typeof window !== "undefined"
-      ? new URLSearchParams(window.location.search)
-      : null;
+      ? readFromUrl(new URLSearchParams(window.location.search), _electionDefaults)
+      : _electionDefaults;
 
-  function initFromUrl<T extends string>(
-    param: string | null,
-    guard: (v: string) => v is T,
-    fallback: T,
-  ): T {
-    return param && guard(param) ? param : fallback;
-  }
-
-  const _scenario = _urlParams?.get("scenario") ?? null;
-  const _value = _urlParams?.get("value") ?? null;
-  const _pop = _urlParams?.get("pop") ?? null;
-  const _sort = _urlParams?.get("sort") ?? null;
-
-  let scenario = $state<Scenario>(
-    initFromUrl(_scenario, (v): v is Scenario => v === "p1" || v === "p2" || v === "p5", "p2"),
-  );
-  let value = $state<ValueType>(
-    initFromUrl(_value, (v): v is ValueType => v in valueNames, "av" as ValueType),
-  );
-  let popVar = $state<PopVar>(
-    initFromUrl(_pop, (v): v is PopVar => v in popVarNames, "ap" as PopVar),
-  );
-  let sort = $state<"alpha" | "value">(
-    initFromUrl(_sort, (v): v is "alpha" | "value" => v === "alpha" || v === "value", "alpha"),
-  );
+  let scenario = $state(_parsed.scenario);
+  let value = $state(_parsed.value);
+  let popVar = $state(_parsed.popVar);
+  let sort = $state(_parsed.sort);
 
   // Snap value/popVar to a valid combo when scenario changes (year is fixed)
   $effect(() => {
@@ -66,43 +46,13 @@
 
   // Write URL whenever relevant state changes (skip first run)
   let urlSyncReady = false;
-  let settingsWritten = false;
   $effect(() => {
     void [scenario, value, popVar, sort];
-    if (!urlSyncReady) {
-      urlSyncReady = true;
-      return;
-    }
-    syncURL();
-  });
-
-  function syncURL() {
+    if (!urlSyncReady) { urlSyncReady = true; return; }
     const newUrl = new URL(window.location.href);
-
-    if (scenario !== "p2") newUrl.searchParams.set("scenario", scenario);
-    else newUrl.searchParams.delete("scenario");
-
-    const defPop = defaultPopVar[value];
-    const hasNonDefault =
-      value !== defaultValue ||
-      (defPop != null && popVar !== defPop) ||
-      sort !== "alpha";
-    if (hasNonDefault) settingsWritten = true;
-
-    if (settingsWritten) {
-      newUrl.searchParams.set("value", value);
-      if (defPop != null) newUrl.searchParams.set("pop", popVar);
-      else newUrl.searchParams.delete("pop");
-      if (sort !== "alpha") newUrl.searchParams.set("sort", sort);
-      else newUrl.searchParams.delete("sort");
-    } else {
-      newUrl.searchParams.delete("value");
-      newUrl.searchParams.delete("pop");
-      newUrl.searchParams.delete("sort");
-    }
-
+    syncToUrl({ scenario, value, popVar, sort }, _electionDefaults, newUrl);
     window.history.replaceState({}, "", newUrl);
-  }
+  });
 </script>
 
 <div class="election-page">

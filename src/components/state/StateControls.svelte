@@ -6,7 +6,7 @@
     OFFICES,
   } from "../../lib/elections";
   import type { StatePO } from "../../lib/states.js";
-  import type { StatePageParams } from "../../lib/statePageParams.js";
+  import type { StatePageParams } from "./StatePage.svelte";
   import { getValidForYear } from "../../lib/manifest.js";
   import { getDistrictsForState } from "../../lib/values.js";
   import { getAvailableDistrictIds } from "../../lib/districts.js";
