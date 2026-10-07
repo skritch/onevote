@@ -72,15 +72,13 @@
       isAtLarge ||
       !available.includes(curDistrict)
     ) {
-      params.districtId = "";
+      params.districtId = undefined;
     }
   });
 
   // Available districts for this state under the current scenario/year
   const availableDistricts = $derived(
-    statePO
-      ? getDistrictsForState(params.scenario, params.year, statePO)
-      : [],
+    statePO ? getDistrictsForState(params.scenario, params.year, statePO) : [],
   );
 
   // Reset district when scenario doesn't support districts or district is no longer valid
@@ -88,15 +86,18 @@
     const scenario = params.scenario;
     const available = availableDistricts;
     if (scenario !== "p3" && scenario !== "p4") {
-      if (untrack(() => params.district)) params.district = "";
+      if (untrack(() => params.district)) params.district = undefined;
     } else if (params.district && !available.includes(params.district)) {
-      params.district = "";
+      params.district = undefined;
     }
   });
 
   // Snap value/popVar to a valid combo when year or scenario changes
   $effect(() => {
-    const { values, popVarsFor } = getValidForYear(params.year, params.scenario);
+    const { values, popVarsFor } = getValidForYear(
+      params.year,
+      params.scenario,
+    );
     const curVal = untrack(() => params.value);
     const curPop = untrack(() => params.popVar);
     const nextVal = values.includes(curVal) ? curVal : (values[0] ?? "av");
@@ -126,7 +127,7 @@
     bind:value={params.districtId}
     disabled={districtIdSelectorDisabled}
     options={[
-      { value: "", label: "All Districts" },
+      { value: undefined, label: "All Districts" },
       ...availableDistrictIds.map((d) => ({
         value: d,
         label: `District ${d}`,

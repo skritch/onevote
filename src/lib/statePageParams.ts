@@ -24,9 +24,9 @@ export const defaultStatePageParams: StatePageParams = {
   value: 'av' as ValueType,
   popVar: 'ap' as PopVar,
   sort: 'alpha' as SortMode,
-  party: '' as Party,
-  district: '',
-  districtId: '',
+  party: undefined,
+  district: undefined,
+  districtId: undefined,
 }
 
 export function fromUrlParams(urlParams: URLSearchParams): StatePageParams {

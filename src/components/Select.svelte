@@ -1,7 +1,7 @@
 <script lang="ts">
   let {
     options,
-    value = $bindable(""),
+    value = $bindable(undefined),
     triggerLabel,
     style = "",
     disabled = false,

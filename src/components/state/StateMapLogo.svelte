@@ -54,7 +54,7 @@
 
   function handleClick(districtId: string) {
     if (!isSelectable) return;
-    params.districtId = params.districtId === districtId ? "" : districtId;
+    params.districtId = params.districtId === districtId ? undefined : districtId;
   }
 </script>
 
