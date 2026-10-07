@@ -9,6 +9,7 @@
     validValues,
     validPopVars,
     getValidForYear,
+    displayScenarios,
   } from "../lib/manifest.js";
   import type { ValueType, PopVar, Scenario } from "../lib/values.js";
   import Select from "./Select.svelte";
@@ -30,7 +31,7 @@
   let panelOpen = $state(false);
   let panelEl: HTMLDivElement | undefined;
 
-  const scenarios = Object.keys(scenarioShortNames) as Scenario[];
+  const scenarios = displayScenarios;
 
   // Full option lists (for display — always show all)
   const allValues = $derived(validValues[scenario]);

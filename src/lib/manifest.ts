@@ -35,20 +35,22 @@ export const popVarShortNames: Record<PopVar, string> = {
   vp: 'VP',
 }
 
+export const displayScenarios: Scenario[] = ["p3", "p1", "p4", "p5"];
+
 export const scenarioNames: Record<Scenario, string> = {
   p1: 'National General Election',
   p2: 'Simplified Electoral College',
-  p3: 'Actual EC',
+  p3: 'Electoral College',
   p4: 'Districtized Electoral College',
-  p5: 'Proportional Electors',
+  p5: 'Proportional Electoral College',
 }
 
 export const scenarioShortNames: Record<Scenario, string> = {
-  p1: 'General',
-  p2: 'Simplified EC',
-  p3: 'Actual EC',
-  p4: 'District EC',
-  p5: 'Proportional EC',
+  p1: 'GE',
+  p2: 'SEC',
+  p3: 'EC',
+  p4: 'DEC',
+  p5: 'PEC',
 }
 
 export const scenarioDescriptions: Record<Scenario, string> = {
@@ -95,6 +97,13 @@ export const validValues: Record<Scenario, ValueType[]> = {
   p5: ['av', 'wvv'],
 }
 
+// Pop vars excluded per scenario regardless of year.
+// p3/p4 use district-level apportionment data which lacks VEP estimates.
+export const scenarioExcludedPopVars: Partial<Record<Scenario, PopVar[]>> = {
+  p3: ['vep'],
+  p4: ['vep'],
+}
+
 // Per-year restrictions applied on top of scenario-based ones.
 // av+ap is always the fallback — constraints here must never exclude both.
 export const yearConstraints: YearConstraint[] = [
@@ -102,8 +111,8 @@ export const yearConstraints: YearConstraint[] = [
   { years: [2028], excludePopVars: ['vap', 'vep', 'vp'], excludeValues: ['pv', 'wvv'] },
   // 1976 is missing VAP/VEP data
   { years: [1976], excludePopVars: ['vap', 'vep'] },
-  // District data only available from 2012 onward
-  { before: 2012, excludeScenarios: ['p3', 'p4'] },
+  // p4 requires district data (only from 2012); p3 still works at state level pre-2012
+  { before: 2012, excludeScenarios: ['p4'] },
 ]
 
 export function getValidForYear(
@@ -123,6 +132,8 @@ export function getValidForYear(
       c.excludeValues?.forEach(v => excludedVal.add(v))
     }
   }
+
+  scenarioExcludedPopVars[scenario]?.forEach(p => excludedPop.add(p))
 
   const popVarsFor = (v: ValueType): PopVar[] =>
     (validPopVars[v] ?? []).filter(p => !excludedPop.has(p))

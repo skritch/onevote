@@ -1,7 +1,24 @@
+<script module lang="ts">
+  import type { Scenario, ValueType, PopVar } from "../../lib/values.js";
+
+  export type ElectionPageParams = {
+    scenario: Scenario;
+    value: ValueType;
+    popVar: PopVar;
+    sort: "alpha" | "value";
+  };
+
+  export const defaultElectionPageParams: ElectionPageParams = {
+    scenario: "p2",
+    value: "av",
+    popVar: "ap",
+    sort: "alpha",
+  };
+</script>
+
 <script lang="ts">
   import { untrack } from "svelte";
   import { getValidForYear } from "../../lib/manifest.js";
-  import type { Scenario, ValueType, PopVar } from "../../lib/values.js";
   import { readFromUrl, syncToUrl } from "../../utils/url.js";
   import SettingsPanel from "../SettingsPanel.svelte";
   import ElectionPlot from "../ElectionPlot.svelte";
@@ -9,48 +26,36 @@
   type Props = { year: number; electionName: string };
   let { year, electionName }: Props = $props();
 
-  const _electionDefaults = {
-    scenario: "p2" as Scenario,
-    value: "av" as ValueType,
-    popVar: "ap" as PopVar,
-    sort: "alpha" as "alpha" | "value",
-  };
-
-  const _parsed =
+  const params = $state<ElectionPageParams>(
     typeof window !== "undefined"
-      ? readFromUrl(new URLSearchParams(window.location.search), _electionDefaults)
-      : _electionDefaults;
+      ? readFromUrl(new URLSearchParams(window.location.search), defaultElectionPageParams)
+      : { ...defaultElectionPageParams },
+  );
 
-  let scenario = $state(_parsed.scenario);
-  let value = $state(_parsed.value);
-  let popVar = $state(_parsed.popVar);
-  let sort = $state(_parsed.sort);
-
-  // Snap value/popVar to a valid combo when scenario changes (year is fixed)
+  // Snap value/popVar to a valid combo when scenario changes (year is fixed).
   $effect(() => {
-    const { values, popVarsFor } = getValidForYear(year, scenario);
-    const curVal = untrack(() => value);
-    const curPop = untrack(() => popVar);
+    const { values, popVarsFor } = getValidForYear(year, params.scenario);
+    const curVal = untrack(() => params.value);
+    const curPop = untrack(() => params.popVar);
     const nextVal = values.includes(curVal) ? curVal : (values[0] ?? "av");
     const pops = popVarsFor(nextVal);
-    const nextPop =
-      pops.length === 0 || pops.includes(curPop) ? curPop : pops[0];
-    if (nextVal !== curVal) value = nextVal as ValueType;
-    if (nextPop !== curPop) popVar = nextPop as PopVar;
+    const nextPop = pops.length === 0 || pops.includes(curPop) ? curPop : pops[0];
+    if (nextVal !== curVal) params.value = nextVal as ValueType;
+    if (nextPop !== curPop) params.popVar = nextPop as PopVar;
   });
 
-  // Reveal sections hidden by [data-election-loading]
+  // Reveal sections hidden by [data-election-loading].
   $effect(() => {
     document.documentElement.removeAttribute("data-election-loading");
   });
 
-  // Write URL whenever relevant state changes (skip first run)
+  // Write URL whenever relevant state changes (skip first run).
   let urlSyncReady = false;
   $effect(() => {
-    void [scenario, value, popVar, sort];
+    void [params.scenario, params.value, params.popVar, params.sort];
     if (!urlSyncReady) { urlSyncReady = true; return; }
     const newUrl = new URL(window.location.href);
-    syncToUrl({ scenario, value, popVar, sort }, _electionDefaults, newUrl);
+    syncToUrl(params, defaultElectionPageParams, newUrl);
     window.history.replaceState({}, "", newUrl);
   });
 </script>
@@ -61,9 +66,9 @@
     <div class="page-controls">
       <SettingsPanel
         {year}
-        bind:scenario
-        bind:value
-        bind:popVar
+        bind:scenario={params.scenario}
+        bind:value={params.value}
+        bind:popVar={params.popVar}
       />
     </div>
   </div>
@@ -72,11 +77,11 @@
     <div class="election-page__chart">
       <ElectionPlot
         focusStatePO=""
-        {scenario}
+        scenario={params.scenario}
         {year}
-        {value}
-        {popVar}
-        bind:sort
+        value={params.value}
+        popVar={params.popVar}
+        bind:sort={params.sort}
       />
     </div>
   </div>
