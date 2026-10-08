@@ -13,6 +13,7 @@ const isCI = process.env.GITHUB_ACTIONS === 'true';
 export default defineConfig({
   site: 'https://skritch.github.io/onevote',
   base: isCI ? '/onevote/' : '/',
+  server: { port: 1414 },
   // vite: {
   //   plugins: [{
   //     name: 'suppress-marimo-health',

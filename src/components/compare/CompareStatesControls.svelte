@@ -6,7 +6,8 @@
   import { getDistrictIdsForYear } from "../../lib/districts.js";
   import { OFFICES } from "../../lib/elections.js";
   import { initCap } from "../../utils/strings.js";
-  import { PARTIES } from "../../lib/party.js";
+  import { PARTIES, partyShortNames } from "../../lib/party.js";
+  import type { Party } from "../../lib/party.js";
   import Select from "../Select.svelte";
   import SettingsPanel from "../SettingsPanel.svelte";
 
@@ -61,23 +62,33 @@
     return "Republican"; // Other → Republican
   }
 
+  // Plain (non-reactive) vars to track previous values so we can distinguish
+  // "user just cleared a party" from "party was always empty."
+  let prevParty1 = untrack(() => params.party1);
+  let prevParty2 = untrack(() => params.party2);
+
   $effect(() => {
     const s1 = params.state1;
     const s2 = params.state2;
     const p1 = params.party1;
     const p2 = params.party2;
 
+    const prev1 = prevParty1;
+    const prev2 = prevParty2;
+    prevParty1 = p1;
+    prevParty2 = p2;
+
     // Same state + same/no party → force D vs R.
     if (s1 && s2 && s1 === s2 && p1 === p2) {
       untrack(() => { params.party1 = "Democrat"; params.party2 = "Republican"; });
       return;
     }
-    // Any Party is contagious — if one side clears, clear the other.
-    if (p1 === "" && p2 !== "") {
+    // "Any Party" is contagious — but only when explicitly cleared (was set before).
+    if (!p1 && prev1 && p2) {
       untrack(() => { params.party2 = ""; });
       return;
     }
-    if (p2 === "" && p1 !== "") {
+    if (!p2 && prev2 && p1) {
       untrack(() => { params.party1 = ""; });
       return;
     }
@@ -151,17 +162,16 @@
         bind:value={params.district1}
         disabled={districtDisabled1}
         options={[
-          { value: "", label: "Any Dist." },
-          ...districts1.filter((d) => d !== "AL").map((d) => ({ value: d, label: `Dist. ${d}` })),
+          { value: "", label: "Any District" },
+          ...districts1.filter((d) => d !== "AL").map((d) => ({ value: d, label: `District ${d}` })),
         ]}
       />
       <Select
         bind:value={params.party1}
+        triggerLabel={params.party1 ? partyShortNames[params.party1 as Party] : undefined}
         options={[
           { value: "", label: "Any Party" },
-          { value: "Democrat", label: "Dem" },
-          { value: "Republican", label: "Rep" },
-          { value: "Other", label: "3P" },
+          ...PARTIES.map((p) => ({ value: p, label: p })),
         ]}
       />
     </div>
@@ -180,17 +190,16 @@
         bind:value={params.district2}
         disabled={districtDisabled2}
         options={[
-          { value: "", label: "Any Dist." },
-          ...districts2.filter((d) => d !== "AL").map((d) => ({ value: d, label: `Dist. ${d}` })),
+          { value: "", label: "Any District" },
+          ...districts2.filter((d) => d !== "AL").map((d) => ({ value: d, label: `District ${d}` })),
         ]}
       />
       <Select
         bind:value={params.party2}
+        triggerLabel={params.party2 ? partyShortNames[params.party2 as Party] : undefined}
         options={[
           { value: "", label: "Any Party" },
-          { value: "Democrat", label: "Dem" },
-          { value: "Republican", label: "Rep" },
-          { value: "Other", label: "3P" },
+          ...PARTIES.map((p) => ({ value: p, label: p })),
         ]}
       />
     </div>

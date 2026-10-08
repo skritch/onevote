@@ -677,7 +677,6 @@ def _(data_p4):
 
 
     data_p4_state
-
     return (data_p4_state,)
 
 
@@ -706,7 +705,7 @@ def _():
     mo.md(r"""
     Suppose the vote percent of a party is $p_s$. We assign $\lfloor p_s e_s \rfloor$ electors to each party. Assuming no abstentions, the remaining electors are at most one less than the number of parties. Assign them to the largest remainders in descending order.
 
-    E.g. 7 electors, 60% vote Democrat. Then $\frac{0.6}{1/7} = 4.2$ means 4 go to D, and $\frac{0.4}{1/7} = 2.8$ means 2 goes to R. The last elector goes to D.
+    E.g. 7 electors, 60% vote Democrat. Then $\frac{0.6}{1/7} = 4.2$ means 4 go to D, and $\frac{0.4}{1/7} = 2.8$ means 2 goes to R. The last elector goes to R, because the remainders 0.8 > 0.2.
 
     Now, how do we calculate values?
 

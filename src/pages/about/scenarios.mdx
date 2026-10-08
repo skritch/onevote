@@ -1,17 +1,53 @@
 ---
 layout: ../../layouts/MarkdownLayout.astro
-title: "Election Scenarios"
+title: "Presidential Election Scenarios"
 math: true
 ---
 
 
 #### Electoral College
 
+The actual electoral college.
+
+Each state is apportioned electors equal to its number of Representatives in the House, plus its number of Senators, i.e. its number of Congressional Districts + 2. Washington D.C. is allocated 3 electors of its own, despite having no Congressional representation. 
+
+Forty-eight states, excluding Maine and Nebraska, assign *all* of their electors to the winner of the general election in that state.
+
+Maine and Nebraska assign their two "Senate" electors to the statewide winner, and their remaining "House" electors to the winner in each district. 
+
+----
+
+This scenario is affected by three glaring problems:
+- (Senate Electors) The floor of two "Senate" electors gives vastly more electoral power to residents of the the smallest states. (Wyoming, Vermont, Delaware, Alaska, and D.C.)
+- (Unequal Apportionment) The requirement that each state have at least one House Representative further boosts the electoral power of the smallest states—the smallest state by population, Wyoming, has a population of about 2/3 of the average Congressional District.
+- (Winner-take-all Electors) With the exception of NE and ME's district electors, all of the electors in a state go to the state's popular vote winner. 
+
+Of the three, the "winner-take-all" problem is by far the largest contributor to "inequality" of the value of votes, even more than the Senate electors—as these only affect a handful of small states. 
+
+This is the factor which allows the winner of the popular vote to lose the election, as happened in 2000 and 2016.
+
+The WTA problem is also responsible for the phenomenon of "swing states". States with political leanings strongly biased towards one party or the other—"bastions"—are essentially worthless as targets for political campaigning, since the losing party's votes do not contribute to the presidential election at all. Consequently, candidates are strongly incentivized to cater to the interests and political priorities of a handful of a large, contested states in each election—often AZ, GA, MI, NC, NV, PA, WI—and spend an enormous amount of advertising money in those states. (It is therefore in the interest of those swing states to keep things working as they today today; it is in the interest of every voter in every other state to alter this.)
+
+The basic goal of OneVote is to show exactly how unfair these factors are.
+
 
 #### National General Election
+
+In this scenario, the presidency is decided by the national general election. No electoral college is used at all.
+
+In various places, the OneVote app will display the results of a past elections if they had been decided by a general election. It is important to note that this is *not* a true counterfactual—this is not necessarily what would have actually happened if the election had been operated as a general election in the first place. If it had, different people would have been incentivized to vote—it stands to reason that voters in bastions tend not to turn out, since their votes don't matter. And the parties would have campaigned differently, or even adopted different platforms, since they would have had to target all voters rather than only swing states.
 
 
 #### Districtized Electoral College
 
+In this scenario, all states assign their electors according to the algorithm currently used in ME and NE: the two "Senate" electors are assigned to the statewide general election winner, while each "House" elector is assigned to the winner in the corresponding Congressional District.
+
+This system is still affected by the three issues with the current system: apportionment hasn't changed, and the District elections are still Winner-Take-All, so many votes are rendered worthless. But the problem is more localized, and with so many more districts than states, many more voters will be in contested "swing districts", and so will have some influence over the election.
 
 #### Proportional Electoral College
+
+In this scenario, states assign electors (Senate + House) to candidates in proportion to the share of statewide votes going to that candidate.
+
+This is a major improvement over winner-take-all elections at either the state or district level, as at most one elector's worth of votes per state have to be decided in a WTA fashion (to decide the final elector), limiting the number of votes "discarded". 
+
+Problems of apportionment inequality are unaffected.

@@ -92,6 +92,8 @@ TODO: script cleanup
 TODO: maybe "at large" districts aren't = "the whole state"?
 
 
+TODO: rethink WVV interface. Per-party values should produce a record per party.
+
 
 
 ## Analysis
