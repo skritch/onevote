@@ -35,7 +35,7 @@ jobs:
           path: |
             .data/shapefiles
             .data/district_paths
-          key: shapefiles-${{ hashFiles('notebooks/download_shapefiles.py') }}
+          key: shapefiles-${{ hashFiles('notebooks/build_geometries.py') }}
 
       - name: Install Node dependencies
         run: npm ci
