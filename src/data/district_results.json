@@ -1,1 +1,5713 @@
-{"2012": {"AK": {"AL": "republican"}, "AL": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "republican", "06": "republican", "07": "democrat"}, "AR": {"01": "republican", "02": "republican", "03": "republican", "04": "republican"}, "AZ": {"01": "republican", "02": "republican", "03": "democrat", "04": "republican", "05": "republican", "06": "republican", "07": "democrat", "08": "republican", "09": "democrat"}, "CA": {"01": "republican", "02": "democrat", "03": "democrat", "04": "republican", "05": "democrat", "06": "democrat", "07": "democrat", "08": "republican", "09": "democrat", "10": "democrat", "11": "democrat", "12": "democrat", "13": "democrat", "14": "democrat", "15": "democrat", "16": "democrat", "17": "democrat", "18": "democrat", "19": "democrat", "20": "democrat", "21": "democrat", "22": "republican", "23": "republican", "24": "democrat", "25": "republican", "26": "democrat", "27": "democrat", "28": "democrat", "29": "democrat", "30": "democrat", "31": "democrat", "32": "democrat", "33": "democrat", "34": "democrat", "35": "democrat", "36": "democrat", "37": "democrat", "38": "democrat", "39": "republican", "40": "democrat", "41": "democrat", "42": "republican", "43": "democrat", "44": "democrat", "45": "republican", "46": "democrat", "47": "democrat", "48": "republican", "49": "republican", "50": "republican", "51": "democrat", "52": "democrat", "53": "democrat"}, "CO": {"01": "democrat", "02": "democrat", "03": "republican", "04": "republican", "05": "republican", "06": "democrat", "07": "democrat"}, "CT": {"01": "democrat", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat"}, "DC": {"AL": "democrat"}, "DE": {"AL": "democrat"}, "FL": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "democrat", "06": "republican", "07": "republican", "08": "republican", "09": "democrat", "10": "republican", "11": "republican", "12": "republican", "13": "democrat", "14": "democrat", "15": "republican", "16": "republican", "17": "republican", "18": "republican", "19": "republican", "20": "democrat", "21": "democrat", "22": "democrat", "23": "democrat", "24": "democrat", "25": "republican", "26": "democrat", "27": "democrat"}, "GA": {"01": "republican", "02": "democrat", "03": "republican", "04": "democrat", "05": "democrat", "06": "republican", "07": "republican", "08": "republican", "09": "republican", "10": "republican", "11": "republican", "12": "republican", "13": "democrat", "14": "republican"}, "HI": {"01": "democrat", "02": "democrat"}, "IA": {"01": "democrat", "02": "democrat", "03": "democrat", "04": "republican"}, "ID": {"01": "republican", "02": "republican"}, "IL": {"01": "democrat", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat", "06": "republican", "07": "democrat", "08": "democrat", "09": "democrat", "10": "democrat", "11": "democrat", "12": "democrat", "13": "republican", "14": "republican", "15": "republican", "16": "republican", "17": "democrat", "18": "republican"}, "IN": {"01": "democrat", "02": "republican", "03": "republican", "04": "republican", "05": "republican", "06": "republican", "07": "democrat", "08": "republican", "09": "republican"}, "KS": {"01": "republican", "02": "republican", "03": "republican", "04": "republican"}, "KY": {"01": "republican", "02": "republican", "03": "democrat", "04": "republican", "05": "republican", "06": "republican"}, "LA": {"01": "republican", "02": "democrat", "03": "republican", "04": "republican", "05": "republican", "06": "republican"}, "MA": {"01": "democrat", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat", "06": "democrat", "07": "democrat", "08": "democrat", "09": "democrat"}, "MD": {"01": "republican", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat", "06": "democrat", "07": "democrat", "08": "democrat"}, "ME": {"01": "democrat", "02": "democrat"}, "MI": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "democrat", "06": "republican", "07": "republican", "08": "republican", "09": "democrat", "10": "republican", "11": "republican", "12": "democrat", "13": "democrat", "14": "democrat"}, "MN": {"01": "democrat", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat", "06": "republican", "07": "republican", "08": "democrat"}, "MO": {"01": "democrat", "02": "republican", "03": "republican", "04": "republican", "05": "democrat", "06": "republican", "07": "republican", "08": "republican"}, "MS": {"01": "republican", "02": "democrat", "03": "republican", "04": "republican"}, "MT": {"AL": "republican"}, "NC": {"01": "democrat", "02": "republican", "03": "republican", "04": "democrat", "05": "republican", "06": "republican", "07": "republican", "08": "republican", "09": "republican", "10": "republican", "11": "republican", "12": "democrat", "13": "republican"}, "ND": {"AL": "republican"}, "NE": {"01": "republican", "02": "republican", "03": "republican"}, "NH": {"01": "democrat", "02": "democrat"}, "NJ": {"01": "democrat", "02": "democrat", "03": "democrat", "04": "republican", "05": "republican", "06": "democrat", "07": "republican", "08": "democrat", "09": "democrat", "10": "democrat", "11": "republican", "12": "democrat"}, "NM": {"01": "democrat", "02": "republican", "03": "democrat"}, "NV": {"01": "democrat", "02": "republican", "03": "democrat", "04": "democrat"}, "NY": {"01": "democrat", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat", "06": "democrat", "07": "democrat", "08": "democrat", "09": "democrat", "10": "democrat", "11": "democrat", "12": "democrat", "13": "democrat", "14": "democrat", "15": "democrat", "16": "democrat", "17": "democrat", "18": "democrat", "19": "democrat", "20": "democrat", "21": "democrat", "22": "republican", "23": "republican", "24": "democrat", "25": "democrat", "26": "democrat", "27": "republican"}, "OH": {"01": "republican", "02": "republican", "03": "democrat", "04": "republican", "05": "republican", "06": "republican", "07": "republican", "08": "republican", "09": "democrat", "10": "republican", "11": "democrat", "12": "republican", "13": "democrat", "14": "republican", "15": "republican", "16": "republican"}, "OK": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "republican"}, "OR": {"01": "democrat", "02": "republican", "03": "democrat", "04": "democrat", "05": "democrat"}, "PA": {"01": "democrat", "02": "democrat", "03": "republican", "04": "republican", "05": "republican", "06": "republican", "07": "republican", "08": "republican", "09": "republican", "10": "republican", "11": "republican", "12": "republican", "13": "democrat", "14": "democrat", "15": "republican", "16": "republican", "17": "democrat", "18": "republican"}, "RI": {"01": "democrat", "02": "democrat"}, "SC": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "republican", "06": "democrat", "07": "republican"}, "SD": {"AL": "republican"}, "TN": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "democrat", "06": "republican", "07": "republican", "08": "republican", "09": "democrat"}, "TX": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "republican", "06": "republican", "07": "republican", "08": "republican", "09": "democrat", "10": "republican", "11": "republican", "12": "republican", "13": "republican", "14": "republican", "15": "democrat", "16": "democrat", "17": "republican", "18": "democrat", "19": "republican", "20": "democrat", "21": "republican", "22": "republican", "23": "republican", "24": "republican", "25": "republican", "26": "republican", "27": "republican", "28": "democrat", "29": "democrat", "30": "democrat", "31": "republican", "32": "republican", "33": "democrat", "34": "democrat", "35": "democrat", "36": "republican"}, "UT": {"01": "republican", "02": "republican", "03": "republican", "04": "republican"}, "VA": {"01": "republican", "02": "democrat", "03": "democrat", "04": "republican", "05": "republican", "06": "republican", "07": "republican", "08": "democrat", "09": "republican", "10": "republican", "11": "democrat"}, "VT": {"AL": "democrat"}, "WA": {"01": "democrat", "02": "democrat", "03": "republican", "04": "republican", "05": "republican", "06": "democrat", "07": "democrat", "08": "democrat", "09": "democrat", "10": "democrat"}, "WI": {"01": "republican", "02": "democrat", "03": "democrat", "04": "democrat", "05": "republican", "06": "republican", "07": "republican", "08": "republican"}, "WV": {"01": "republican", "02": "republican", "03": "republican"}, "WY": {"AL": "republican"}}, "2016": {"AK": {"AL": "republican"}, "AL": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "republican", "06": "republican", "07": "democrat"}, "AR": {"01": "republican", "02": "republican", "03": "republican", "04": "republican"}, "AZ": {"01": "republican", "02": "democrat", "03": "democrat", "04": "republican", "05": "republican", "06": "republican", "07": "democrat", "08": "republican", "09": "democrat"}, "CA": {"01": "republican", "02": "democrat", "03": "democrat", "04": "republican", "05": "democrat", "06": "democrat", "07": "democrat", "08": "republican", "09": "democrat", "10": "democrat", "11": "democrat", "12": "democrat", "13": "democrat", "14": "democrat", "15": "democrat", "16": "democrat", "17": "democrat", "18": "democrat", "19": "democrat", "20": "democrat", "21": "democrat", "22": "republican", "23": "republican", "24": "democrat", "25": "democrat", "26": "democrat", "27": "democrat", "28": "democrat", "29": "democrat", "30": "democrat", "31": "democrat", "32": "democrat", "33": "democrat", "34": "democrat", "35": "democrat", "36": "democrat", "37": "democrat", "38": "democrat", "39": "democrat", "40": "democrat", "41": "democrat", "42": "republican", "43": "democrat", "44": "democrat", "45": "democrat", "46": "democrat", "47": "democrat", "48": "democrat", "49": "democrat", "50": "republican", "51": "democrat", "52": "democrat", "53": "democrat"}, "CO": {"01": "democrat", "02": "democrat", "03": "republican", "04": "republican", "05": "republican", "06": "democrat", "07": "democrat"}, "CT": {"01": "democrat", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat"}, "DC": {"AL": "democrat"}, "DE": {"AL": "democrat"}, "FL": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "democrat", "06": "republican", "07": "democrat", "08": "republican", "09": "democrat", "10": "democrat", "11": "republican", "12": "republican", "13": "democrat", "14": "democrat", "15": "republican", "16": "republican", "17": "republican", "18": "republican", "19": "republican", "20": "democrat", "21": "democrat", "22": "democrat", "23": "democrat", "24": "democrat", "25": "republican", "26": "democrat", "27": "democrat"}, "GA": {"01": "republican", "02": "democrat", "03": "republican", "04": "democrat", "05": "democrat", "06": "republican", "07": "republican", "08": "republican", "09": "republican", "10": "republican", "11": "republican", "12": "republican", "13": "democrat", "14": "republican"}, "HI": {"01": "democrat", "02": "democrat"}, "IA": {"01": "republican", "02": "republican", "03": "republican", "04": "republican"}, "ID": {"01": "republican", "02": "republican"}, "IL": {"01": "democrat", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat", "06": "democrat", "07": "democrat", "08": "democrat", "09": "democrat", "10": "democrat", "11": "democrat", "12": "republican", "13": "republican", "14": "republican", "15": "republican", "16": "republican", "17": "republican", "18": "republican"}, "IN": {"01": "democrat", "02": "republican", "03": "republican", "04": "republican", "05": "republican", "06": "republican", "07": "democrat", "08": "republican", "09": "republican"}, "KS": {"01": "republican", "02": "republican", "03": "democrat", "04": "republican"}, "KY": {"01": "republican", "02": "republican", "03": "democrat", "04": "republican", "05": "republican", "06": "republican"}, "LA": {"01": "republican", "02": "democrat", "03": "republican", "04": "republican", "05": "republican", "06": "republican"}, "MA": {"01": "democrat", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat", "06": "democrat", "07": "democrat", "08": "democrat", "09": "democrat"}, "MD": {"01": "republican", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat", "06": "democrat", "07": "democrat", "08": "democrat"}, "ME": {"01": "democrat", "02": "republican"}, "MI": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "democrat", "06": "republican", "07": "republican", "08": "republican", "09": "democrat", "10": "republican", "11": "republican", "12": "democrat", "13": "democrat", "14": "democrat"}, "MN": {"01": "republican", "02": "republican", "03": "democrat", "04": "democrat", "05": "democrat", "06": "republican", "07": "republican", "08": "republican"}, "MO": {"01": "democrat", "02": "republican", "03": "republican", "04": "republican", "05": "democrat", "06": "republican", "07": "republican", "08": "republican"}, "MS": {"01": "republican", "02": "democrat", "03": "republican", "04": "republican"}, "MT": {"AL": "republican"}, "NC": {"01": "democrat", "02": "republican", "03": "republican", "04": "democrat", "05": "republican", "06": "republican", "07": "republican", "08": "republican", "09": "republican", "10": "republican", "11": "republican", "12": "democrat", "13": "republican"}, "ND": {"AL": "republican"}, "NE": {"01": "republican", "02": "republican", "03": "republican"}, "NH": {"01": "republican", "02": "democrat"}, "NJ": {"01": "democrat", "02": "republican", "03": "republican", "04": "republican", "05": "republican", "06": "democrat", "07": "democrat", "08": "democrat", "09": "democrat", "10": "democrat", "11": "republican", "12": "democrat"}, "NM": {"01": "democrat", "02": "republican", "03": "democrat"}, "NV": {"01": "democrat", "02": "republican", "03": "republican", "04": "democrat"}, "NY": {"01": "republican", "02": "republican", "03": "democrat", "04": "democrat", "05": "democrat", "06": "democrat", "07": "democrat", "08": "democrat", "09": "democrat", "10": "democrat", "11": "republican", "12": "democrat", "13": "democrat", "14": "democrat", "15": "democrat", "16": "democrat", "17": "democrat", "18": "republican", "19": "republican", "20": "democrat", "21": "republican", "22": "republican", "23": "republican", "24": "democrat", "25": "democrat", "26": "democrat", "27": "republican"}, "OH": {"01": "republican", "02": "republican", "03": "democrat", "04": "republican", "05": "republican", "06": "republican", "07": "republican", "08": "republican", "09": "democrat", "10": "republican", "11": "democrat", "12": "republican", "13": "democrat", "14": "republican", "15": "republican", "16": "republican"}, "OK": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "republican"}, "OR": {"01": "democrat", "02": "republican", "03": "democrat", "04": "democrat", "05": "democrat"}, "PA": {"01": "democrat", "02": "democrat", "03": "republican", "04": "republican", "05": "republican", "06": "democrat", "07": "democrat", "08": "republican", "09": "republican", "10": "republican", "11": "republican", "12": "republican", "13": "democrat", "14": "democrat", "15": "republican", "16": "republican", "17": "republican", "18": "republican"}, "RI": {"01": "democrat", "02": "democrat"}, "SC": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "republican", "06": "democrat", "07": "republican"}, "SD": {"AL": "republican"}, "TN": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "democrat", "06": "republican", "07": "republican", "08": "republican", "09": "democrat"}, "TX": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "republican", "06": "republican", "07": "democrat", "08": "republican", "09": "democrat", "10": "republican", "11": "republican", "12": "republican", "13": "republican", "14": "republican", "15": "democrat", "16": "democrat", "17": "republican", "18": "democrat", "19": "republican", "20": "democrat", "21": "republican", "22": "republican", "23": "democrat", "24": "republican", "25": "republican", "26": "republican", "27": "republican", "28": "democrat", "29": "democrat", "30": "democrat", "31": "republican", "32": "democrat", "33": "democrat", "34": "democrat", "35": "democrat", "36": "republican"}, "UT": {"01": "republican", "02": "republican", "03": "republican", "04": "republican"}, "VA": {"01": "republican", "02": "republican", "03": "democrat", "04": "democrat", "05": "republican", "06": "republican", "07": "republican", "08": "democrat", "09": "republican", "10": "democrat", "11": "democrat"}, "VT": {"AL": "democrat"}, "WA": {"01": "democrat", "02": "democrat", "03": "republican", "04": "republican", "05": "republican", "06": "democrat", "07": "democrat", "08": "democrat", "09": "democrat", "10": "democrat"}, "WI": {"01": "republican", "02": "democrat", "03": "republican", "04": "democrat", "05": "republican", "06": "republican", "07": "republican", "08": "republican"}, "WV": {"01": "republican", "02": "republican", "03": "republican"}, "WY": {"AL": "republican"}}, "2020": {"AK": {"AL": "republican"}, "AL": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "republican", "06": "republican", "07": "democrat"}, "AR": {"01": "republican", "02": "republican", "03": "republican", "04": "republican"}, "AZ": {"01": "democrat", "02": "democrat", "03": "democrat", "04": "republican", "05": "republican", "06": "republican", "07": "democrat", "08": "republican", "09": "democrat"}, "CA": {"01": "republican", "02": "democrat", "03": "democrat", "04": "republican", "05": "democrat", "06": "democrat", "07": "democrat", "08": "republican", "09": "democrat", "10": "democrat", "11": "democrat", "12": "democrat", "13": "democrat", "14": "democrat", "15": "democrat", "16": "democrat", "17": "democrat", "18": "democrat", "19": "democrat", "20": "democrat", "21": "democrat", "22": "republican", "23": "republican", "24": "democrat", "25": "democrat", "26": "democrat", "27": "democrat", "28": "democrat", "29": "democrat", "30": "democrat", "31": "democrat", "32": "democrat", "33": "democrat", "34": "democrat", "35": "democrat", "36": "democrat", "37": "democrat", "38": "democrat", "39": "democrat", "40": "democrat", "41": "democrat", "42": "republican", "43": "democrat", "44": "democrat", "45": "democrat", "46": "democrat", "47": "democrat", "48": "democrat", "49": "democrat", "50": "republican", "51": "democrat", "52": "democrat", "53": "democrat"}, "CO": {"01": "democrat", "02": "democrat", "03": "republican", "04": "republican", "05": "republican", "06": "democrat", "07": "democrat"}, "CT": {"01": "democrat", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat"}, "DC": {"AL": "democrat"}, "DE": {"AL": "democrat"}, "FL": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "democrat", "06": "republican", "07": "democrat", "08": "republican", "09": "democrat", "10": "democrat", "11": "republican", "12": "republican", "13": "democrat", "14": "democrat", "15": "republican", "16": "republican", "17": "republican", "18": "republican", "19": "republican", "20": "democrat", "21": "democrat", "22": "democrat", "23": "democrat", "24": "democrat", "25": "republican", "26": "republican", "27": "democrat"}, "GA": {"01": "republican", "02": "democrat", "03": "republican", "04": "democrat", "05": "democrat", "06": "democrat", "07": "democrat", "08": "republican", "09": "republican", "10": "republican", "11": "republican", "12": "republican", "13": "democrat", "14": "republican"}, "HI": {"01": "democrat", "02": "democrat"}, "IA": {"01": "republican", "02": "republican", "03": "republican", "04": "republican"}, "ID": {"01": "republican", "02": "republican"}, "IL": {"01": "democrat", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat", "06": "democrat", "07": "democrat", "08": "democrat", "09": "democrat", "10": "democrat", "11": "democrat", "12": "republican", "13": "republican", "14": "democrat", "15": "republican", "16": "republican", "17": "republican", "18": "republican"}, "IN": {"01": "democrat", "02": "republican", "03": "republican", "04": "republican", "05": "republican", "06": "republican", "07": "democrat", "08": "republican", "09": "republican"}, "KS": {"01": "republican", "02": "republican", "03": "democrat", "04": "republican"}, "KY": {"01": "republican", "02": "republican", "03": "democrat", "04": "republican", "05": "republican", "06": "republican"}, "LA": {"01": "republican", "02": "democrat", "03": "republican", "04": "republican", "05": "republican", "06": "republican"}, "MA": {"01": "democrat", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat", "06": "democrat", "07": "democrat", "08": "democrat", "09": "democrat"}, "MD": {"01": "republican", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat", "06": "democrat", "07": "democrat", "08": "democrat"}, "ME": {"01": "democrat", "02": "republican"}, "MI": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "democrat", "06": "republican", "07": "republican", "08": "republican", "09": "democrat", "10": "republican", "11": "democrat", "12": "democrat", "13": "democrat", "14": "democrat"}, "MN": {"01": "republican", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat", "06": "republican", "07": "republican", "08": "republican"}, "MO": {"01": "democrat", "02": "republican", "03": "republican", "04": "republican", "05": "democrat", "06": "republican", "07": "republican", "08": "republican"}, "MS": {"01": "republican", "02": "democrat", "03": "republican", "04": "republican"}, "MT": {"AL": "republican"}, "NC": {"01": "democrat", "02": "democrat", "03": "republican", "04": "democrat", "05": "republican", "06": "democrat", "07": "republican", "08": "republican", "09": "republican", "10": "republican", "11": "republican", "12": "democrat", "13": "republican"}, "ND": {"AL": "republican"}, "NE": {"01": "republican", "02": "democrat", "03": "republican"}, "NH": {"01": "democrat", "02": "democrat"}, "NJ": {"01": "democrat", "02": "republican", "03": "republican", "04": "republican", "05": "democrat", "06": "democrat", "07": "democrat", "08": "democrat", "09": "democrat", "10": "democrat", "11": "democrat", "12": "democrat"}, "NM": {"01": "democrat", "02": "republican", "03": "democrat"}, "NV": {"01": "democrat", "02": "republican", "03": "democrat", "04": "democrat"}, "NY": {"01": "republican", "02": "republican", "03": "democrat", "04": "democrat", "05": "democrat", "06": "democrat", "07": "democrat", "08": "democrat", "09": "democrat", "10": "democrat", "11": "republican", "12": "democrat", "13": "democrat", "14": "democrat", "15": "democrat", "16": "democrat", "17": "democrat", "18": "democrat", "19": "democrat", "20": "democrat", "21": "republican", "22": "republican", "23": "republican", "24": "democrat", "25": "democrat", "26": "democrat", "27": "republican"}, "OH": {"01": "republican", "02": "republican", "03": "democrat", "04": "republican", "05": "republican", "06": "republican", "07": "republican", "08": "republican", "09": "democrat", "10": "republican", "11": "democrat", "12": "republican", "13": "democrat", "14": "republican", "15": "republican", "16": "republican"}, "OK": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "republican"}, "OR": {"01": "democrat", "02": "republican", "03": "democrat", "04": "democrat", "05": "democrat"}, "PA": {"01": "democrat", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat", "06": "democrat", "07": "democrat", "08": "republican", "09": "republican", "10": "republican", "11": "republican", "12": "republican", "13": "republican", "14": "republican", "15": "republican", "16": "republican", "17": "democrat", "18": "democrat"}, "RI": {"01": "democrat", "02": "democrat"}, "SC": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "republican", "06": "democrat", "07": "republican"}, "SD": {"AL": "republican"}, "TN": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "democrat", "06": "republican", "07": "republican", "08": "republican", "09": "democrat"}, "TX": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "republican", "06": "republican", "07": "democrat", "08": "republican", "09": "democrat", "10": "republican", "11": "republican", "12": "republican", "13": "republican", "14": "republican", "15": "democrat", "16": "democrat", "17": "republican", "18": "democrat", "19": "republican", "20": "democrat", "21": "republican", "22": "republican", "23": "republican", "24": "democrat", "25": "republican", "26": "republican", "27": "republican", "28": "democrat", "29": "democrat", "30": "democrat", "31": "republican", "32": "democrat", "33": "democrat", "34": "democrat", "35": "democrat", "36": "republican"}, "UT": {"01": "republican", "02": "republican", "03": "republican", "04": "republican"}, "VA": {"01": "republican", "02": "democrat", "03": "democrat", "04": "democrat", "05": "republican", "06": "republican", "07": "democrat", "08": "democrat", "09": "republican", "10": "democrat", "11": "democrat"}, "VT": {"AL": "democrat"}, "WA": {"01": "democrat", "02": "democrat", "03": "republican", "04": "republican", "05": "republican", "06": "democrat", "07": "democrat", "08": "democrat", "09": "democrat", "10": "democrat"}, "WI": {"01": "republican", "02": "democrat", "03": "republican", "04": "democrat", "05": "republican", "06": "republican", "07": "republican", "08": "republican"}, "WV": {"01": "republican", "02": "republican", "03": "republican"}, "WY": {"AL": "republican"}}, "2024": {"AK": {"AL": "republican"}, "AL": {"01": "republican", "02": "democrat", "03": "republican", "04": "republican", "05": "republican", "06": "republican", "07": "democrat"}, "AR": {"01": "republican", "02": "republican", "03": "republican", "04": "republican"}, "AZ": {"01": "republican", "02": "republican", "03": "democrat", "04": "democrat", "05": "republican", "06": "republican", "07": "democrat", "08": "republican", "09": "republican"}, "CA": {"01": "republican", "02": "democrat", "03": "republican", "04": "democrat", "05": "republican", "06": "democrat", "07": "democrat", "08": "democrat", "09": "republican", "10": "democrat", "11": "democrat", "12": "democrat", "13": "republican", "14": "democrat", "15": "democrat", "16": "democrat", "17": "democrat", "18": "democrat", "19": "democrat", "20": "republican", "21": "democrat", "22": "republican", "23": "republican", "24": "democrat", "25": "democrat", "26": "democrat", "27": "democrat", "28": "democrat", "29": "democrat", "30": "democrat", "31": "democrat", "32": "democrat", "33": "democrat", "34": "democrat", "35": "democrat", "36": "democrat", "37": "democrat", "38": "democrat", "39": "democrat", "40": "republican", "41": "republican", "42": "democrat", "43": "democrat", "44": "democrat", "45": "democrat", "46": "democrat", "47": "democrat", "48": "republican", "49": "democrat", "50": "democrat", "51": "democrat", "52": "democrat"}, "CO": {"01": "democrat", "02": "democrat", "03": "republican", "04": "republican", "05": "republican", "06": "democrat", "07": "democrat", "08": "republican"}, "CT": {"01": "democrat", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat"}, "DC": {"AL": "democrat"}, "DE": {"AL": "democrat"}, "FL": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "republican", "06": "republican", "07": "republican", "08": "republican", "09": "democrat", "10": "democrat", "11": "republican", "12": "republican", "13": "republican", "14": "democrat", "15": "republican", "16": "republican", "17": "republican", "18": "republican", "19": "republican", "20": "democrat", "21": "republican", "22": "democrat", "23": "democrat", "24": "democrat", "25": "democrat", "26": "republican", "27": "republican", "28": "republican"}, "GA": {"01": "republican", "02": "democrat", "03": "republican", "04": "democrat", "05": "democrat", "06": "democrat", "07": "republican", "08": "republican", "09": "republican", "10": "republican", "11": "republican", "12": "republican", "13": "democrat", "14": "republican"}, "HI": {"01": "democrat", "02": "democrat"}, "IA": {"01": "republican", "02": "republican", "03": "republican", "04": "republican"}, "ID": {"01": "republican", "02": "republican"}, "IL": {"01": "democrat", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat", "06": "democrat", "07": "democrat", "08": "democrat", "09": "democrat", "10": "democrat", "11": "democrat", "12": "republican", "13": "democrat", "14": "democrat", "15": "republican", "16": "republican", "17": "democrat"}, "IN": {"01": "democrat", "02": "republican", "03": "republican", "04": "republican", "05": "republican", "06": "republican", "07": "democrat", "08": "republican", "09": "republican"}, "KS": {"01": "republican", "02": "republican", "03": "democrat", "04": "republican"}, "KY": {"01": "republican", "02": "republican", "03": "democrat", "04": "republican", "05": "republican", "06": "republican"}, "LA": {"01": "republican", "02": "democrat", "03": "republican", "04": "republican", "05": "republican", "06": "democrat"}, "MA": {"01": "democrat", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat", "06": "democrat", "07": "democrat", "08": "democrat", "09": "democrat"}, "MD": {"01": "republican", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat", "06": "democrat", "07": "democrat", "08": "democrat"}, "ME": {"01": "democrat", "02": "republican"}, "MI": {"01": "republican", "02": "republican", "03": "democrat", "04": "republican", "05": "republican", "06": "democrat", "07": "republican", "08": "republican", "09": "republican", "10": "republican", "11": "democrat", "12": "democrat", "13": "democrat"}, "MN": {"01": "republican", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat", "06": "republican", "07": "republican", "08": "republican"}, "MO": {"01": "democrat", "02": "republican", "03": "republican", "04": "republican", "05": "democrat", "06": "republican", "07": "republican", "08": "republican"}, "MS": {"01": "republican", "02": "democrat", "03": "republican", "04": "republican"}, "MT": {"01": "republican", "02": "republican"}, "NC": {"01": "republican", "02": "democrat", "03": "republican", "04": "democrat", "05": "republican", "06": "republican", "07": "republican", "08": "republican", "09": "republican", "10": "republican", "11": "republican", "12": "democrat", "13": "republican", "14": "republican"}, "ND": {"AL": "republican"}, "NE": {"01": "republican", "02": "democrat", "03": "republican"}, "NH": {"01": "democrat", "02": "democrat"}, "NJ": {"01": "democrat", "02": "republican", "03": "democrat", "04": "republican", "05": "democrat", "06": "democrat", "07": "republican", "08": "democrat", "09": "republican", "10": "democrat", "11": "democrat", "12": "democrat"}, "NM": {"01": "democrat", "02": "republican", "03": "democrat"}, "NV": {"01": "democrat", "02": "republican", "03": "republican", "04": "democrat"}, "NY": {"01": "republican", "02": "republican", "03": "republican", "04": "democrat", "05": "democrat", "06": "democrat", "07": "democrat", "08": "democrat", "09": "democrat", "10": "democrat", "11": "republican", "12": "democrat", "13": "democrat", "14": "democrat", "15": "democrat", "16": "democrat", "17": "democrat", "18": "democrat", "19": "democrat", "20": "democrat", "21": "republican", "22": "democrat", "23": "republican", "24": "republican", "25": "democrat", "26": "democrat"}, "OH": {"01": "democrat", "02": "republican", "03": "democrat", "04": "republican", "05": "republican", "06": "republican", "07": "republican", "08": "republican", "09": "republican", "10": "republican", "11": "democrat", "12": "republican", "13": "democrat", "14": "republican", "15": "republican"}, "OK": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "republican"}, "OR": {"01": "democrat", "02": "republican", "03": "democrat", "04": "democrat", "05": "democrat", "06": "democrat"}, "PA": {"01": "democrat", "02": "democrat", "03": "democrat", "04": "democrat", "05": "democrat", "06": "democrat", "07": "republican", "08": "republican", "09": "republican", "10": "republican", "11": "republican", "12": "democrat", "13": "republican", "14": "republican", "15": "republican", "16": "republican", "17": "democrat"}, "RI": {"01": "democrat", "02": "democrat"}, "SC": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "republican", "06": "democrat", "07": "republican"}, "SD": {"AL": "republican"}, "TN": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "republican", "06": "republican", "07": "republican", "08": "republican", "09": "democrat"}, "TX": {"01": "republican", "02": "republican", "03": "republican", "04": "republican", "05": "republican", "06": "republican", "07": "democrat", "08": "republican", "09": "democrat", "10": "republican", "11": "republican", "12": "republican", "13": "republican", "14": "republican", "15": "republican", "16": "democrat", "17": "republican", "18": "democrat", "19": "republican", "20": "democrat", "21": "republican", "22": "republican", "23": "republican", "24": "republican", "25": "republican", "26": "republican", "27": "republican", "28": "republican", "29": "democrat", "30": "democrat", "31": "republican", "32": "democrat", "33": "democrat", "34": "republican", "35": "democrat", "36": "republican", "37": "democrat", "38": "republican"}, "UT": {"01": "republican", "02": "republican", "03": "republican", "04": "republican"}, "VA": {"01": "republican", "02": "republican", "03": "democrat", "04": "democrat", "05": "republican", "06": "republican", "07": "democrat", "08": "democrat", "09": "republican", "10": "democrat", "11": "democrat"}, "VT": {"AL": "democrat"}, "WA": {"01": "democrat", "02": "democrat", "03": "republican", "04": "republican", "05": "republican", "06": "democrat", "07": "democrat", "08": "democrat", "09": "democrat", "10": "democrat"}, "WI": {"01": "republican", "02": "democrat", "03": "republican", "04": "democrat", "05": "republican", "06": "republican", "07": "republican", "08": "republican"}, "WV": {"01": "republican", "02": "republican"}, "WY": {"AL": "republican"}}}
+{
+  "1976": {
+    "DC": {
+      "AL": {
+        "winningParty": null
+      }
+    }
+  },
+  "1980": {
+    "DC": {
+      "AL": {
+        "winningParty": null
+      }
+    }
+  },
+  "1984": {
+    "DC": {
+      "AL": {
+        "winningParty": null
+      }
+    }
+  },
+  "1988": {
+    "DC": {
+      "AL": {
+        "winningParty": null
+      }
+    }
+  },
+  "1992": {
+    "DC": {
+      "AL": {
+        "winningParty": null
+      }
+    }
+  },
+  "1996": {
+    "DC": {
+      "AL": {
+        "winningParty": null
+      }
+    }
+  },
+  "2000": {
+    "DC": {
+      "AL": {
+        "winningParty": null
+      }
+    }
+  },
+  "2004": {
+    "DC": {
+      "AL": {
+        "winningParty": null
+      }
+    }
+  },
+  "2008": {
+    "DC": {
+      "AL": {
+        "winningParty": null
+      }
+    }
+  },
+  "2012": {
+    "AK": {
+      "AL": {
+        "winningParty": "republican"
+      }
+    },
+    "AL": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "democrat"
+      }
+    },
+    "AR": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      }
+    },
+    "AZ": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      }
+    },
+    "CA": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "democrat"
+      },
+      "12": {
+        "winningParty": "democrat"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "democrat"
+      },
+      "15": {
+        "winningParty": "democrat"
+      },
+      "16": {
+        "winningParty": "democrat"
+      },
+      "17": {
+        "winningParty": "democrat"
+      },
+      "18": {
+        "winningParty": "democrat"
+      },
+      "19": {
+        "winningParty": "democrat"
+      },
+      "20": {
+        "winningParty": "democrat"
+      },
+      "21": {
+        "winningParty": "democrat"
+      },
+      "22": {
+        "winningParty": "republican"
+      },
+      "23": {
+        "winningParty": "republican"
+      },
+      "24": {
+        "winningParty": "democrat"
+      },
+      "25": {
+        "winningParty": "republican"
+      },
+      "26": {
+        "winningParty": "democrat"
+      },
+      "27": {
+        "winningParty": "democrat"
+      },
+      "28": {
+        "winningParty": "democrat"
+      },
+      "29": {
+        "winningParty": "democrat"
+      },
+      "30": {
+        "winningParty": "democrat"
+      },
+      "31": {
+        "winningParty": "democrat"
+      },
+      "32": {
+        "winningParty": "democrat"
+      },
+      "33": {
+        "winningParty": "democrat"
+      },
+      "34": {
+        "winningParty": "democrat"
+      },
+      "35": {
+        "winningParty": "democrat"
+      },
+      "36": {
+        "winningParty": "democrat"
+      },
+      "37": {
+        "winningParty": "democrat"
+      },
+      "38": {
+        "winningParty": "democrat"
+      },
+      "39": {
+        "winningParty": "republican"
+      },
+      "40": {
+        "winningParty": "democrat"
+      },
+      "41": {
+        "winningParty": "democrat"
+      },
+      "42": {
+        "winningParty": "republican"
+      },
+      "43": {
+        "winningParty": "democrat"
+      },
+      "44": {
+        "winningParty": "democrat"
+      },
+      "45": {
+        "winningParty": "republican"
+      },
+      "46": {
+        "winningParty": "democrat"
+      },
+      "47": {
+        "winningParty": "democrat"
+      },
+      "48": {
+        "winningParty": "republican"
+      },
+      "49": {
+        "winningParty": "republican"
+      },
+      "50": {
+        "winningParty": "republican"
+      },
+      "51": {
+        "winningParty": "democrat"
+      },
+      "52": {
+        "winningParty": "democrat"
+      },
+      "53": {
+        "winningParty": "democrat"
+      }
+    },
+    "CO": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      }
+    },
+    "CT": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      }
+    },
+    "DC": {
+      "AL": {
+        "winningParty": "democrat"
+      }
+    },
+    "DE": {
+      "AL": {
+        "winningParty": "democrat"
+      }
+    },
+    "FL": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "democrat"
+      },
+      "15": {
+        "winningParty": "republican"
+      },
+      "16": {
+        "winningParty": "republican"
+      },
+      "17": {
+        "winningParty": "republican"
+      },
+      "18": {
+        "winningParty": "republican"
+      },
+      "19": {
+        "winningParty": "republican"
+      },
+      "20": {
+        "winningParty": "democrat"
+      },
+      "21": {
+        "winningParty": "democrat"
+      },
+      "22": {
+        "winningParty": "democrat"
+      },
+      "23": {
+        "winningParty": "democrat"
+      },
+      "24": {
+        "winningParty": "democrat"
+      },
+      "25": {
+        "winningParty": "republican"
+      },
+      "26": {
+        "winningParty": "democrat"
+      },
+      "27": {
+        "winningParty": "democrat"
+      }
+    },
+    "GA": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "republican"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "republican"
+      }
+    },
+    "HI": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      }
+    },
+    "IA": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      }
+    },
+    "ID": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      }
+    },
+    "IL": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "democrat"
+      },
+      "12": {
+        "winningParty": "democrat"
+      },
+      "13": {
+        "winningParty": "republican"
+      },
+      "14": {
+        "winningParty": "republican"
+      },
+      "15": {
+        "winningParty": "republican"
+      },
+      "16": {
+        "winningParty": "republican"
+      },
+      "17": {
+        "winningParty": "democrat"
+      },
+      "18": {
+        "winningParty": "republican"
+      }
+    },
+    "IN": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "republican"
+      }
+    },
+    "KS": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      }
+    },
+    "KY": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      }
+    },
+    "LA": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      }
+    },
+    "MA": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "democrat"
+      }
+    },
+    "MD": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      }
+    },
+    "ME": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      }
+    },
+    "MI": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "democrat"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "democrat"
+      }
+    },
+    "MN": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "democrat"
+      }
+    },
+    "MO": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      }
+    },
+    "MS": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      }
+    },
+    "MT": {
+      "AL": {
+        "winningParty": "republican"
+      }
+    },
+    "NC": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "republican"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "democrat"
+      },
+      "13": {
+        "winningParty": "republican"
+      }
+    },
+    "ND": {
+      "AL": {
+        "winningParty": "republican"
+      }
+    },
+    "NE": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      }
+    },
+    "NH": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      }
+    },
+    "NJ": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "democrat"
+      }
+    },
+    "NM": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      }
+    },
+    "NV": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      }
+    },
+    "NY": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "democrat"
+      },
+      "12": {
+        "winningParty": "democrat"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "democrat"
+      },
+      "15": {
+        "winningParty": "democrat"
+      },
+      "16": {
+        "winningParty": "democrat"
+      },
+      "17": {
+        "winningParty": "democrat"
+      },
+      "18": {
+        "winningParty": "democrat"
+      },
+      "19": {
+        "winningParty": "democrat"
+      },
+      "20": {
+        "winningParty": "democrat"
+      },
+      "21": {
+        "winningParty": "democrat"
+      },
+      "22": {
+        "winningParty": "republican"
+      },
+      "23": {
+        "winningParty": "republican"
+      },
+      "24": {
+        "winningParty": "democrat"
+      },
+      "25": {
+        "winningParty": "democrat"
+      },
+      "26": {
+        "winningParty": "democrat"
+      },
+      "27": {
+        "winningParty": "republican"
+      }
+    },
+    "OH": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "democrat"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "republican"
+      },
+      "15": {
+        "winningParty": "republican"
+      },
+      "16": {
+        "winningParty": "republican"
+      }
+    },
+    "OK": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      }
+    },
+    "OR": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      }
+    },
+    "PA": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "republican"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "democrat"
+      },
+      "15": {
+        "winningParty": "republican"
+      },
+      "16": {
+        "winningParty": "republican"
+      },
+      "17": {
+        "winningParty": "democrat"
+      },
+      "18": {
+        "winningParty": "republican"
+      }
+    },
+    "RI": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      }
+    },
+    "SC": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "republican"
+      }
+    },
+    "SD": {
+      "AL": {
+        "winningParty": "republican"
+      }
+    },
+    "TN": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      }
+    },
+    "TX": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "republican"
+      },
+      "14": {
+        "winningParty": "republican"
+      },
+      "15": {
+        "winningParty": "democrat"
+      },
+      "16": {
+        "winningParty": "democrat"
+      },
+      "17": {
+        "winningParty": "republican"
+      },
+      "18": {
+        "winningParty": "democrat"
+      },
+      "19": {
+        "winningParty": "republican"
+      },
+      "20": {
+        "winningParty": "democrat"
+      },
+      "21": {
+        "winningParty": "republican"
+      },
+      "22": {
+        "winningParty": "republican"
+      },
+      "23": {
+        "winningParty": "republican"
+      },
+      "24": {
+        "winningParty": "republican"
+      },
+      "25": {
+        "winningParty": "republican"
+      },
+      "26": {
+        "winningParty": "republican"
+      },
+      "27": {
+        "winningParty": "republican"
+      },
+      "28": {
+        "winningParty": "democrat"
+      },
+      "29": {
+        "winningParty": "democrat"
+      },
+      "30": {
+        "winningParty": "democrat"
+      },
+      "31": {
+        "winningParty": "republican"
+      },
+      "32": {
+        "winningParty": "republican"
+      },
+      "33": {
+        "winningParty": "democrat"
+      },
+      "34": {
+        "winningParty": "democrat"
+      },
+      "35": {
+        "winningParty": "democrat"
+      },
+      "36": {
+        "winningParty": "republican"
+      }
+    },
+    "UT": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      }
+    },
+    "VA": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "republican"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "democrat"
+      }
+    },
+    "VT": {
+      "AL": {
+        "winningParty": "democrat"
+      }
+    },
+    "WA": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "democrat"
+      }
+    },
+    "WI": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      }
+    },
+    "WV": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      }
+    },
+    "WY": {
+      "AL": {
+        "winningParty": "republican"
+      }
+    }
+  },
+  "2016": {
+    "AK": {
+      "AL": {
+        "winningParty": "republican"
+      }
+    },
+    "AL": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "democrat"
+      }
+    },
+    "AR": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      }
+    },
+    "AZ": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      }
+    },
+    "CA": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "democrat"
+      },
+      "12": {
+        "winningParty": "democrat"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "democrat"
+      },
+      "15": {
+        "winningParty": "democrat"
+      },
+      "16": {
+        "winningParty": "democrat"
+      },
+      "17": {
+        "winningParty": "democrat"
+      },
+      "18": {
+        "winningParty": "democrat"
+      },
+      "19": {
+        "winningParty": "democrat"
+      },
+      "20": {
+        "winningParty": "democrat"
+      },
+      "21": {
+        "winningParty": "democrat"
+      },
+      "22": {
+        "winningParty": "republican"
+      },
+      "23": {
+        "winningParty": "republican"
+      },
+      "24": {
+        "winningParty": "democrat"
+      },
+      "25": {
+        "winningParty": "democrat"
+      },
+      "26": {
+        "winningParty": "democrat"
+      },
+      "27": {
+        "winningParty": "democrat"
+      },
+      "28": {
+        "winningParty": "democrat"
+      },
+      "29": {
+        "winningParty": "democrat"
+      },
+      "30": {
+        "winningParty": "democrat"
+      },
+      "31": {
+        "winningParty": "democrat"
+      },
+      "32": {
+        "winningParty": "democrat"
+      },
+      "33": {
+        "winningParty": "democrat"
+      },
+      "34": {
+        "winningParty": "democrat"
+      },
+      "35": {
+        "winningParty": "democrat"
+      },
+      "36": {
+        "winningParty": "democrat"
+      },
+      "37": {
+        "winningParty": "democrat"
+      },
+      "38": {
+        "winningParty": "democrat"
+      },
+      "39": {
+        "winningParty": "democrat"
+      },
+      "40": {
+        "winningParty": "democrat"
+      },
+      "41": {
+        "winningParty": "democrat"
+      },
+      "42": {
+        "winningParty": "republican"
+      },
+      "43": {
+        "winningParty": "democrat"
+      },
+      "44": {
+        "winningParty": "democrat"
+      },
+      "45": {
+        "winningParty": "democrat"
+      },
+      "46": {
+        "winningParty": "democrat"
+      },
+      "47": {
+        "winningParty": "democrat"
+      },
+      "48": {
+        "winningParty": "democrat"
+      },
+      "49": {
+        "winningParty": "democrat"
+      },
+      "50": {
+        "winningParty": "republican"
+      },
+      "51": {
+        "winningParty": "democrat"
+      },
+      "52": {
+        "winningParty": "democrat"
+      },
+      "53": {
+        "winningParty": "democrat"
+      }
+    },
+    "CO": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      }
+    },
+    "CT": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      }
+    },
+    "DC": {
+      "AL": {
+        "winningParty": "democrat"
+      }
+    },
+    "DE": {
+      "AL": {
+        "winningParty": "democrat"
+      }
+    },
+    "FL": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "democrat"
+      },
+      "15": {
+        "winningParty": "republican"
+      },
+      "16": {
+        "winningParty": "republican"
+      },
+      "17": {
+        "winningParty": "republican"
+      },
+      "18": {
+        "winningParty": "republican"
+      },
+      "19": {
+        "winningParty": "republican"
+      },
+      "20": {
+        "winningParty": "democrat"
+      },
+      "21": {
+        "winningParty": "democrat"
+      },
+      "22": {
+        "winningParty": "democrat"
+      },
+      "23": {
+        "winningParty": "democrat"
+      },
+      "24": {
+        "winningParty": "democrat"
+      },
+      "25": {
+        "winningParty": "republican"
+      },
+      "26": {
+        "winningParty": "democrat"
+      },
+      "27": {
+        "winningParty": "democrat"
+      }
+    },
+    "GA": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "republican"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "republican"
+      }
+    },
+    "HI": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      }
+    },
+    "IA": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      }
+    },
+    "ID": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      }
+    },
+    "IL": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "democrat"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "republican"
+      },
+      "14": {
+        "winningParty": "republican"
+      },
+      "15": {
+        "winningParty": "republican"
+      },
+      "16": {
+        "winningParty": "republican"
+      },
+      "17": {
+        "winningParty": "republican"
+      },
+      "18": {
+        "winningParty": "republican"
+      }
+    },
+    "IN": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "republican"
+      }
+    },
+    "KS": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      }
+    },
+    "KY": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      }
+    },
+    "LA": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      }
+    },
+    "MA": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "democrat"
+      }
+    },
+    "MD": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      }
+    },
+    "ME": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      }
+    },
+    "MI": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "democrat"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "democrat"
+      }
+    },
+    "MN": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      }
+    },
+    "MO": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      }
+    },
+    "MS": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      }
+    },
+    "MT": {
+      "AL": {
+        "winningParty": "republican"
+      }
+    },
+    "NC": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "republican"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "democrat"
+      },
+      "13": {
+        "winningParty": "republican"
+      }
+    },
+    "ND": {
+      "AL": {
+        "winningParty": "republican"
+      }
+    },
+    "NE": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      }
+    },
+    "NH": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      }
+    },
+    "NJ": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "democrat"
+      }
+    },
+    "NM": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      }
+    },
+    "NV": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "democrat"
+      }
+    },
+    "NY": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "democrat"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "democrat"
+      },
+      "15": {
+        "winningParty": "democrat"
+      },
+      "16": {
+        "winningParty": "democrat"
+      },
+      "17": {
+        "winningParty": "democrat"
+      },
+      "18": {
+        "winningParty": "republican"
+      },
+      "19": {
+        "winningParty": "republican"
+      },
+      "20": {
+        "winningParty": "democrat"
+      },
+      "21": {
+        "winningParty": "republican"
+      },
+      "22": {
+        "winningParty": "republican"
+      },
+      "23": {
+        "winningParty": "republican"
+      },
+      "24": {
+        "winningParty": "democrat"
+      },
+      "25": {
+        "winningParty": "democrat"
+      },
+      "26": {
+        "winningParty": "democrat"
+      },
+      "27": {
+        "winningParty": "republican"
+      }
+    },
+    "OH": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "democrat"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "republican"
+      },
+      "15": {
+        "winningParty": "republican"
+      },
+      "16": {
+        "winningParty": "republican"
+      }
+    },
+    "OK": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      }
+    },
+    "OR": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      }
+    },
+    "PA": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "republican"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "democrat"
+      },
+      "15": {
+        "winningParty": "republican"
+      },
+      "16": {
+        "winningParty": "republican"
+      },
+      "17": {
+        "winningParty": "republican"
+      },
+      "18": {
+        "winningParty": "republican"
+      }
+    },
+    "RI": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      }
+    },
+    "SC": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "republican"
+      }
+    },
+    "SD": {
+      "AL": {
+        "winningParty": "republican"
+      }
+    },
+    "TN": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      }
+    },
+    "TX": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "republican"
+      },
+      "14": {
+        "winningParty": "republican"
+      },
+      "15": {
+        "winningParty": "democrat"
+      },
+      "16": {
+        "winningParty": "democrat"
+      },
+      "17": {
+        "winningParty": "republican"
+      },
+      "18": {
+        "winningParty": "democrat"
+      },
+      "19": {
+        "winningParty": "republican"
+      },
+      "20": {
+        "winningParty": "democrat"
+      },
+      "21": {
+        "winningParty": "republican"
+      },
+      "22": {
+        "winningParty": "republican"
+      },
+      "23": {
+        "winningParty": "democrat"
+      },
+      "24": {
+        "winningParty": "republican"
+      },
+      "25": {
+        "winningParty": "republican"
+      },
+      "26": {
+        "winningParty": "republican"
+      },
+      "27": {
+        "winningParty": "republican"
+      },
+      "28": {
+        "winningParty": "democrat"
+      },
+      "29": {
+        "winningParty": "democrat"
+      },
+      "30": {
+        "winningParty": "democrat"
+      },
+      "31": {
+        "winningParty": "republican"
+      },
+      "32": {
+        "winningParty": "democrat"
+      },
+      "33": {
+        "winningParty": "democrat"
+      },
+      "34": {
+        "winningParty": "democrat"
+      },
+      "35": {
+        "winningParty": "democrat"
+      },
+      "36": {
+        "winningParty": "republican"
+      }
+    },
+    "UT": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      }
+    },
+    "VA": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "republican"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "democrat"
+      }
+    },
+    "VT": {
+      "AL": {
+        "winningParty": "democrat"
+      }
+    },
+    "WA": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "democrat"
+      }
+    },
+    "WI": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      }
+    },
+    "WV": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      }
+    },
+    "WY": {
+      "AL": {
+        "winningParty": "republican"
+      }
+    }
+  },
+  "2020": {
+    "AK": {
+      "AL": {
+        "winningParty": "republican"
+      }
+    },
+    "AL": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "democrat"
+      }
+    },
+    "AR": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      }
+    },
+    "AZ": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      }
+    },
+    "CA": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "democrat"
+      },
+      "12": {
+        "winningParty": "democrat"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "democrat"
+      },
+      "15": {
+        "winningParty": "democrat"
+      },
+      "16": {
+        "winningParty": "democrat"
+      },
+      "17": {
+        "winningParty": "democrat"
+      },
+      "18": {
+        "winningParty": "democrat"
+      },
+      "19": {
+        "winningParty": "democrat"
+      },
+      "20": {
+        "winningParty": "democrat"
+      },
+      "21": {
+        "winningParty": "democrat"
+      },
+      "22": {
+        "winningParty": "republican"
+      },
+      "23": {
+        "winningParty": "republican"
+      },
+      "24": {
+        "winningParty": "democrat"
+      },
+      "25": {
+        "winningParty": "democrat"
+      },
+      "26": {
+        "winningParty": "democrat"
+      },
+      "27": {
+        "winningParty": "democrat"
+      },
+      "28": {
+        "winningParty": "democrat"
+      },
+      "29": {
+        "winningParty": "democrat"
+      },
+      "30": {
+        "winningParty": "democrat"
+      },
+      "31": {
+        "winningParty": "democrat"
+      },
+      "32": {
+        "winningParty": "democrat"
+      },
+      "33": {
+        "winningParty": "democrat"
+      },
+      "34": {
+        "winningParty": "democrat"
+      },
+      "35": {
+        "winningParty": "democrat"
+      },
+      "36": {
+        "winningParty": "democrat"
+      },
+      "37": {
+        "winningParty": "democrat"
+      },
+      "38": {
+        "winningParty": "democrat"
+      },
+      "39": {
+        "winningParty": "democrat"
+      },
+      "40": {
+        "winningParty": "democrat"
+      },
+      "41": {
+        "winningParty": "democrat"
+      },
+      "42": {
+        "winningParty": "republican"
+      },
+      "43": {
+        "winningParty": "democrat"
+      },
+      "44": {
+        "winningParty": "democrat"
+      },
+      "45": {
+        "winningParty": "democrat"
+      },
+      "46": {
+        "winningParty": "democrat"
+      },
+      "47": {
+        "winningParty": "democrat"
+      },
+      "48": {
+        "winningParty": "democrat"
+      },
+      "49": {
+        "winningParty": "democrat"
+      },
+      "50": {
+        "winningParty": "republican"
+      },
+      "51": {
+        "winningParty": "democrat"
+      },
+      "52": {
+        "winningParty": "democrat"
+      },
+      "53": {
+        "winningParty": "democrat"
+      }
+    },
+    "CO": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      }
+    },
+    "CT": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      }
+    },
+    "DC": {
+      "AL": {
+        "winningParty": "democrat"
+      }
+    },
+    "DE": {
+      "AL": {
+        "winningParty": "democrat"
+      }
+    },
+    "FL": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "democrat"
+      },
+      "15": {
+        "winningParty": "republican"
+      },
+      "16": {
+        "winningParty": "republican"
+      },
+      "17": {
+        "winningParty": "republican"
+      },
+      "18": {
+        "winningParty": "republican"
+      },
+      "19": {
+        "winningParty": "republican"
+      },
+      "20": {
+        "winningParty": "democrat"
+      },
+      "21": {
+        "winningParty": "democrat"
+      },
+      "22": {
+        "winningParty": "democrat"
+      },
+      "23": {
+        "winningParty": "democrat"
+      },
+      "24": {
+        "winningParty": "democrat"
+      },
+      "25": {
+        "winningParty": "republican"
+      },
+      "26": {
+        "winningParty": "republican"
+      },
+      "27": {
+        "winningParty": "democrat"
+      }
+    },
+    "GA": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "republican"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "republican"
+      }
+    },
+    "HI": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      }
+    },
+    "IA": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      }
+    },
+    "ID": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      }
+    },
+    "IL": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "democrat"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "republican"
+      },
+      "14": {
+        "winningParty": "democrat"
+      },
+      "15": {
+        "winningParty": "republican"
+      },
+      "16": {
+        "winningParty": "republican"
+      },
+      "17": {
+        "winningParty": "republican"
+      },
+      "18": {
+        "winningParty": "republican"
+      }
+    },
+    "IN": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "republican"
+      }
+    },
+    "KS": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      }
+    },
+    "KY": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      }
+    },
+    "LA": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      }
+    },
+    "MA": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "democrat"
+      }
+    },
+    "MD": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      }
+    },
+    "ME": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      }
+    },
+    "MI": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "democrat"
+      },
+      "12": {
+        "winningParty": "democrat"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "democrat"
+      }
+    },
+    "MN": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      }
+    },
+    "MO": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      }
+    },
+    "MS": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      }
+    },
+    "MT": {
+      "AL": {
+        "winningParty": "republican"
+      }
+    },
+    "NC": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "republican"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "democrat"
+      },
+      "13": {
+        "winningParty": "republican"
+      }
+    },
+    "ND": {
+      "AL": {
+        "winningParty": "republican"
+      }
+    },
+    "NE": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      }
+    },
+    "NH": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      }
+    },
+    "NJ": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "democrat"
+      },
+      "12": {
+        "winningParty": "democrat"
+      }
+    },
+    "NM": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      }
+    },
+    "NV": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      }
+    },
+    "NY": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "democrat"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "democrat"
+      },
+      "15": {
+        "winningParty": "democrat"
+      },
+      "16": {
+        "winningParty": "democrat"
+      },
+      "17": {
+        "winningParty": "democrat"
+      },
+      "18": {
+        "winningParty": "democrat"
+      },
+      "19": {
+        "winningParty": "democrat"
+      },
+      "20": {
+        "winningParty": "democrat"
+      },
+      "21": {
+        "winningParty": "republican"
+      },
+      "22": {
+        "winningParty": "republican"
+      },
+      "23": {
+        "winningParty": "republican"
+      },
+      "24": {
+        "winningParty": "democrat"
+      },
+      "25": {
+        "winningParty": "democrat"
+      },
+      "26": {
+        "winningParty": "democrat"
+      },
+      "27": {
+        "winningParty": "republican"
+      }
+    },
+    "OH": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "democrat"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "republican"
+      },
+      "15": {
+        "winningParty": "republican"
+      },
+      "16": {
+        "winningParty": "republican"
+      }
+    },
+    "OK": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      }
+    },
+    "OR": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      }
+    },
+    "PA": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "republican"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "republican"
+      },
+      "14": {
+        "winningParty": "republican"
+      },
+      "15": {
+        "winningParty": "republican"
+      },
+      "16": {
+        "winningParty": "republican"
+      },
+      "17": {
+        "winningParty": "democrat"
+      },
+      "18": {
+        "winningParty": "democrat"
+      }
+    },
+    "RI": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      }
+    },
+    "SC": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "republican"
+      }
+    },
+    "SD": {
+      "AL": {
+        "winningParty": "republican"
+      }
+    },
+    "TN": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      }
+    },
+    "TX": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "republican"
+      },
+      "14": {
+        "winningParty": "republican"
+      },
+      "15": {
+        "winningParty": "democrat"
+      },
+      "16": {
+        "winningParty": "democrat"
+      },
+      "17": {
+        "winningParty": "republican"
+      },
+      "18": {
+        "winningParty": "democrat"
+      },
+      "19": {
+        "winningParty": "republican"
+      },
+      "20": {
+        "winningParty": "democrat"
+      },
+      "21": {
+        "winningParty": "republican"
+      },
+      "22": {
+        "winningParty": "republican"
+      },
+      "23": {
+        "winningParty": "republican"
+      },
+      "24": {
+        "winningParty": "democrat"
+      },
+      "25": {
+        "winningParty": "republican"
+      },
+      "26": {
+        "winningParty": "republican"
+      },
+      "27": {
+        "winningParty": "republican"
+      },
+      "28": {
+        "winningParty": "democrat"
+      },
+      "29": {
+        "winningParty": "democrat"
+      },
+      "30": {
+        "winningParty": "democrat"
+      },
+      "31": {
+        "winningParty": "republican"
+      },
+      "32": {
+        "winningParty": "democrat"
+      },
+      "33": {
+        "winningParty": "democrat"
+      },
+      "34": {
+        "winningParty": "democrat"
+      },
+      "35": {
+        "winningParty": "democrat"
+      },
+      "36": {
+        "winningParty": "republican"
+      }
+    },
+    "UT": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      }
+    },
+    "VA": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "republican"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "democrat"
+      }
+    },
+    "VT": {
+      "AL": {
+        "winningParty": "democrat"
+      }
+    },
+    "WA": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "democrat"
+      }
+    },
+    "WI": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      }
+    },
+    "WV": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      }
+    },
+    "WY": {
+      "AL": {
+        "winningParty": "republican"
+      }
+    }
+  },
+  "2024": {
+    "AK": {
+      "AL": {
+        "winningParty": "republican"
+      }
+    },
+    "AL": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "democrat"
+      }
+    },
+    "AR": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      }
+    },
+    "AZ": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "republican"
+      }
+    },
+    "CA": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "republican"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "democrat"
+      },
+      "12": {
+        "winningParty": "democrat"
+      },
+      "13": {
+        "winningParty": "republican"
+      },
+      "14": {
+        "winningParty": "democrat"
+      },
+      "15": {
+        "winningParty": "democrat"
+      },
+      "16": {
+        "winningParty": "democrat"
+      },
+      "17": {
+        "winningParty": "democrat"
+      },
+      "18": {
+        "winningParty": "democrat"
+      },
+      "19": {
+        "winningParty": "democrat"
+      },
+      "20": {
+        "winningParty": "republican"
+      },
+      "21": {
+        "winningParty": "democrat"
+      },
+      "22": {
+        "winningParty": "republican"
+      },
+      "23": {
+        "winningParty": "republican"
+      },
+      "24": {
+        "winningParty": "democrat"
+      },
+      "25": {
+        "winningParty": "democrat"
+      },
+      "26": {
+        "winningParty": "democrat"
+      },
+      "27": {
+        "winningParty": "democrat"
+      },
+      "28": {
+        "winningParty": "democrat"
+      },
+      "29": {
+        "winningParty": "democrat"
+      },
+      "30": {
+        "winningParty": "democrat"
+      },
+      "31": {
+        "winningParty": "democrat"
+      },
+      "32": {
+        "winningParty": "democrat"
+      },
+      "33": {
+        "winningParty": "democrat"
+      },
+      "34": {
+        "winningParty": "democrat"
+      },
+      "35": {
+        "winningParty": "democrat"
+      },
+      "36": {
+        "winningParty": "democrat"
+      },
+      "37": {
+        "winningParty": "democrat"
+      },
+      "38": {
+        "winningParty": "democrat"
+      },
+      "39": {
+        "winningParty": "democrat"
+      },
+      "40": {
+        "winningParty": "republican"
+      },
+      "41": {
+        "winningParty": "republican"
+      },
+      "42": {
+        "winningParty": "democrat"
+      },
+      "43": {
+        "winningParty": "democrat"
+      },
+      "44": {
+        "winningParty": "democrat"
+      },
+      "45": {
+        "winningParty": "democrat"
+      },
+      "46": {
+        "winningParty": "democrat"
+      },
+      "47": {
+        "winningParty": "democrat"
+      },
+      "48": {
+        "winningParty": "republican"
+      },
+      "49": {
+        "winningParty": "democrat"
+      },
+      "50": {
+        "winningParty": "democrat"
+      },
+      "51": {
+        "winningParty": "democrat"
+      },
+      "52": {
+        "winningParty": "democrat"
+      }
+    },
+    "CO": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "republican"
+      }
+    },
+    "CT": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      }
+    },
+    "DC": {
+      "AL": {
+        "winningParty": "democrat"
+      }
+    },
+    "DE": {
+      "AL": {
+        "winningParty": "democrat"
+      }
+    },
+    "FL": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "republican"
+      },
+      "14": {
+        "winningParty": "democrat"
+      },
+      "15": {
+        "winningParty": "republican"
+      },
+      "16": {
+        "winningParty": "republican"
+      },
+      "17": {
+        "winningParty": "republican"
+      },
+      "18": {
+        "winningParty": "republican"
+      },
+      "19": {
+        "winningParty": "republican"
+      },
+      "20": {
+        "winningParty": "democrat"
+      },
+      "21": {
+        "winningParty": "republican"
+      },
+      "22": {
+        "winningParty": "democrat"
+      },
+      "23": {
+        "winningParty": "democrat"
+      },
+      "24": {
+        "winningParty": "democrat"
+      },
+      "25": {
+        "winningParty": "democrat"
+      },
+      "26": {
+        "winningParty": "republican"
+      },
+      "27": {
+        "winningParty": "republican"
+      },
+      "28": {
+        "winningParty": "republican"
+      }
+    },
+    "GA": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "republican"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "republican"
+      }
+    },
+    "HI": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      }
+    },
+    "IA": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      }
+    },
+    "ID": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      }
+    },
+    "IL": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "democrat"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "democrat"
+      },
+      "15": {
+        "winningParty": "republican"
+      },
+      "16": {
+        "winningParty": "republican"
+      },
+      "17": {
+        "winningParty": "democrat"
+      }
+    },
+    "IN": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "republican"
+      }
+    },
+    "KS": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      }
+    },
+    "KY": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      }
+    },
+    "LA": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "democrat"
+      }
+    },
+    "MA": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "democrat"
+      }
+    },
+    "MD": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      }
+    },
+    "ME": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      }
+    },
+    "MI": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "republican"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "democrat"
+      },
+      "12": {
+        "winningParty": "democrat"
+      },
+      "13": {
+        "winningParty": "democrat"
+      }
+    },
+    "MN": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      }
+    },
+    "MO": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      }
+    },
+    "MS": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      }
+    },
+    "MT": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      }
+    },
+    "NC": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "republican"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "democrat"
+      },
+      "13": {
+        "winningParty": "republican"
+      },
+      "14": {
+        "winningParty": "republican"
+      }
+    },
+    "ND": {
+      "AL": {
+        "winningParty": "republican"
+      }
+    },
+    "NE": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      }
+    },
+    "NH": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      }
+    },
+    "NJ": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "republican"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "democrat"
+      },
+      "12": {
+        "winningParty": "democrat"
+      }
+    },
+    "NM": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      }
+    },
+    "NV": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "democrat"
+      }
+    },
+    "NY": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "democrat"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "democrat"
+      },
+      "15": {
+        "winningParty": "democrat"
+      },
+      "16": {
+        "winningParty": "democrat"
+      },
+      "17": {
+        "winningParty": "democrat"
+      },
+      "18": {
+        "winningParty": "democrat"
+      },
+      "19": {
+        "winningParty": "democrat"
+      },
+      "20": {
+        "winningParty": "democrat"
+      },
+      "21": {
+        "winningParty": "republican"
+      },
+      "22": {
+        "winningParty": "democrat"
+      },
+      "23": {
+        "winningParty": "republican"
+      },
+      "24": {
+        "winningParty": "republican"
+      },
+      "25": {
+        "winningParty": "democrat"
+      },
+      "26": {
+        "winningParty": "democrat"
+      }
+    },
+    "OH": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "republican"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "democrat"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "democrat"
+      },
+      "14": {
+        "winningParty": "republican"
+      },
+      "15": {
+        "winningParty": "republican"
+      }
+    },
+    "OK": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      }
+    },
+    "OR": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      }
+    },
+    "PA": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "democrat"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "republican"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "democrat"
+      },
+      "13": {
+        "winningParty": "republican"
+      },
+      "14": {
+        "winningParty": "republican"
+      },
+      "15": {
+        "winningParty": "republican"
+      },
+      "16": {
+        "winningParty": "republican"
+      },
+      "17": {
+        "winningParty": "democrat"
+      }
+    },
+    "RI": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      }
+    },
+    "SC": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "republican"
+      }
+    },
+    "SD": {
+      "AL": {
+        "winningParty": "republican"
+      }
+    },
+    "TN": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      }
+    },
+    "TX": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "republican"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "republican"
+      },
+      "11": {
+        "winningParty": "republican"
+      },
+      "12": {
+        "winningParty": "republican"
+      },
+      "13": {
+        "winningParty": "republican"
+      },
+      "14": {
+        "winningParty": "republican"
+      },
+      "15": {
+        "winningParty": "republican"
+      },
+      "16": {
+        "winningParty": "democrat"
+      },
+      "17": {
+        "winningParty": "republican"
+      },
+      "18": {
+        "winningParty": "democrat"
+      },
+      "19": {
+        "winningParty": "republican"
+      },
+      "20": {
+        "winningParty": "democrat"
+      },
+      "21": {
+        "winningParty": "republican"
+      },
+      "22": {
+        "winningParty": "republican"
+      },
+      "23": {
+        "winningParty": "republican"
+      },
+      "24": {
+        "winningParty": "republican"
+      },
+      "25": {
+        "winningParty": "republican"
+      },
+      "26": {
+        "winningParty": "republican"
+      },
+      "27": {
+        "winningParty": "republican"
+      },
+      "28": {
+        "winningParty": "republican"
+      },
+      "29": {
+        "winningParty": "democrat"
+      },
+      "30": {
+        "winningParty": "democrat"
+      },
+      "31": {
+        "winningParty": "republican"
+      },
+      "32": {
+        "winningParty": "democrat"
+      },
+      "33": {
+        "winningParty": "democrat"
+      },
+      "34": {
+        "winningParty": "republican"
+      },
+      "35": {
+        "winningParty": "democrat"
+      },
+      "36": {
+        "winningParty": "republican"
+      },
+      "37": {
+        "winningParty": "democrat"
+      },
+      "38": {
+        "winningParty": "republican"
+      }
+    },
+    "UT": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      }
+    },
+    "VA": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      },
+      "3": {
+        "winningParty": "democrat"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "republican"
+      },
+      "10": {
+        "winningParty": "democrat"
+      },
+      "11": {
+        "winningParty": "democrat"
+      }
+    },
+    "VT": {
+      "AL": {
+        "winningParty": "democrat"
+      }
+    },
+    "WA": {
+      "1": {
+        "winningParty": "democrat"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "republican"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "democrat"
+      },
+      "7": {
+        "winningParty": "democrat"
+      },
+      "8": {
+        "winningParty": "democrat"
+      },
+      "9": {
+        "winningParty": "democrat"
+      },
+      "10": {
+        "winningParty": "democrat"
+      }
+    },
+    "WI": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "democrat"
+      },
+      "3": {
+        "winningParty": "republican"
+      },
+      "4": {
+        "winningParty": "democrat"
+      },
+      "5": {
+        "winningParty": "republican"
+      },
+      "6": {
+        "winningParty": "republican"
+      },
+      "7": {
+        "winningParty": "republican"
+      },
+      "8": {
+        "winningParty": "republican"
+      }
+    },
+    "WV": {
+      "1": {
+        "winningParty": "republican"
+      },
+      "2": {
+        "winningParty": "republican"
+      }
+    },
+    "WY": {
+      "AL": {
+        "winningParty": "republican"
+      }
+    }
+  }
+}

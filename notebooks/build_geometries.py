@@ -25,11 +25,18 @@ def _():
         "-o", "--output",
         default="./.data/shapefiles/",
         type=str,
-        help="Output directory for shapefiles",
+        help="Output directory for downloaded shapefiles",
+    )
+    _parser.add_argument(
+        "--out",
+        default="./.data/",
+        type=str,
+        help="Output directory for generated SVGs (maps/ subdir) and district_index.json",
     )
     _args = _parser.parse_args()
     data_dir = Path(_args.output)
-    return (data_dir,)
+    out_dir = Path(_args.out)
+    return (data_dir, out_dir)
 
 
 @app.cell
@@ -319,9 +326,9 @@ def _():
 
 
 @app.cell
-def _(ELECTION_TO_CONGRESS, STATE_NAME_TO_ABBR, compute_viewboxes, data_dir, display_bounds, geom_to_svg, make_projector, simplify_tol):
-    maps_dir = data_dir.parent / "maps"
-    maps_dir.mkdir(exist_ok=True)
+def _(ELECTION_TO_CONGRESS, STATE_NAME_TO_ABBR, compute_viewboxes, data_dir, display_bounds, geom_to_svg, make_projector, out_dir, simplify_tol):
+    maps_dir = out_dir / "maps"
+    maps_dir.mkdir(parents=True, exist_ok=True)
 
     _congress_to_years: dict[int, list[int]] = {}
     for _yr, _c in ELECTION_TO_CONGRESS.items():
@@ -392,13 +399,6 @@ def _(ELECTION_TO_CONGRESS, STATE_NAME_TO_ABBR, compute_viewboxes, data_dir, dis
         # Build DistrictIndex entry (paths stripped)
         _district_index[state_abbr] = {
             "yearToCongress": {str(k): v for k, v in sorted(year_to_congress_key.items())},
-            "districtIdsByCongress": {
-                congress_key: sorted(
-                    district_paths.keys(),
-                    key=lambda x: (int(x) if x.isdigit() else float("inf"), x),
-                )
-                for congress_key, district_paths in districts_by_congress.items()
-            },
         }
         n = len(districts_by_congress)
         print(f"  {state_abbr}: {n} unique boundary set(s)")
@@ -406,7 +406,7 @@ def _(ELECTION_TO_CONGRESS, STATE_NAME_TO_ABBR, compute_viewboxes, data_dir, dis
     for _state_name, _state_abbr in STATE_NAME_TO_ABBR.items():
         build_state(_state_name, _state_abbr)
 
-    index_path = data_dir.parent / "district_index.json"
+    index_path = out_dir / "district_index.json"
     index_path.write_text(json.dumps(_district_index, indent=2))
     print(f"Wrote district_index.json ({len(_district_index)} states)")
 

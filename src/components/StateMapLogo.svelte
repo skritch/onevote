@@ -2,7 +2,7 @@
   import { getCongressForYear } from "../lib/districts.js";
   import type { DistrictIndex } from "../lib/districts.js";
   import type { StatePO } from "../lib/states.js";
-  import districtResultsRaw from "../data/district_results.json";
+  import { districtResults } from "../lib/districts.js";
   import { partyColors } from "../lib/party.js";
   import { initCap } from "../utils/strings.js";
 
@@ -15,11 +15,6 @@
   };
 
   let { districtIndex, statePO, year, districtId, onDistrictChange }: Props = $props();
-
-  const districtResults = districtResultsRaw as Record<
-    string,
-    Record<string, Record<string, string | null>>
-  >;
 
   type PathEntry = { id: string; d: string };
   type SvgData = { viewBox: string; paths: PathEntry[] };
@@ -49,14 +44,11 @@
   const svgDataPromise = $derived(fetchSvgData(statePO, congress));
 
   const yearDistrictResults = $derived(
-    districtResults[String(year)]?.[statePO] ?? {},
+    districtResults[String(year)]?.[statePO] ?? {} as Record<string, import("../lib/districts.js").DistrictResult>,
   );
 
   function districtColor(id: string): string {
-    const party =
-      yearDistrictResults[id] ??
-      yearDistrictResults[id.padStart(2, "0")] ??
-      "unknown";
+    const party = yearDistrictResults[id]?.winningParty ?? "unknown";
     return partyColors[initCap(party)] ?? partyColors.Unknown;
   }
 

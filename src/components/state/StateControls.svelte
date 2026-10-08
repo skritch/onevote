@@ -50,7 +50,7 @@
 
   // Congressional districts for this state page, keyed by year
   const availableDistrictIds = $derived(
-    districtIndex ? getDistrictIdsForYear(districtIndex, params.year) : [],
+    districtIndex ? getDistrictIdsForYear(statePO, params.year) : [],
   );
 
   const districtIdSelectorDisabled = $derived(

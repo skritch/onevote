@@ -1,4 +1,4 @@
-import dimensionsRaw from '../../.data/dimensions/presidential_elections.json'
+import dimensionsRaw from '../data/presidential_elections.json'
 import electionsRaw from '../data/elections.json'
 import { initCap } from '../utils/strings.js'
 import type { Party } from './party.js'

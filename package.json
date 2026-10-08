@@ -4,13 +4,11 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "prebuild": "npm run build:geometries && npm run build:assets && npm run build:data",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "build:geometries": "PYTHONPATH=. uv run notebooks/build_geometries.py",
-    "build:assets": "cp .data/maps/*.svg public/maps/ && cp .data/district_index.json src/data/district_index.json",
-    "build:data": "PYTHONPATH=. uv run notebooks/build_dimensions.py && PYTHONPATH=. uv run notebooks/build_values.py",
+    "build:assets": "PYTHONPATH=. uv run notebooks/build_geometries.py --out public && cp public/district_index.json src/data/district_index.json",
+    "build:data": "PYTHONPATH=. uv run notebooks/build_dimensions.py -o src/data/ && PYTHONPATH=. uv run notebooks/build_values.py -o src/data/values/",
     "check": "tsc --noEmit"
   },
   "dependencies": {

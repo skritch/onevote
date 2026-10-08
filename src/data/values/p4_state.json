@@ -1,0 +1,2562 @@
+{
+  "2012": {
+    "AK": {
+      "av_ap": 2.424,
+      "av_vap": 2.502,
+      "av_vp": 2.404,
+      "pv_vap": 1.907,
+      "pv_vp": 1.854,
+      "electors_democrat": 0,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "AL": {
+      "av_ap": 1.081,
+      "av_vap": 1.101,
+      "av_vp": 1.045,
+      "pv_vap": 0.731,
+      "pv_vp": 0.706,
+      "electors_democrat": 1,
+      "electors_republican": 8,
+      "electors_other": 0
+    },
+    "AR": {
+      "av_ap": 1.181,
+      "av_vap": 1.212,
+      "av_vp": 1.349,
+      "pv_vap": 0.939,
+      "pv_vp": 0.983,
+      "electors_democrat": 0,
+      "electors_republican": 6,
+      "electors_other": 0
+    },
+    "AZ": {
+      "av_ap": 0.988,
+      "av_vap": 1.029,
+      "av_vp": 1.212,
+      "pv_vap": 0.631,
+      "pv_vp": 0.67,
+      "electors_democrat": 3,
+      "electors_republican": 8,
+      "electors_other": 0
+    },
+    "CA": {
+      "av_ap": 0.847,
+      "av_vap": 0.882,
+      "av_vp": 1.076,
+      "pv_vap": 0.262,
+      "pv_vp": 0.281,
+      "electors_democrat": 43,
+      "electors_republican": 12,
+      "electors_other": 0
+    },
+    "CO": {
+      "av_ap": 1.027,
+      "av_vap": 1.05,
+      "av_vp": 0.845,
+      "pv_vap": 0.705,
+      "pv_vp": 0.634,
+      "electors_democrat": 6,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "CT": {
+      "av_ap": 1.124,
+      "av_vap": 1.132,
+      "av_vp": 1.078,
+      "pv_vap": 0.84,
+      "pv_vp": 0.814,
+      "electors_democrat": 7,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "DC": {
+      "av_ap": 2.861,
+      "av_vap": 2.58,
+      "av_vp": 2.451,
+      "pv_vap": 1.93,
+      "pv_vp": 1.875,
+      "electors_democrat": 3,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "DE": {
+      "av_ap": 1.917,
+      "av_vap": 1.901,
+      "av_vp": 1.74,
+      "pv_vap": 1.665,
+      "pv_vp": 1.58,
+      "electors_democrat": 3,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "FL": {
+      "av_ap": 0.885,
+      "av_vap": 0.876,
+      "av_vp": 0.834,
+      "pv_vap": 0.359,
+      "pv_vp": 0.349,
+      "electors_democrat": 13,
+      "electors_republican": 16,
+      "electors_other": 0
+    },
+    "GA": {
+      "av_ap": 0.948,
+      "av_vap": 0.992,
+      "av_vp": 0.99,
+      "pv_vap": 0.516,
+      "pv_vp": 0.515,
+      "electors_democrat": 4,
+      "electors_republican": 12,
+      "electors_other": 0
+    },
+    "HI": {
+      "av_ap": 1.687,
+      "av_vap": 1.669,
+      "av_vp": 2.203,
+      "pv_vap": 1.346,
+      "pv_vp": 1.537,
+      "electors_democrat": 4,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "IA": {
+      "av_ap": 1.13,
+      "av_vap": 1.153,
+      "av_vp": 0.913,
+      "pv_vap": 0.916,
+      "pv_vp": 0.808,
+      "electors_democrat": 5,
+      "electors_republican": 1,
+      "electors_other": 0
+    },
+    "ID": {
+      "av_ap": 1.464,
+      "av_vap": 1.55,
+      "av_vp": 1.472,
+      "pv_vap": 1.299,
+      "pv_vp": 1.258,
+      "electors_democrat": 0,
+      "electors_republican": 4,
+      "electors_other": 0
+    },
+    "IL": {
+      "av_ap": 0.895,
+      "av_vap": 0.923,
+      "av_vp": 0.937,
+      "pv_vap": 0.448,
+      "pv_vp": 0.444,
+      "electors_democrat": 14,
+      "electors_republican": 6,
+      "electors_other": 0
+    },
+    "IN": {
+      "av_ap": 0.974,
+      "av_vap": 1.007,
+      "av_vp": 1.009,
+      "pv_vap": 0.632,
+      "pv_vp": 0.627,
+      "electors_democrat": 2,
+      "electors_republican": 9,
+      "electors_other": 0
+    },
+    "KS": {
+      "av_ap": 1.207,
+      "av_vap": 1.257,
+      "av_vp": 1.252,
+      "pv_vap": 0.957,
+      "pv_vp": 0.944,
+      "electors_democrat": 0,
+      "electors_republican": 6,
+      "electors_other": 0
+    },
+    "KY": {
+      "av_ap": 1.058,
+      "av_vap": 1.076,
+      "av_vp": 1.073,
+      "pv_vap": 0.766,
+      "pv_vp": 0.758,
+      "electors_democrat": 1,
+      "electors_republican": 7,
+      "electors_other": 0
+    },
+    "LA": {
+      "av_ap": 1.013,
+      "av_vap": 1.043,
+      "av_vp": 0.963,
+      "pv_vap": 0.752,
+      "pv_vp": 0.72,
+      "electors_democrat": 1,
+      "electors_republican": 7,
+      "electors_other": 0
+    },
+    "MA": {
+      "av_ap": 0.964,
+      "av_vap": 0.956,
+      "av_vp": 0.84,
+      "pv_vap": 0.612,
+      "pv_vp": 0.569,
+      "electors_democrat": 11,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "MD": {
+      "av_ap": 0.994,
+      "av_vap": 1.007,
+      "av_vp": 0.891,
+      "pv_vap": 0.659,
+      "pv_vp": 0.618,
+      "electors_democrat": 9,
+      "electors_republican": 1,
+      "electors_other": 0
+    },
+    "ME": {
+      "av_ap": 1.728,
+      "av_vap": 1.692,
+      "av_vp": 1.339,
+      "pv_vap": 1.364,
+      "pv_vp": 1.194,
+      "electors_democrat": 4,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "MI": {
+      "av_ap": 0.929,
+      "av_vap": 0.949,
+      "av_vp": 0.815,
+      "pv_vap": 0.509,
+      "pv_vp": 0.467,
+      "electors_democrat": 7,
+      "electors_republican": 9,
+      "electors_other": 0
+    },
+    "MN": {
+      "av_ap": 1.082,
+      "av_vap": 1.11,
+      "av_vp": 0.822,
+      "pv_vap": 0.694,
+      "pv_vp": 0.593,
+      "electors_democrat": 8,
+      "electors_republican": 2,
+      "electors_other": 0
+    },
+    "MO": {
+      "av_ap": 0.958,
+      "av_vap": 0.979,
+      "av_vp": 0.875,
+      "pv_vap": 0.654,
+      "pv_vp": 0.612,
+      "electors_democrat": 2,
+      "electors_republican": 8,
+      "electors_other": 0
+    },
+    "MS": {
+      "av_ap": 1.16,
+      "av_vap": 1.209,
+      "av_vp": 1.122,
+      "pv_vap": 0.939,
+      "pv_vp": 0.896,
+      "electors_democrat": 1,
+      "electors_republican": 5,
+      "electors_other": 0
+    },
+    "MT": {
+      "av_ap": 1.74,
+      "av_vap": 1.727,
+      "av_vp": 1.488,
+      "pv_vap": 1.589,
+      "pv_vp": 1.461,
+      "electors_democrat": 0,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "NC": {
+      "av_ap": 0.903,
+      "av_vap": 0.922,
+      "av_vp": 0.805,
+      "pv_vap": 0.514,
+      "pv_vp": 0.479,
+      "electors_democrat": 3,
+      "electors_republican": 12,
+      "electors_other": 0
+    },
+    "ND": {
+      "av_ap": 2.56,
+      "av_vap": 2.488,
+      "av_vp": 2.235,
+      "pv_vap": 1.899,
+      "pv_vp": 1.788,
+      "electors_democrat": 0,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "NE": {
+      "av_ap": 1.571,
+      "av_vap": 1.625,
+      "av_vp": 1.515,
+      "pv_vap": 1.191,
+      "pv_vp": 1.14,
+      "electors_democrat": 0,
+      "electors_republican": 5,
+      "electors_other": 0
+    },
+    "NH": {
+      "av_ap": 1.744,
+      "av_vap": 1.723,
+      "av_vp": 1.353,
+      "pv_vap": 1.373,
+      "pv_vp": 1.205,
+      "electors_democrat": 4,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "NJ": {
+      "av_ap": 0.914,
+      "av_vap": 0.93,
+      "av_vp": 0.942,
+      "pv_vap": 0.538,
+      "pv_vp": 0.533,
+      "electors_democrat": 10,
+      "electors_republican": 4,
+      "electors_other": 0
+    },
+    "NM": {
+      "av_ap": 1.393,
+      "av_vap": 1.44,
+      "av_vp": 1.538,
+      "pv_vap": 1.12,
+      "pv_vp": 1.148,
+      "electors_democrat": 4,
+      "electors_republican": 1,
+      "electors_other": 0
+    },
+    "NV": {
+      "av_ap": 1.275,
+      "av_vap": 1.307,
+      "av_vp": 1.449,
+      "pv_vap": 0.971,
+      "pv_vp": 1.009,
+      "electors_democrat": 5,
+      "electors_republican": 1,
+      "electors_other": 0
+    },
+    "NY": {
+      "av_ap": 0.859,
+      "av_vap": 0.863,
+      "av_vp": 1.019,
+      "pv_vap": 0.359,
+      "pv_vp": 0.381,
+      "electors_democrat": 26,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "OH": {
+      "av_ap": 0.895,
+      "av_vap": 0.914,
+      "av_vp": 0.777,
+      "pv_vap": 0.472,
+      "pv_vp": 0.43,
+      "electors_democrat": 6,
+      "electors_republican": 12,
+      "electors_other": 0
+    },
+    "OK": {
+      "av_ap": 1.071,
+      "av_vap": 1.104,
+      "av_vp": 1.26,
+      "pv_vap": 0.828,
+      "pv_vp": 0.88,
+      "electors_democrat": 0,
+      "electors_republican": 7,
+      "electors_other": 0
+    },
+    "OR": {
+      "av_ap": 1.049,
+      "av_vap": 1.05,
+      "av_vp": 0.945,
+      "pv_vap": 0.806,
+      "pv_vp": 0.76,
+      "electors_democrat": 6,
+      "electors_republican": 1,
+      "electors_other": 0
+    },
+    "PA": {
+      "av_ap": 0.904,
+      "av_vap": 0.903,
+      "av_vp": 0.843,
+      "pv_vap": 0.444,
+      "pv_vp": 0.424,
+      "electors_democrat": 7,
+      "electors_republican": 13,
+      "electors_other": 0
+    },
+    "RI": {
+      "av_ap": 2.181,
+      "av_vap": 2.149,
+      "av_vp": 2.158,
+      "pv_vap": 1.536,
+      "pv_vp": 1.522,
+      "electors_democrat": 4,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "SC": {
+      "av_ap": 1.117,
+      "av_vap": 1.129,
+      "av_vp": 1.101,
+      "pv_vap": 0.736,
+      "pv_vp": 0.725,
+      "electors_democrat": 1,
+      "electors_republican": 8,
+      "electors_other": 0
+    },
+    "SD": {
+      "av_ap": 2.115,
+      "av_vap": 2.153,
+      "av_vp": 1.979,
+      "pv_vap": 1.772,
+      "pv_vp": 1.685,
+      "electors_democrat": 0,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "TN": {
+      "av_ap": 0.995,
+      "av_vap": 1.011,
+      "av_vp": 1.076,
+      "pv_vap": 0.631,
+      "pv_vp": 0.648,
+      "electors_democrat": 2,
+      "electors_republican": 9,
+      "electors_other": 0
+    },
+    "TX": {
+      "av_ap": 0.867,
+      "av_vap": 0.93,
+      "av_vp": 1.201,
+      "pv_vap": 0.321,
+      "pv_vp": 0.359,
+      "electors_democrat": 11,
+      "electors_republican": 27,
+      "electors_other": 0
+    },
+    "UT": {
+      "av_ap": 1.246,
+      "av_vap": 1.4,
+      "av_vp": 1.416,
+      "pv_vap": 1,
+      "pv_vp": 1.007,
+      "electors_democrat": 0,
+      "electors_republican": 6,
+      "electors_other": 0
+    },
+    "VA": {
+      "av_ap": 0.933,
+      "av_vap": 0.943,
+      "av_vp": 0.814,
+      "pv_vap": 0.558,
+      "pv_vp": 0.518,
+      "electors_democrat": 6,
+      "electors_republican": 7,
+      "electors_other": 0
+    },
+    "VT": {
+      "av_ap": 2.751,
+      "av_vap": 2.686,
+      "av_vp": 2.412,
+      "pv_vap": 1.986,
+      "pv_vp": 1.858,
+      "electors_democrat": 3,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "WA": {
+      "av_ap": 1.024,
+      "av_vap": 1.04,
+      "av_vp": 0.933,
+      "pv_vap": 0.609,
+      "pv_vp": 0.575,
+      "electors_democrat": 9,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "WI": {
+      "av_ap": 1.009,
+      "av_vap": 1.027,
+      "av_vp": 0.785,
+      "pv_vap": 0.67,
+      "pv_vp": 0.58,
+      "electors_democrat": 5,
+      "electors_republican": 5,
+      "electors_other": 0
+    },
+    "WV": {
+      "av_ap": 1.549,
+      "av_vap": 1.525,
+      "av_vp": 1.793,
+      "pv_vap": 1.159,
+      "pv_vp": 1.241,
+      "electors_democrat": 0,
+      "electors_republican": 5,
+      "electors_other": 0
+    },
+    "WY": {
+      "av_ap": 3.055,
+      "av_vap": 3.074,
+      "av_vp": 2.887,
+      "pv_vap": 2.117,
+      "pv_vp": 2.03,
+      "electors_democrat": 0,
+      "electors_republican": 3,
+      "electors_other": 0
+    }
+  },
+  "2016": {
+    "AK": {
+      "av_ap": 2.424,
+      "av_vap": 2.564,
+      "av_vp": 2.418,
+      "pv_vap": 1.96,
+      "pv_vp": 1.86,
+      "electors_democrat": 0,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "AL": {
+      "av_ap": 1.081,
+      "av_vap": 1.138,
+      "av_vp": 1.088,
+      "pv_vap": 0.752,
+      "pv_vp": 0.72,
+      "electors_democrat": 1,
+      "electors_republican": 8,
+      "electors_other": 0
+    },
+    "AR": {
+      "av_ap": 1.181,
+      "av_vap": 1.249,
+      "av_vp": 1.353,
+      "pv_vap": 0.965,
+      "pv_vp": 0.987,
+      "electors_democrat": 0,
+      "electors_republican": 6,
+      "electors_other": 0
+    },
+    "AZ": {
+      "av_ap": 0.988,
+      "av_vap": 1.054,
+      "av_vp": 1.142,
+      "pv_vap": 0.631,
+      "pv_vp": 0.654,
+      "electors_democrat": 4,
+      "electors_republican": 7,
+      "electors_other": 0
+    },
+    "CA": {
+      "av_ap": 0.847,
+      "av_vap": 0.914,
+      "av_vp": 1.041,
+      "pv_vap": 0.266,
+      "pv_vp": 0.279,
+      "electors_democrat": 48,
+      "electors_republican": 7,
+      "electors_other": 0
+    },
+    "CO": {
+      "av_ap": 1.027,
+      "av_vap": 1.072,
+      "av_vp": 0.827,
+      "pv_vap": 0.704,
+      "pv_vp": 0.63,
+      "electors_democrat": 6,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "CT": {
+      "av_ap": 1.124,
+      "av_vap": 1.172,
+      "av_vp": 1.084,
+      "pv_vap": 0.868,
+      "pv_vp": 0.818,
+      "electors_democrat": 7,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "DC": {
+      "av_ap": 2.861,
+      "av_vap": 2.571,
+      "av_vp": 2.44,
+      "pv_vap": 1.941,
+      "pv_vp": 1.877,
+      "electors_democrat": 3,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "DE": {
+      "av_ap": 1.917,
+      "av_vap": 1.913,
+      "av_vp": 1.727,
+      "pv_vap": 1.687,
+      "pv_vp": 1.58,
+      "electors_democrat": 3,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "FL": {
+      "av_ap": 0.885,
+      "av_vap": 0.905,
+      "av_vp": 0.794,
+      "pv_vap": 0.359,
+      "pv_vp": 0.342,
+      "electors_democrat": 13,
+      "electors_republican": 16,
+      "electors_other": 0
+    },
+    "GA": {
+      "av_ap": 0.948,
+      "av_vap": 1.023,
+      "av_vp": 1,
+      "pv_vap": 0.522,
+      "pv_vp": 0.517,
+      "electors_democrat": 4,
+      "electors_republican": 12,
+      "electors_other": 0
+    },
+    "HI": {
+      "av_ap": 1.687,
+      "av_vap": 1.709,
+      "av_vp": 2.348,
+      "pv_vap": 1.379,
+      "pv_vp": 1.587,
+      "electors_democrat": 4,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "IA": {
+      "av_ap": 1.13,
+      "av_vap": 1.188,
+      "av_vp": 0.98,
+      "pv_vap": 0.941,
+      "pv_vp": 0.839,
+      "electors_democrat": 0,
+      "electors_republican": 6,
+      "electors_other": 0
+    },
+    "ID": {
+      "av_ap": 1.464,
+      "av_vap": 1.556,
+      "av_vp": 1.475,
+      "pv_vap": 1.302,
+      "pv_vp": 1.263,
+      "electors_democrat": 0,
+      "electors_republican": 4,
+      "electors_other": 0
+    },
+    "IL": {
+      "av_ap": 0.895,
+      "av_vap": 0.957,
+      "av_vp": 0.933,
+      "pv_vap": 0.464,
+      "pv_vp": 0.446,
+      "electors_democrat": 13,
+      "electors_republican": 7,
+      "electors_other": 0
+    },
+    "IN": {
+      "av_ap": 0.974,
+      "av_vap": 1.041,
+      "av_vp": 1.032,
+      "pv_vap": 0.648,
+      "pv_vp": 0.635,
+      "electors_democrat": 2,
+      "electors_republican": 9,
+      "electors_other": 0
+    },
+    "KS": {
+      "av_ap": 1.207,
+      "av_vap": 1.297,
+      "av_vp": 1.302,
+      "pv_vap": 0.985,
+      "pv_vp": 0.964,
+      "electors_democrat": 1,
+      "electors_republican": 5,
+      "electors_other": 0
+    },
+    "KY": {
+      "av_ap": 1.058,
+      "av_vap": 1.112,
+      "av_vp": 1.061,
+      "pv_vap": 0.788,
+      "pv_vp": 0.757,
+      "electors_democrat": 1,
+      "electors_republican": 7,
+      "electors_other": 0
+    },
+    "LA": {
+      "av_ap": 1.013,
+      "av_vap": 1.077,
+      "av_vp": 1.004,
+      "pv_vap": 0.773,
+      "pv_vp": 0.737,
+      "electors_democrat": 1,
+      "electors_republican": 7,
+      "electors_other": 0
+    },
+    "MA": {
+      "av_ap": 0.964,
+      "av_vap": 0.986,
+      "av_vp": 0.855,
+      "pv_vap": 0.625,
+      "pv_vp": 0.571,
+      "electors_democrat": 11,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "MD": {
+      "av_ap": 0.994,
+      "av_vap": 1.04,
+      "av_vp": 0.928,
+      "pv_vap": 0.676,
+      "pv_vp": 0.629,
+      "electors_democrat": 9,
+      "electors_republican": 1,
+      "electors_other": 0
+    },
+    "ME": {
+      "av_ap": 1.728,
+      "av_vap": 1.743,
+      "av_vp": 1.343,
+      "pv_vap": 1.405,
+      "pv_vp": 1.195,
+      "electors_democrat": 3,
+      "electors_republican": 1,
+      "electors_other": 0
+    },
+    "MI": {
+      "av_ap": 0.929,
+      "av_vap": 0.983,
+      "av_vp": 0.855,
+      "pv_vap": 0.524,
+      "pv_vp": 0.479,
+      "electors_democrat": 5,
+      "electors_republican": 11,
+      "electors_other": 0
+    },
+    "MN": {
+      "av_ap": 1.082,
+      "av_vap": 1.144,
+      "av_vp": 0.872,
+      "pv_vap": 0.709,
+      "pv_vp": 0.612,
+      "electors_democrat": 5,
+      "electors_republican": 5,
+      "electors_other": 0
+    },
+    "MO": {
+      "av_ap": 0.958,
+      "av_vap": 1.012,
+      "av_vp": 0.913,
+      "pv_vap": 0.673,
+      "pv_vp": 0.626,
+      "electors_democrat": 2,
+      "electors_republican": 8,
+      "electors_other": 0
+    },
+    "MS": {
+      "av_ap": 1.16,
+      "av_vap": 1.25,
+      "av_vp": 1.264,
+      "pv_vap": 0.969,
+      "pv_vp": 0.954,
+      "electors_democrat": 1,
+      "electors_republican": 5,
+      "electors_other": 0
+    },
+    "MT": {
+      "av_ap": 1.74,
+      "av_vap": 1.745,
+      "av_vp": 1.542,
+      "pv_vap": 1.616,
+      "pv_vp": 1.493,
+      "electors_democrat": 0,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "NC": {
+      "av_ap": 0.903,
+      "av_vap": 0.951,
+      "av_vp": 0.816,
+      "pv_vap": 0.519,
+      "pv_vp": 0.482,
+      "electors_democrat": 3,
+      "electors_republican": 12,
+      "electors_other": 0
+    },
+    "ND": {
+      "av_ap": 2.56,
+      "av_vap": 2.491,
+      "av_vp": 2.229,
+      "pv_vap": 1.917,
+      "pv_vp": 1.789,
+      "electors_democrat": 0,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "NE": {
+      "av_ap": 1.571,
+      "av_vap": 1.667,
+      "av_vp": 1.524,
+      "pv_vap": 1.218,
+      "pv_vp": 1.142,
+      "electors_democrat": 0,
+      "electors_republican": 5,
+      "electors_other": 0
+    },
+    "NH": {
+      "av_ap": 1.744,
+      "av_vap": 1.761,
+      "av_vp": 1.378,
+      "pv_vap": 1.403,
+      "pv_vp": 1.217,
+      "electors_democrat": 3,
+      "electors_republican": 1,
+      "electors_other": 0
+    },
+    "NJ": {
+      "av_ap": 0.914,
+      "av_vap": 0.964,
+      "av_vp": 0.936,
+      "pv_vap": 0.556,
+      "pv_vp": 0.533,
+      "electors_democrat": 9,
+      "electors_republican": 5,
+      "electors_other": 0
+    },
+    "NM": {
+      "av_ap": 1.393,
+      "av_vap": 1.486,
+      "av_vp": 1.6,
+      "pv_vap": 1.154,
+      "pv_vp": 1.175,
+      "electors_democrat": 4,
+      "electors_republican": 1,
+      "electors_other": 0
+    },
+    "NV": {
+      "av_ap": 1.275,
+      "av_vap": 1.325,
+      "av_vp": 1.394,
+      "pv_vap": 0.971,
+      "pv_vp": 0.989,
+      "electors_democrat": 4,
+      "electors_republican": 2,
+      "electors_other": 0
+    },
+    "NY": {
+      "av_ap": 0.859,
+      "av_vap": 0.895,
+      "av_vp": 0.989,
+      "pv_vap": 0.371,
+      "pv_vp": 0.376,
+      "electors_democrat": 20,
+      "electors_republican": 9,
+      "electors_other": 0
+    },
+    "OH": {
+      "av_ap": 0.895,
+      "av_vap": 0.947,
+      "av_vp": 0.838,
+      "pv_vap": 0.486,
+      "pv_vp": 0.448,
+      "electors_democrat": 4,
+      "electors_republican": 14,
+      "electors_other": 0
+    },
+    "OK": {
+      "av_ap": 1.071,
+      "av_vap": 1.136,
+      "av_vp": 1.227,
+      "pv_vap": 0.847,
+      "pv_vp": 0.871,
+      "electors_democrat": 0,
+      "electors_republican": 7,
+      "electors_other": 0
+    },
+    "OR": {
+      "av_ap": 1.049,
+      "av_vap": 1.071,
+      "av_vp": 0.914,
+      "pv_vap": 0.812,
+      "pv_vp": 0.742,
+      "electors_democrat": 6,
+      "electors_republican": 1,
+      "electors_other": 0
+    },
+    "PA": {
+      "av_ap": 0.904,
+      "av_vap": 0.936,
+      "av_vp": 0.836,
+      "pv_vap": 0.459,
+      "pv_vp": 0.424,
+      "electors_democrat": 6,
+      "electors_republican": 14,
+      "electors_other": 0
+    },
+    "RI": {
+      "av_ap": 2.181,
+      "av_vap": 2.216,
+      "av_vp": 2.217,
+      "pv_vap": 1.584,
+      "pv_vp": 1.541,
+      "electors_democrat": 4,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "SC": {
+      "av_ap": 1.117,
+      "av_vap": 1.157,
+      "av_vp": 1.092,
+      "pv_vap": 0.741,
+      "pv_vp": 0.724,
+      "electors_democrat": 1,
+      "electors_republican": 8,
+      "electors_other": 0
+    },
+    "SD": {
+      "av_ap": 2.115,
+      "av_vap": 2.187,
+      "av_vp": 2.061,
+      "pv_vap": 1.809,
+      "pv_vp": 1.725,
+      "electors_democrat": 0,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "TN": {
+      "av_ap": 0.995,
+      "av_vap": 1.043,
+      "av_vp": 1.127,
+      "pv_vap": 0.642,
+      "pv_vp": 0.663,
+      "electors_democrat": 2,
+      "electors_republican": 9,
+      "electors_other": 0
+    },
+    "TX": {
+      "av_ap": 0.867,
+      "av_vap": 0.961,
+      "av_vp": 1.139,
+      "pv_vap": 0.321,
+      "pv_vp": 0.35,
+      "electors_democrat": 14,
+      "electors_republican": 24,
+      "electors_other": 0
+    },
+    "UT": {
+      "av_ap": 1.246,
+      "av_vap": 1.416,
+      "av_vp": 1.349,
+      "pv_vap": 0.998,
+      "pv_vp": 0.987,
+      "electors_democrat": 0,
+      "electors_republican": 6,
+      "electors_other": 0
+    },
+    "VA": {
+      "av_ap": 0.933,
+      "av_vap": 0.974,
+      "av_vp": 0.84,
+      "pv_vap": 0.57,
+      "pv_vp": 0.526,
+      "electors_democrat": 7,
+      "electors_republican": 6,
+      "electors_other": 0
+    },
+    "VT": {
+      "av_ap": 2.751,
+      "av_vap": 2.773,
+      "av_vp": 2.394,
+      "pv_vap": 2.052,
+      "pv_vp": 1.854,
+      "electors_democrat": 3,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "WA": {
+      "av_ap": 1.024,
+      "av_vap": 1.068,
+      "av_vp": 0.959,
+      "pv_vap": 0.612,
+      "pv_vp": 0.576,
+      "electors_democrat": 9,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "WI": {
+      "av_ap": 1.009,
+      "av_vap": 1.062,
+      "av_vp": 0.867,
+      "pv_vap": 0.689,
+      "pv_vp": 0.608,
+      "electors_democrat": 2,
+      "electors_republican": 8,
+      "electors_other": 0
+    },
+    "WV": {
+      "av_ap": 1.549,
+      "av_vap": 1.59,
+      "av_vp": 1.786,
+      "pv_vap": 1.21,
+      "pv_vp": 1.243,
+      "electors_democrat": 0,
+      "electors_republican": 5,
+      "electors_other": 0
+    },
+    "WY": {
+      "av_ap": 3.055,
+      "av_vap": 3.167,
+      "av_vp": 2.986,
+      "pv_vap": 2.185,
+      "pv_vp": 2.063,
+      "electors_democrat": 0,
+      "electors_republican": 3,
+      "electors_other": 0
+    }
+  },
+  "2020": {
+    "AK": {
+      "av_ap": 2.399,
+      "av_vap": 2.601,
+      "av_vp": 2.463,
+      "pv_vap": 1.935,
+      "pv_vp": 1.881,
+      "electors_democrat": 0,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "AL": {
+      "av_ap": 1.041,
+      "av_vap": 1.107,
+      "av_vp": 1.149,
+      "pv_vap": 0.727,
+      "pv_vp": 0.74,
+      "electors_democrat": 1,
+      "electors_republican": 8,
+      "electors_other": 0
+    },
+    "AR": {
+      "av_ap": 1.16,
+      "av_vap": 1.25,
+      "av_vp": 1.46,
+      "pv_vap": 0.945,
+      "pv_vp": 1.022,
+      "electors_democrat": 0,
+      "electors_republican": 6,
+      "electors_other": 0
+    },
+    "AZ": {
+      "av_ap": 0.903,
+      "av_vap": 0.955,
+      "av_vp": 0.998,
+      "pv_vap": 0.606,
+      "pv_vp": 0.613,
+      "electors_democrat": 7,
+      "electors_republican": 4,
+      "electors_other": 0
+    },
+    "CA": {
+      "av_ap": 0.801,
+      "av_vap": 0.863,
+      "av_vp": 0.962,
+      "pv_vap": 0.261,
+      "pv_vp": 0.27,
+      "electors_democrat": 48,
+      "electors_republican": 7,
+      "electors_other": 0
+    },
+    "CO": {
+      "av_ap": 0.925,
+      "av_vap": 0.96,
+      "av_vp": 0.816,
+      "pv_vap": 0.675,
+      "pv_vp": 0.623,
+      "electors_democrat": 6,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "CT": {
+      "av_ap": 1.117,
+      "av_vap": 1.173,
+      "av_vp": 1.131,
+      "pv_vap": 0.85,
+      "pv_vp": 0.835,
+      "electors_democrat": 7,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "DC": {
+      "av_ap": 2.74,
+      "av_vap": 2.607,
+      "av_vp": 2.567,
+      "pv_vap": 1.956,
+      "pv_vp": 1.922,
+      "electors_democrat": 3,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "DE": {
+      "av_ap": 1.858,
+      "av_vap": 1.822,
+      "av_vp": 1.753,
+      "pv_vap": 1.616,
+      "pv_vp": 1.588,
+      "electors_democrat": 3,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "FL": {
+      "av_ap": 0.783,
+      "av_vap": 0.808,
+      "av_vp": 0.785,
+      "pv_vap": 0.344,
+      "pv_vp": 0.339,
+      "electors_democrat": 12,
+      "electors_republican": 17,
+      "electors_other": 0
+    },
+    "GA": {
+      "av_ap": 0.871,
+      "av_vap": 0.939,
+      "av_vp": 0.953,
+      "pv_vap": 0.502,
+      "pv_vp": 0.504,
+      "electors_democrat": 8,
+      "electors_republican": 8,
+      "electors_other": 0
+    },
+    "HI": {
+      "av_ap": 1.632,
+      "av_vap": 1.675,
+      "av_vp": 2.043,
+      "pv_vap": 1.349,
+      "pv_vp": 1.481,
+      "electors_democrat": 4,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "IA": {
+      "av_ap": 1.098,
+      "av_vap": 1.178,
+      "av_vp": 1.047,
+      "pv_vap": 0.919,
+      "pv_vp": 0.865,
+      "electors_democrat": 0,
+      "electors_republican": 6,
+      "electors_other": 0
+    },
+    "ID": {
+      "av_ap": 1.357,
+      "av_vap": 1.369,
+      "av_vp": 1.362,
+      "pv_vap": 1.202,
+      "pv_vp": 1.211,
+      "electors_democrat": 0,
+      "electors_republican": 4,
+      "electors_other": 0
+    },
+    "IL": {
+      "av_ap": 0.897,
+      "av_vap": 0.967,
+      "av_vp": 0.992,
+      "pv_vap": 0.459,
+      "pv_vp": 0.459,
+      "electors_democrat": 14,
+      "electors_republican": 6,
+      "electors_other": 0
+    },
+    "IN": {
+      "av_ap": 0.939,
+      "av_vap": 1.02,
+      "av_vp": 1.079,
+      "pv_vap": 0.631,
+      "pv_vp": 0.648,
+      "electors_democrat": 2,
+      "electors_republican": 9,
+      "electors_other": 0
+    },
+    "KS": {
+      "av_ap": 1.185,
+      "av_vap": 1.296,
+      "av_vp": 1.3,
+      "pv_vap": 0.964,
+      "pv_vp": 0.963,
+      "electors_democrat": 1,
+      "electors_republican": 5,
+      "electors_other": 0
+    },
+    "KY": {
+      "av_ap": 1.03,
+      "av_vap": 1.107,
+      "av_vp": 1.11,
+      "pv_vap": 0.772,
+      "pv_vp": 0.772,
+      "electors_democrat": 1,
+      "electors_republican": 7,
+      "electors_other": 0
+    },
+    "LA": {
+      "av_ap": 0.994,
+      "av_vap": 1.083,
+      "av_vp": 1.102,
+      "pv_vap": 0.766,
+      "pv_vp": 0.77,
+      "electors_democrat": 1,
+      "electors_republican": 7,
+      "electors_other": 0
+    },
+    "MA": {
+      "av_ap": 0.911,
+      "av_vap": 0.938,
+      "av_vp": 0.902,
+      "pv_vap": 0.608,
+      "pv_vp": 0.59,
+      "electors_democrat": 11,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "MD": {
+      "av_ap": 0.943,
+      "av_vap": 1.001,
+      "av_vp": 0.98,
+      "pv_vap": 0.658,
+      "pv_vp": 0.647,
+      "electors_democrat": 9,
+      "electors_republican": 1,
+      "electors_other": 0
+    },
+    "ME": {
+      "av_ap": 1.707,
+      "av_vap": 1.724,
+      "av_vp": 1.436,
+      "pv_vap": 1.359,
+      "pv_vp": 1.239,
+      "electors_democrat": 3,
+      "electors_republican": 1,
+      "electors_other": 0
+    },
+    "MI": {
+      "av_ap": 0.915,
+      "av_vap": 0.976,
+      "av_vp": 0.86,
+      "pv_vap": 0.513,
+      "pv_vp": 0.479,
+      "electors_democrat": 8,
+      "electors_republican": 8,
+      "electors_other": 0
+    },
+    "MN": {
+      "av_ap": 1.022,
+      "av_vap": 1.098,
+      "av_vp": 0.904,
+      "pv_vap": 0.688,
+      "pv_vp": 0.623,
+      "electors_democrat": 6,
+      "electors_republican": 4,
+      "electors_other": 0
+    },
+    "MO": {
+      "av_ap": 0.939,
+      "av_vap": 1.009,
+      "av_vp": 0.982,
+      "pv_vap": 0.659,
+      "pv_vp": 0.648,
+      "electors_democrat": 2,
+      "electors_republican": 8,
+      "electors_other": 0
+    },
+    "MS": {
+      "av_ap": 1.164,
+      "av_vap": 1.274,
+      "av_vp": 1.349,
+      "pv_vap": 0.959,
+      "pv_vp": 0.984,
+      "electors_democrat": 1,
+      "electors_republican": 5,
+      "electors_other": 0
+    },
+    "MT": {
+      "av_ap": 1.689,
+      "av_vap": 1.67,
+      "av_vp": 1.464,
+      "pv_vap": 1.545,
+      "pv_vp": 1.452,
+      "electors_democrat": 0,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "NC": {
+      "av_ap": 0.838,
+      "av_vap": 0.887,
+      "av_vp": 0.809,
+      "pv_vap": 0.502,
+      "pv_vp": 0.48,
+      "electors_democrat": 5,
+      "electors_republican": 10,
+      "electors_other": 0
+    },
+    "ND": {
+      "av_ap": 2.443,
+      "av_vap": 2.428,
+      "av_vp": 2.448,
+      "pv_vap": 1.872,
+      "pv_vp": 1.875,
+      "electors_democrat": 0,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "NE": {
+      "av_ap": 1.51,
+      "av_vap": 1.631,
+      "av_vp": 1.548,
+      "pv_vap": 1.185,
+      "pv_vp": 1.153,
+      "electors_democrat": 1,
+      "electors_republican": 4,
+      "electors_other": 0
+    },
+    "NH": {
+      "av_ap": 1.705,
+      "av_vap": 1.711,
+      "av_vp": 1.464,
+      "pv_vap": 1.356,
+      "pv_vp": 1.256,
+      "electors_democrat": 4,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "NJ": {
+      "av_ap": 0.873,
+      "av_vap": 0.927,
+      "av_vp": 0.931,
+      "pv_vap": 0.536,
+      "pv_vp": 0.529,
+      "electors_democrat": 11,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "NM": {
+      "av_ap": 1.371,
+      "av_vap": 1.466,
+      "av_vp": 1.602,
+      "pv_vap": 1.124,
+      "pv_vp": 1.173,
+      "electors_democrat": 4,
+      "electors_republican": 1,
+      "electors_other": 0
+    },
+    "NV": {
+      "av_ap": 1.168,
+      "av_vap": 1.196,
+      "av_vp": 1.306,
+      "pv_vap": 0.921,
+      "pv_vp": 0.951,
+      "electors_democrat": 5,
+      "electors_republican": 1,
+      "electors_other": 0
+    },
+    "NY": {
+      "av_ap": 0.828,
+      "av_vap": 0.872,
+      "av_vp": 1.022,
+      "pv_vap": 0.363,
+      "pv_vp": 0.383,
+      "electors_democrat": 22,
+      "electors_republican": 7,
+      "electors_other": 0
+    },
+    "OH": {
+      "av_ap": 0.879,
+      "av_vap": 0.943,
+      "av_vp": 0.903,
+      "pv_vap": 0.476,
+      "pv_vp": 0.464,
+      "electors_democrat": 4,
+      "electors_republican": 14,
+      "electors_other": 0
+    },
+    "OK": {
+      "av_ap": 1.032,
+      "av_vap": 1.119,
+      "av_vp": 1.324,
+      "pv_vap": 0.828,
+      "pv_vp": 0.903,
+      "electors_democrat": 0,
+      "electors_republican": 7,
+      "electors_other": 0
+    },
+    "OR": {
+      "av_ap": 0.977,
+      "av_vap": 0.998,
+      "av_vp": 0.873,
+      "pv_vap": 0.782,
+      "pv_vp": 0.732,
+      "electors_democrat": 6,
+      "electors_republican": 1,
+      "electors_other": 0
+    },
+    "PA": {
+      "av_ap": 0.886,
+      "av_vap": 0.932,
+      "av_vp": 0.859,
+      "pv_vap": 0.448,
+      "pv_vp": 0.429,
+      "electors_democrat": 11,
+      "electors_republican": 9,
+      "electors_other": 0
+    },
+    "RI": {
+      "av_ap": 2.136,
+      "av_vap": 2.168,
+      "av_vp": 2.289,
+      "pv_vap": 1.53,
+      "pv_vp": 1.569,
+      "electors_democrat": 4,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "SC": {
+      "av_ap": 1.036,
+      "av_vap": 1.079,
+      "av_vp": 1.065,
+      "pv_vap": 0.714,
+      "pv_vp": 0.711,
+      "electors_democrat": 1,
+      "electors_republican": 8,
+      "electors_other": 0
+    },
+    "SD": {
+      "av_ap": 2.057,
+      "av_vap": 2.14,
+      "av_vp": 2.092,
+      "pv_vap": 1.753,
+      "pv_vp": 1.735,
+      "electors_democrat": 0,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "TN": {
+      "av_ap": 0.931,
+      "av_vap": 0.986,
+      "av_vp": 1.074,
+      "pv_vap": 0.619,
+      "pv_vp": 0.645,
+      "electors_democrat": 2,
+      "electors_republican": 9,
+      "electors_other": 0
+    },
+    "TX": {
+      "av_ap": 0.76,
+      "av_vap": 0.843,
+      "av_vp": 1.052,
+      "pv_vap": 0.307,
+      "pv_vp": 0.335,
+      "electors_democrat": 14,
+      "electors_republican": 24,
+      "electors_other": 0
+    },
+    "UT": {
+      "av_ap": 1.118,
+      "av_vap": 1.232,
+      "av_vp": 1.189,
+      "pv_vap": 0.932,
+      "pv_vp": 0.925,
+      "electors_democrat": 0,
+      "electors_republican": 6,
+      "electors_other": 0
+    },
+    "VA": {
+      "av_ap": 0.878,
+      "av_vap": 0.929,
+      "av_vp": 0.87,
+      "pv_vap": 0.554,
+      "pv_vp": 0.534,
+      "electors_democrat": 9,
+      "electors_republican": 4,
+      "electors_other": 0
+    },
+    "VT": {
+      "av_ap": 2.727,
+      "av_vap": 2.733,
+      "av_vp": 2.395,
+      "pv_vap": 1.981,
+      "pv_vp": 1.852,
+      "electors_democrat": 3,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "WA": {
+      "av_ap": 0.916,
+      "av_vap": 0.96,
+      "av_vp": 0.879,
+      "pv_vap": 0.586,
+      "pv_vp": 0.558,
+      "electors_democrat": 9,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "WI": {
+      "av_ap": 0.982,
+      "av_vap": 1.046,
+      "av_vp": 0.904,
+      "pv_vap": 0.672,
+      "pv_vp": 0.621,
+      "electors_democrat": 4,
+      "electors_republican": 6,
+      "electors_other": 0
+    },
+    "WV": {
+      "av_ap": 1.58,
+      "av_vap": 1.683,
+      "av_vp": 1.859,
+      "pv_vap": 1.207,
+      "pv_vp": 1.265,
+      "electors_democrat": 0,
+      "electors_republican": 5,
+      "electors_other": 0
+    },
+    "WY": {
+      "av_ap": 3.031,
+      "av_vap": 3.242,
+      "av_vp": 3.187,
+      "pv_vap": 2.157,
+      "pv_vp": 2.137,
+      "electors_democrat": 0,
+      "electors_republican": 3,
+      "electors_other": 0
+    }
+  },
+  "2024": {
+    "AK": {
+      "av_ap": 2.52,
+      "av_vap": 2.645,
+      "av_vp": 2.56,
+      "pv_vap": 1.97,
+      "pv_vp": 1.918,
+      "electors_democrat": 0,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "AL": {
+      "av_ap": 1.104,
+      "av_vap": 1.124,
+      "av_vp": 1.154,
+      "pv_vap": 0.735,
+      "pv_vp": 0.741,
+      "electors_democrat": 2,
+      "electors_republican": 7,
+      "electors_other": 0
+    },
+    "AR": {
+      "av_ap": 1.227,
+      "av_vap": 1.263,
+      "av_vp": 1.468,
+      "pv_vap": 0.953,
+      "pv_vp": 1.026,
+      "electors_democrat": 0,
+      "electors_republican": 6,
+      "electors_other": 0
+    },
+    "AZ": {
+      "av_ap": 0.948,
+      "av_vap": 0.966,
+      "av_vp": 0.981,
+      "pv_vap": 0.604,
+      "pv_vp": 0.606,
+      "electors_democrat": 3,
+      "electors_republican": 8,
+      "electors_other": 0
+    },
+    "CA": {
+      "av_ap": 0.841,
+      "av_vap": 0.864,
+      "av_vp": 1.025,
+      "pv_vap": 0.267,
+      "pv_vp": 0.28,
+      "electors_democrat": 43,
+      "electors_republican": 11,
+      "electors_other": 0
+    },
+    "CO": {
+      "av_ap": 1.067,
+      "av_vap": 1.082,
+      "av_vp": 0.912,
+      "pv_vap": 0.678,
+      "pv_vp": 0.624,
+      "electors_democrat": 6,
+      "electors_republican": 4,
+      "electors_other": 0
+    },
+    "CT": {
+      "av_ap": 1.196,
+      "av_vap": 1.196,
+      "av_vp": 1.151,
+      "pv_vap": 0.864,
+      "pv_vp": 0.841,
+      "electors_democrat": 7,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "DC": {
+      "av_ap": 2.68,
+      "av_vap": 2.608,
+      "av_vp": 2.656,
+      "pv_vap": 1.967,
+      "pv_vp": 1.954,
+      "electors_democrat": 3,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "DE": {
+      "av_ap": 1.867,
+      "av_vap": 1.806,
+      "av_vp": 1.689,
+      "pv_vap": 1.613,
+      "pv_vp": 1.557,
+      "electors_democrat": 3,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "FL": {
+      "av_ap": 0.858,
+      "av_vap": 0.848,
+      "av_vp": 0.809,
+      "pv_vap": 0.341,
+      "pv_vp": 0.338,
+      "electors_democrat": 8,
+      "electors_republican": 22,
+      "electors_other": 0
+    },
+    "GA": {
+      "av_ap": 0.92,
+      "av_vap": 0.952,
+      "av_vp": 0.887,
+      "pv_vap": 0.501,
+      "pv_vp": 0.487,
+      "electors_democrat": 5,
+      "electors_republican": 11,
+      "electors_other": 0
+    },
+    "HI": {
+      "av_ap": 1.693,
+      "av_vap": 1.715,
+      "av_vp": 2.235,
+      "pv_vap": 1.381,
+      "pv_vp": 1.552,
+      "electors_democrat": 4,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "IA": {
+      "av_ap": 1.159,
+      "av_vap": 1.199,
+      "av_vp": 1.044,
+      "pv_vap": 0.934,
+      "pv_vp": 0.865,
+      "electors_democrat": 0,
+      "electors_republican": 6,
+      "electors_other": 0
+    },
+    "ID": {
+      "av_ap": 1.34,
+      "av_vap": 1.357,
+      "av_vp": 1.278,
+      "pv_vap": 1.191,
+      "pv_vp": 1.172,
+      "electors_democrat": 0,
+      "electors_republican": 4,
+      "electors_other": 0
+    },
+    "IL": {
+      "av_ap": 0.914,
+      "av_vap": 0.937,
+      "av_vp": 1,
+      "pv_vap": 0.47,
+      "pv_vp": 0.47,
+      "electors_democrat": 16,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "IN": {
+      "av_ap": 0.999,
+      "av_vap": 1.038,
+      "av_vp": 1.088,
+      "pv_vap": 0.639,
+      "pv_vp": 0.651,
+      "electors_democrat": 2,
+      "electors_republican": 9,
+      "electors_other": 0
+    },
+    "KS": {
+      "av_ap": 1.258,
+      "av_vap": 1.319,
+      "av_vp": 1.314,
+      "pv_vap": 0.981,
+      "pv_vp": 0.968,
+      "electors_democrat": 1,
+      "electors_republican": 5,
+      "electors_other": 0
+    },
+    "KY": {
+      "av_ap": 1.094,
+      "av_vap": 1.127,
+      "av_vp": 1.116,
+      "pv_vap": 0.785,
+      "pv_vp": 0.774,
+      "electors_democrat": 1,
+      "electors_republican": 7,
+      "electors_other": 0
+    },
+    "LA": {
+      "av_ap": 1.058,
+      "av_vap": 1.108,
+      "av_vp": 1.153,
+      "pv_vap": 0.788,
+      "pv_vp": 0.787,
+      "electors_democrat": 2,
+      "electors_republican": 6,
+      "electors_other": 0
+    },
+    "MA": {
+      "av_ap": 0.964,
+      "av_vap": 0.955,
+      "av_vp": 0.931,
+      "pv_vap": 0.618,
+      "pv_vp": 0.598,
+      "electors_democrat": 11,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "MD": {
+      "av_ap": 0.997,
+      "av_vap": 1.021,
+      "av_vp": 0.972,
+      "pv_vap": 0.67,
+      "pv_vp": 0.64,
+      "electors_democrat": 9,
+      "electors_republican": 1,
+      "electors_other": 0
+    },
+    "ME": {
+      "av_ap": 1.809,
+      "av_vap": 1.737,
+      "av_vp": 1.39,
+      "pv_vap": 1.37,
+      "pv_vp": 1.223,
+      "electors_democrat": 3,
+      "electors_republican": 1,
+      "electors_other": 0
+    },
+    "MI": {
+      "av_ap": 0.917,
+      "av_vap": 0.932,
+      "av_vp": 0.771,
+      "pv_vap": 0.523,
+      "pv_vp": 0.469,
+      "electors_democrat": 5,
+      "electors_republican": 10,
+      "electors_other": 0
+    },
+    "MN": {
+      "av_ap": 1.08,
+      "av_vap": 1.117,
+      "av_vp": 0.892,
+      "pv_vap": 0.697,
+      "pv_vp": 0.618,
+      "electors_democrat": 6,
+      "electors_republican": 4,
+      "electors_other": 0
+    },
+    "MO": {
+      "av_ap": 1.001,
+      "av_vap": 1.027,
+      "av_vp": 0.971,
+      "pv_vap": 0.669,
+      "pv_vp": 0.644,
+      "electors_democrat": 2,
+      "electors_republican": 8,
+      "electors_other": 0
+    },
+    "MS": {
+      "av_ap": 1.248,
+      "av_vap": 1.298,
+      "av_vp": 1.413,
+      "pv_vap": 0.979,
+      "pv_vp": 1.007,
+      "electors_democrat": 1,
+      "electors_republican": 5,
+      "electors_other": 0
+    },
+    "MT": {
+      "av_ap": 2.273,
+      "av_vap": 2.238,
+      "av_vp": 1.919,
+      "pv_vap": 1.544,
+      "pv_vp": 1.436,
+      "electors_democrat": 0,
+      "electors_republican": 4,
+      "electors_other": 0
+    },
+    "NC": {
+      "av_ap": 0.944,
+      "av_vap": 0.959,
+      "av_vp": 0.815,
+      "pv_vap": 0.501,
+      "pv_vp": 0.467,
+      "electors_democrat": 3,
+      "electors_republican": 13,
+      "electors_other": 0
+    },
+    "ND": {
+      "av_ap": 2.372,
+      "av_vap": 2.452,
+      "av_vp": 2.358,
+      "pv_vap": 1.895,
+      "pv_vp": 1.838,
+      "electors_democrat": 0,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "NE": {
+      "av_ap": 1.57,
+      "av_vap": 1.651,
+      "av_vp": 1.52,
+      "pv_vap": 1.199,
+      "pv_vp": 1.143,
+      "electors_democrat": 1,
+      "electors_republican": 4,
+      "electors_other": 0
+    },
+    "NH": {
+      "av_ap": 1.789,
+      "av_vap": 1.728,
+      "av_vp": 1.4,
+      "pv_vap": 1.37,
+      "pv_vp": 1.227,
+      "electors_democrat": 4,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "NJ": {
+      "av_ap": 0.929,
+      "av_vap": 0.946,
+      "av_vp": 0.98,
+      "pv_vap": 0.545,
+      "pv_vp": 0.54,
+      "electors_democrat": 10,
+      "electors_republican": 4,
+      "electors_other": 0
+    },
+    "NM": {
+      "av_ap": 1.455,
+      "av_vap": 1.489,
+      "av_vp": 1.574,
+      "pv_vap": 1.139,
+      "pv_vp": 1.161,
+      "electors_democrat": 4,
+      "electors_republican": 1,
+      "electors_other": 0
+    },
+    "NV": {
+      "av_ap": 1.191,
+      "av_vap": 1.203,
+      "av_vp": 1.173,
+      "pv_vap": 0.925,
+      "pv_vp": 0.915,
+      "electors_democrat": 2,
+      "electors_republican": 4,
+      "electors_other": 0
+    },
+    "NY": {
+      "av_ap": 0.854,
+      "av_vap": 0.859,
+      "av_vp": 1.027,
+      "pv_vap": 0.374,
+      "pv_vp": 0.388,
+      "electors_democrat": 21,
+      "electors_republican": 7,
+      "electors_other": 0
+    },
+    "OH": {
+      "av_ap": 0.888,
+      "av_vap": 0.908,
+      "av_vp": 0.854,
+      "pv_vap": 0.485,
+      "pv_vp": 0.464,
+      "electors_democrat": 4,
+      "electors_republican": 13,
+      "electors_other": 0
+    },
+    "OK": {
+      "av_ap": 1.089,
+      "av_vap": 1.132,
+      "av_vp": 1.295,
+      "pv_vap": 0.833,
+      "pv_vp": 0.891,
+      "electors_democrat": 0,
+      "electors_republican": 7,
+      "electors_other": 0
+    },
+    "OR": {
+      "av_ap": 1.163,
+      "av_vap": 1.165,
+      "av_vp": 1.036,
+      "pv_vap": 0.798,
+      "pv_vp": 0.744,
+      "electors_democrat": 7,
+      "electors_republican": 1,
+      "electors_other": 0
+    },
+    "PA": {
+      "av_ap": 0.9,
+      "av_vap": 0.904,
+      "av_vp": 0.786,
+      "pv_vap": 0.458,
+      "pv_vp": 0.42,
+      "electors_democrat": 8,
+      "electors_republican": 11,
+      "electors_other": 0
+    },
+    "RI": {
+      "av_ap": 2.246,
+      "av_vap": 2.206,
+      "av_vp": 2.262,
+      "pv_vap": 1.556,
+      "pv_vp": 1.557,
+      "electors_democrat": 4,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "SC": {
+      "av_ap": 1.083,
+      "av_vap": 1.085,
+      "av_vp": 1.023,
+      "pv_vap": 0.708,
+      "pv_vp": 0.699,
+      "electors_democrat": 1,
+      "electors_republican": 8,
+      "electors_other": 0
+    },
+    "SD": {
+      "av_ap": 2.084,
+      "av_vap": 2.123,
+      "av_vp": 2.018,
+      "pv_vap": 1.751,
+      "pv_vp": 1.703,
+      "electors_democrat": 0,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "TN": {
+      "av_ap": 0.981,
+      "av_vap": 0.997,
+      "av_vp": 1.051,
+      "pv_vap": 0.62,
+      "pv_vp": 0.637,
+      "electors_democrat": 1,
+      "electors_republican": 10,
+      "electors_other": 0
+    },
+    "TX": {
+      "av_ap": 0.846,
+      "av_vap": 0.898,
+      "av_vp": 1.066,
+      "pv_vap": 0.304,
+      "pv_vp": 0.331,
+      "electors_democrat": 11,
+      "electors_republican": 29,
+      "electors_other": 0
+    },
+    "UT": {
+      "av_ap": 1.13,
+      "av_vap": 1.235,
+      "av_vp": 1.164,
+      "pv_vap": 0.924,
+      "pv_vp": 0.914,
+      "electors_democrat": 0,
+      "electors_republican": 6,
+      "electors_other": 0
+    },
+    "VA": {
+      "av_ap": 0.928,
+      "av_vap": 0.946,
+      "av_vp": 0.843,
+      "pv_vap": 0.562,
+      "pv_vp": 0.526,
+      "electors_democrat": 8,
+      "electors_republican": 5,
+      "electors_other": 0
+    },
+    "VT": {
+      "av_ap": 2.874,
+      "av_vap": 2.777,
+      "av_vp": 2.35,
+      "pv_vap": 2.015,
+      "pv_vp": 1.835,
+      "electors_democrat": 3,
+      "electors_republican": 0,
+      "electors_other": 0
+    },
+    "WA": {
+      "av_ap": 0.959,
+      "av_vap": 0.976,
+      "av_vp": 0.898,
+      "pv_vap": 0.591,
+      "pv_vp": 0.563,
+      "electors_democrat": 9,
+      "electors_republican": 3,
+      "electors_other": 0
+    },
+    "WI": {
+      "av_ap": 1.045,
+      "av_vap": 1.063,
+      "av_vp": 0.851,
+      "pv_vap": 0.68,
+      "pv_vp": 0.603,
+      "electors_democrat": 2,
+      "electors_republican": 8,
+      "electors_other": 0
+    },
+    "WV": {
+      "av_ap": 1.374,
+      "av_vap": 1.382,
+      "av_vp": 1.515,
+      "pv_vap": 1.239,
+      "pv_vp": 1.277,
+      "electors_democrat": 0,
+      "electors_republican": 4,
+      "electors_other": 0
+    },
+    "WY": {
+      "av_ap": 3.204,
+      "av_vap": 3.256,
+      "av_vp": 3.228,
+      "pv_vap": 2.175,
+      "pv_vp": 2.15,
+      "electors_democrat": 0,
+      "electors_republican": 3,
+      "electors_other": 0
+    }
+  },
+  "2028": {
+    "AK": {
+      "av_ap": 2.52,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "AL": {
+      "av_ap": 1.104,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "AR": {
+      "av_ap": 1.227,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "AZ": {
+      "av_ap": 0.948,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "CA": {
+      "av_ap": 0.841,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "CO": {
+      "av_ap": 1.067,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "CT": {
+      "av_ap": 1.196,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "DC": {
+      "av_ap": 2.68,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "DE": {
+      "av_ap": 1.867,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "FL": {
+      "av_ap": 0.858,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "GA": {
+      "av_ap": 0.92,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "HI": {
+      "av_ap": 1.693,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "IA": {
+      "av_ap": 1.159,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "ID": {
+      "av_ap": 1.34,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "IL": {
+      "av_ap": 0.914,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "IN": {
+      "av_ap": 0.999,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "KS": {
+      "av_ap": 1.258,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "KY": {
+      "av_ap": 1.094,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "LA": {
+      "av_ap": 1.058,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "MA": {
+      "av_ap": 0.964,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "MD": {
+      "av_ap": 0.997,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "ME": {
+      "av_ap": 1.809,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "MI": {
+      "av_ap": 0.917,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "MN": {
+      "av_ap": 1.08,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "MO": {
+      "av_ap": 1.001,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "MS": {
+      "av_ap": 1.248,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "MT": {
+      "av_ap": 2.273,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "NC": {
+      "av_ap": 0.944,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "ND": {
+      "av_ap": 2.372,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "NE": {
+      "av_ap": 1.57,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "NH": {
+      "av_ap": 1.789,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "NJ": {
+      "av_ap": 0.929,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "NM": {
+      "av_ap": 1.455,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "NV": {
+      "av_ap": 1.191,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "NY": {
+      "av_ap": 0.854,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "OH": {
+      "av_ap": 0.888,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "OK": {
+      "av_ap": 1.089,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "OR": {
+      "av_ap": 1.163,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "PA": {
+      "av_ap": 0.9,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "RI": {
+      "av_ap": 2.246,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "SC": {
+      "av_ap": 1.083,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "SD": {
+      "av_ap": 2.084,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "TN": {
+      "av_ap": 0.981,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "TX": {
+      "av_ap": 0.846,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "UT": {
+      "av_ap": 1.13,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "VA": {
+      "av_ap": 0.928,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "VT": {
+      "av_ap": 2.874,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "WA": {
+      "av_ap": 0.959,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "WI": {
+      "av_ap": 1.045,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "WV": {
+      "av_ap": 1.374,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    },
+    "WY": {
+      "av_ap": 3.204,
+      "av_vap": null,
+      "av_vp": null,
+      "pv_vap": null,
+      "pv_vp": null,
+      "electors_democrat": 0,
+      "electors_republican": 0,
+      "electors_other": null
+    }
+  }
+}

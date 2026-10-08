@@ -23,9 +23,8 @@
   // ── District availability ────────────────────────────────────────────────
 
   function availableDistricts(statePO: string): string[] {
-    const idx = districtIndex[statePO];
-    if (!idx) return [];
-    return getDistrictIdsForYear(idx, params.year);
+    if (!districtIndex[statePO]) return [];
+    return getDistrictIdsForYear(statePO, params.year);
   }
 
   function districtDisabled(statePO: string): boolean {

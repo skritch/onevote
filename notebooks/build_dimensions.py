@@ -116,6 +116,52 @@ def _(data_district):
 
 
 @app.cell
+def _(data_district, output_dir):
+    _PRES_YEARS = [1976, 1980, 1984, 1988, 1992, 1996, 2000, 2004, 2008, 2012, 2016, 2020, 2024]
+
+    def _normalize_id(raw):
+        if not raw or str(raw).upper() == "AL":
+            return "AL"
+        try:
+            return str(int(raw))
+        except ValueError:
+            return str(raw)
+
+    # Build 2012-2024 from CSV
+    _csv_by_year = {}
+    for _row in data_district.to_dict("records"):
+        _y = str(int(_row["year"]))
+        _s = _row["state_po"].upper()
+        _d = _normalize_id(_row["district_code"])
+        _w = _row.get("winning_party") or None
+        _csv_by_year.setdefault(_y, {}).setdefault(_s, {})[_d] = {"winningParty": _w}
+
+    # Build pre-2012 from district_index (district IDs only, no winner data)
+    _index_path = Path(".data/district_index.json")
+    _district_index = json.loads(_index_path.read_text()) if _index_path.exists() else {}
+
+    _dr = {}
+    for _year in _PRES_YEARS:
+        _ys = str(_year)
+        if _ys in _csv_by_year:
+            _dr[_ys] = _csv_by_year[_ys]
+        else:
+            _dr[_ys] = {}
+            for _state, _idx in _district_index.items():
+                _congress = str(_idx["yearToCongress"].get(_ys, ""))
+                _ids = (_idx.get("districtIdsByCongress") or {}).get(_congress, [])
+                if _ids:
+                    _dr[_ys][_state] = {_id: {"winningParty": None} for _id in _ids}
+            _dr[_ys]["DC"] = {"AL": {"winningParty": None}}
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    _out_path = output_dir / "district_results.json"
+    _out_path.write_text(json.dumps(_dr, indent=2))
+    print(f"Wrote {_out_path} ({len(_dr)} years)")
+    return
+
+
+@app.cell
 def _(data, data_2028, districts, output_dir):
     data_complete = pd.concat([data, data_2028], ignore_index=True)
 
