@@ -34,7 +34,8 @@ jobs:
         with:
           path: |
             .data/shapefiles
-            .data/district_paths
+            .data/maps
+            .data/district_index.json
           key: shapefiles-${{ hashFiles('notebooks/build_geometries.py') }}
 
       - name: Install Node dependencies
