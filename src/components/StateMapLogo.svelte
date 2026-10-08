@@ -1,94 +1,111 @@
 <script lang="ts">
   import { getCongressForYear } from "../lib/districts.js";
-  import type { DistrictData } from "../lib/districts.js";
+  import type { DistrictIndex } from "../lib/districts.js";
   import type { StatePO } from "../lib/states.js";
   import districtResultsRaw from "../data/district_results.json";
   import { partyColors } from "../lib/party.js";
   import { initCap } from "../utils/strings.js";
 
   type Props = {
-    districtData: DistrictData;
+    districtIndex: DistrictIndex;
     statePO: StatePO;
     year: number;
     districtId?: string;
     onDistrictChange?: (id: string | undefined) => void;
   };
 
-  let { districtData, statePO, year, districtId, onDistrictChange }: Props = $props();
+  let { districtIndex, statePO, year, districtId, onDistrictChange }: Props = $props();
 
   const districtResults = districtResultsRaw as Record<
     string,
     Record<string, Record<string, string | null>>
   >;
 
-  const congress = $derived(getCongressForYear(districtData, year));
+  type PathEntry = { id: string; d: string };
+  type SvgData = { viewBox: string; paths: PathEntry[] };
 
-  const districtEntries = $derived(
-    congress == null
-      ? []
-      : Object.entries(districtData.districtsByCongress[congress] ?? {}),
-  );
+  const congress = $derived(getCongressForYear(districtIndex, year));
 
-  const viewBox = $derived(
-    congress != null && districtData.viewboxByCongress?.[congress]
-      ? districtData.viewboxByCongress[congress]
-      : "14 14 772 572",
-  );
+  async function fetchSvgData(po: StatePO, cong: number): Promise<SvgData | null> {
+    const url = `${import.meta.env.BASE_URL}maps/${po}-${cong}.svg`;
+    try {
+      const res = await fetch(url);
+      if (!res.ok) return null;
+      const text = await res.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(text, "image/svg+xml");
+      const svg = doc.querySelector("svg");
+      if (!svg) return null;
+      const viewBox = svg.getAttribute("viewBox") ?? "14 14 772 572";
+      const paths = Array.from(svg.querySelectorAll("path"))
+        .map((p) => ({ id: p.getAttribute("id") ?? "", d: p.getAttribute("d") ?? "" }))
+        .filter((p) => p.id && p.d);
+      return { viewBox, paths };
+    } catch {
+      return null;
+    }
+  }
+
+  const svgDataPromise = $derived(fetchSvgData(statePO, congress));
 
   const yearDistrictResults = $derived(
     districtResults[String(year)]?.[statePO] ?? {},
   );
 
-  // Path keys are '1','2'... but results keys are '01','02'... — normalize both sides.
   function districtColor(id: string): string {
     const party =
       yearDistrictResults[id] ??
-      yearDistrictResults[id.padStart(2, "0")] ?? // TODO
+      yearDistrictResults[id.padStart(2, "0")] ??
       "unknown";
     return partyColors[initCap(party)] ?? partyColors.Unknown;
   }
 
-  const isSelectable = $derived(
-    districtEntries.length > 0 &&
+  function isSelectable(paths: PathEntry[]): boolean {
+    return (
+      paths.length > 0 &&
       year >= 2012 &&
-      !(districtEntries.length === 1 && districtEntries[0][0] === "AL"),
-  );
+      !(paths.length === 1 && paths[0].id === "AL")
+    );
+  }
 
-  function handleClick(id: string) {
-    if (!isSelectable) return;
+  function handleClick(id: string, paths: PathEntry[]) {
+    if (!isSelectable(paths)) return;
     onDistrictChange?.(districtId === id ? undefined : id);
   }
 </script>
 
-{#if districtEntries.length > 0}
-  <svg
-    class="state-logo"
-    {viewBox}
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-    onmousedown={(e) => e.preventDefault()}
-  >
-    <g
-      class="state-logo__districts"
-      class:has-selection={districtId}
-      class:selectable={isSelectable}
+{#await svgDataPromise then svgData}
+  {#if svgData && svgData.paths.length > 0}
+    {@const selectable = isSelectable(svgData.paths)}
+    <svg
+      class="state-logo"
+      viewBox={svgData.viewBox}
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      onmousedown={(e) => e.preventDefault()}
     >
-      {#each districtEntries as [id, d]}
-        <path
-          {d}
-          class:is-selected={districtId === id}
-          style="fill: {districtColor(id)}"
-          role="button"
-          tabindex={isSelectable ? 0 : -1}
-          aria-label="District {id}"
-          aria-pressed={districtId === id}
-          onclick={() => handleClick(id)}
-          onkeydown={(e) => e.key === "Enter" && handleClick(id)}
-        />
-      {/each}
-    </g>
-  </svg>
-{/if}
+      <g
+        class="state-logo__districts"
+        class:has-selection={districtId}
+        class:selectable
+      >
+        {#each svgData.paths as { id, d }}
+          <path
+            {d}
+            class:is-selected={districtId === id}
+            style="fill: {districtColor(id)}"
+            role="button"
+            tabindex={selectable ? 0 : -1}
+            aria-label="District {id}"
+            aria-pressed={districtId === id}
+            onclick={() => handleClick(id, svgData.paths)}
+            onkeydown={(e) => e.key === "Enter" && handleClick(id, svgData.paths)}
+          />
+        {/each}
+      </g>
+    </svg>
+  {/if}
+{/await}
 
 <style lang="scss">
   @use "../styles/variables.scss";

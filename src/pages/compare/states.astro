@@ -1,11 +1,9 @@
 ---
-import { readFileSync } from "fs";
-import { join } from "path";
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import CompareStatesPage from "../../components/compare/CompareStatesPage.svelte";
-import type { DistrictData, DistrictIndex } from "../../lib/districts";
-import { buildDistrictIndex } from "../../lib/districts";
+import type { DistrictIndex } from "../../lib/districts";
+import districtIndexRaw from "../../data/district_index.json";
 
 const elections = await getCollection("elections");
 const states = await getCollection("states");
@@ -13,21 +11,7 @@ const years = [...new Set(elections.map((e) => e.data.year))].sort(
 	(a, b) => b - a,
 );
 const stateList = states.map((s) => s.data);
-
-const districtIndex: Record<string, DistrictIndex> = {};
-for (const state of states) {
-	try {
-		const raw: DistrictData = JSON.parse(
-			readFileSync(
-				join(process.cwd(), ".data/district_paths", `${state.data.statePO}.json`),
-				"utf-8",
-			),
-		);
-		districtIndex[state.data.statePO] = buildDistrictIndex(raw);
-	} catch {
-		// No district data for this state (e.g. DC).
-	}
-}
+const districtIndex = districtIndexRaw as Record<string, DistrictIndex>;
 ---
 
 <Layout>

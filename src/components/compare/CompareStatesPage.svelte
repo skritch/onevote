@@ -117,15 +117,17 @@
     <div class="cards-row">
       <StateFactBox
         statePO={params.state1 as StatePO}
-        districtData={null}
+        districtIndex={districtIndex[params.state1] ?? null}
         year={params.year}
         districtId={params.district1 || undefined}
+        onDistrictChange={(id) => { params.district1 = id ?? ""; }}
       />
       <StateFactBox
         statePO={params.state2 as StatePO}
-        districtData={null}
+        districtIndex={districtIndex[params.state2] ?? null}
         year={params.year}
         districtId={params.district2 || undefined}
+        onDistrictChange={(id) => { params.district2 = id ?? ""; }}
       />
     </div>
 

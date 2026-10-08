@@ -7,20 +7,20 @@
   import { popVarDescriptions } from "../lib/manifest.js";
   import InfoLink from "./InfoLink.svelte";
   import StateMapLogo from "./StateMapLogo.svelte";
-  import type { DistrictData } from "../lib/districts.js";
+  import type { DistrictIndex } from "../lib/districts.js";
   import type { StatePO } from "../lib/states.js";
   import { initCap } from "../utils/strings.js";
   import { PARTIES, partyColors, type Party } from "../lib/party.js";
 
   type Props = {
     statePO: StatePO;
-    districtData?: DistrictData | null;
+    districtIndex?: DistrictIndex | null;
     year: number;
     districtId?: string;
     onDistrictChange?: (id: string | undefined) => void;
   };
 
-  let { statePO, districtData = null, year, districtId, onDistrictChange }: Props = $props();
+  let { statePO, districtIndex = null, year, districtId, onDistrictChange }: Props = $props();
 
   const CURRENT_YEAR = new Date().getFullYear();
 
@@ -87,9 +87,9 @@
 </script>
 
 <div class="factbox">
-  {#if districtData}
+  {#if districtIndex}
     <div class="factbox__map">
-      <StateMapLogo {districtData} {statePO} {year} {districtId} {onDistrictChange} />
+      <StateMapLogo {districtIndex} {statePO} {year} {districtId} {onDistrictChange} />
     </div>
   {/if}
 

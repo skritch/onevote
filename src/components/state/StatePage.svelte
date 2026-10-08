@@ -34,7 +34,7 @@
 <script lang="ts">
   import { readFromUrl, syncToUrl } from "../../utils/url.js";
   import type { StatePO } from "../../lib/states.js";
-  import type { DistrictData } from "../../lib/districts.js";
+  import type { DistrictIndex } from "../../lib/districts.js";
   import StateControls from "./StateControls.svelte";
   import SettingsPanel from "../SettingsPanel.svelte";
   import StateValueCard from "../StateValueCard.svelte";
@@ -45,10 +45,10 @@
     years: number[];
     stateName: string;
     statePO: StatePO;
-    districtData: DistrictData | null;
+    districtIndex: DistrictIndex | null;
   };
 
-  let { years, stateName, statePO, districtData }: Props = $props();
+  let { years, stateName, statePO, districtIndex }: Props = $props();
 
   const params = $state<StatePageParams>(
     typeof window !== "undefined"
@@ -79,7 +79,7 @@
   <div class="page-header state-page__header">
     <h1>{stateName}</h1>
     <div class="page-controls">
-      <StateControls {years} {statePO} {districtData} {params} />
+      <StateControls {years} {statePO} {districtIndex} {params} />
       <SettingsPanel
         year={params.year}
         bind:value={params.value}
@@ -105,7 +105,7 @@
       />
       <StateFactBox
         {statePO}
-        {districtData}
+        {districtIndex}
         year={params.year}
         districtId={params.districtId}
         onDistrictChange={(id) => { params.districtId = id; }}

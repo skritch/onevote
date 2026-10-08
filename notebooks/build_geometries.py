@@ -320,8 +320,8 @@ def _():
 
 @app.cell
 def _(ELECTION_TO_CONGRESS, STATE_NAME_TO_ABBR, compute_viewboxes, data_dir, display_bounds, geom_to_svg, make_projector, simplify_tol):
-    svg_dir = data_dir.parent / "district_paths"
-    svg_dir.mkdir(exist_ok=True)
+    maps_dir = data_dir.parent / "maps"
+    maps_dir.mkdir(exist_ok=True)
 
     _congress_to_years: dict[int, list[int]] = {}
     for _yr, _c in ELECTION_TO_CONGRESS.items():
@@ -329,12 +329,11 @@ def _(ELECTION_TO_CONGRESS, STATE_NAME_TO_ABBR, compute_viewboxes, data_dir, dis
 
     _all_congresses = sorted(set(ELECTION_TO_CONGRESS.values()))
 
-    def build_state_file(state_name: str, state_abbr: str) -> None:
-        out_path = svg_dir / f"{state_abbr}.json"
-        if out_path.exists():
-            print(f"  {state_abbr}: already exists, skipping")
-            return
+    _district_index: dict[str, dict] = {}
 
+    DEFAULT_VIEWBOX = "14 14 772 572"
+
+    def build_state(state_name: str, state_abbr: str) -> None:
         districts_by_congress: dict[str, dict[str, str]] = {}
         year_to_congress_key: dict[int, int] = {}
         prev_key: int | None = None
@@ -380,18 +379,38 @@ def _(ELECTION_TO_CONGRESS, STATE_NAME_TO_ABBR, compute_viewboxes, data_dir, dis
             return
 
         viewbox_by_congress = compute_viewboxes(districts_by_congress, state_abbr)
-        out_path.write_text(json.dumps({
+
+        # Write one SVG per unique congress
+        for congress_key, district_paths in districts_by_congress.items():
+            viewbox = viewbox_by_congress.get(congress_key, DEFAULT_VIEWBOX)
+            path_els = "\n".join(
+                f'  <path id="{did}" d="{d}"/>' for did, d in district_paths.items()
+            )
+            svg = f'<svg viewBox="{viewbox}" xmlns="http://www.w3.org/2000/svg">\n{path_els}\n</svg>\n'
+            (maps_dir / f"{state_abbr}-{congress_key}.svg").write_text(svg)
+
+        # Build DistrictIndex entry (paths stripped)
+        _district_index[state_abbr] = {
             "yearToCongress": {str(k): v for k, v in sorted(year_to_congress_key.items())},
-            "districtsByCongress": districts_by_congress,
-            "viewboxByCongress": viewbox_by_congress,
-        }))
+            "districtIdsByCongress": {
+                congress_key: sorted(
+                    district_paths.keys(),
+                    key=lambda x: (int(x) if x.isdigit() else float("inf"), x),
+                )
+                for congress_key, district_paths in districts_by_congress.items()
+            },
+        }
         n = len(districts_by_congress)
         print(f"  {state_abbr}: {n} unique boundary set(s)")
 
     for _state_name, _state_abbr in STATE_NAME_TO_ABBR.items():
-        build_state_file(_state_name, _state_abbr)
+        build_state(_state_name, _state_abbr)
 
-    return (svg_dir,)
+    index_path = data_dir.parent / "district_index.json"
+    index_path.write_text(json.dumps(_district_index, indent=2))
+    print(f"Wrote district_index.json ({len(_district_index)} states)")
+
+    return (maps_dir,)
 
 
 if __name__ == "__main__":
