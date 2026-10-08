@@ -79,12 +79,14 @@ export function getDistrictsForState(
 export function getPlotRows(
   scenario: Scenario,
   year: number,
-  focusStatePO: StatePO,
+  focusStatePO: StatePO | StatePO[],
   value: ValueType,
   popVar?: PopVar,
 ): PlotRow[] {
   const yearKey = String(year)
   const stateWinners = dimensionsStateWinner[yearKey]
+  const focusSet = Array.isArray(focusStatePO) ? new Set(focusStatePO) : new Set([focusStatePO])
+  const isFocus = (po: StatePO) => focusSet.has(po)
 
   if (!stateWinners) {
     return Array.from(statesByPo.entries()).map(([statePO, state]) => ({
@@ -92,7 +94,7 @@ export function getPlotRows(
       state,
       value: null,
       winningParty: null,
-      isFocus: statePO === focusStatePO,
+      isFocus: isFocus(statePO),
     }))
   }
 
@@ -106,7 +108,7 @@ export function getPlotRows(
       state,
       value: nationalValue,
       winningParty: stateWinners[statePO] ?? null,
-      isFocus: statePO === focusStatePO,
+      isFocus: isFocus(statePO),
     }))
   }
 
@@ -118,7 +120,7 @@ export function getPlotRows(
       state,
       value: null,
       winningParty: stateWinners[statePO] ?? null,
-      isFocus: statePO === focusStatePO,
+      isFocus: isFocus(statePO),
     }))
   }
 
@@ -130,7 +132,7 @@ export function getPlotRows(
       state,
       value: record ? extractValue(record, value, popVar) : null,
       winningParty: winner,
-      isFocus: statePO === focusStatePO,
+      isFocus: isFocus(statePO),
     }
   })
 }

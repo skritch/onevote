@@ -34,8 +34,15 @@
 <script lang="ts">
   import { readFromUrl, syncToUrl } from "../../utils/url.js";
   import type { State } from "../../lib/states.js";
+  import type { StatePO } from "../../lib/states.js";
   import type { DistrictIndex } from "../../lib/districts.js";
   import CompareStatesControls from "./CompareStatesControls.svelte";
+  import StateValueCard from "../StateValueCard.svelte";
+  import StateFactBox from "../StateFactBox.svelte";
+  import ElectionPlot from "../ElectionPlot.svelte";
+  import type { Party } from "../../lib/party.js";
+  import type { Office } from "../../lib/elections.js";
+  import { validPopVars } from "../../lib/manifest.js";
 
   type Props = {
     years: number[];
@@ -64,16 +71,96 @@
     window.history.replaceState({}, "", newUrl);
   });
 
+  const stateName1 = $derived(states.find((s) => s.statePO === params.state1)?.stateName ?? params.state1);
+  const stateName2 = $derived(states.find((s) => s.statePO === params.state2)?.stateName ?? params.state2);
+
+  const effectivePopVar = $derived(
+    (validPopVars[params.value] ?? []).length > 0 ? params.popVar : undefined,
+  );
+
+  const focusStates = $derived(
+    [params.state1, params.state2].filter(Boolean) as StatePO[],
+  );
 </script>
 
 <CompareStatesControls {years} {states} {districtIndex} {params} />
 
-<div class="results-panel">
-  <!-- results will go here -->
-</div>
+{#if params.state1 && params.state2}
+  <div class="results-panel">
+    <div class="cards-row">
+      <StateValueCard
+        stateName={stateName1}
+        statePO={params.state1 as StatePO}
+        scenario={params.scenario}
+        year={params.year}
+        office={params.office as Office}
+        value={params.value}
+        popVar={params.popVar}
+        party={params.party1 as Party | undefined}
+        district={params.district1 || undefined}
+        districtId={params.district1 || undefined}
+      />
+      <StateValueCard
+        stateName={stateName2}
+        statePO={params.state2 as StatePO}
+        scenario={params.scenario}
+        year={params.year}
+        office={params.office as Office}
+        value={params.value}
+        popVar={params.popVar}
+        party={params.party2 as Party | undefined}
+        district={params.district2 || undefined}
+        districtId={params.district2 || undefined}
+      />
+    </div>
+
+    <div class="cards-row">
+      <StateFactBox
+        statePO={params.state1 as StatePO}
+        districtData={null}
+        year={params.year}
+        districtId={params.district1 || undefined}
+      />
+      <StateFactBox
+        statePO={params.state2 as StatePO}
+        districtData={null}
+        year={params.year}
+        districtId={params.district2 || undefined}
+      />
+    </div>
+
+    <div class="plot-row">
+      <ElectionPlot
+        scenario={params.scenario}
+        year={params.year}
+        focusStatePO={focusStates}
+        value={params.value}
+        popVar={effectivePopVar}
+      />
+    </div>
+  </div>
+{/if}
 
 <style lang="scss">
+  @use "../../styles/variables.scss";
+
   .results-panel {
-    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-lg;
+  }
+
+  .cards-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: variables.$spacing-md;
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .plot-row {
+    width: 100%;
   }
 </style>

@@ -21,7 +21,7 @@
   }: {
     scenario?: Scenario;
     year?: number;
-    focusStatePO?: StatePO;
+    focusStatePO?: StatePO | StatePO[];
     value?: ValueType;
     popVar?: PopVar;
     sort?: "alpha" | "value";
@@ -74,8 +74,9 @@
     const horizontal = isHorizontal;
     const fill = (d: (typeof plotRows)[0]) =>
       partyColors[initCap(d.winningParty ?? "unknown")];
+    const hasFocus = Array.isArray(focusStatePO) ? focusStatePO.some(Boolean) : !!focusStatePO;
     const fillOpacity = (d: (typeof plotRows)[0]) =>
-      !focusStatePO || d.isFocus ? 1 : 0.38;
+      !hasFocus || d.isFocus ? 1 : 0.38;
     const formatVal = (v: number | null) => (v !== null ? v.toFixed(3) : "");
     const initCap = (s: string | null) =>
       s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
