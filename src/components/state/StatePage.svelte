@@ -39,7 +39,6 @@
   import StateValueCard from "../StateValueCard.svelte";
   import StateFactBox from "../StateFactBox.svelte";
   import ElectionPlot from "../ElectionPlot.svelte";
-  import type { DistrictResult } from "../../lib/districts.js";
 
   type Props = {
     years: number[];

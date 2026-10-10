@@ -7,9 +7,9 @@
   } from "../../lib/elections";
   import type { StatePO } from "../../lib/states.js";
   import type { StatePageParams } from "./StatePage.svelte";
-  import { getValidForYear, type Year } from "../../lib/manifest.js";
+  import { getValidForYear } from "../../lib/manifest.js";
   import { getDistrictsForState } from "../../lib/values.js";
-  import { getDistrictIdsForYear, type DistrictResult } from "../../lib/districts.js";
+  import { getDistrictIdsForYear } from "../../lib/districts.js";
   import Select from "../Select.svelte";
   import { PARTIES } from "../../lib/party.js";
   import { initCap } from "../../utils/strings.js";

@@ -3,7 +3,7 @@
  * fallback for missing keys and the schema for type inference.
  *
  * Fields with a numeric default are parsed with Number(); all others are
- * treated as strings. All strings are lower-cased.
+ * treated as strings.
  */
 export function readFromUrl<T extends Record<string, string | number | undefined>>(
   urlParams: URLSearchParams,
@@ -17,7 +17,7 @@ export function readFromUrl<T extends Record<string, string | number | undefined
       const n = Number(raw)
       if (!isNaN(n)) result[key] = n
     } else {
-      result[key] = raw.toLowerCase()
+      result[key] = raw
     }
   }
   return result as T
@@ -25,7 +25,7 @@ export function readFromUrl<T extends Record<string, string | number | undefined
 
 /**
  * Write `current` into `url`'s search params, omitting any field that equals
- * its default (or is undefined). All strings are lower-cased.
+ * its default (or is undefined).
  */
 export function syncToUrl<T extends Record<string, string | number | undefined>>(
   current: T,
@@ -37,6 +37,6 @@ export function syncToUrl<T extends Record<string, string | number | undefined>>
     if (val === undefined || val === defaults[key])
       url.searchParams.delete(key)
     else
-      url.searchParams.set(key, String(val).toLowerCase())
+      url.searchParams.set(key, String(val))
   }
 }
