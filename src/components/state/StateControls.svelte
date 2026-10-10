@@ -7,22 +7,20 @@
   } from "../../lib/elections";
   import type { StatePO } from "../../lib/states.js";
   import type { StatePageParams } from "./StatePage.svelte";
-  import { getValidForYear } from "../../lib/manifest.js";
+  import { getValidForYear, type Year } from "../../lib/manifest.js";
   import { getDistrictsForState } from "../../lib/values.js";
-  import { getDistrictIdsForYear } from "../../lib/districts.js";
-  import type { DistrictIndex } from "../../lib/districts.js";
+  import { getDistrictIdsForYear, type DistrictResult } from "../../lib/districts.js";
   import Select from "../Select.svelte";
-  import { PARTIES, type Party } from "../../lib/party.js";
+  import { PARTIES } from "../../lib/party.js";
   import { initCap } from "../../utils/strings.js";
 
   type Props = {
     years: number[];
     statePO?: StatePO;
-    districtIndex?: DistrictIndex | null;
     params: StatePageParams;
   };
 
-  let { years, statePO = "", districtIndex = null, params }: Props = $props();
+  let { years, statePO = "", params }: Props = $props();
 
   // Auto-select winning party when WVV is chosen
   $effect(() => {
@@ -49,9 +47,7 @@
   });
 
   // Congressional districts for this state page, keyed by year
-  const availableDistrictIds = $derived(
-    districtIndex ? getDistrictIdsForYear(statePO, params.year) : [],
-  );
+  const availableDistrictIds = $derived(getDistrictIdsForYear(statePO, params.year))
 
   const districtIdSelectorDisabled = $derived(
     availableDistrictIds.length === 0 ||

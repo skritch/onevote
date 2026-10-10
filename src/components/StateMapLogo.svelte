@@ -1,47 +1,23 @@
 <script lang="ts">
-  import { getCongressForYear } from "../lib/districts.js";
-  import type { DistrictIndex } from "../lib/districts.js";
   import type { StatePO } from "../lib/states.js";
   import { districtResults } from "../lib/districts.js";
   import { partyColors } from "../lib/party.js";
   import { initCap } from "../utils/strings.js";
+  import { fetchSvgData, type PathEntry } from "../lib/maps.js";
 
   type Props = {
-    districtIndex: DistrictIndex;
     statePO: StatePO;
     year: number;
     districtId?: string;
+    mapUrl: string;
     onDistrictChange?: (id: string | undefined) => void;
   };
 
-  let { districtIndex, statePO, year, districtId, onDistrictChange }: Props = $props();
+  let { statePO, year, districtId, mapUrl, onDistrictChange }: Props = $props();
 
-  type PathEntry = { id: string; d: string };
-  type SvgData = { viewBox: string; paths: PathEntry[] };
 
-  const congress = $derived(getCongressForYear(districtIndex, year));
 
-  async function fetchSvgData(po: StatePO, cong: number): Promise<SvgData | null> {
-    const url = `${import.meta.env.BASE_URL}maps/${po}-${cong}.svg`;
-    try {
-      const res = await fetch(url);
-      if (!res.ok) return null;
-      const text = await res.text();
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(text, "image/svg+xml");
-      const svg = doc.querySelector("svg");
-      if (!svg) return null;
-      const viewBox = svg.getAttribute("viewBox") ?? "14 14 772 572";
-      const paths = Array.from(svg.querySelectorAll("path"))
-        .map((p) => ({ id: p.getAttribute("id") ?? "", d: p.getAttribute("d") ?? "" }))
-        .filter((p) => p.id && p.d);
-      return { viewBox, paths };
-    } catch {
-      return null;
-    }
-  }
-
-  const svgDataPromise = $derived(fetchSvgData(statePO, congress));
+  const svgDataPromise = $derived(fetchSvgData(mapUrl));
 
   const yearDistrictResults = $derived(
     districtResults[String(year)]?.[statePO] ?? {} as Record<string, import("../lib/districts.js").DistrictResult>,

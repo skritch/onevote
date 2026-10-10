@@ -1,9 +1,13 @@
 import type { Scenario, ValueType, PopVar } from './values.js'
 
+
+export type Year = number
+export const YEARS: Year[] = [1976, 1980, 1984, 1988, 1992, 1996, 2000, 2004, 2008, 2012, 2016, 2020, 2024, 2028]
+
 export type YearConstraint = {
-  years?: number[]
-  before?: number    // applies if year < before
-  from?: number      // applies if year >= from
+  years?: Year[]
+  before?: Year    // applies if year < before
+  from?: Year      // applies if year >= from
   excludePopVars?: PopVar[]
   excludeValues?: ValueType[]
   excludeScenarios?: string[]

@@ -2,7 +2,7 @@
   import type { ValueType, PopVar, Scenario } from "../../lib/values.js";
   import type { Office } from "../../lib/elections.js";
   import type { Party } from "../../lib/party.js";
-  import { displayScenarios } from "../../lib/manifest.js";
+  import { displayScenarios, type Year } from "../../lib/manifest.js";
 
   export type SortMode = "value" | "alpha";
 
@@ -34,27 +34,27 @@
 <script lang="ts">
   import { readFromUrl, syncToUrl } from "../../utils/url.js";
   import type { StatePO } from "../../lib/states.js";
-  import type { DistrictIndex } from "../../lib/districts.js";
   import StateControls from "./StateControls.svelte";
   import SettingsPanel from "../SettingsPanel.svelte";
   import StateValueCard from "../StateValueCard.svelte";
   import StateFactBox from "../StateFactBox.svelte";
   import ElectionPlot from "../ElectionPlot.svelte";
+  import type { DistrictResult } from "../../lib/districts.js";
 
   type Props = {
     years: number[];
     stateName: string;
-    statePO: StatePO;
-    districtIndex: DistrictIndex | null;
+    statePO: StatePO
   };
 
-  let { years, stateName, statePO, districtIndex }: Props = $props();
+  let { years, stateName, statePO }: Props = $props();
 
   const params = $state<StatePageParams>(
     typeof window !== "undefined"
       ? readFromUrl(new URLSearchParams(window.location.search), defaultStatePageParams)
       : { ...defaultStatePageParams },
   );
+
 
   // Reveal page sections hidden by [data-state-loading] once state is applied.
   $effect(() => {
@@ -79,7 +79,7 @@
   <div class="page-header state-page__header">
     <h1>{stateName}</h1>
     <div class="page-controls">
-      <StateControls {years} {statePO} {districtIndex} {params} />
+      <StateControls {years} {statePO} {params} />
       <SettingsPanel
         year={params.year}
         bind:value={params.value}
@@ -105,7 +105,6 @@
       />
       <StateFactBox
         {statePO}
-        {districtIndex}
         year={params.year}
         districtId={params.districtId}
         onDistrictChange={(id) => { params.districtId = id; }}

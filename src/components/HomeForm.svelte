@@ -34,8 +34,8 @@
 
   // When user picks a party, default the other side to the opposite
   $effect(() => {
-    if (myParty === "democrat") compareParty = "republican";
-    else if (myParty === "republican") compareParty = "democrat";
+    if (myParty === "Democrat") compareParty = "Republican";
+    else if (myParty === "Republican") compareParty = "Democrat";
   });
 
   function navigate() {

@@ -3,22 +3,26 @@ import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import StatePage from "../../components/state/StatePage.svelte";
 import type { State } from "../../lib/states";
-import type { DistrictIndex } from "../../lib/districts";
-import districtIndexRaw from "../../data/district_index.json";
+import { getDistrictResultsByYear, type DistrictResult } from "../../lib/districts";
+import { urlsByYear } from "../../lib/maps";
+import type { Year } from "../../lib/manifest";
 
 export async function getStaticPaths() {
   const states = await getCollection("states");
-  const di = districtIndexRaw as Record<string, DistrictIndex>;
-  return states.map((state) => ({
-    params: { stateId: state.id },
-    props: { state: state.data, districtIndex: di[state.data.statePO] ?? null },
-  }));
+  return states.map((state) => {
+    return {
+      params: { stateId: state.id },
+      props: { 
+        state: state.data, 
+      },
+    }});
 }
 
 const {
-  state,
-  districtIndex,
-}: { state: State; districtIndex: DistrictIndex | null } = Astro.props;
+  state
+}: { 
+  state: State,
+} = Astro.props;
 const elections = await getCollection("elections");
 const years = [...new Set(elections.map((e) => e.data.year))].sort(
   (a, b) => b - a,
@@ -34,6 +38,5 @@ const years = [...new Set(elections.map((e) => e.data.year))].sort(
     {years}
     stateName={state.stateName}
     statePO={state.statePO}
-    {districtIndex}
   />
 </Layout>

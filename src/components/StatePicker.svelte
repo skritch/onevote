@@ -41,9 +41,9 @@
         bind:value={selectedParty}
         options={[
           { value: "", label: "—" },
-          { value: "democrat", label: "Democrat" },
-          { value: "republican", label: "Republican" },
-          { value: "other", label: "Other" },
+          { value: "Democrat", label: "Democrat" },
+          { value: "Republican", label: "Republican" },
+          { value: "Other", label: "Other" },
         ]}
         style="width: 100%"
       />
