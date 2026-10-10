@@ -62,26 +62,13 @@
   $effect(() => {
     if (!plotEl) return;
 
-    const plotRows = getPlotRows(
-      scenario,
-      year,
-      focusStatePO,
-      value,
-      effectivePopVar,
-    );
-    const hasData = plotRows.some((r) => r.value !== null);
-
+    const isWvv = value === "wvv";
     const horizontal = isHorizontal;
-    const fill = (d: (typeof plotRows)[0]) =>
-      partyColors[initCap(d.winningParty ?? "unknown")];
-    const hasFocus = Array.isArray(focusStatePO) ? focusStatePO.some(Boolean) : !!focusStatePO;
-    const fillOpacity = (d: (typeof plotRows)[0]) =>
-      !hasFocus || d.isFocus ? 1 : 0.38;
-    const formatVal = (v: number | null) => (v !== null ? v.toFixed(3) : "");
     const initCap = (s: string | null) =>
       s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
-
-    type AugRow = (typeof plotRows)[0];
+    const formatVal = (v: number | null) => (v !== null ? v.toFixed(3) : "");
+    const fontStyle =
+      "font-family: Inter, Roboto, 'Helvetica Neue', Arial, sans-serif;";
 
     const buildStateUrl = (statePO: StatePO): string | null => {
       if (year <= 0) return null;
@@ -97,26 +84,126 @@
       return `${base}states/${statePO.toLowerCase()}/?${params}`;
     };
 
-    const barOpts = {
-      fill,
-      fillOpacity,
-      href: (d: AugRow) => buildStateUrl(d.statePO),
-    };
+    const hasFocus = Array.isArray(focusStatePO)
+      ? focusStatePO.some(Boolean)
+      : !!focusStatePO;
 
-    const isWvv = value === "wvv";
-    const tooltipValue = (d: AugRow) =>
-      !isWvv
-        ? formatVal(d.value)
-        : `
-• ${initCap(d.winningParty)}: ${formatVal(d.value)}
-• ${d.winningParty == "Democrat" ? "Republican" : "Democrat"}: 0
-• Other: 0`;
+    if (isWvv) {
+      // Grouped bar chart: one D bar + one R bar per state
+      const dRows = getPlotRows(scenario, year, focusStatePO, value, effectivePopVar, "democrat");
+      const rRows = getPlotRows(scenario, year, focusStatePO, value, effectivePopVar, "republican");
+      const allRows = [...dRows, ...rRows];
+      const hasData = allRows.some((r) => r.value !== null);
+
+      type WvvRow = (typeof allRows)[0];
+
+      const maxVal = hasData ? Math.max(...allRows.map((r) => r.value ?? 0)) : 0;
+      const valueDomain: [number, number] = [0, Math.max(3, maxVal)];
+
+      const fill = (d: WvvRow) => partyColors[initCap(d.party)];
+      const fillOpacity = (d: WvvRow) => (!hasFocus || d.isFocus ? 1 : 0.38);
+      const tooltip = (d: WvvRow) =>
+        `State: ${d.state} (${initCap(d.party)})\n\n${valueNames[value]}: ${formatVal(d.value)}`;
+
+      // Sort facets (states) alphabetically or by max value
+      const effectiveSort = hasData ? sort : "alpha";
+      const stateOrder =
+        effectiveSort === "value"
+          ? dRows
+              .map((r) => ({
+                statePO: r.statePO,
+                max: Math.max(r.value ?? 0, rRows.find((rr) => rr.statePO === r.statePO)?.value ?? 0),
+              }))
+              .sort((a, b) => b.max - a.max)
+              .map((r) => r.statePO)
+          : undefined;
+
+      const fxDomain = stateOrder ?? dRows.map((r) => r.statePO);
+
+      const chart = !horizontal
+        ? Plot.plot({
+            width,
+            height: 300,
+            marginBottom: 52,
+            style: fontStyle,
+            fx: { label: null, domain: fxDomain, padding: 0.15 },
+            x: { label: null, axis: null, padding: 0.1 },
+            y: {
+              label: valueNames[value],
+              labelAnchor: "center",
+              labelArrow: "none",
+              grid: true,
+              domain: valueDomain,
+            },
+            marks: [
+              Plot.axisFx({ anchor: "bottom", tickRotate: -55, fontSize: 9 }),
+              Plot.barY(allRows, {
+                fx: "statePO",
+                x: "party",
+                y: "value",
+                fill,
+                fillOpacity,
+                href: (d: WvvRow) => buildStateUrl(d.statePO),
+              }),
+              Plot.ruleY([1], { stroke: "#999", strokeDasharray: "4 2" }),
+              Plot.tip(
+                allRows,
+                Plot.pointer({
+                  fx: "statePO",
+                  x: "party",
+                  y: "value",
+                  title: tooltip,
+                }),
+              ),
+            ],
+          })
+        : Plot.plot({
+            width,
+            height: 600,
+            marginLeft: 36,
+            style: fontStyle,
+            fy: { label: null, domain: fxDomain, padding: 0.15 },
+            y: { label: null, axis: null, padding: 0.1 },
+            x: { label: valueNames[value], grid: true, domain: valueDomain },
+            marks: [
+              Plot.axisFy({ anchor: "left", fontSize: 8, tickSize: 0 }),
+              Plot.barX(allRows, {
+                fy: "statePO",
+                y: "party",
+                x: "value",
+                fill,
+                fillOpacity,
+                href: (d: WvvRow) => buildStateUrl(d.statePO),
+              }),
+              Plot.ruleX([1], { stroke: "#999", strokeDasharray: "4 2" }),
+              Plot.tip(
+                allRows,
+                Plot.pointer({
+                  fy: "statePO",
+                  y: "party",
+                  x: "value",
+                  title: tooltip,
+                }),
+              ),
+            ],
+          });
+
+      plotEl.innerHTML = "";
+      plotEl.appendChild(chart);
+      return;
+    }
+
+    // Non-WVV: single bar per state, colored by winning party (existing behavior)
+    const plotRows = getPlotRows(scenario, year, focusStatePO, value, effectivePopVar);
+    const hasData = plotRows.some((r) => r.value !== null);
+
+    type AugRow = (typeof plotRows)[0];
+
+    const fill = (d: AugRow) => partyColors[initCap(d.winningParty ?? "unknown")];
+    const fillOpacity = (d: AugRow) => (!hasFocus || d.isFocus ? 1 : 0.38);
     const tooltip = (d: AugRow) =>
-      `State: ${d.state}\n\n${valueNames[value]}: ${tooltipValue(d)}`;
-
-    const axisLabel = valueNames[value] + (isWvv ? " (winning party)" : "");
-    const fontStyle =
-      "font-family: Inter, Roboto, 'Helvetica Neue', Arial, sans-serif;";
+      `State: ${d.state}\n\n${valueNames[value]}: ${formatVal(d.value)}`;
+    const axisLabel = valueNames[value];
 
     const maxVal = hasData ? Math.max(...plotRows.map((r) => r.value ?? 0)) : 0;
     const valueDomain: [number, number] = [0, Math.max(3, maxVal)];
@@ -124,6 +211,12 @@
     const effectiveSort = hasData ? sort : "alpha";
     const xSort = effectiveSort === "value" ? { x: "y" } : { x: "x" };
     const ySort = effectiveSort === "value" ? { y: "-x" } : { y: "y" };
+
+    const barOpts = {
+      fill,
+      fillOpacity,
+      href: (d: AugRow) => buildStateUrl(d.statePO),
+    };
 
     const chart = !horizontal
       ? Plot.plot({

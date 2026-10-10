@@ -46,7 +46,7 @@ export const scenarioNames: Record<Scenario, string> = {
 }
 
 export const scenarioShortNames: Record<Scenario, string> = {
-  p1: 'GE',
+  p1: 'NGE',
   p2: 'SEC',
   p3: 'EC',
   p4: 'DEC',

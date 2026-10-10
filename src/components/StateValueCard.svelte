@@ -13,6 +13,7 @@
   } from "../lib/manifest.js";
   import InfoLink from "./InfoLink.svelte";
   import { PARTIES, type Party } from "../lib/party.js";
+  import { initCap } from "../utils/strings.js";
 
   type Props = {
     stateName: string;
@@ -27,26 +28,24 @@
     districtId?: string;
   };
 
-  let { stateName, statePO, scenario, year, office, value, popVar, party, district, districtId }: Props = $props();
+  let {
+    stateName,
+    statePO,
+    scenario,
+    year,
+    office,
+    value,
+    popVar,
+    party,
+    district,
+    districtId,
+  }: Props = $props();
 
   const CURRENT_YEAR = new Date().getFullYear();
 
-  const stateValue = $derived(
-    getStateValue(
-      scenario,
-      year,
-      statePO,
-      value,
-      (validPopVars[value] ?? []).length > 0 ? popVar : undefined,
-      // P3/P4 define district-level values; other scenarios are state-level only
-      scenario === "p3" || scenario === "p4"
-        ? districtId || district || undefined
-        : district || undefined,
-    ),
-  );
-
   const isRealOutcome = $derived((scenario as string) === "p3");
   const isFuture = $derived(year > CURRENT_YEAR);
+  const isWVV = $derived(value === "wvv");
 
   const tense = $derived(
     isRealOutcome
@@ -58,38 +57,48 @@
         : "would have been",
   );
 
-  const isWVV = $derived(value === "wvv");
-
   // For P3 with a district, use district-level winner — ME-2 and NE-2 differ from their state.
   const winningParty = $derived.by((): Party | null => {
-    const stateWinner =
-      dimensionsStateWinner[String(year)]?.[statePO] ?? null;
+    const stateWinner = dimensionsStateWinner[String(year)]?.[statePO] ?? null;
     if (scenario === "p3" && districtId) {
-      const distDim = getDistrictDimension(
-        year,
-        statePO,
-        districtId,
-      );
+      const distDim = getDistrictDimension(year, statePO, districtId);
       return distDim?.winningParty ?? stateWinner;
     }
     return stateWinner;
   });
 
-  // party is title-cased ("Democrat"); normalize to lowercase for comparison
-  const selectedPartyKey = $derived(
-    party ? party.toLowerCase() : null,
-  );
+  // party prop is title-cased ("Democrat"); normalize to lowercase for comparison
+  const selectedPartyKey = $derived(party ? party.toLowerCase() : null);
 
   // For WVV with no party selected, auto-use the winning party
   const effectivePartyKey = $derived(
     isWVV && !selectedPartyKey ? winningParty : selectedPartyKey,
   );
 
-  // For WVV, any non-winning party has value 0
-  // TODO: don't hardcode this, read it from the source data
-  const displayValue = $derived(
-    isWVV && effectivePartyKey !== winningParty ? 0 : stateValue,
+  const effectiveDistrict = $derived(
+    scenario === "p3" || scenario === "p4"
+      ? districtId || district || undefined
+      : district || undefined,
   );
+
+  const effectivePopVar = $derived(
+    (validPopVars[value] ?? []).length > 0 ? popVar : undefined,
+  );
+
+  // For WVV, read the party-specific column from data (includes 0 for losing parties).
+  const stateValue = $derived(
+    getStateValue(
+      scenario,
+      year,
+      statePO,
+      value,
+      effectivePopVar,
+      effectiveDistrict,
+      isWVV ? (effectivePartyKey ?? undefined) : undefined,
+    ),
+  );
+
+  const displayValue = $derived(stateValue);
 
   // Build a list of parties not being shown in the main display (for the WVV note)
   const wvvOtherParties = $derived.by(() => {
@@ -100,12 +109,22 @@
         value: number | null;
         isWinner: boolean;
       }>;
-    return PARTIES.filter((p) => p !== effectivePartyKey).map((p) => ({
-      label: p === "Other" ? "third party" : p,
-      apostrophe: p !== "Other",
-      value: p === winningParty ? stateValue : 0,
-      isWinner: p === winningParty,
-    }));
+    return PARTIES.filter((p) => p.toLowerCase() !== effectivePartyKey).map(
+      (p) => ({
+        label: p === "Other" ? "third party" : p,
+        apostrophe: p !== "Other",
+        value: getStateValue(
+          scenario,
+          year,
+          statePO,
+          value,
+          effectivePopVar,
+          effectiveDistrict,
+          p.toLowerCase(),
+        ),
+        isWinner: p.toLowerCase() === winningParty,
+      }),
+    );
   });
 
   function districtLabel(d: string): string {
@@ -136,9 +155,7 @@
       {#if effectivePartyKey === "other"}
         a <strong>Third Party</strong> vote in <strong>{locationLabel}</strong>
       {:else}
-        a <strong
-          >{effectivePartyKey.charAt(0) + effectivePartyKey.slice(1)}'s</strong
-        >
+        a <strong>{initCap(effectivePartyKey)}'s</strong>
         vote in <strong>{locationLabel}</strong>
       {/if}
     {:else if party}
@@ -180,7 +197,7 @@
     as determined by <InfoLink
       text={valueNames[value]}
       description={valueDescriptions[value]}
-      href={`${import.meta.env.BASE_URL}about/definitions/`}
+      href={`${import.meta.env.BASE_URL}about/values/`}
     />
   </p>
 

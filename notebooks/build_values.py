@@ -323,11 +323,13 @@ def _(data_national):
     # Do we treat this as "1" because there's no states to "waste" votes?
     # data_p1['wvv'] = 1
 
-    data_p1['wvv_vp'] = data_p1.apply(
-        lambda row: np.nan if pd.isna(row['winning_party'])
-        else row['votes_total'] / row[f"votes_{row['winning_party']}"],
-        axis=1
-    )
+    for _party, _pcol in [('d', 'democrat'), ('r', 'republican'), ('o', 'other')]:
+        data_p1[f'wvv_vp_{_party}'] = data_p1.apply(
+            lambda row, party=_pcol: np.nan if pd.isna(row['winning_party'])
+            else row['votes_total'] / row[f'votes_{party}'] if row['winning_party'] == party
+            else 0,
+            axis=1
+        )
 
 
 
@@ -380,12 +382,14 @@ def _(PopCols, data_state, population_cols):
         data_p2[f"pv_{_p}"] = data_p2.groupby("year").apply(calculate_pv, pcols=_pcols).reset_index(drop=True)
 
 
-    data_p2["wvv_vp"] = data_p2.apply(
-        lambda row: np.nan if pd.isna(row["winning_party"])
-        else (row["state_electors"] * row["national_votes_total"])
-        / (row["national_electors"] * row[f"votes_{row['winning_party']}"]),
-        axis=1,
-    )
+    for _party, _pcol in [('d', 'democrat'), ('r', 'republican'), ('o', 'other')]:
+        data_p2[f"wvv_vp_{_party}"] = data_p2.apply(
+            lambda row, party=_pcol: np.nan if pd.isna(row["winning_party"])
+            else (row["state_electors"] * row["national_votes_total"])
+            / (row["national_electors"] * row[f"votes_{party}"])
+            if row["winning_party"] == party else 0,
+            axis=1,
+        )
     data_p2
     return (data_p2,)
 
@@ -477,24 +481,26 @@ def _(PopCols):
         )
         return state_part + district_part
 
-    def wvv_for_district(row, p: PopCols):
+    def wvv_for_district_by_party(row, p: PopCols):
+        """Returns (wvv_d, wvv_r, wvv_o) tuple."""
         sd, sr, sw = row['state_votes_democrat'], row['state_votes_republican'], row['state_winning_party']
         if pd.isna(sw):
-            return np.nan
-        state_const = (
-            ((row['state_electors'] if not row['_is_split'] else 2) * row[p.n])
-             / (row['national_electors'])
-        )
-        state_val = state_const / sd if sw == 'democrat' else state_const / sr
+            return (np.nan, np.nan, np.nan)
+        state_electors = row['state_electors'] if not row['_is_split'] else 2
+        state_const = (state_electors * row[p.n]) / row['national_electors']
         if not row['_is_split']:
-            return state_val
+            wvv_d = state_const / sd if sw == 'democrat' else 0
+            wvv_r = state_const / sr if sw == 'republican' else 0
+            return (wvv_d, wvv_r, 0)
         dw = row['winning_party']
         district_const = row[p.n] / row['national_electors']
-        dv = row['votes_democrat'] if dw == 'democrat' else row['votes_republican']
-        # state senate electors go to sw; district elector goes to dw
-        return (state_val if dw == sw else 0) + district_const / dv
+        state_wvv_d = state_const / sd if sw == 'democrat' else 0
+        state_wvv_r = state_const / sr if sw == 'republican' else 0
+        district_wvv_d = district_const / row['votes_democrat'] if dw == 'democrat' else 0
+        district_wvv_r = district_const / row['votes_republican'] if dw == 'republican' else 0
+        return (state_wvv_d + district_wvv_d, state_wvv_r + district_wvv_r, 0)
 
-    return av_for_district, pv_for_district, wvv_for_district
+    return av_for_district, pv_for_district, wvv_for_district_by_party
 
 
 @app.cell(hide_code=True)
@@ -503,7 +509,7 @@ def _(
     data_district: pd.DataFrame,
     population_cols,
     pv_for_district,
-    wvv_for_district,
+    wvv_for_district_by_party,
 ):
     data_p3 = data_district.copy()
 
@@ -554,8 +560,9 @@ def _(
 
 
     # WVV
-    data_p3['wvv_vp'] = data_p3.apply(wvv_for_district, p=population_cols['vp'], axis=1)
-
+    data_p3[['wvv_vp_d', 'wvv_vp_r', 'wvv_vp_o']] = data_p3.apply(
+        wvv_for_district_by_party, p=population_cols['vp'], axis=1, result_type='expand'
+    )
 
     data_p3
     return (data_p3,)
@@ -602,7 +609,7 @@ def _(
     data_district: pd.DataFrame,
     population_cols,
     pv_for_district,
-    wvv_for_district,
+    wvv_for_district_by_party,
 ):
     data_p4 = data_district.copy()
     data_p4['_is_split'] = True
@@ -646,7 +653,9 @@ def _(
 
 
     # WVV
-    data_p4['wvv_vp'] = data_p4.apply(wvv_for_district, p=population_cols['vep'], axis=1)
+    data_p4[['wvv_vp_d', 'wvv_vp_r', 'wvv_vp_o']] = data_p4.apply(
+        wvv_for_district_by_party, p=population_cols['vp'], axis=1, result_type='expand'
+    )
     data_p4
     return (data_p4,)
 
@@ -807,13 +816,16 @@ def _(data_state, population_cols):
         # data_p5[f"pv_{_p}"] = data_p2.groupby("year").apply(calculate_pv, pcols=_pcols).reset_index(drop=True)
 
 
-    # WVV: value for the state's popular vote winner.
-    data_p5['wvv_vp'] = data_p5.apply(
-        lambda row: np.nan if pd.isna(row['winning_party'])
-        else (row[f"electors_{row['winning_party']}"] * row['national_votes_total'])
-            / (row['national_electors'] * row[f"votes_{row['winning_party']}"]),
-        axis=1,
-    )
+    # WVV: per-party value based on electors received (P5 distributes electors proportionally)
+    for _party, _pcol in [('d', 'democrat'), ('r', 'republican'), ('o', 'other')]:
+        data_p5[f'wvv_vp_{_party}'] = data_p5.apply(
+            lambda row, party=_pcol: np.nan if pd.isna(row['state_votes_total'])
+            else 0 if (pd.isna(row[f'votes_{party}']) or row[f'votes_{party}'] == 0
+                       or row[f'electors_{party}'] == 0)
+            else (row[f'electors_{party}'] * row['national_votes_total'])
+                / (row['national_electors'] * row[f'votes_{party}']),
+            axis=1,
+        )
 
     data_p5
     return (data_p5,)
@@ -866,7 +878,7 @@ def _(
             result[_key(k)] = _to_nested(g, keys[1:], cols)
         return result
 
-    _value_cols = ['av_ap', 'av_vap', 'av_vep', 'av_vp', 'pv_ap', 'pv_vap', 'pv_vep', 'pv_vp', 'wvv_vp']
+    _value_cols = ['av_ap', 'av_vap', 'av_vep', 'av_vp', 'pv_ap', 'pv_vap', 'pv_vep', 'pv_vp', 'wvv_vp_d', 'wvv_vp_r', 'wvv_vp_o']
     _elector_cols = ['electors_democrat', 'electors_republican', 'electors_other']
     _output_cols = _value_cols + _elector_cols
 
