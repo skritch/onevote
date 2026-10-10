@@ -15,5 +15,5 @@ const districtIndex = districtIndexRaw as Record<string, DistrictIndex>;
 ---
 
 <Layout>
-	<CompareStatesPage client:load {years} states={stateList} {districtIndex} />
+	<CompareStatesPage client:only="svelte" {years} states={stateList} {districtIndex} />
 </Layout>

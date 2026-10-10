@@ -51,11 +51,11 @@ function extractValue(
   if (value === 'wvv') {
     const suffix = partyToWvvSuffix[(party ?? 'democrat').toLowerCase()] ?? 'd'
     const v = record[`wvv_vp_${suffix}`]
-    return v as number | null
+    return v ?? null
   }
   const pop = popVar ?? (value === 'av' ? 'ap' : 'vap')
   const v = record[`${value}_${pop}`]
-  return v as number | null
+  return v ?? null
 }
 
 /**

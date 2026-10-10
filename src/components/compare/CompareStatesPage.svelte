@@ -52,7 +52,7 @@
 
   let { years, states, districtIndex }: Props = $props();
 
-  const params = $state<CompareStatesParams>(
+  let params = $state<CompareStatesParams>(
     typeof window !== "undefined"
       ? readFromUrl(new URLSearchParams(window.location.search), defaultCompareStatesParams)
       : { ...defaultCompareStatesParams },
@@ -74,6 +74,14 @@
   const stateName1 = $derived(states.find((s) => s.statePO === params.state1)?.stateName ?? params.state1);
   const stateName2 = $derived(states.find((s) => s.statePO === params.state2)?.stateName ?? params.state2);
 
+  // Snap popVar to first valid option when value changes (e.g. WVV only supports VP).
+  $effect(() => {
+    const validPops = (validPopVars[params.value] ?? []) as PopVar[];
+    if (validPops.length > 0 && !validPops.includes(params.popVar as PopVar)) {
+      params.popVar = validPops[0];
+    }
+  });
+
   const effectivePopVar = $derived(
     (validPopVars[params.value] ?? []).length > 0 ? params.popVar : undefined,
   );
@@ -83,7 +91,7 @@
   );
 </script>
 
-<CompareStatesControls {years} {states} {districtIndex} {params} />
+<CompareStatesControls {years} {states} {districtIndex} bind:params={params} />
 
 {#if params.state1 && params.state2}
   <div class="results-panel">

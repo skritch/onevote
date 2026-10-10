@@ -171,7 +171,7 @@
     {tense}
   </p>
 
-  {#if displayValue !== null}
+  {#if displayValue != null}
     <p class="value">{formatValue(displayValue)}</p>
   {:else}
     <p class="value value--empty">—</p>

@@ -25,7 +25,7 @@ export const popVarNames: Record<PopVar, string> = {
   ap: 'Apportionment Population',
   vap: 'Voting Age Population',
   vep: 'Voting-Eligible Population',
-  vp: 'Votes Cast',
+  vp: 'Voting Population',
 }
 
 export const popVarShortNames: Record<PopVar, string> = {

@@ -18,7 +18,7 @@
     params: CompareStatesParams;
   };
 
-  let { years, states, districtIndex, params }: Props = $props();
+  let { years, states, districtIndex, params = $bindable() }: Props = $props();
 
   // ── District availability ────────────────────────────────────────────────
 
@@ -61,8 +61,8 @@
     return "Republican"; // Other → Republican
   }
 
-  // Plain (non-reactive) vars to track previous values so we can distinguish
-  // "user just cleared a party" from "party was always empty."
+  // Track previous party values to detect explicit clears vs never-set.
+  // Only update when the party actually changes to avoid stale-prev false positives.
   let prevParty1 = untrack(() => params.party1);
   let prevParty2 = untrack(() => params.party2);
 
@@ -74,8 +74,8 @@
 
     const prev1 = prevParty1;
     const prev2 = prevParty2;
-    prevParty1 = p1;
-    prevParty2 = p2;
+    if (p1 !== prevParty1) prevParty1 = p1;
+    if (p2 !== prevParty2) prevParty2 = p2;
 
     // Same state + same/no party → force D vs R.
     if (s1 && s2 && s1 === s2 && p1 === p2) {
